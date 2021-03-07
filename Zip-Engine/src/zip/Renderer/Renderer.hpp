@@ -1,9 +1,12 @@
 #pragma once
 
-class Renderer
+namespace zip
 {
-public:
+	class Renderer
+	{
+	public:
 
-	Renderer();
-	~Renderer();
-};
+		Renderer();
+		~Renderer();
+	};
+}

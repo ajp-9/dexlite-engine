@@ -1,12 +1,15 @@
 #pragma once
 
-class Application
+namespace zip
 {
-public:
+	class Application
+	{
+	public:
 
-	Application();
-	~Application();
+		Application();
+		~Application();
 
-	void update();
+		void update();
 
-};
+	};
+}

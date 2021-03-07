@@ -1,9 +1,12 @@
 #include "Renderer.hpp"
 
-Renderer::Renderer()
+namespace zip
 {
-}
+	Renderer::Renderer()
+	{
+	}
 
-Renderer::~Renderer()
-{
+	Renderer::~Renderer()
+	{
+	}
 }

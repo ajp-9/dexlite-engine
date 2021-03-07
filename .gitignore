@@ -1,7 +1,5 @@
 bin/
 
-linking/
-
 *.xcf
 
 .vs/
