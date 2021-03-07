@@ -1,4 +1,4 @@
-# zip-engine
+# Zip-Engine
 A simple 3D OpenGL game engine written in C++.
 
 External Libraries:
