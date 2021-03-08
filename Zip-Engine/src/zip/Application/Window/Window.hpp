@@ -1,22 +1,29 @@
 #pragma once
 
 #include <glm/vec2.hpp>
-#include <glm/glm.hpp>
 #include <SDL2/SDL.h>
+#include <vector>
+#include <memory>
 
-class Window
+#include "../Layer/Event/Event.hpp"
+
+namespace zip
 {
-public:
-	Window(glm::ivec2 windowDimensions);
-	~Window();
+	class Window
+	{
+	public:
+		Window(glm::ivec2 windowDimensions);
+		~Window();
 
-	void update();
+		void update();
 
-	glm::ivec2 getDimensions();
-private:
-	void setupOpenGL();
+		glm::ivec2 getDimensions();
 
-private:
-	SDL_Window* m_Window;
-	SDL_GLContext m_GLContext;
-};
+		std::vector<std::unique_ptr<event::Event>> getEventQueue();
+	private:
+		inline void setupOpenGL();
+	private:
+		SDL_Window* m_Window;
+		SDL_GLContext m_GLContext;
+	};
+}

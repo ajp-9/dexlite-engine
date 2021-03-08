@@ -2,12 +2,12 @@
 
 namespace zip
 {
-	class Event
+	namespace event
 	{
-	public:
-		Event();
-		~Event();
-
-
-	};
+		struct Event
+		{
+			uint16_t m_Type;
+			bool m_Handled = false;
+		};
+	}
 }

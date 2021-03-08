@@ -18,5 +18,6 @@ namespace zip
     void Application::update()
     {
         m_Window.update();
+        m_Window.getEventQueue();
     }
 }

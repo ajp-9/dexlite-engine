@@ -15,14 +15,14 @@ project "Zip-Engine"
     files
     {
         "%{prj.location}/src/**.hpp",
-        "%{prj.location}/src/**.cpp"
+        "%{prj.location}/src/**.cpp",
+        "%{wks.location}/Zip-Engine/vendor/**"
     }
 
     sysincludedirs
     {
         "src",
-        "%{wks.location}/linking/include/",
-        "%{wks.location}/Zip-Engine/vendor"
+        "%{wks.location}/linking/include/"
     }
 
     syslibdirs
@@ -59,8 +59,7 @@ project "Game"
     {
         "src",
         "%{wks.location}/linking/include/",
-        "%{wks.location}/Zip-Engine/src",
-        "%{wks.location}/Zip-Engine/vendor"
+        "%{wks.location}/Zip-Engine/src"
     }
     
     syslibdirs
