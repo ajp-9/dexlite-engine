@@ -8,12 +8,11 @@ namespace zip
 	class ZipEngine
 	{
 	public:
-		
 		ZipEngine();
 		~ZipEngine();
 
 		void update();
-
+	public:
 		Application application;
 		Renderer renderer;
 	};

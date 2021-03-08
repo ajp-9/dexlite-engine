@@ -5,8 +5,9 @@ namespace zip
 	class Event
 	{
 	public:
-
 		Event();
 		~Event();
+
+
 	};
 }

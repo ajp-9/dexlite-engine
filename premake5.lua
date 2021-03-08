@@ -21,7 +21,8 @@ project "Zip-Engine"
     sysincludedirs
     {
         "src",
-        "%{wks.location}/linking/include/"
+        "%{wks.location}/linking/include/",
+        "%{wks.location}/Zip-Engine/vendor"
     }
 
     syslibdirs
@@ -58,7 +59,8 @@ project "Game"
     {
         "src",
         "%{wks.location}/linking/include/",
-        "%{wks.location}/Zip-Engine/src"
+        "%{wks.location}/Zip-Engine/src",
+        "%{wks.location}/Zip-Engine/vendor"
     }
     
     syslibdirs
@@ -73,6 +75,11 @@ project "Game"
         "imm32.lib",
         "version.lib",
         "setupapi.lib"
+    }
+
+    defines
+    {
+        "SDL_MAIN_HANDLED"
     }
 
     filter "configurations:Debug"
