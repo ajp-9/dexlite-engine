@@ -3,13 +3,13 @@
 #include "Application/Application.hpp"
 #include "Renderer/Renderer.hpp"
 
-namespace zip
+namespace nim
 {
-	class ZipEngine
+	class NimbleEngine
 	{
 	public:
-		ZipEngine();
-		~ZipEngine();
+		NimbleEngine();
+		~NimbleEngine();
 
 		void update();
 	public:

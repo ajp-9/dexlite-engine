@@ -1,5 +1,4 @@
-#include <zip/ZipEngine.hpp>
-
+#include <nim/NimbleEngine.hpp>
 #include <vector>
 
 struct A
@@ -15,7 +14,7 @@ struct B : A
 
 int main()
 {
-	zip::ZipEngine z;
+	nim::NimbleEngine z;
 
 	while (true)
 		z.application.update();

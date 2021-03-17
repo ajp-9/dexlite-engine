@@ -1,11 +1,11 @@
-workspace "Zip-Engine"
+workspace "Nimble-Engine"
     architecture "x64"
     startproject "Game"
 
     configurations {"Debug", "Release"}
 
-project "Zip-Engine"
-    location "Zip-Engine"
+project "Nimble-Engine"
+    location "Nimble-Engine"
     kind "StaticLib"
     language "C++"
 
@@ -16,7 +16,7 @@ project "Zip-Engine"
     {
         "%{prj.location}/src/**.hpp",
         "%{prj.location}/src/**.cpp",
-        "%{wks.location}/Zip-Engine/vendor/**"
+        "%{wks.location}/Nimble-Engine/vendor/**"
     }
 
     sysincludedirs
@@ -59,7 +59,7 @@ project "Game"
     {
         "src",
         "%{wks.location}/linking/include/",
-        "%{wks.location}/Zip-Engine/src"
+        "%{wks.location}/Nimble-Engine/src"
     }
     
     syslibdirs
@@ -69,7 +69,7 @@ project "Game"
 
     links
     {
-        "Zip-Engine",
+        "Nimble-Engine",
         "winmm.lib",
         "imm32.lib",
         "version.lib",

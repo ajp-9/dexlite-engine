@@ -7,7 +7,7 @@
 
 #include "../Layer/Event/Event.hpp"
 
-namespace zip
+namespace nim
 {
 	class Window
 	{

@@ -1,6 +1,6 @@
 #include "Layer.hpp"
 
-namespace zip
+namespace nim
 {
 
 }

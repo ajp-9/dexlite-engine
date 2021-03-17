@@ -6,7 +6,7 @@
 #include "../Layer/Event/KeyCodes.hpp"
 #include "../Layer/Event/KeyEvent.hpp"
 
-namespace zip
+namespace nim
 {
     Window::Window(glm::ivec2 windowDimensions)
     {
@@ -85,8 +85,8 @@ namespace zip
 
         for (uint16_t i = 0; i < event::key::MAX_KEY; i++)
             if (k[i])
-                //events.emplace_back(std::make_unique<Event>());
-                std::cout << i << std::endl;
+                events.emplace_back(std::make_unique<event::Event>());
+                //std::cout << i << std::endl;
 
         return events;
     }

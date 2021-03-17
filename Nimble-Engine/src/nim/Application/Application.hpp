@@ -3,7 +3,7 @@
 #include "Window/Window.hpp"
 #include <glm/vec2.hpp>
 
-namespace zip
+namespace nim
 {
 	class Application
 	{

@@ -1,6 +1,6 @@
 #include "Renderer.hpp"
 
-namespace zip
+namespace nim
 {
 	Renderer::Renderer()
 	{

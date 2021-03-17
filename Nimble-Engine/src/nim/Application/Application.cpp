@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
-namespace zip
+namespace nim
 {
     Application::Application()
         : m_Window(glm::ivec2(300, 300))

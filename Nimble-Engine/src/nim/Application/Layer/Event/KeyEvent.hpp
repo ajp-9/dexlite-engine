@@ -2,7 +2,7 @@
 
 #include "Event.hpp"
 
-namespace zip
+namespace nim
 {
 	namespace event
 	{
