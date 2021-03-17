@@ -1,11 +1,13 @@
 #pragma once
 
+class NimbleEngine;
+
 namespace nim
 {
 	class Program
 	{
 	public:
-		Program();
+		Program(NimbleEngine& engine);
 		~Program();
 
 		virtual void onBegin() = 0;
@@ -13,5 +15,7 @@ namespace nim
 
 		virtual void onUpdate() = 0;
 		virtual void onRender() = 0;
+
+		NimbleEngine& m_Engine;
 	};
 }

@@ -2,9 +2,9 @@
 
 namespace nim
 {
-	Program::Program()
-	{
-	}
+	Program::Program(NimbleEngine& engine)
+		: m_Engine(engine) 
+	{}
 
 	Program::~Program()
 	{

@@ -2,7 +2,7 @@
 
 void SandBox::onBegin()
 {
-	// push layers
+
 }
 
 void SandBox::onEnd()
