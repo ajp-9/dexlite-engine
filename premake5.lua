@@ -1,6 +1,6 @@
 workspace "Nimble-Engine"
     architecture "x64"
-    startproject "Game"
+    startproject "SandBox"
 
     configurations {"Debug", "Release"}
 
@@ -41,8 +41,8 @@ project "Nimble-Engine"
     filter "configurations:Release"
         optimize "On"
 
-project "Game"
-    location "Game"
+project "SandBox"
+    location "SandBox"
     kind "ConsoleApp"
     language "C++"
 
