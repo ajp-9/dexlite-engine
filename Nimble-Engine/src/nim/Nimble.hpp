@@ -14,3 +14,4 @@
 #include "Renderer/Renderer.hpp"
 
 #include "Util/EntryPoint.hpp"
+#include "Util/TypeDefs.hpp"
