@@ -14,7 +14,7 @@ namespace nim
 		~Application();
 
 		void update();
-	private:
+	public:
 		Window m_Window;
 		LayerManager m_LayerManager;
 	};

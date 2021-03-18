@@ -3,6 +3,8 @@
 #include <iostream>
 #include <memory>
 
+#include <nim/Application/Layer/Event/KeyEvent.hpp>
+
 void TestLayer::attach()
 {
 }
@@ -21,5 +23,5 @@ void TestLayer::render()
 
 void TestLayer::event(std::unique_ptr<nim::event::Event>& e)
 {
-	std::cout << e->m_Type << "\n";
+	std::cout << static_cast<nim::event::KeyEvent*>(e.get())->m_KeyCode << "\n";
 }

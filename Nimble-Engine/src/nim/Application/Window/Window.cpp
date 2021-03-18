@@ -73,9 +73,9 @@ namespace nim
             switch (e.type)
             {
             case SDL_KEYDOWN:
-                std::cout << e.key.keysym.scancode << std::endl;
+                events.emplace_back(std::make_unique<event::KeyEvent>(e.key.keysym.scancode));
             case SDL_KEYUP:
-                events.emplace_back(std::make_unique<event::Event>());
+                events.emplace_back(std::make_unique<event::KeyEvent>(e.key.keysym.scancode));
             }
         }
 
@@ -83,7 +83,7 @@ namespace nim
 
         for (uint16_t i = 0; i < event::key::MAX_KEY; i++)
             if (k[i])
-                events.emplace_back(std::make_unique<event::Event>());
+                events.emplace_back(std::make_unique<event::KeyEvent>(i));
                 //std::cout << i << std::endl;
 
         return events;

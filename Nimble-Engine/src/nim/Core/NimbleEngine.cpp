@@ -3,11 +3,20 @@
 #include <sdl2/SDL.h>
 #include <iostream>
 
+#include "Program/Program.hpp"
+
 namespace nim
 {
-    NimbleEngine::NimbleEngine(std::shared_ptr<Program> program) : m_Program(program) { }
+    NimbleEngine::NimbleEngine()
+    {
+    }
 
     NimbleEngine::~NimbleEngine() {}
+
+    void NimbleEngine::setProgram(std::shared_ptr<Program> program)
+    {
+        m_Program = program;
+    }
 
     void NimbleEngine::run()
     {

@@ -8,6 +8,7 @@
 #include "Application/Layer/Event/KeyEvent.hpp"
 #include "Application/Layer/Event/MouseEvent.hpp"
 
+#include "Core/Handle/EngineHandle.hpp"
 #include "Core/NimbleEngine.hpp"
 #include "Core/Program/Program.hpp"
 

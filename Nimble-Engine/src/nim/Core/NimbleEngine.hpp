@@ -2,16 +2,19 @@
 
 #include "../Application/Application.hpp"
 #include "../Renderer/Renderer.hpp"
-#include "Program/Program.hpp"
 
 namespace nim
 {
+	class Program;
+
 	// Core engine.
 	class NimbleEngine
 	{
 	public:
-		NimbleEngine(std::shared_ptr<Program> program);
+		NimbleEngine();
 		~NimbleEngine();
+
+		void setProgram(std::shared_ptr<Program> program);
 
 		void run();
 	public:

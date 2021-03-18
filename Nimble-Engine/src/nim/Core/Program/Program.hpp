@@ -1,6 +1,8 @@
 #pragma once
 
-class NimbleEngine;
+#include <memory>
+
+#include "../Handle/EngineHandle.hpp"
 
 namespace nim
 {
@@ -13,6 +15,6 @@ namespace nim
 		virtual void update() = 0;
 		virtual void render() = 0;
 
-		//NimbleEngine& m_Engine;
+		std::shared_ptr<EngineHandle> m_EngineHandle;
 	};
 }
