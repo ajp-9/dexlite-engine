@@ -16,20 +16,20 @@ namespace nim
 	void LayerManager::updateLayers()
 	{
 		for (auto& l : m_Layers)
-			l->onUpdate();
+			l->update();
 	}
 
 	void LayerManager::renderLayers()
 	{
 		for (auto& l : m_Layers)
-			l->onRender();
+			l->render();
 	}
 
 	void LayerManager::propagateEvent(std::unique_ptr<event::Event>& e)
 	{
 		for (auto& l : m_Layers)
 		{
-			l->onEvent(e);
+			l->event(e);
 
 			if (e->m_Handled)
 				return;

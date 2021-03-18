@@ -76,9 +76,7 @@ namespace nim
                 std::cout << e.key.keysym.scancode << std::endl;
             case SDL_KEYUP:
                 events.emplace_back(std::make_unique<event::Event>());
-            //case SDL_
             }
-
         }
 
         const Uint8* k = SDL_GetKeyboardState(NULL);

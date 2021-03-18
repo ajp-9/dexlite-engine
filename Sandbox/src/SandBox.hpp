@@ -2,13 +2,15 @@
 
 #include <nim/Nimble.hpp>
 
+#include "TestLayer.hpp"
+
 class SandBox : public nim::Program
 {
-	virtual void onBegin() override;
-	virtual void onEnd() override;
+	virtual void begin() override;
+	virtual void end() override;
 
-	virtual void onUpdate() override;
-	virtual void onRender() override;
+	virtual void update() override;
+	virtual void render() override;
 };
 
 NIMBLE_DEFINE_MAIN(SandBox);

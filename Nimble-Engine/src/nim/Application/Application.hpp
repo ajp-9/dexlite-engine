@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Window/Window.hpp"
 #include <glm/vec2.hpp>
+
+#include "Window/Window.hpp"
+#include "Layer/LayerManager.hpp"
 
 namespace nim
 {
@@ -14,5 +16,6 @@ namespace nim
 		void update();
 	private:
 		Window m_Window;
+		LayerManager m_LayerManager;
 	};
 }

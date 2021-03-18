@@ -11,11 +11,17 @@ namespace nim
 
     void NimbleEngine::run()
     {
+        m_Program->begin();
+
         m_Running = true;
 
         while (m_Running)
         {
             m_Application.update();
+            m_Program->update();
+            m_Program->render();
         }
+
+        m_Program->end();
     }
 }

@@ -18,6 +18,11 @@ namespace nim
     void Application::update()
     {
         m_Window.update();
-        m_Window.getEventQueue();
+
+        auto events = m_Window.getEventQueue();
+        for (auto& e : events)
+        {
+            m_LayerManager.propagateEvent(e);
+        }
     }
 }

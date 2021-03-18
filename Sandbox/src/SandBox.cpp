@@ -1,18 +1,18 @@
 #include "SandBox.hpp"
 
-void SandBox::onBegin()
+void SandBox::begin()
 {
 
 }
 
-void SandBox::onEnd()
+void SandBox::end()
 {
 }
 
-void SandBox::onUpdate()
+void SandBox::update()
 {
 }
 
-void SandBox::onRender()
+void SandBox::render()
 {
 }

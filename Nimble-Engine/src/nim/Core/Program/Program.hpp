@@ -7,15 +7,12 @@ namespace nim
 	class Program
 	{
 	public:
-		Program(NimbleEngine& engine);
-		~Program();
+		virtual void begin() = 0;
+		virtual void end() = 0;
 
-		virtual void onBegin() = 0;
-		virtual void onEnd() = 0;
+		virtual void update() = 0;
+		virtual void render() = 0;
 
-		virtual void onUpdate() = 0;
-		virtual void onRender() = 0;
-
-		NimbleEngine& m_Engine;
+		//NimbleEngine& m_Engine;
 	};
 }
