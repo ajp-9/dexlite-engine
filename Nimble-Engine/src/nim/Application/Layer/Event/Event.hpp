@@ -12,7 +12,7 @@ namespace nim
 				: m_Type(type)
 			{}
 
-			// Put in template the type of event
+			// Put in the template the type of event.
 			template <class T>
 			inline T& getSelfSubstruct()
 			{

@@ -8,10 +8,12 @@
 
 namespace nim
 {
+	class EngineHandle;
+
 	class LayerManager
 	{
 	public:
-		void pushLayer(std::shared_ptr<Layer> layer);
+		void pushLayer(std::shared_ptr<Layer> layer, std::shared_ptr<EngineHandle>& engineHandle);
 		void popLayer();
 
 		void updateLayers();

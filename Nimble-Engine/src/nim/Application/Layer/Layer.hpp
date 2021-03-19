@@ -7,11 +7,11 @@
 
 namespace nim
 {
+	class EngineHandle;
+
 	class Layer
 	{
 	public:
-		Layer() {}
-
 		virtual void attach() = 0;
 		virtual void detach() = 0;
 
@@ -20,5 +20,8 @@ namespace nim
 		virtual void event(std::unique_ptr<event::Event>& e) = 0;
 	public:
 		uint m_Index = 0;
+		// In order to get access to the class you need to include it.
+		// Just a definition will not suffice.
+		std::shared_ptr<EngineHandle> m_EngineHandle;
 	};
 }

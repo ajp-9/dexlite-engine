@@ -5,7 +5,6 @@
 
 class TestLayer : public nim::Layer
 {
-	// Inherited via Layer
 	virtual void attach() override;
 	virtual void detach() override;
 

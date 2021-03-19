@@ -2,14 +2,17 @@
 
 namespace nim
 {
-	void LayerManager::pushLayer(std::shared_ptr<Layer> layer)
+	void LayerManager::pushLayer(std::shared_ptr<Layer> layer, std::shared_ptr<EngineHandle>& engineHandle)
 	{
 		layer->m_Index = m_Layers.size();
+		layer->m_EngineHandle = engineHandle;
 		m_Layers.push_back(layer);
+		layer->attach();
 	}
 
 	void LayerManager::popLayer()
 	{
+		m_Layers.at(m_Layers.size() - 1)->detach();
 		m_Layers.pop_back();
 	}
 

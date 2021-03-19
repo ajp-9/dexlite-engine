@@ -7,6 +7,9 @@ namespace nim
 	Timer::Timer(const char* name)
 		: m_Name(name), m_Stopped(false)
 	{
+		if (m_Name == "")
+			m_Name= "Anonymous";
+
 		m_startTimepoint = std::chrono::high_resolution_clock::now();
 	}
 

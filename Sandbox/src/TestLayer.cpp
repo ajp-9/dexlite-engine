@@ -5,12 +5,9 @@
 
 #include <nim/Application/Layer/Event/KeyEvent.hpp>
 
-#define PROFILE
-#include <nim/Util/Profile.hpp>
-#include <nim/Util/Timer.hpp>
-
 void TestLayer::attach()
 {
+
 }
 
 void TestLayer::detach()

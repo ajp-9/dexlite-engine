@@ -13,7 +13,4 @@ class SandBox : public nim::Program
 	virtual void render() override;
 };
 
-//NIMBLE_DEFINE_MAIN(SandBox);
-
-int main() { nim::NimbleEngine engine; std::shared_ptr<nim::Program> program = std::make_shared<SandBox>(); 
-program->m_EngineHandle = std::make_shared<nim::EngineHandle>(engine); engine.setProgram(program);	engine.run(); return 0;}
+NIMBLE_DEFINE_MAIN(SandBox);
