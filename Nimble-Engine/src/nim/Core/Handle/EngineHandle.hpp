@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../NimbleEngine.hpp"
-
 namespace nim
 {
 	class NimbleEngine;
@@ -16,9 +14,11 @@ namespace nim
 	public:
 		EngineHandle(NimbleEngine& engine);
 
-		LayerManager& getLayerManager() { return r_Nimble.m_Application.m_LayerManager; }
-		Window& getWindow() { return r_Nimble.m_Application.m_Window; }
-		Application& getApplication() { return r_Nimble.m_Application; }
+		LayerManager& getLayerManager();
+		Window& getWindow();
+		Application& getApplication();
+
+		void shutdown();
 
 	private:
 		NimbleEngine& r_Nimble;

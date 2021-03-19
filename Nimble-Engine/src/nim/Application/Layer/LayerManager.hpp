@@ -19,7 +19,10 @@ namespace nim
 		void updateLayers();
 		void renderLayers();
 		void propagateEvent(std::unique_ptr<event::Event>& e);
+
+		void setHandle(std::shared_ptr<EngineHandle>& engineHandle);
 	private:
 		std::vector<std::shared_ptr<Layer>> m_Layers;
+		std::shared_ptr<EngineHandle> m_EngineHandle;
 	};
 }

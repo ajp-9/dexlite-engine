@@ -4,6 +4,8 @@
 #include <memory>
 
 #include <nim/Application/Layer/Event/KeyEvent.hpp>
+#include <nim/Application/Layer/Event/MouseEvent.hpp>
+#include <glm/vec2.hpp>
 
 void TestLayer::attach()
 {
@@ -24,8 +26,8 @@ void TestLayer::render()
 
 void TestLayer::event(std::unique_ptr<nim::event::Event>& e)
 {
-	if(e->m_Type == nim::event::type::KEY_DOWN)
-		std::cout << e->getSelfSubstruct<nim::event::KeyEvent>().m_KeyCode << "\n";
-
+	if(e->m_Type == nim::event::type::MOUSE_MOVE)
+		std::cout << (int)e->getSelfSubstruct<nim::event::MouseEvent>().m_MousePosition.x << ", " << (int)e->getSelfSubstruct<nim::event::MouseEvent>().m_MousePosition.y << "\n";
+	nim::event::MouseEvent et = e->getSelfSubstruct<nim::event::MouseEvent>();
 	e->m_Handled = true;
 }

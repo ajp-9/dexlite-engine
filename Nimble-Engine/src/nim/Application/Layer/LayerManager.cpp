@@ -38,4 +38,6 @@ namespace nim
 				return;
 		}
 	}
+
+	void LayerManager::setHandle(std::shared_ptr<EngineHandle>& engineHandle) { m_EngineHandle = engineHandle; }
 }

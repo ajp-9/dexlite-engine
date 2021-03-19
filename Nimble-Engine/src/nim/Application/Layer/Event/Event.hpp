@@ -31,7 +31,10 @@ namespace nim
 				KEYBOARD,
 				KEY_DOWN,
 				KEY_UP,
-				MOUSE,
+				MOUSE_MOVE,
+				MOUSE_DOWN,
+				MOUSE_UP,
+				MOUSE_SCROLL,
 				WINDOW
 			};
 		}

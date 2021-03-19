@@ -4,19 +4,16 @@
 #include <iostream>
 
 #include "Program/Program.hpp"
+#include "Handle/EngineHandle.hpp"
 
 namespace nim
 {
     NimbleEngine::NimbleEngine()
     {
+        m_EngineHandle = std::make_shared<EngineHandle>(*this);
     }
 
     NimbleEngine::~NimbleEngine() {}
-
-    void NimbleEngine::setProgram(std::shared_ptr<Program> program)
-    {
-        m_Program = program;
-    }
 
     void NimbleEngine::run()
     {
@@ -32,5 +29,10 @@ namespace nim
         }
 
         m_Program->end();
+    }
+
+    void NimbleEngine::shutdown()
+    {
+        m_Running = false;
     }
 }

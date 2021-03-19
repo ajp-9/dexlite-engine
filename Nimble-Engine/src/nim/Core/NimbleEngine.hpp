@@ -2,6 +2,7 @@
 
 #include "../Application/Application.hpp"
 #include "../Renderer/Renderer.hpp"
+#include "Program/Program.hpp"
 
 namespace nim
 {
@@ -14,14 +15,21 @@ namespace nim
 		NimbleEngine();
 		~NimbleEngine();
 
-		void setProgram(std::shared_ptr<Program> program);
+		template <class T>
+		inline void setProgram()
+		{
+			m_Program = std::make_shared<T>();
+			m_Program->setEngineHandle(m_EngineHandle);
+		}
 
 		void run();
+		void shutdown();
 	public:
 		bool m_Running = false;
 
 		// Is a unique ptr because of inheritance.
 		std::shared_ptr<Program> m_Program;
+		std::shared_ptr<EngineHandle> m_EngineHandle;
 
 		Application m_Application;
 		Renderer m_Renderer;

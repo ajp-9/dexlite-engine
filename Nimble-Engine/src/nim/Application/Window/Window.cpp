@@ -2,9 +2,10 @@
 
 #include <glad/glad.h>
 #include <iostream>
+#include <glm/vec2.hpp>
 
-#include "../Layer/Event/KeyCodes.hpp"
 #include "../Layer/Event/KeyEvent.hpp"
+#include "../Layer/Event/MouseEvent.hpp"
 
 namespace nim
 {
@@ -72,17 +73,31 @@ namespace nim
         {
             switch (e.type)
             {
+            case SDL_MOUSEMOTION:
+                glm::ivec2 mousePos;
+                SDL_GetMouseState(&mousePos.x, &mousePos.y);
+                events.emplace_back(std::make_unique<event::MouseEvent>(event::type::MOUSE_MOVE, event::mouse::MOVE, mousePos));
+                break;
             case SDL_KEYDOWN:
                 events.emplace_back(std::make_unique<event::KeyEvent>(event::type::KEY_DOWN, e.key.keysym.scancode));
                 break;
             case SDL_KEYUP:
                 events.emplace_back(std::make_unique<event::KeyEvent>(event::type::KEY_UP, e.key.keysym.scancode));
                 break;
+            case SDL_MOUSEBUTTONDOWN:
+                events.emplace_back(std::make_unique<event::MouseEvent>(event::type::MOUSE_DOWN, e.button.button, glm::vec2(e.button.x, e.button.y)));
+                break;
+            case SDL_MOUSEBUTTONUP:
+                events.emplace_back(std::make_unique<event::MouseEvent>(event::type::MOUSE_UP, e.button.button, glm::vec2(e.button.x, e.button.y)));
+                break;
+            case SDL_QUIT:
+                
+                break;
             default:
                 break;
             }
         }
-
+        SDL_BUTTON_LEFT;
         const Uint8* k = SDL_GetKeyboardState(NULL);
 
         for (uint16_t i = 0; i < event::key::MAX_KEY; i++)

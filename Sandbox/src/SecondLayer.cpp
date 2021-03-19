@@ -8,7 +8,6 @@
 
 void SecondLayer::attach()
 {
-	std::cout << m_EngineHandle->getApplication().m_Window.getDimensions().x << std::endl;;
 }
 
 void SecondLayer::detach()

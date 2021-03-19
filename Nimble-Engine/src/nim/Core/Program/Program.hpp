@@ -15,7 +15,7 @@ namespace nim
 		virtual void update() = 0;
 		virtual void render() = 0;
 
-		inline void setEngineHandle(std::shared_ptr<EngineHandle> handle) { m_EngineHandle = handle; }
+		void setEngineHandle(std::shared_ptr<EngineHandle>& engineHandle) { m_EngineHandle = engineHandle; }
 	protected:
 		std::shared_ptr<EngineHandle> m_EngineHandle;
 	};
