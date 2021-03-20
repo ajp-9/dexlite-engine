@@ -14,7 +14,7 @@ namespace nim
 		Entity(entt::entity handle, Scene* scene) : m_Handle(handle), m_Scene(scene) {}
 
 		template<typename T, typename... Args>
-		T& addComponent(Args&&... args)
+		inline T& addComponent(Args&&... args)
 		{
 			if (!hasComponent<T>())
 			{
