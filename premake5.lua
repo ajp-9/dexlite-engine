@@ -8,6 +8,7 @@ project "Nimble-Engine"
     location "Nimble-Engine"
     kind "StaticLib"
     language "C++"
+    cppdialect "C++17"
 
     targetdir ("%{prj.name}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.name}/intermediates/%{cfg.buildcfg}")
@@ -45,6 +46,7 @@ project "SandBox"
     location "SandBox"
     kind "ConsoleApp"
     language "C++"
+    cppdialect "C++17"
 
     targetdir ("%{prj.name}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.name}/intermediates/%{cfg.buildcfg}")
