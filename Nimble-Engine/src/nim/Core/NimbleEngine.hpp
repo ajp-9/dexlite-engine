@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Util/Time/DeltaTime.hpp"
 #include "../Application/Application.hpp"
 #include "../Renderer/Renderer.hpp"
 #include "Program/Program.hpp"
@@ -30,6 +31,8 @@ namespace nim
 		// Is a unique ptr because of inheritance.
 		std::shared_ptr<Program> m_Program;
 		std::shared_ptr<EngineHandle> m_EngineHandle;
+
+		DeltaTime m_DeltaTime;
 
 		Application m_Application;
 		Renderer m_Renderer;

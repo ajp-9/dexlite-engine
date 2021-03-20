@@ -13,14 +13,17 @@ namespace nim
 	class LayerManager
 	{
 	public:
-		void pushLayer(std::shared_ptr<Layer> layer, std::shared_ptr<EngineHandle>& engineHandle);
+		LayerManager(std::shared_ptr<EngineHandle>& engineHandle);
+
+		void pushLayer(std::shared_ptr<Layer> layer);
 		void popLayer();
 
 		void updateLayers();
 		void renderLayers();
-		void propagateEvent(std::unique_ptr<event::Event>& e);
 
-		void setHandle(std::shared_ptr<EngineHandle>& engineHandle);
+		void sendEvents();
+	private:
+		std::vector<std::unique_ptr<event::Event>> getEventQueue();
 	private:
 		std::vector<std::shared_ptr<Layer>> m_Layers;
 		std::shared_ptr<EngineHandle> m_EngineHandle;

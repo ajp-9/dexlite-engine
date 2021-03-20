@@ -5,24 +5,15 @@
 
 namespace nim
 {
-    Application::Application()
-        : m_Window(glm::ivec2(300, 300))
+    Application::Application(std::shared_ptr<EngineHandle>& engineHandle)
+        : m_Window(glm::ivec2(300, 300)), m_LayerManager(engineHandle)
     {
 
-    }
-
-    Application::~Application()
-    {
     }
 
     void Application::update()
     {
         m_Window.update();
-
-        auto events = m_Window.getEventQueue();
-        for (auto& e : events)
-        {
-            m_LayerManager.propagateEvent(e);
-        }
+        m_LayerManager.sendEvents();
     }
 }

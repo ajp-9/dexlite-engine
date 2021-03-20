@@ -5,8 +5,8 @@
 
 void SandBox::begin()
 {
-	m_EngineHandle->getLayerManager().pushLayer(std::make_shared<TestLayer>(), m_EngineHandle);
-	m_EngineHandle->getLayerManager().pushLayer(std::make_shared<SecondLayer>(), m_EngineHandle);
+	m_EngineHandle->getLayerManager().pushLayer(std::make_shared<TestLayer>());
+	m_EngineHandle->getLayerManager().pushLayer(std::make_shared<SecondLayer>());
 }
 
 void SandBox::end()

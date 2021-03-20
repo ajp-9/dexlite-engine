@@ -10,8 +10,8 @@ namespace nim
 	class Application
 	{
 	public:
-		Application();
-		~Application();
+		Application(std::shared_ptr<EngineHandle>& engineHandle);
+		~Application() {}
 
 		void update();
 	public:

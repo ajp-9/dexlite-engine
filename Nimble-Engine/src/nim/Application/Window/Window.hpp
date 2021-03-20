@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 
-#include "../Layer/Event/EventManager.hpp"
+#include "../Layer/Event/Event.hpp"
 
 namespace nim
 {

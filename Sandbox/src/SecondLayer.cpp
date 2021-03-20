@@ -24,7 +24,7 @@ void SecondLayer::render()
 
 void SecondLayer::event(std::unique_ptr<nim::event::Event>& e)
 {
-	std::cout << "second\n";
+	//std::cout << "second\n";
 
 	if (e->m_Type == nim::event::type::KEY_DOWN)
 		std::cout << e->getSelfSubstruct<nim::event::KeyEvent>().m_KeyCode << "\n";
