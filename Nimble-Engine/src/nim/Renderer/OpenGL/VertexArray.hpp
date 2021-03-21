@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include "VertexBuffer.hpp"
+#include "IndexBuffer.hpp"
 
 namespace nim
 {
