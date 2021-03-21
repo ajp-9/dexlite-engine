@@ -1,8 +1,8 @@
 #pragma once
 
-#include <cstdint>
-#include "VertexBuffer.hpp"
-#include "IndexBuffer.hpp"
+#include <vector>
+#include "Buffers/VertexBuffer.hpp"
+#include "Buffers/IndexBuffer.hpp"
 
 namespace nim
 {
@@ -12,13 +12,20 @@ namespace nim
 		{
 		public:
 			VertexArray();
+			~VertexArray();
+
+			void render();
+			void renderLines();
 
 			void bind();
 			void unbind();
 
 			void addVertexBuffer(const VertexBuffer& buffer);
+			void setIndexBuffer(const IndexBuffer& buffer);
 		private:
 			uint32_t m_ID;
+			std::vector<VertexBuffer> m_VertexBuffers;
+			IndexBuffer m_IndexBuffer;
 		};
 	}
 }
