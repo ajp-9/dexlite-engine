@@ -7,6 +7,5 @@ namespace nim
 	public:
 		Renderer();
 		~Renderer();
-
 	};
 }
