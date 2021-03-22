@@ -4,11 +4,11 @@
 
 namespace nim
 {
-	Renderer::Renderer()
+	void Renderer::Init()
 	{
 	}
 
-	Renderer::~Renderer()
+	void Renderer::Shutdown()
 	{
 	}
 
