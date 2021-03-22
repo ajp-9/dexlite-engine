@@ -11,8 +11,8 @@ using nim::NimbleEngine;
 
 void SandBox::Begin()
 {
-	NimbleEngine::m_Application.m_LayerManager.pushLayer(std::make_shared<TestLayer>());
-	NimbleEngine::m_Application.m_LayerManager.pushLayer(std::make_shared<SecondLayer>());
+	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<TestLayer>());
+	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<SecondLayer>());
 
 	nim::Scene scene;
 	auto& entity = scene.createEntity();

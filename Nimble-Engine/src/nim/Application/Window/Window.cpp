@@ -8,7 +8,7 @@
 
 namespace nim
 {
-    Window::Window(glm::ivec2 windowDimensions)
+    Window::Window(glm::uvec2 windowDimensions)
     {
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
         {

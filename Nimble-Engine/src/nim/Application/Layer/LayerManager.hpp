@@ -23,6 +23,6 @@ namespace nim
 		std::vector<std::shared_ptr<Layer>> m_Layers;
 		EventManager m_EventManager;
 
-		friend class Application;
+		friend class NimbleEngine;
 	};
 }

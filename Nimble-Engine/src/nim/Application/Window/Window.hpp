@@ -11,7 +11,7 @@ namespace nim
 {
 	class Window
 	{
-		Window(glm::ivec2 windowDimensions);
+		Window(glm::uvec2 windowDimensions);
 		~Window();
 
 		void update();
@@ -21,6 +21,6 @@ namespace nim
 		SDL_Window* m_Window;
 		SDL_GLContext m_GLContext;
 
-		friend class Application;
+		friend class NimbleEngine;
 	};
 }

@@ -13,7 +13,7 @@ namespace nim
     {
         m_Program = program;
 
-        Renderer::Init(m_Application.m_Window.getDimensions());
+        Renderer::Init(m_Window.getDimensions());
     }
 
     void NimbleEngine::Shutdown()
@@ -34,7 +34,11 @@ namespace nim
         {
             m_DeltaTime.start();
 
-            m_Application.update();
+            Renderer::clear();
+
+            m_Window.update();
+            m_LayerManager.sendEvents();
+
             m_Program->update();
             m_Program->render();
 
@@ -57,9 +61,7 @@ namespace nim
     bool NimbleEngine::m_Running;
 
     std::shared_ptr<Program> NimbleEngine::m_Program;
-
     DeltaTime NimbleEngine::m_DeltaTime(60);
-
-    Application NimbleEngine::m_Application(glm::ivec2(300, 300));
-    Renderer NimbleEngine::m_Renderer;
+    Window NimbleEngine::m_Window(glm::uvec2(300, 300));
+    LayerManager NimbleEngine::m_LayerManager;
 }

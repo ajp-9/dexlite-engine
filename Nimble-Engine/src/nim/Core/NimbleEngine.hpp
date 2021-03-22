@@ -1,7 +1,8 @@
 #pragma once
 
 #include "../Util/Time/DeltaTime.hpp"
-#include "../Application/Application.hpp"
+#include "../Application/Window/Window.hpp"
+#include "../Application/Layer/LayerManager.hpp"
 #include "../Renderer/Renderer.hpp"
 #include "Program/Program.hpp"
 
@@ -9,7 +10,6 @@ int main(int argc, char** argv);
 
 namespace nim
 {
-
 	// Core engine.
 	class NimbleEngine
 	{
@@ -19,17 +19,17 @@ namespace nim
 		static void run();
 		static void shutdown();
 	public:
+		static DeltaTime m_DeltaTime;
+
+		static Window m_Window;
+		static LayerManager m_LayerManager;
+
+		friend class EventManager;
+		friend int ::main(int argc, char** argv);
+	private:
 		static bool m_Running;
 
 		// Is a unique ptr because of inheritance.
 		static std::shared_ptr<Program> m_Program;
-
-		static DeltaTime m_DeltaTime;
-
-		static Application m_Application;
-		static Renderer m_Renderer;
-	public:
-		friend int ::main(int argc, char** argv);
-		friend class EventManager;
 	};
 }

@@ -6,7 +6,6 @@ namespace nim
 {
 	class DeltaTime
 	{
-	public:
 		DeltaTime(int fps = 60, bool sleepInstead = false)
 			: m_FPS(fps), m_SleepInstead(sleepInstead)
 		{}
@@ -15,7 +14,7 @@ namespace nim
 		void end();
 
 		void sleep();
-
+	public:
 		double getDeltaTime();
 		double getFPS();
 	private:
@@ -28,5 +27,7 @@ namespace nim
 		// it will use less CPU energy.
 		bool m_SleepInstead = false;
 		std::chrono::time_point<std::chrono::high_resolution_clock> m_startTimepoint;
+
+		friend class NimbleEngine;
 	};
 }

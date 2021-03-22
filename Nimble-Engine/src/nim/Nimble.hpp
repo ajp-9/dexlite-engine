@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Application/Application.hpp"
 #include "Application/Layer/Layer.hpp"
 #include "Application/Layer/Event/Event.hpp"
 #include "Application/Layer/Event/KeyEvent.hpp"
