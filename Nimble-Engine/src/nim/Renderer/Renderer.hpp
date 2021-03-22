@@ -1,6 +1,6 @@
 #pragma once
 
-#include "OpenGL/OpenGL_API.hpp"
+#include <glm/vec4.hpp>
 
 namespace nim
 {
