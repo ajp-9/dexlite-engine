@@ -1,5 +1,5 @@
 # Nimble-Engine
-A 3D OpenGL game engine written in C++.
+My second 3D OpenGL game engine written in C++.
 
 External Libraries:
 - SDL2 (https://www.libsdl.org/)
