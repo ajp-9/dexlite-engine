@@ -15,12 +15,12 @@ namespace nim
 	{
 		layer->m_Index = m_Layers.size();
 		m_Layers.push_back(layer);
-		layer->attach();
+		layer->Attach();
 	}
 
 	void LayerManager::popLayer()
 	{
-		m_Layers.at(m_Layers.size() - 1)->detach();
+		m_Layers.at(m_Layers.size() - 1)->Detach();
 		m_Layers.pop_back();
 	}
 

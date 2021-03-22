@@ -5,11 +5,11 @@
 
 #include <nim/Application/Layer/Event/KeyEvent.hpp>
 
-void SecondLayer::attach()
+void SecondLayer::Attach()
 {
 }
 
-void SecondLayer::detach()
+void SecondLayer::Detach()
 {
 }
 

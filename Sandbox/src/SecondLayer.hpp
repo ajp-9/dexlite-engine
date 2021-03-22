@@ -5,8 +5,8 @@
 
 class SecondLayer : public nim::Layer
 {
-	virtual void attach() override;
-	virtual void detach() override;
+	virtual void Attach() override;
+	virtual void Detach() override;
 
 	virtual void update() override;
 	virtual void render() override;

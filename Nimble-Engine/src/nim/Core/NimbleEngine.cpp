@@ -21,7 +21,7 @@ namespace nim
 
     void NimbleEngine::run()
     {
-        m_Program->begin();
+        m_Program->Begin();
 
         m_Running = true;
 
@@ -38,7 +38,7 @@ namespace nim
             m_DeltaTime.end();
         }
 
-        m_Program->end();
+        m_Program->End();
     }
 
     void NimbleEngine::shutdown()
@@ -52,7 +52,6 @@ namespace nim
     bool NimbleEngine::m_Running;
 
     std::shared_ptr<Program> NimbleEngine::m_Program;
-    std::shared_ptr<EngineHandle> NimbleEngine::m_EngineHandle;
 
     DeltaTime NimbleEngine::m_DeltaTime(60);
 

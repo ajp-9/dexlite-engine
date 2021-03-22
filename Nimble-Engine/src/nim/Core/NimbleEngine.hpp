@@ -28,7 +28,6 @@ namespace nim
 
 		// Is a unique ptr because of inheritance.
 		static std::shared_ptr<Program> m_Program;
-		static std::shared_ptr<EngineHandle> m_EngineHandle;
 
 		static DeltaTime m_DeltaTime;
 

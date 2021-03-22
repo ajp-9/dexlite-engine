@@ -11,7 +11,7 @@ namespace nim
 	{
 		Application(glm::ivec2 dimensions);
 		~Application() {}
-	public:
+
 		void update();
 	public:
 		Window m_Window;

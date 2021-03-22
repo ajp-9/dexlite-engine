@@ -9,7 +9,7 @@
 
 using nim::NimbleEngine;
 
-void SandBox::begin()
+void SandBox::Begin()
 {
 	NimbleEngine::m_Application.m_LayerManager.pushLayer(std::make_shared<TestLayer>());
 	NimbleEngine::m_Application.m_LayerManager.pushLayer(std::make_shared<SecondLayer>());
@@ -21,7 +21,7 @@ void SandBox::begin()
 	scene.doRender();
 }
 
-void SandBox::end()
+void SandBox::End()
 {
 }
 

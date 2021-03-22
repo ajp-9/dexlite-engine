@@ -6,8 +6,8 @@
 
 class SandBox : public nim::Program
 {
-	virtual void begin() override;
-	virtual void end() override;
+	virtual void Begin() override;
+	virtual void End() override;
 
 	virtual void update() override;
 	virtual void render() override;
