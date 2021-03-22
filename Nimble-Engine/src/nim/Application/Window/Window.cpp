@@ -50,7 +50,6 @@ namespace nim
     {
         SDL_GL_SwapWindow(m_Window); // swap buffers
 
-        glClearColor(.0, .4, 0, 1.0f); // Clear the color buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
@@ -71,5 +70,7 @@ namespace nim
 
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
+        glClearColor(.0, .6, 0, 1.0f); // Clear the color buffer
+
     }
 }
