@@ -5,6 +5,7 @@
 
 #include "Event/Event.hpp"
 #include "Layer.hpp"
+#include "Event/EventManager.hpp"
 
 namespace nim
 {
@@ -19,9 +20,8 @@ namespace nim
 		void renderLayers();
 		void sendEvents();
 	private:
-		std::vector<std::unique_ptr<event::Event>> getEventQueue();
-	private:
 		std::vector<std::shared_ptr<Layer>> m_Layers;
+		EventManager m_EventManager;
 
 		friend class Application;
 	};

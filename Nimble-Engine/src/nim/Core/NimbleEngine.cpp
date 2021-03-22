@@ -9,14 +9,19 @@
 
 namespace nim
 {
-    void NimbleEngine::Init()
+    void NimbleEngine::Init(std::shared_ptr<Program> program)
     {
+        m_Program = program;
 
+        Renderer::Init(m_Application.m_Window.getDimensions());
     }
 
     void NimbleEngine::Shutdown()
     {
         m_Running = false;
+
+        Renderer::Shutdown();
+        m_Program->End();
     }
 
     void NimbleEngine::run()

@@ -3,6 +3,8 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
+#include "../Renderer/Renderer.hpp"
+
 namespace nim
 {
     Application::Application(glm::ivec2 dimensions)
@@ -11,6 +13,8 @@ namespace nim
 
     void Application::update()
     {
+        Renderer::clear();
+
         m_Window.update();
         m_LayerManager.sendEvents();
     }

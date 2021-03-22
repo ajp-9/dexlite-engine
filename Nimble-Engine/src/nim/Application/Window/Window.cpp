@@ -4,6 +4,8 @@
 #include <iostream>
 #include <glm/vec2.hpp>
 
+#include "../../Renderer/Renderer.hpp"
+
 namespace nim
 {
     Window::Window(glm::ivec2 windowDimensions)
@@ -35,8 +37,6 @@ namespace nim
         gladLoadGLLoader(SDL_GL_GetProcAddress);
 
         SDL_UpdateWindowSurface(m_Window);
-
-        setupOpenGL();
     }
 
     Window::~Window()
@@ -49,8 +49,6 @@ namespace nim
     void Window::update()
     {
         SDL_GL_SwapWindow(m_Window); // swap buffers
-
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     glm::ivec2 Window::getDimensions()
@@ -58,19 +56,5 @@ namespace nim
         glm::ivec2 dimensions;
         SDL_GetWindowSize(m_Window, &dimensions.x, &dimensions.y);
         return dimensions;
-    }
-
-    void Window::setupOpenGL()
-    {
-        glm::ivec2 drawableSize;
-        SDL_GL_GetDrawableSize(m_Window, &drawableSize.x, &drawableSize.y);
-        glViewport(0, 0, drawableSize.x, drawableSize.y);
-        glEnable(GL_DEPTH_TEST);
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-        glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
-        glClearColor(.0, .6, 0, 1.0f); // Clear the color buffer
-
     }
 }

@@ -7,12 +7,12 @@
 #include <nim/Application/Layer/Event/MouseEvent.hpp>
 #include <glm/vec2.hpp>
 
-void TestLayer::attach()
+void TestLayer::Attach()
 {
 
 }
 
-void TestLayer::detach()
+void TestLayer::Detach()
 {
 }
 

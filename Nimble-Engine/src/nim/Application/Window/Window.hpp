@@ -18,9 +18,6 @@ namespace nim
 	public:
 		glm::ivec2 getDimensions();
 	private:
-		std::vector<std::unique_ptr<event::Event>> getEventQueue();
-		inline void setupOpenGL();
-	private:
 		SDL_Window* m_Window;
 		SDL_GLContext m_GLContext;
 

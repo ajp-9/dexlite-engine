@@ -4,23 +4,18 @@
 #include "../Application/Application.hpp"
 #include "../Renderer/Renderer.hpp"
 #include "Program/Program.hpp"
-#include "../Util/EntryPoint.hpp"
 
 int main(int argc, char** argv);
 
 namespace nim
 {
+
 	// Core engine.
 	class NimbleEngine
 	{
-		static void Init();
+		static void Init(std::shared_ptr<Program> program);
 		static void Shutdown();
 
-		template <class T>
-		static inline void setProgram()
-		{
-			m_Program = std::make_shared<T>();
-		}
 		static void run();
 		static void shutdown();
 	public:
@@ -35,5 +30,6 @@ namespace nim
 		static Renderer m_Renderer;
 	public:
 		friend int ::main(int argc, char** argv);
+		friend class EventManager;
 	};
 }
