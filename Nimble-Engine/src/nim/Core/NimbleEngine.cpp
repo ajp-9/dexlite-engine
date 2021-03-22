@@ -6,17 +6,18 @@
 #include <thread>
 
 #include "Program/Program.hpp"
-#include "Handle/EngineHandle.hpp"
 
 namespace nim
 {
-    NimbleEngine::NimbleEngine()
-        : m_EngineHandle(std::make_shared<EngineHandle>(*this)),
-          m_Application(m_EngineHandle),
-          m_DeltaTime(60)
-    {}
+    void NimbleEngine::Init()
+    {
 
-    NimbleEngine::~NimbleEngine() {}
+    }
+
+    void NimbleEngine::Shutdown()
+    {
+        m_Running = false;
+    }
 
     void NimbleEngine::run()
     {
@@ -42,6 +43,19 @@ namespace nim
 
     void NimbleEngine::shutdown()
     {
-        m_Running = false;
     }
+
+    /*
+    *  Initialize member variables here.
+    */
+
+    bool NimbleEngine::m_Running;
+
+    std::shared_ptr<Program> NimbleEngine::m_Program;
+    std::shared_ptr<EngineHandle> NimbleEngine::m_EngineHandle;
+
+    DeltaTime NimbleEngine::m_DeltaTime(60);
+
+    Application NimbleEngine::m_Application(glm::ivec2(300, 300));
+    Renderer NimbleEngine::m_Renderer;
 }

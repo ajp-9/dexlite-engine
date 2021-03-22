@@ -4,37 +4,37 @@
 #include "../Application/Application.hpp"
 #include "../Renderer/Renderer.hpp"
 #include "Program/Program.hpp"
+#include "../Util/EntryPoint.hpp"
+
+int main(int argc, char** argv);
 
 namespace nim
 {
-	class Program;
-
 	// Core engine.
 	class NimbleEngine
 	{
-	public:
-		NimbleEngine();
-		~NimbleEngine();
+		static void Init();
+		static void Shutdown();
 
 		template <class T>
-		inline void setProgram()
+		static inline void setProgram()
 		{
 			m_Program = std::make_shared<T>();
-			m_Program->setEngineHandle(m_EngineHandle);
 		}
-
-		void run();
-		void shutdown();
+		static void run();
+		static void shutdown();
 	public:
-		bool m_Running = false;
+		static bool m_Running;
 
 		// Is a unique ptr because of inheritance.
-		std::shared_ptr<Program> m_Program;
-		std::shared_ptr<EngineHandle> m_EngineHandle;
+		static std::shared_ptr<Program> m_Program;
+		static std::shared_ptr<EngineHandle> m_EngineHandle;
 
-		DeltaTime m_DeltaTime;
+		static DeltaTime m_DeltaTime;
 
-		Application m_Application;
-		Renderer m_Renderer;
+		static Application m_Application;
+		static Renderer m_Renderer;
+	public:
+		friend int ::main(int argc, char** argv);
 	};
 }

@@ -5,16 +5,15 @@
 #include "Event/KeyEvent.hpp"
 #include "Event/MouseEvent.hpp"
 
-#include "../../Core/Handle/EngineHandle.hpp"
-
 namespace nim
 {
-	LayerManager::LayerManager(std::shared_ptr<EngineHandle>& engineHandle) { m_EngineHandle = engineHandle; }
+	LayerManager::LayerManager()
+	{
+	}
 
 	void LayerManager::pushLayer(std::shared_ptr<Layer> layer)
 	{
 		layer->m_Index = m_Layers.size();
-		layer->m_EngineHandle = m_EngineHandle;
 		m_Layers.push_back(layer);
 		layer->attach();
 	}
@@ -80,7 +79,7 @@ namespace nim
 				events.emplace_back(std::make_unique<event::MouseEvent>(event::type::MOUSE_UP, e.button.button, glm::vec2(e.button.x, e.button.y)));
 				break;
 			case SDL_QUIT:
-				m_EngineHandle->shutdown();
+				//NimbleEngine::shutdown();
 				break;
 			default:
 				break;

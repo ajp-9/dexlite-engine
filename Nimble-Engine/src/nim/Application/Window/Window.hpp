@@ -11,19 +11,19 @@ namespace nim
 {
 	class Window
 	{
-	public:
 		Window(glm::ivec2 windowDimensions);
 		~Window();
 
 		void update();
-
+	public:
 		glm::ivec2 getDimensions();
-
-		std::vector<std::unique_ptr<event::Event>> getEventQueue();
 	private:
+		std::vector<std::unique_ptr<event::Event>> getEventQueue();
 		inline void setupOpenGL();
 	private:
 		SDL_Window* m_Window;
 		SDL_GLContext m_GLContext;
+
+		friend class Application;
 	};
 }

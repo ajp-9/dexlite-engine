@@ -5,11 +5,9 @@
 
 namespace nim
 {
-    Application::Application(std::shared_ptr<EngineHandle>& engineHandle)
-        : m_Window(glm::ivec2(300, 300)), m_LayerManager(engineHandle)
-    {
-
-    }
+    Application::Application(glm::ivec2 dimensions)
+        : m_Window(glm::ivec2(dimensions.x, dimensions.y))
+    {}
 
     void Application::update()
     {

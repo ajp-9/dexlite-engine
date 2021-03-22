@@ -7,10 +7,12 @@
 #include <nim/Scene/Component/RenderableComponent.h>
 #include <nim/Scene/Entity/Entity.hpp>
 
+using nim::NimbleEngine;
+
 void SandBox::begin()
 {
-	m_EngineHandle->getLayerManager().pushLayer(std::make_shared<TestLayer>());
-	m_EngineHandle->getLayerManager().pushLayer(std::make_shared<SecondLayer>());
+	NimbleEngine::m_Application.m_LayerManager.pushLayer(std::make_shared<TestLayer>());
+	NimbleEngine::m_Application.m_LayerManager.pushLayer(std::make_shared<SecondLayer>());
 
 	nim::Scene scene;
 	auto& entity = scene.createEntity();
