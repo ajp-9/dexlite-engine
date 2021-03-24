@@ -5,8 +5,7 @@
 #include "../Application/Layer/LayerManager.hpp"
 #include "../Renderer/Renderer.hpp"
 #include "Program/Program.hpp"
-
-int main(int argc, char** argv);
+#include "EntryPoint.hpp"
 
 namespace nim
 {
@@ -17,7 +16,6 @@ namespace nim
 		static void Shutdown();
 
 		static void run();
-		static void shutdown();
 	public:
 		static DeltaTime m_DeltaTime;
 

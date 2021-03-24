@@ -4,6 +4,7 @@
 #include "../Core/NimbleEngine.hpp"
 #include <iostream>
 
+int main(int argc, char** argv);
 #define NIMBLE_DEFINE_MAIN(Program) int main(int argc, char** argv) {nim::NimbleEngine::Init(std::make_shared<Program>());nim::NimbleEngine::run();return 0;}
 
 /*
