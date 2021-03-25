@@ -18,7 +18,9 @@ void SandBox::Init()
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<TestLayer>());
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<SecondLayer>());
 
-	nim::Shader({ std::string("assets/shaders/simple.glsl") });
+	nim::Shader shader("assets/shaders/simple.glsl");
+
+	shader.bind();
 
 	glGenVertexArrays(1, &m_VAO);
 	glBindVertexArray(m_VAO);

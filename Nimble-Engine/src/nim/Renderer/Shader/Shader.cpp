@@ -6,15 +6,14 @@
 
 namespace nim
 {
-	Shader::Shader(const std::string& src)
+	Shader::Shader(const char* src)
 	{
 		std::ifstream source;
-		source.open(src);
+		source.open(std::string(src));
 
-		std::string vertex;
-		std::string fragment;
+		std::string srcVertex, srcFragment;
 
-		if (0)
+		if (source.is_open())
 		{
 			std::string line;
 
@@ -40,16 +39,40 @@ namespace nim
 				}
 
 				if (isVertex)
-					vertex.append(line + "\n");
+					srcVertex.append(line + "\n");
 				else if (isFragment)
-					fragment.append(line + "\n");
+					srcFragment.append(line + "\n");
 			}
+
+			const char* cSrcVertex = srcVertex.c_str();
+			const char* cSrcFragment = srcFragment.c_str();
+
+			// Vertex shader.
+			unsigned int vertex = glCreateShader(GL_VERTEX_SHADER);
+			glShaderSource(vertex, 1, &cSrcVertex, NULL);
+			glCompileShader(vertex);
+			checkShaderErrors(vertex, "VERTEX");
+
+			// Fragment shader
+			unsigned int fragment = glCreateShader(GL_FRAGMENT_SHADER);
+			glShaderSource(fragment, 1, &cSrcFragment, NULL);
+			glCompileShader(fragment);
+			checkShaderErrors(fragment, "FRAGMENT");
+
+			// Shader program
+			m_ID = glCreateProgram();
+			glAttachShader(m_ID, vertex);
+			glAttachShader(m_ID, fragment);
+			glLinkProgram(m_ID);
+			checkShaderErrors(m_ID, "PROGRAM");
+
+			glDeleteShader(vertex);
+			glDeleteShader(fragment);
 		}
 		else
 		{
 			std::cout << "Shader at source: " << src << ", is invalid!\n";
 		}
-
 	}
 
 	Shader::~Shader()
@@ -58,9 +81,36 @@ namespace nim
 
 	void Shader::bind() const
 	{
+		glUseProgram(m_ID);
 	}
 
 	void Shader::unbind() const
 	{
+		glUseProgram(0);
+	}
+
+	void Shader::checkShaderErrors(unsigned int shader, std::string type)
+	{
+		GLint success;
+		GLchar infoLog[1024];
+		if (type != "PROGRAM")
+		{
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			if (!success)
+			{
+				glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+				std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n";
+			}
+		}
+		else
+		{
+			glGetProgramiv(shader, GL_LINK_STATUS, &success);
+			if (!success)
+			{
+				glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+				std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n";
+			}
+		}
+
 	}
 }
