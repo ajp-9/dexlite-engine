@@ -23,12 +23,6 @@ void SandBox::Init()
 
 	shader.bind();
 
-	glGenVertexArrays(1, &m_VAO);
-	glBindVertexArray(m_VAO);
-
-	glGenBuffers(1, &m_VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-
 	struct Vertex
 	{
 		Vertex() : pos(0), color(0) {}
@@ -37,8 +31,13 @@ void SandBox::Init()
 		glm::vec3 pos;
 		float color;
 	};
-	
+
+	glGenVertexArrays(1, &m_VAO);
+	glBindVertexArray(m_VAO);
+
 	nim::gl::VertexBuffer<Vertex> vb;
+	vb.bind();
+	
 	vb.setVertexLayout<glm::vec3, float>();
 
 	std::vector<Vertex> vertices =
@@ -48,11 +47,6 @@ void SandBox::Init()
 	    {- 0.0f, 0.5f, 0.0f, .5f}
 	};
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)0);
-
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, color));
 
 	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
