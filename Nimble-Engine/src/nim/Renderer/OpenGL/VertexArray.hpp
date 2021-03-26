@@ -20,11 +20,11 @@ namespace nim
 			void bind();
 			void unbind();
 
-			void addVertexBuffer(const VertexBuffer& buffer);
+			//void addVertexBuffer(const VertexBuffer& buffer);
 			void setIndexBuffer(const IndexBuffer& buffer);
 		private:
 			uint32_t m_ID;
-			std::vector<VertexBuffer> m_VertexBuffers;
+			//std::vector<VertexBuffer> m_VertexBuffers;
 			IndexBuffer m_IndexBuffer;
 		};
 	}

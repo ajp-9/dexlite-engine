@@ -38,11 +38,11 @@ namespace nim
 			glBindVertexArray(0);
 		}
 
-		void VertexArray::addVertexBuffer(const VertexBuffer& buffer)
+		/*void VertexArray::addVertexBuffer(const VertexBuffer& buffer)
 		{
 			bind();
 			m_VertexBuffers.emplace_back(buffer);
-		}
+		}*/
 
 		void VertexArray::setIndexBuffer(const IndexBuffer& buffer)
 		{

@@ -22,7 +22,7 @@ namespace nim
 
 			while (std::getline(source, line))
 			{
-				if (!line.find("#type VERTEX"))
+				if (line.find("#type VERTEX") != std::string::npos)
 				{
 					isVertex = true;
 					isFragment = false;
@@ -30,7 +30,7 @@ namespace nim
 					continue;
 				}
 
-				if (!line.find("#type FRAGMENT"))
+				if (line.find("#type FRAGMENT") != std::string::npos)
 				{
 					isFragment = true;
 					isVertex = false;

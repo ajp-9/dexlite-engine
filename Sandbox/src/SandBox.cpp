@@ -2,12 +2,13 @@
 
 #include "TestLayer.hpp"
 #include "SecondLayer.hpp"
-#include <iostream>
-#include <nim/Scene/Scene.hpp>
-#include <nim/Scene/Component/RenderableComponent.h>
-#include <nim/Scene/Entity/Entity.hpp>
 
 #include <nim/Renderer/Shader/Shader.hpp>
+#include <glm/vec3.hpp>
+
+#include <iostream>
+
+#include <nim/Renderer/OpenGL/Buffers/VertexBuffer.hpp>
 
 #include <glad/glad.h>
 
@@ -28,17 +29,34 @@ void SandBox::Init()
 	glGenBuffers(1, &m_VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 
-	float vertices[] =
+	struct Vertex
 	{
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		-0.0f,  0.5f, 0.0f
+		Vertex() : pos(0), color(0) {}
+		Vertex(float x, float y, float z, float color)
+			: pos(glm::vec3(x, y, z)), color(color) {}
+		glm::vec3 pos;
+		float color;
+	};
+	
+	nim::gl::VertexBuffer<Vertex> vb;
+	vb.setVertexLayout<glm::vec3, float>();
+
+	std::vector<Vertex> vertices =
+	{
+		{-0.5f, -0.5f, 0.0f, 1.f},
+	    {0.5f, -0.5f, 0.0f, 0.0f },
+	    {- 0.0f, 0.5f, 0.0f, .5f}
 	};
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, nullptr);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)0);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, color));
+
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	vb.uploadData(vertices);
 
 	uint indices[] = { 0, 1, 2 };
 
