@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Vertex.hpp"
-#include "../../OpenGL/VertexArray.hpp"
+#include "../../OpenGL/VertexArray/VertexArray.hpp"
 
 namespace nim
 {
@@ -13,6 +13,6 @@ namespace nim
 		void render();
 
 		std::vector<Vertex> m_Vertices;
-		gl::VertexArray m_VertexArray;
+		gl::VertexArray<Vertex> m_VertexArray;
 	};
 }

@@ -5,13 +5,12 @@
 #include <glad/glad.h>
 #include <glm/vec3.hpp>
 #include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 
 namespace nim
 {
 	namespace gl
 	{
-		// God help you...
-
 		// Template for type of vertex.
 		template <typename V>
 		class VertexBuffer
@@ -19,12 +18,13 @@ namespace nim
 		public:
 			VertexBuffer();
 
-			void bind();
-			void unbind();
-
 			template <typename T>
 			void uploadData(std::vector<T>& vertices);
 
+			void bind();
+			void unbind();
+
+			// Specify the layout of the buffer with templates.
 			template <typename ...Ts> 
 			void setVertexLayout();
 		private:
@@ -59,6 +59,15 @@ namespace nim
 		VertexBuffer<V>::VertexBuffer()
 		{
 			glGenBuffers(1, &m_ID);
+			bind();
+		}
+
+		template <typename V>
+		template <typename T>
+		void VertexBuffer<V>::uploadData(std::vector<T>& vertices)
+		{
+			bind();
+			glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(T), &vertices[0], GL_STATIC_DRAW);
 		}
 
 		template <typename V>
@@ -73,16 +82,10 @@ namespace nim
 		}
 
 		template <typename V>
-		template <typename T>
-		void VertexBuffer<V>::uploadData(std::vector<T>& vertices)
-		{
-			glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(T), &vertices[0], GL_STATIC_DRAW);
-		}
-
-		template <typename V>
 		template <typename ...Ts>
 		void VertexBuffer<V>::setVertexLayout()
 		{
+			bind();
 			int types[] = { 0, (addLocation<Ts>(), 0)... };
 			// Suppresses compile warnings
 			(void)types;
@@ -137,7 +140,11 @@ namespace nim
 				varType = GL_FLOAT;
 
 			glEnableVertexAttribArray(m_LayoutSize);
-			glVertexAttribPointer(m_LayoutSize, varAmount, varType, GL_FALSE, sizeof(V), (const void*)m_CurrentByteStep);
+
+			if(varType != GL_UNSIGNED_INT && varType != GL_INT && varType != GL_UNSIGNED_BYTE)
+				glVertexAttribPointer(m_LayoutSize, varAmount, varType, GL_FALSE, sizeof(V), (const void*)m_CurrentByteStep);
+			else
+				glVertexAttribIPointer(m_LayoutSize, varAmount, varType, sizeof(V), (const void*)m_CurrentByteStep);
 
 			//std::cout << (unsigned)m_LayoutSize << ", " << varAmount << ", " << varType << ", " << GL_FALSE << ", " << sizeof(V) << ", " << (unsigned)m_CurrentByteStep << "\n";
 
