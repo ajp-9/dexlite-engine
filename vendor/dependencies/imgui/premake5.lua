@@ -14,7 +14,7 @@ project "imgui"
 
     includedirs
     {
-        "%{prj.location}/include"
+        "%{prj.location}/include/imgui"
     }
 
     sysincludedirs
