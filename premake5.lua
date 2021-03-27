@@ -4,87 +4,17 @@ workspace "Nimble-Engine"
 
     configurations {"Debug", "Release"}
 
-project "Nimble-Engine"
-    location "Nimble-Engine"
-    kind "StaticLib"
-    language "C++"
-    cppdialect "C++17"
+IncludeDir = {}
+IncludeDir["includes"] = "%{wks.location}/vendor/includes"
+IncludeDir["SDL2"] = "%{wks.location}/vendor/dependencies/SDL2/include"
+IncludeDir["glad"] = "%{wks.location}/vendor/dependencies/glad/include"
 
-    targetdir ("%{prj.name}/bin/%{cfg.buildcfg}")
-    objdir ("%{prj.name}/intermediates/%{cfg.buildcfg}")
+LibDir = {}
+LibDir["SDL2"] = "%{wks.location}/vendor/dependencies/SDL2/lib"
 
-    files
-    {
-        "%{prj.location}/src/**.hpp",
-        "%{prj.location}/src/**.cpp",
-        "%{wks.location}/Nimble-Engine/vendor/**"
-    }
+group "Dependencies"
+    include "vendor/dependencies/glad"
+group ""
 
-    sysincludedirs
-    {
-        "src",
-        "%{wks.location}/linking/include/"
-    }
-
-    syslibdirs
-    {
-        "%{wks.location}/linking/libs"
-    }
-
-    links
-    {
-        "SDL2-static.lib"
-    }
-
-    filter "configurations:Debug"
-        optimize "Off"
-
-    filter "configurations:Release"
-        optimize "On"
-
-project "SandBox"
-    location "SandBox"
-    kind "ConsoleApp"
-    language "C++"
-    cppdialect "C++17"
-
-    targetdir ("%{prj.name}/bin/%{cfg.buildcfg}")
-    objdir ("%{prj.name}/intermediates/%{cfg.buildcfg}")
-
-    files
-    {
-        "%{prj.location}/src/**.hpp",
-        "%{prj.location}/src/**.cpp"
-    }
-
-    sysincludedirs
-    {
-        "src",
-        "%{wks.location}/linking/include/",
-        "%{wks.location}/Nimble-Engine/src"
-    }
-    
-    syslibdirs
-    {
-        "%{wks.location}/linking/libs"
-    }
-
-    links
-    {
-        "Nimble-Engine",
-        "winmm.lib",
-        "imm32.lib",
-        "version.lib",
-        "setupapi.lib"
-    }
-
-    defines
-    {
-        "SDL_MAIN_HANDLED"
-    }
-
-    filter "configurations:Debug"
-        optimize "Off"
-
-    filter "configurations:Release"
-        optimize "On"
+include "Nimble-Engine"
+include "Sandbox"
