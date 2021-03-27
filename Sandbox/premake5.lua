@@ -18,7 +18,8 @@ project "SandBox"
 
         "%{IncludeDir.includes}",
         "%{IncludeDir.SDL2}",
-        "%{IncludeDir.glad}"
+        "%{IncludeDir.glad}",
+        "%{IncludeDir.imgui}"
     }
 
     links
@@ -26,6 +27,7 @@ project "SandBox"
         "Nimble-Engine",
 
         "glad",
+        "imgui",
 
         "winmm.lib",
         "imm32.lib",

@@ -1,4 +1,4 @@
-project "Nimble-Engine"
+project "imgui"
     kind "StaticLib"
     language "C++"
     cppdialect "C++17"
@@ -9,15 +9,18 @@ project "Nimble-Engine"
     files
     {
         "%{prj.location}/src/**",
-        "%{prj.location}/vendor/**"
+        "%{prj.location}/include/**"
+    }
+
+    includedirs
+    {
+        "%{prj.location}/include"
     }
 
     sysincludedirs
     {
-        "%{IncludeDir.includes}",
         "%{IncludeDir.SDL2}",
-        "%{IncludeDir.glad}",
-        "%{IncludeDir.imgui}"
+        "%{IncludeDir.glad}"
     }
 
     syslibdirs
@@ -29,12 +32,11 @@ project "Nimble-Engine"
     {
         "SDL2-static.lib",
         
-        "glad",
-        "imgui"
+        "glad"
     }
 
     filter "system:windows"
-        systemversion "latest"
+    systemversion "latest"
 
     filter "configurations:Debug"
         optimize "Off"

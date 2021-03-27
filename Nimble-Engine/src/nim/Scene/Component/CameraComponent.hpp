@@ -1,6 +1,9 @@
 #pragma once
 
-struct CameraComponent
+namespace nim
 {
+	struct CameraComponent
+	{
 
-};
+	};
+}
