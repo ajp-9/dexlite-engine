@@ -41,7 +41,7 @@ namespace nim
             m_Program->update();
             m_Program->render();
 
-            // Swap buffers when FINISHED drawing
+            // Swap buffers when FINISHED rendering
             m_Window.update();
 
             m_DeltaTime.sleep();

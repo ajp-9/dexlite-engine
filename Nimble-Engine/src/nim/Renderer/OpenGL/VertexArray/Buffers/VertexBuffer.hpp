@@ -24,7 +24,7 @@ namespace nim
 			void bind();
 			void unbind();
 
-			// Specify the layout of the buffer with templates.
+			// Specify the layout of each vertex with templates.
 			template <typename ...Ts> 
 			void setVertexLayout();
 		private:

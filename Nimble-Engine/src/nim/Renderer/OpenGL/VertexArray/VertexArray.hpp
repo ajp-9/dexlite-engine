@@ -71,12 +71,6 @@ namespace nim
 			glBindVertexArray(0);
 		}
 
-		/*void VertexArray::addVertexBuffer(const VertexBuffer& buffer)
-		{
-			bind();
-			m_VertexBuffers.emplace_back(buffer);
-		}*/
-
 		template <typename V>
 		void VertexArray<V>::setIndexBuffer(const IndexBuffer& buffer)
 		{

@@ -4,6 +4,8 @@
 #include <nim/Renderer/OpenGL/VertexArray/VertexArray.hpp>
 
 #include "TestLayer.hpp"
+
+#define VERTEX_TYPES glm::vec3, float
 struct Vertex
 {
 	Vertex() : pos(0), color(0) {}
@@ -17,7 +19,7 @@ class SandBox : public nim::Program
 {
 public:
 	virtual void Init() override;
-	virtual void Shutdown() override;
+	virtual void Shutdown() override; 
 
 	virtual void update() override;
 	virtual void render() override;

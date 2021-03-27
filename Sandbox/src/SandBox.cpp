@@ -23,7 +23,7 @@ void SandBox::Init()
 
 	shader.bind();
 
-	va.m_VertexBuffers.setVertexLayout<glm::vec3, float>();
+	va.m_VertexBuffers.setVertexLayout<VERTEX_TYPES>();
 
 	std::vector<Vertex> vertices =
 	{
@@ -48,7 +48,7 @@ void SandBox::Shutdown()
 void SandBox::update()
 {
 	va.bind();
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+	va.render();
 }
 
 void SandBox::render()
