@@ -25,6 +25,12 @@ namespace nim
 		m_Layers.pop_back();
 	}
 
+	void LayerManager::detachAllLayers()
+	{
+		for (auto& l : m_Layers)
+			popLayer();
+	}
+
 	void LayerManager::updateLayers()
 	{
 		for (auto& l : m_Layers)

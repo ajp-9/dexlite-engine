@@ -15,6 +15,8 @@ namespace nim
 	public:
 		void pushLayer(std::shared_ptr<Layer> layer);
 		void popLayer();
+		// Detaches all layers from front of the screen to the back.
+		void detachAllLayers();
 	private:
 		void updateLayers();
 		void renderLayers();

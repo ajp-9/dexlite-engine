@@ -13,13 +13,14 @@ namespace nim
     {
         m_Program = program;
 
-        Renderer::Init(m_Window.getDimensions());
+        Renderer::Init(glm::uvec4(0, 0, m_Window.getDimensions()));
     }
 
     void NimbleEngine::Shutdown()
     {
         m_Running = false;
 
+        m_LayerManager.detachAllLayers();
         m_Program->Shutdown();
         Renderer::Shutdown();
     }
@@ -34,14 +35,22 @@ namespace nim
         {
             m_DeltaTime.start();
 
-            Renderer::clear();
+            // Updating/events -------------
+            Renderer::trySetViewport(glm::uvec4(0, 0, m_Window.getDimensions()));
 
             m_Program->update();
+            m_LayerManager.updateLayers();
+            m_LayerManager.sendEvents();
+
+            // Rendering ------------
+            Renderer::clear();
+            Renderer::beginFrame();
+
             m_Program->render();
 
-            m_LayerManager.sendEvents();
-            m_LayerManager.updateLayers();
             m_LayerManager.renderLayers();
+
+            Renderer::endFrame();
 
             // Swap buffers when FINISHED rendering
             m_Window.update();

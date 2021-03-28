@@ -23,7 +23,7 @@ void nim::DeltaTime::sleep()
 	if (!m_SleepInstead)
 	{
 		auto last = getCurrentTime();
-		while (getCurrentTime() < last + (1000.0f / m_FPS) - .25) {}
+		while (getCurrentTime() < last + (1000.0f / m_FPS) - .5) {}
 	}
 	else
 	{
