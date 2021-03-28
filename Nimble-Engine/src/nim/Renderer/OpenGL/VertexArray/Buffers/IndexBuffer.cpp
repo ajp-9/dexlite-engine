@@ -26,7 +26,7 @@ namespace nim
 		}
 		void IndexBuffer::unbind()
 		{
-			glBindBuffer(0, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 	}
 }

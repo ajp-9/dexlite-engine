@@ -89,6 +89,11 @@ namespace nim
 		glUseProgram(0);
 	}
 
+	void Shader::setMat4Uniform(const char* name, const glm::mat4& matrix)
+	{
+		glUniformMatrix4fv(glGetUniformLocation(m_ID, name), 1, GL_FALSE, glm::value_ptr(matrix));
+	}
+
 	void Shader::checkShaderErrors(unsigned int shader, std::string type)
 	{
 		GLint success;

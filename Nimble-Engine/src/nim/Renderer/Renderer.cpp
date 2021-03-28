@@ -30,10 +30,7 @@ namespace nim
 		ImGuiAPI::beginFrame();
 	}
 
-	void Renderer::update()
-	{
-		//clear();
-	}
+	void Renderer::update() {}
 
 	void Renderer::endFrame()
 	{

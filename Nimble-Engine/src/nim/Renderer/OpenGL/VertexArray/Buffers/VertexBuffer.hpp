@@ -33,7 +33,7 @@ namespace nim
 		private:
 			uint32_t m_ID = 0;
 			uint8_t m_LayoutSize = 0;
-			uint8_t m_CurrentByteStep = 0;
+			uint8_t m_CurrentOffset = 0;
 		};
 
 		namespace bufferType
@@ -78,7 +78,7 @@ namespace nim
 		template <typename V>
 		void VertexBuffer<V>::unbind()
 		{
-			glBindBuffer(0, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 
 		template <typename V>
@@ -142,13 +142,13 @@ namespace nim
 			glEnableVertexAttribArray(m_LayoutSize);
 
 			if(varType != GL_UNSIGNED_INT && varType != GL_INT && varType != GL_UNSIGNED_BYTE)
-				glVertexAttribPointer(m_LayoutSize, varAmount, varType, GL_FALSE, sizeof(V), (const void*)m_CurrentByteStep);
+				glVertexAttribPointer(m_LayoutSize, varAmount, varType, GL_FALSE, sizeof(V), (const void*)m_CurrentOffset);
 			else
-				glVertexAttribIPointer(m_LayoutSize, varAmount, varType, sizeof(V), (const void*)m_CurrentByteStep);
+				glVertexAttribIPointer(m_LayoutSize, varAmount, varType, sizeof(V), (const void*)m_CurrentOffset);
 
 			//std::cout << (unsigned)m_LayoutSize << ", " << varAmount << ", " << varType << ", " << GL_FALSE << ", " << sizeof(V) << ", " << (unsigned)m_CurrentByteStep << "\n";
 
-			m_CurrentByteStep += sizeof(T);
+			m_CurrentOffset += sizeof(T);
 			m_LayoutSize++;
 		}
 	}

@@ -6,10 +6,12 @@ layout (location = 1) in float vColor;
 
 out float color;
 
+uniform mat4 u_ProjectionViewMatrix;
+
 void main()
 {
-    gl_Position = vec4(vPos, 1.0);
     color = vColor;
+    gl_Position = u_ProjectionViewMatrix * vec4(vPos, 1.0);
 }
 
 #type FRAGMENT

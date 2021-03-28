@@ -9,9 +9,7 @@
 
 void TestLayer::Attach() {}
 
-void TestLayer::Detach()
-{
-}
+void TestLayer::Detach() {}
 
 void TestLayer::update()
 {

@@ -2,10 +2,12 @@
 
 #include <nim/Nimble.hpp>
 #include <nim/Renderer/OpenGL/VertexArray/VertexArray.hpp>
+#include <nim/Renderer/Camera/OrthographicCamera.hpp>
+#include <nim/Renderer/Shader/Shader.hpp>
 
 #include "TestLayer.hpp"
 
-#define VERTEX_TYPES glm::vec3, float
+#define VERTEX_LAYOUT glm::vec3, float
 struct Vertex
 {
 	Vertex() : pos(0), color(0) {}
@@ -25,8 +27,9 @@ public:
 	virtual void render() override;
 
 private:
-	uint m_VAO, m_VBO, m_IBO;
 	nim::gl::VertexArray<Vertex> va;
+	nim::OrthographicCamera oCamera = nim::OrthographicCamera(glm::vec4(-0.75f, 0.75f, -0.75f, 0.75f), glm::vec3(0), glm::vec3(0));
+	nim::Shader shader = nim::Shader("assets/shaders/simple.glsl");
 };
 
 NIMBLE_DEFINE_MAIN(SandBox);
