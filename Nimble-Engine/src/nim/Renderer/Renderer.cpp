@@ -6,9 +6,9 @@
 
 namespace nim
 {
-	void Renderer::Init(glm::uvec2 viewportDimensions)
+	void Renderer::Init(glm::uvec4 viewport)
 	{
-		setViewport(0, 0, viewportDimensions);
+		trySetViewport(viewport);
 
 		glEnable(GL_DEPTH_TEST);
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -25,14 +25,28 @@ namespace nim
 		ImGuiAPI::Shutdown();
 	}
 
-	void Renderer::update()
+	void Renderer::beginFrame()
 	{
-		clear();
+		ImGuiAPI::beginFrame();
 	}
 
-	void Renderer::setViewport(uint32_t x, uint32_t y, glm::uvec2 dimensions)
+	void Renderer::update()
 	{
-		glViewport(x, y, dimensions.x, dimensions.y);
+		//clear();
+	}
+
+	void Renderer::endFrame()
+	{
+		ImGuiAPI::endFrame();
+	}
+
+	void Renderer::trySetViewport(glm::uvec4 viewport)
+	{
+		if (m_LastViewport != viewport)
+		{
+			glViewport(viewport.x, viewport.y, viewport.z, viewport.w);
+			m_LastViewport = viewport;
+		}
 	}
 
 	void Renderer::setClearColor(const glm::vec4& color)
@@ -44,4 +58,10 @@ namespace nim
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
+
+	/*
+	*  Initialize member variables here.
+	*/
+
+	glm::uvec4 Renderer::m_LastViewport(glm::uvec4(0));
 }
