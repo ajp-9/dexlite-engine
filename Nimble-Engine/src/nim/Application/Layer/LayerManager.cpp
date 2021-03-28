@@ -43,9 +43,9 @@ namespace nim
 
 		for (auto& e : events)
 		{
-			for (auto& l : m_Layers)
+			for (std::vector<std::shared_ptr<Layer>>::reverse_iterator it = m_Layers.rbegin(); it != m_Layers.rend(); ++it)
 			{
-				l->event(e);
+				it->get()->event(e);
 
 				if (e->m_Handled)
 					return;

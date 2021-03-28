@@ -39,8 +39,6 @@ void SandBox::Init()
 	va.m_IndexBuffer.uploadData(indices);
 
 	va.unbind();
-
-	
 }
 
 void SandBox::Shutdown()
