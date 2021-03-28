@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include <nim/Renderer/OpenGL/VertexArray/Buffers/VertexBuffer.hpp>
+#include <nim/Application/Layer/ImGuiLayer.hpp>
 
 #include <glad/glad.h>
 
@@ -16,8 +17,11 @@ using nim::NimbleEngine;
 
 void SandBox::Init()
 {
+	
+
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<TestLayer>());
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<SecondLayer>());
+	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<nim::ImGuiLayer>());
 
 	nim::Shader shader("assets/shaders/simple.glsl");
 

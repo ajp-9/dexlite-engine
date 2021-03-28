@@ -23,12 +23,12 @@ void nim::DeltaTime::sleep()
 	if (!m_SleepInstead)
 	{
 		auto last = getCurrentTime();
-		while (getCurrentTime() < last + (1000.0f / m_FPS)) {}
+		while (getCurrentTime() < last + (1000.0f / m_FPS) - .25) {}
 	}
 	else
 	{
 		// "- 1" at the end, sleep_for is 1ms off but change for different hardwares
-		std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(((1000.0f / m_FPS) - m_DeltaTime) - 1));
+		std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(((1000.0f / m_FPS) - m_DeltaTime) - 2));
 	}
 }
 

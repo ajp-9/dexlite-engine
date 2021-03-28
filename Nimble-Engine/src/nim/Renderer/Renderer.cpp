@@ -2,6 +2,8 @@
 
 #include <glad/glad.h>
 
+#include "ImGui/ImGuiAPI.hpp"
+
 namespace nim
 {
 	void Renderer::Init(glm::uvec2 viewportDimensions)
@@ -14,9 +16,14 @@ namespace nim
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		glClearColor(.0, .6, 0, 1.0f); // Clear the color buffer
+
+		ImGuiAPI::Init();
 	}
 
-	void Renderer::Shutdown() {}
+	void Renderer::Shutdown() 
+	{
+		ImGuiAPI::Shutdown();
+	}
 
 	void Renderer::update()
 	{

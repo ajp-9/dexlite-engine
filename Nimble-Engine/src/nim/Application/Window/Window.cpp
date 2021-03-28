@@ -28,6 +28,7 @@ namespace nim
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); // allocate 2 buffers
+        //SDL_GL_SetSwapInterval(1); // vsync
 
         m_GLContext = SDL_GL_CreateContext(m_Window);
         if (m_GLContext == NULL)

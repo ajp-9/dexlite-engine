@@ -22,5 +22,6 @@ namespace nim
 		SDL_GLContext m_GLContext;
 
 		friend class NimbleEngine;
+		friend class ImGuiAPI;
 	};
 }

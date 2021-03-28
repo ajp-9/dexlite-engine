@@ -8,8 +8,8 @@ namespace nim
 	{
 		struct KeyEvent : Event
 		{
-			KeyEvent(uint16_t m_type, uint16_t keyCode) 
-                : Event(m_type), m_KeyCode(keyCode) 
+			KeyEvent(uint16_t type, SDL_Event rawEvent, uint16_t keyCode)
+                : Event(type, rawEvent), m_KeyCode(keyCode)
             {}
 
 			uint16_t m_KeyCode;

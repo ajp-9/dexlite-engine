@@ -26,8 +26,8 @@ void TestLayer::render()
 
 void TestLayer::event(std::unique_ptr<nim::event::Event>& e)
 {
-	if(e->m_Type == nim::event::type::MOUSE_MOVE)
+	/*if(e->m_Type == nim::event::type::MOUSE_MOVE)
 		std::cout << (int)e->getSelfSubstruct<nim::event::MouseEvent>().m_MousePosition.x << ", " << (int)e->getSelfSubstruct<nim::event::MouseEvent>().m_MousePosition.y << "\n";
 	nim::event::MouseEvent et = e->getSelfSubstruct<nim::event::MouseEvent>();
-	e->m_Handled = true;
+	e->m_Handled = true;*/
 }

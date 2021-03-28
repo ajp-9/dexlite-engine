@@ -20,8 +20,8 @@ namespace nim
     {
         m_Running = false;
 
-        Renderer::Shutdown();
         m_Program->Shutdown();
+        Renderer::Shutdown();
     }
 
     void NimbleEngine::run()
@@ -36,16 +36,21 @@ namespace nim
 
             Renderer::clear();
 
-            m_LayerManager.sendEvents();
-
             m_Program->update();
             m_Program->render();
+
+            m_LayerManager.sendEvents();
+            m_LayerManager.updateLayers();
+            m_LayerManager.renderLayers();
 
             // Swap buffers when FINISHED rendering
             m_Window.update();
 
             m_DeltaTime.sleep();
             m_DeltaTime.end();
+
+            if (!m_Running)
+                Shutdown();
         }
     }
 
@@ -56,7 +61,7 @@ namespace nim
     bool NimbleEngine::m_Running;
 
     DeltaTime NimbleEngine::m_DeltaTime(60);
-    Window NimbleEngine::m_Window(glm::uvec2(300, 300));
+    Window NimbleEngine::m_Window(glm::uvec2(1280, 720));
     LayerManager NimbleEngine::m_LayerManager;
 
     std::shared_ptr<Program> NimbleEngine::m_Program;
