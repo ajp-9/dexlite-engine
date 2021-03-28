@@ -4,24 +4,19 @@
 #include "SecondLayer.hpp"
 
 #include <nim/Renderer/Shader/Shader.hpp>
-#include <glm/vec3.hpp>
 
 #include <iostream>
 
 #include <nim/Renderer/OpenGL/VertexArray/Buffers/VertexBuffer.hpp>
-#include <nim/Application/Layer/ImGuiLayer.hpp>
-
-#include <glad/glad.h>
+#include "Layers/DebugLayer.hpp"
 
 using nim::NimbleEngine;
 
 void SandBox::Init()
 {
-	
-
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<TestLayer>());
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<SecondLayer>());
-	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<nim::ImGuiLayer>());
+	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
 
 	nim::Shader shader("assets/shaders/simple.glsl");
 
@@ -51,10 +46,10 @@ void SandBox::Shutdown()
 
 void SandBox::update()
 {
-	va.bind();
-	va.render();
 }
 
 void SandBox::render()
 {
+	va.bind();
+	va.render();
 }
