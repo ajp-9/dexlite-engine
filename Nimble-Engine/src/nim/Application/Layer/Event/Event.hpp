@@ -5,7 +5,7 @@
 
 namespace nim
 {
-	namespace event
+	namespace Event
 	{
 		struct Event
 		{
@@ -25,7 +25,7 @@ namespace nim
 			bool m_Handled = false;
 		};
 
-		namespace type
+		namespace Type
 		{
 			enum
 			{

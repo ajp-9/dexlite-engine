@@ -15,7 +15,7 @@ namespace nim
 
 		virtual void update() = 0;
 		virtual void render() = 0;
-		virtual void event(std::unique_ptr<event::Event>& e) = 0;
+		virtual void event(std::unique_ptr<Event::Event>& e) = 0;
 	public:
 		uint m_Index = 0;
 	};

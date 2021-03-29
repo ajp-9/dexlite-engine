@@ -11,6 +11,6 @@ namespace nim
 		virtual void Detach() override;
 		virtual void update() override {}
 		virtual void render() override {}
-		virtual void event(std::unique_ptr<event::Event>& e) override;
+		virtual void event(std::unique_ptr<Event::Event>& e) override;
 	};
 }

@@ -3,7 +3,7 @@
 #include <nim/Nimble.hpp>
 #include <nim/Renderer/OpenGL/VertexArray/VertexArray.hpp>
 #include <nim/Renderer/Camera/OrthographicCamera.hpp>
-#include <nim/Renderer/Shader/Shader.hpp>
+#include <nim/Renderer/Model/Material/Shader/Shader.hpp>
 
 #include "TestLayer.hpp"
 
@@ -27,7 +27,7 @@ public:
 	virtual void render() override;
 
 private:
-	nim::gl::VertexArray<Vertex> va;
+	nim::GL::VertexArray<Vertex> va;
 	nim::OrthographicCamera oCamera = nim::OrthographicCamera(glm::vec4(-0.75f, 0.75f, -0.75f, 0.75f), glm::vec3(0), glm::vec3(0));
 	nim::Shader shader = nim::Shader("assets/shaders/simple.glsl");
 };

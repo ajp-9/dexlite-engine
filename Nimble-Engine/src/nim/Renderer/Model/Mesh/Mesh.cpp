@@ -2,11 +2,13 @@
 
 namespace nim
 {
-	Mesh::Mesh()
+	template <typename V>
+	Mesh<V>::Mesh()
 	{
 	}
 
-	void Mesh::render()
+	template <typename V>
+	void Mesh<V>::render()
 	{
 	}
 }

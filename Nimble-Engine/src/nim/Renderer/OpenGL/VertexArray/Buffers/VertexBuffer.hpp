@@ -9,7 +9,7 @@
 
 namespace nim
 {
-	namespace gl
+	namespace GL
 	{
 		// Template for type of vertex.
 		template <typename V>

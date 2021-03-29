@@ -12,12 +12,12 @@ namespace nim
 
 	void ImGuiLayer::Detach() {}
 
-	void ImGuiLayer::event(std::unique_ptr<event::Event>& e)
+	void ImGuiLayer::event(std::unique_ptr<Event::Event>& e)
 	{
 		ImGui_ImplSDL2_ProcessEvent(&e->m_RawEvent);
-		if (e->m_Type == event::type::KEYBOARD || e->m_Type == event::type::KEY_DOWN || e->m_Type == event::type::KEY_UP)
+		if (e->m_Type == Event::Type::KEYBOARD || e->m_Type == Event::Type::KEY_DOWN || e->m_Type == Event::Type::KEY_UP)
 			e->m_Handled = ImGui::GetIO().WantCaptureKeyboard;
-		if (e->m_Type == event::type::MOUSE_MOVE || e->m_Type == event::type::MOUSE_DOWN || e->m_Type == event::type::MOUSE_UP || e->m_Type == event::type::MOUSE_SCROLL)
+		if (e->m_Type == Event::Type::MOUSE_MOVE || e->m_Type == Event::Type::MOUSE_DOWN || e->m_Type == Event::Type::MOUSE_UP || e->m_Type == Event::Type::MOUSE_SCROLL)
 			e->m_Handled = ImGui::GetIO().WantCaptureMouse;
 	}
 }

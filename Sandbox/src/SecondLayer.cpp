@@ -17,7 +17,7 @@ void SecondLayer::render()
 {
 }
 
-void SecondLayer::event(std::unique_ptr<nim::event::Event>& e)
+void SecondLayer::event(std::unique_ptr<nim::Event::Event>& e)
 {
 	//std::cout << "second\n";
 

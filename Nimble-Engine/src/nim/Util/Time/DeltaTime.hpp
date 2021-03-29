@@ -17,6 +17,8 @@ namespace nim
 	public:
 		double getDeltaTime();
 		double getFPS();
+
+		operator float() const { return (float)m_LastTimeDuration_ms; }
 	private:
 		double getCurrentTime();
 	private:

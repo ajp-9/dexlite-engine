@@ -5,7 +5,7 @@
 
 namespace nim
 {
-	namespace gl
+	namespace GL
 	{
 		IndexBuffer::IndexBuffer()
 		{

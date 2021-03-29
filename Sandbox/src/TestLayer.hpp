@@ -10,5 +10,5 @@ class TestLayer : public nim::Layer
 
 	virtual void update() override;
 	virtual void render() override;
-	virtual void event(std::unique_ptr<nim::event::Event>& e) override;
+	virtual void event(std::unique_ptr<nim::Event::Event>& e) override;
 };

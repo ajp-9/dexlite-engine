@@ -11,6 +11,6 @@ namespace nim
 	class EventManager
 	{
 	public:
-		static std::vector<std::unique_ptr<event::Event>> getEventQueue();
+		static std::vector<std::unique_ptr<Event::Event>> getEventQueue();
 	};
 }

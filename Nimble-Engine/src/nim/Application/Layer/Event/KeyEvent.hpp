@@ -4,7 +4,7 @@
 
 namespace nim
 {
-	namespace event
+	namespace Event
 	{
 		struct KeyEvent : Event
 		{
@@ -16,7 +16,7 @@ namespace nim
 		};
 
         // These values are from usage page 0x07 (USB keyboard page).
-        namespace key
+        namespace Key
         {
             enum
             {

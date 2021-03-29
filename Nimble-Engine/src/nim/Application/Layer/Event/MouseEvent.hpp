@@ -6,7 +6,7 @@
 
 namespace nim
 {
-	namespace event
+	namespace Event
 	{
 		struct MouseEvent : Event
 		{
@@ -27,7 +27,7 @@ namespace nim
 			int8_t m_ScrollAmount;
 		};
 
-		namespace mouse
+		namespace Mouse
 		{
 			enum
 			{

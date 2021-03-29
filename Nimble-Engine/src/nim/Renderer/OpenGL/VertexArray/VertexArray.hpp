@@ -6,7 +6,7 @@
 
 namespace nim
 {
-	namespace gl
+	namespace GL
 	{
 		template <typename V>
 		class VertexArray

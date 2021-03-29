@@ -2,7 +2,7 @@
 
 namespace nim
 {
-	namespace gl
+	namespace GL
 	{
 		Framebuffer::Framebuffer()
 		{
