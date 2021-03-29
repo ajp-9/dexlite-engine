@@ -2,7 +2,7 @@
 
 namespace nim
 {
-	namespace component
+	namespace Component
 	{
 		struct Renderable
 		{

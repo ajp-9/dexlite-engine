@@ -1,13 +1,10 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/quaternion.hpp>
 
 namespace nim
 {
-	namespace component
+	namespace Component
 	{
 		struct Transform
 		{
@@ -18,12 +15,7 @@ namespace nim
 				: m_Transformation(1.0f), m_Translation(translation), m_Rotation(rotation), m_Scale(scale)
 			{}
 
-			void calculateTransformation()
-			{
-				m_Transformation = glm::translate(glm::mat4(1.0f), m_Translation) *
-								   glm::toMat4(glm::quat(m_Rotation)) *
-								   glm::scale(glm::mat4(1.0f), m_Scale);
-			}
+			void calculateTransformation();
 
 			glm::mat4 m_Transformation;
 
