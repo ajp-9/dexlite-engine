@@ -6,7 +6,7 @@
 namespace nim
 {
 	OrthographicCamera::OrthographicCamera(glm::vec4 bounds, glm::vec3 position, glm::vec3 rotation)
-		: m_ProjectionMatrix(glm::ortho(bounds.x, bounds.y, bounds.z, bounds.w, -1.0f, 1.0f)), m_ViewMatrix(1.0f), m_Position(position), m_Rotation(rotation)
+		: Camera(glm::ortho(bounds.x, bounds.y, bounds.z, bounds.w, -1.0f, 1.0f), glm::mat4(1.0f), position, rotation)
 	{
 		m_ProjectionViewMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
