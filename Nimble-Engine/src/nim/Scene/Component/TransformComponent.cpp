@@ -11,7 +11,7 @@ namespace nim
 		void Transform::calculateTransformation()
 		{
 			m_Transformation = 
-				glm::translate(glm::mat4(1.0f), m_Translation) *
+				glm::translate(glm::mat4(1.0f), m_Position) *
 				glm::toMat4(glm::quat(glm::radians(m_Rotation))) *
 				glm::scale(glm::mat4(1.0f), m_Scale);
 		}

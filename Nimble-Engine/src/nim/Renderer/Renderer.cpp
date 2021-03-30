@@ -15,7 +15,7 @@ namespace nim
 
 		//glEnable(GL_CULL_FACE);
 		//glCullFace(GL_BACK);
-		glClearColor(.0, .6, 0, 1.0f); // Clear the color buffer
+		glClearColor(.1, .1, .1, 1.0f); // Clear the color buffer
 
 		ImGuiAPI::Init();
 	}
@@ -30,11 +30,16 @@ namespace nim
 		ImGuiAPI::beginFrame();
 	}
 
-	void Renderer::update() {}
-
 	void Renderer::endFrame()
 	{
 		ImGuiAPI::endFrame();
+	}
+
+	void Renderer::update() {}
+
+	void Renderer::renderScene(Scene& scene)
+	{
+		scene.doRender();
 	}
 
 	void Renderer::trySetViewport(glm::uvec4 viewport)

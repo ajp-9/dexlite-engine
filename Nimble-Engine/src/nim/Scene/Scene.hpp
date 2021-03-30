@@ -19,11 +19,10 @@ namespace nim
 		void doPhysics();
 		void doRender();
 		template <typename T>
-		void doCustumUpdate();
+		void doCustumUpdate() {}
 	private:
 		entt::registry m_Registry;
 
-		friend Entity;
+		friend class Entity;
 	};
-
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/vec4.hpp>
+#include "../Scene/Scene.hpp"
 
 namespace nim
 {
@@ -10,8 +11,10 @@ namespace nim
 		static void Shutdown();
 
 		static void beginFrame();
-		static void update();
 		static void endFrame();
+
+		static void update();
+		static void renderScene(Scene& scene);
 
 		static void trySetViewport(glm::uvec4 viewport);
 

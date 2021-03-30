@@ -4,10 +4,11 @@
 
 namespace nim
 {
-	class OrthographicCamera
+	class PerspectiveCamera
 	{
 	public:
-		OrthographicCamera(glm::vec4 bounds, glm::vec3 position, glm::vec3 rotation);
+		// Bounds are: near and far.
+		PerspectiveCamera(float fov, glm::uvec2 screenDimensions, glm::vec2 bounds, glm::vec3 position = glm::vec3(0), glm::vec3 rotation = glm::vec3(0));
 
 		void setPosition(const glm::vec3& position) { m_Position = position; calculateViewMatrix(); }
 		void setRotation(const glm::vec3& rotation) { m_Rotation = rotation; calculateViewMatrix(); }
@@ -29,5 +30,7 @@ namespace nim
 
 		glm::vec3 m_Position;
 		glm::vec3 m_Rotation;
+
+		float fov = 90;
 	};
 }

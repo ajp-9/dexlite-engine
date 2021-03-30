@@ -30,16 +30,10 @@ namespace nim
 
     void Scene::doRender()
     {
-        auto& view = m_Registry.view<component::Renderable>();
+        auto& view = m_Registry.view<Component::Renderable>();
         for (auto& entity : view)
         {
-            m_Registry.get<component::Renderable>(entity).render();
+            m_Registry.get<Component::Renderable>(entity).render();
         }
-    }
-
-    template<typename T>
-    inline void Scene::doCustumUpdate()
-    {
-
     }
 }
