@@ -33,6 +33,7 @@ namespace nim
 				KEYBOARD,
 				KEY_DOWN,
 				KEY_UP,
+				TEXT_INPUT,
 				MOUSE_MOVE,
 				MOUSE_DOWN,
 				MOUSE_UP,

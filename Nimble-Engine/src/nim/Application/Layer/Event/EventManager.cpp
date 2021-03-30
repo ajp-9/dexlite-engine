@@ -1,6 +1,7 @@
 #include "EventManager.hpp"
 
 #include <SDL2/SDL.h>
+#include <imgui/imgui_impl_sdl.h>
 
 #include "../../../Core/NimbleEngine.hpp"
 #include "KeyEvent.hpp"
@@ -27,6 +28,9 @@ namespace nim
 				break;
 			case SDL_KEYUP:
 				events.emplace_back(std::make_unique<Event::KeyEvent>(Event::Type::KEY_UP, evt, evt.key.keysym.scancode));
+				break;
+			case SDL_TEXTINPUT:
+				ImGui_ImplSDL2_ProcessEvent(&evt);
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				events.emplace_back(std::make_unique<Event::MouseEvent>(Event::Type::MOUSE_DOWN, evt, evt.button.button, glm::vec2(evt.button.x, evt.button.y)));

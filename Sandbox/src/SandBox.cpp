@@ -102,6 +102,9 @@ void SandBox::render()
 	ImGui::SliderFloat("Position Y", &posY, -20, maxPos);
 	ImGui::SliderFloat("Position Z", &posZ, -20, maxPos);
 
+	static char buf[50];
+	ImGui::InputText("Text Input", buf, 50);
+
 	nim::Component::Transform trans;
 
 	trans.setPosition(glm::vec3(posX, posY, posZ));
