@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#include <nim/Renderer/OpenGL/VertexArray/Buffers/VertexBuffer.hpp>
+#include <nim/Renderer/VertexArray/Buffers/VertexBuffer.hpp>
 #include <nim/Scene/Component/TransformComponent.hpp>
 #include "Layers/DebugLayer.hpp"
 #include <imgui/imgui.h>

@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Vertex.hpp"
-#include "../../OpenGL/VertexArray/VertexArray.hpp"
+#include "../../VertexArray/VertexArray.hpp"
 #include "../Material/Material.hpp"
 
 namespace nim

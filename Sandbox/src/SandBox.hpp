@@ -1,7 +1,7 @@
 #pragma once
 
 #include <nim/Nimble.hpp>
-#include <nim/Renderer/OpenGL/VertexArray/VertexArray.hpp>
+#include <nim/Renderer/VertexArray/VertexArray.hpp>
 #include <nim/Renderer/Camera/OrthographicCamera.hpp>
 #include <nim/Renderer/Camera/PerspectiveCamera.hpp>
 #include <nim/Renderer/Model/Material/Shader/Shader.hpp>
