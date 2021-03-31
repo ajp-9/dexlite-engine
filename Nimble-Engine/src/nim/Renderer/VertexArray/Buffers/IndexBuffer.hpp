@@ -10,7 +10,7 @@ namespace nim
 	public:
 		IndexBuffer();
 
-		void uploadData(std::vector<unsigned int>& indices);
+		void uploadData(const std::vector<uint32_t>& indices);
 
 		void bind();
 		void unbind();

@@ -17,8 +17,7 @@ namespace nim
 	public:
 		VertexBuffer();
 
-		template <typename T>
-		void uploadData(std::vector<T>& vertices);
+		void uploadData(const std::vector<V>& vertices);
 
 		void bind();
 		void unbind();
@@ -61,11 +60,10 @@ namespace nim
 	}
 
 	template <typename V>
-	template <typename T>
-	void VertexBuffer<V>::uploadData(std::vector<T>& vertices)
+	void VertexBuffer<V>::uploadData(const std::vector<V>& vertices)
 	{
 		bind();
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(T), &vertices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(V), &vertices[0], GL_STATIC_DRAW);
 	}
 
 	template <typename V>

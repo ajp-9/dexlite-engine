@@ -4,8 +4,8 @@ namespace nim
 {
 	namespace Component
 	{
-		Model::Model(const std::weak_ptr<Shader>& shader)
-			: m_Material(shader)
+		Model::Model(Mesh<Vertex> mesh, const std::weak_ptr<Shader>& shader)
+			: m_Mesh(mesh), m_Material(shader)
 		{
 		}
 

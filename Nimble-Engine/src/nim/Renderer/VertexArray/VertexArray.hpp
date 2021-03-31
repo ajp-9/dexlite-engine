@@ -18,9 +18,6 @@ namespace nim
 
 		void bind();
 		void unbind();
-
-		//void addVertexBuffer(const VertexBuffer& buffer);
-		void setIndexBuffer(const IndexBuffer& buffer);
 	public:
 		VertexBuffer<V> m_VertexBuffers;
 		IndexBuffer m_IndexBuffer;
@@ -68,12 +65,4 @@ namespace nim
 	{
 		glBindVertexArray(0);
 	}
-
-	template <typename V>
-	void VertexArray<V>::setIndexBuffer(const IndexBuffer& buffer)
-	{
-		bind();
-		m_IndexBuffer = buffer;
-	}
-	
 }

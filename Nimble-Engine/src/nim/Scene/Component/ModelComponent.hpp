@@ -10,7 +10,7 @@ namespace nim
 		struct Model
 		{
 		public:
-			Model(const std::weak_ptr<Shader>& shader);
+			Model(Mesh<Vertex> mesh, const std::weak_ptr<Shader>& shader);
 
 			void render();
 

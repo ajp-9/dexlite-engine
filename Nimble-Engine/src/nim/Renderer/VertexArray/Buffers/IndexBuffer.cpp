@@ -11,7 +11,7 @@ namespace nim
 		glGenBuffers(1, &m_ID);
 	}
 
-	void IndexBuffer::uploadData(std::vector<unsigned int>& indices)
+	void IndexBuffer::uploadData(const std::vector<uint32_t>& indices)
 	{
 		bind();
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);

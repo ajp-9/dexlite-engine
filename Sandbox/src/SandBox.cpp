@@ -24,17 +24,7 @@ void SandBox::Init()
 	shader->bind();
 	shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
 
-	m_Entity = m_Scene.createEntity();
-
-	m_Entity.addComponent<nim::Component::Model>(shader);
-	//m_Entity.addComponent<nim::Component::Transform>();
-
-	//shader->setModelMatrix(m_Entity.getComponent<nim::Component::Transform>());
-
-	va.bind();
-	va.m_VertexBuffers.setVertexLayout<VERTEX_LAYOUT>();
-
-	std::vector<Vertex> vertices =
+	std::vector<nim::Vertex> vertices =
 	{	
 		{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0, .2, 0)},
 	    {glm::vec3( 0.5f, -0.5f, 0.0f), glm::vec3(0, 0, 0)},
@@ -42,11 +32,12 @@ void SandBox::Init()
 		{glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec3(0, 0, 0)}
 	};
 
-	va.m_VertexBuffers.uploadData(vertices);
-
 	std::vector<unsigned> indices = { 0, 1, 2, 2, 3, 0 };
 
-	va.m_IndexBuffer.uploadData(indices);
+	m_Entity = m_Scene.createEntity();
+
+	m_Entity.addComponent<nim::Component::Model>(nim::Mesh(vertices, indices), shader);
+	m_Entity.addComponent<nim::Component::Transform>();
 }
 
 void SandBox::Shutdown()
@@ -60,7 +51,8 @@ void SandBox::update()
 
 void SandBox::render()
 {
-	va.render();
+	//va.render();
+	m_Scene.render();
 
 	ImGui::Begin("Test Window");
 
