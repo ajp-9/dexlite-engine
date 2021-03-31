@@ -8,13 +8,8 @@ namespace nim
 	{
 		struct Transform
 		{
-			Transform()
-				: m_Transformation(1.0f), m_Position(0), m_Rotation(0), m_Scale(1.0f)
-			{
-				calculateTransformation();
-			}
-			Transform(glm::vec3 position, glm::vec3 rotation = glm::vec3(0), glm::vec3 scale = glm::vec3(1.0f))
-				: m_Transformation(1.0f), m_Position(position), m_Rotation(rotation), m_Scale(scale)
+			Transform(glm::vec3 position = glm::vec3(0), glm::vec3 rotation = glm::vec3(0), glm::vec3 scale = glm::vec3(1.0f))
+				: m_TransformationMatrix(1.0f), m_Position(position), m_Rotation(rotation), m_Scale(scale)
 			{
 				calculateTransformation();
 			}
@@ -29,9 +24,9 @@ namespace nim
 
 			void calculateTransformation();
 
-			operator const glm::mat4() const { return m_Transformation; }
+			operator const glm::mat4() const { return m_TransformationMatrix; }
 		private:
-			glm::mat4 m_Transformation;
+			glm::mat4 m_TransformationMatrix;
 
 			glm::vec3 m_Position;
 			glm::vec3 m_Rotation;

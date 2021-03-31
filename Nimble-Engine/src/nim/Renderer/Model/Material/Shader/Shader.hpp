@@ -36,6 +36,7 @@ namespace nim
 		void checkShaderErrors(unsigned int shader, std::string type);
 	private:
 		uint32_t m_ProgramID = 0;
+		uint8_t m_Type = 0;
 
 		uint32_t u_ProjectionViewMatrix_Location = 0;
 		uint32_t u_ModelMatrix_Location = 0;

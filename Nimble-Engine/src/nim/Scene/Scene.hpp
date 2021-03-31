@@ -15,9 +15,9 @@ namespace nim
 		Entity createEntity();
 		void destroyEntity(Entity entity);
 
-		void doUpdate();
-		void doPhysics();
-		void doRender();
+		void update();
+		void physics();
+		void render();
 		template <typename T>
 		void doCustumUpdate() {}
 	private:

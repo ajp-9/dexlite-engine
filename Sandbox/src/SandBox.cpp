@@ -4,34 +4,19 @@
 #include "SecondLayer.hpp"
 
 #include <entt.hpp>
-#include <functional>
 
 #include <iostream>
 
 #include <nim/Renderer/OpenGL/VertexArray/Buffers/VertexBuffer.hpp>
-#include <nim/Scene/Scene.hpp>
-#include <nim/Scene/Entity/Entity.hpp>
 #include <nim/Scene/Component/TransformComponent.hpp>
 #include "Layers/DebugLayer.hpp"
 #include <imgui/imgui.h>
+#include <nim/Scene/Component/ModelComponent.hpp>
 
 using nim::NimbleEngine;
 
-void printBool(bool i)
-{
-	std::cout << i << std::endl;
-}
-
 void SandBox::Init()
 {
-	struct component1
-	{
-		component1(int a)
-			: A(a) {}
-		int A = 0;
-	};
-
-
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<TestLayer>());
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<SecondLayer>());
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
@@ -39,10 +24,13 @@ void SandBox::Init()
 	shader.bind();
 	shader.setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
 
-	nim::Component::Transform transform;
 
-	shader.setModelMatrix(glm::mat4(1.0f));
 
+	m_Entity = m_Scene.createEntity();
+	m_Entity.addComponent<nim::Component::Model>();
+	m_Entity.addComponent<nim::Component::Transform>();
+
+	shader.setModelMatrix(m_Entity.getComponent<nim::Component::Transform>());
 
 
 

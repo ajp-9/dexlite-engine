@@ -15,5 +15,6 @@ namespace nim
 
 	void Texture::bind()
 	{
+		glBindTexture(GL_TEXTURE, m_ID);
 	}
 }

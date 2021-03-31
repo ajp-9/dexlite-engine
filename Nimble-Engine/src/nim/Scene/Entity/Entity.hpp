@@ -3,7 +3,6 @@
 #include <iostream>
 
 #include "../Scene.hpp"
-#include "../Component/RenderableComponent.h"
 
 namespace nim
 {
@@ -23,8 +22,10 @@ namespace nim
 			}
 			else
 			{
-				std::cout << "Entity already has component!\n";
+				std::cout << "WARNING: Entity already has that component!\n";
 			}
+
+			static T t; return t;
 		}
 
 		template <typename T>

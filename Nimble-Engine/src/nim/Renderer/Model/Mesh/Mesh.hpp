@@ -9,14 +9,27 @@
 namespace nim
 {
 	template <typename V>
-	struct Mesh
+	class Mesh
 	{
-		Mesh();
-		void render();
+	public:
+		Mesh(const Material& material)
+			: m_Material(material)
+		{
+		}
 
-		Material material;
+		void render()
+		{
+			m_VertexArray.render();
+		}
 
+		std::weak_ptr<Shader>& getShader()
+		{
+			return m_Material.m_Shader;
+		}
+	private:
 		std::vector<V> m_Vertices;
 		GL::VertexArray<V> m_VertexArray;
+
+		Material m_Material;
 	};
 }

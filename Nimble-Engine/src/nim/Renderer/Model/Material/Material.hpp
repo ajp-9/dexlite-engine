@@ -8,11 +8,11 @@ namespace nim
 {
 	struct Material
 	{
-		Material(const glm::vec4& albedo)
-			: m_Albedo(albedo)
+		Material(const glm::vec4& albedo, const std::weak_ptr<Shader>& shader)
+			: m_Albedo(albedo), m_Shader(shader)
 		{}
 
 		glm::vec4 m_Albedo;
-		std::shared_ptr<Shader> shader = nullptr;
+		std::weak_ptr<Shader> m_Shader;
 	};
 }

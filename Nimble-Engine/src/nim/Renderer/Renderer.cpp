@@ -39,7 +39,7 @@ namespace nim
 
 	void Renderer::renderScene(Scene& scene)
 	{
-		scene.doRender();
+		scene.render();
 	}
 
 	void Renderer::trySetViewport(glm::uvec4 viewport)

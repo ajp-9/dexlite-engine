@@ -5,6 +5,8 @@
 #include <nim/Renderer/Camera/OrthographicCamera.hpp>
 #include <nim/Renderer/Camera/PerspectiveCamera.hpp>
 #include <nim/Renderer/Model/Material/Shader/Shader.hpp>
+#include <nim/Scene/Scene.hpp>
+#include <nim/Scene/Entity/Entity.hpp>
 
 #include "TestLayer.hpp"
 
@@ -32,6 +34,8 @@ private:
 	//nim::OrthographicCamera oCamera = nim::OrthographicCamera(glm::vec4(-0.75f, 0.75f, -0.75f, 0.75f), glm::vec3(0), glm::vec3(0));
 	nim::PerspectiveCamera pCamera = nim::PerspectiveCamera(80, nim::NimbleEngine::m_Window.getDimensions(), glm::vec2(.1, 100));
 	nim::Shader shader = nim::Shader("assets/shaders/simple.glsl");
+	nim::Scene m_Scene;
+	nim::Entity m_Entity;
 };
 
 NIMBLE_DEFINE_MAIN(SandBox);

@@ -1,7 +1,8 @@
 #include "Scene.hpp"
 
-#include "Component/RenderableComponent.h"
 #include "Entity/Entity.hpp"
+#include "Component/ModelComponent.hpp"
+#include "Component/TransformComponent.hpp"
 
 namespace nim
 {
@@ -19,21 +20,33 @@ namespace nim
         m_Registry.destroy(entity);
     }
 
-    void Scene::doUpdate()
+    void Scene::update()
     {
         
     }
 
-    void Scene::doPhysics()
+    void Scene::physics()
     {
     }
 
-    void Scene::doRender()
+    void Scene::render()
     {
-        auto& view = m_Registry.view<Component::Renderable>();
-        for (auto& entity : view)
+        auto& view = m_Registry.view<Component::Model, Component::Transform>();
+
+        for (auto& eID : view)
         {
-            m_Registry.get<Component::Renderable>(entity).render();
+            Component::Model model = m_Registry.get<Component::Model>(eID);
+            Component::Transform transform = m_Registry.get<Component::Transform>(eID);
+
+            auto& shaders = model.getShaders();
+
+            for (auto& s : shaders)
+            {
+                s.lock()->bind();
+                s.lock()->setModelMatrix(transform);
+            }
+
+            m_Registry.get<Component::Model>(eID).render();
         }
     }
 }
