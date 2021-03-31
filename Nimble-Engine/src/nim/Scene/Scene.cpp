@@ -36,17 +36,11 @@ namespace nim
         for (auto& eID : view)
         {
             Component::Model model = m_Registry.get<Component::Model>(eID);
-            Component::Transform transform = m_Registry.get<Component::Transform>(eID);
 
-            auto& shaders = model.getShaders();
+            model.m_Shader.lock()->bind();
+            model.m_Shader.lock()->setModelMatrix(m_Registry.get<Component::Transform>(eID));
 
-            for (auto& s : shaders)
-            {
-                s.lock()->bind();
-                s.lock()->setModelMatrix(transform);
-            }
-
-            m_Registry.get<Component::Model>(eID).render();
+            model.render();
         }
     }
 }

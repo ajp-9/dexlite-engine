@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Shader.hpp"
 #include <memory>
+#include <vector>
+
+#include "Shader.hpp"
 
 namespace nim
 {
@@ -10,7 +12,11 @@ namespace nim
 	public:
 		ShaderManager();
 
+		void addShader(const std::shared_ptr<Shader>& shader);
+		void removeShader();
+
+		void setUBO();
 	private:
-		std::shared_ptr<Shader> m_Shaders;
+		std::vector<std::shared_ptr<Shader>> m_Shaders;
 	};
 }

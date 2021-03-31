@@ -23,7 +23,6 @@ namespace nim
 	private:
 		entt::registry m_Registry;
 
-
 		friend class Entity;
 	};
 }
