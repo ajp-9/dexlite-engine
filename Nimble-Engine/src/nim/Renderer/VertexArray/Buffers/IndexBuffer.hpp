@@ -5,22 +5,19 @@
 
 namespace nim
 {
-	namespace GL
+	class IndexBuffer
 	{
-		class IndexBuffer
-		{
-		public:
-			IndexBuffer();
+	public:
+		IndexBuffer();
 
-			void uploadData(std::vector<unsigned int>& indices);
+		void uploadData(std::vector<unsigned int>& indices);
 
-			void bind();
-			void unbind();
+		void bind();
+		void unbind();
 
-			uint32_t getCount() const { return m_Count; }
-		private:
-			uint32_t m_ID = 0;
-			uint32_t m_Count = 0;
-		};
-	}
+		uint32_t getCount() const { return m_Count; }
+	private:
+		uint32_t m_ID = 0;
+		uint32_t m_Count = 0;
+	};
 }

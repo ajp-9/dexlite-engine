@@ -21,19 +21,17 @@ void SandBox::Init()
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<SecondLayer>());
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
 
-	shader.bind();
-	shader.setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
-
-
+	shader->bind();
+	shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
 
 	m_Entity = m_Scene.createEntity();
-	m_Entity.addComponent<nim::Component::Model>();
-	m_Entity.addComponent<nim::Component::Transform>();
 
-	shader.setModelMatrix(m_Entity.getComponent<nim::Component::Transform>());
+	m_Entity.addComponent<nim::Component::Model>(shader);
+	//m_Entity.addComponent<nim::Component::Transform>();
 
+	//shader->setModelMatrix(m_Entity.getComponent<nim::Component::Transform>());
 
-
+	va.bind();
 	va.m_VertexBuffers.setVertexLayout<VERTEX_LAYOUT>();
 
 	std::vector<Vertex> vertices =
@@ -49,8 +47,6 @@ void SandBox::Init()
 	std::vector<unsigned> indices = { 0, 1, 2, 2, 3, 0 };
 
 	va.m_IndexBuffer.uploadData(indices);
-
-	va.unbind();
 }
 
 void SandBox::Shutdown()
@@ -64,7 +60,6 @@ void SandBox::update()
 
 void SandBox::render()
 {
-	va.bind();
 	va.render();
 
 	ImGui::Begin("Test Window");
@@ -75,7 +70,7 @@ void SandBox::render()
 
 	static float posX = 0.0f;
 	static float posY = 0.0f;
-	static float posZ = -1.0f;
+	static float posZ = 1.0f;
 
 	static const float maxRot = 360;
 	static const float maxPos = 20;
@@ -97,7 +92,7 @@ void SandBox::render()
 
 	trans.setPosition(glm::vec3(posX, posY, posZ));
 	trans.setRotation(glm::vec3(rotX, rotY, rotZ));
-	shader.setModelMatrix(trans);
+	shader->setModelMatrix(trans);
 
 	ImGui::End();
 }

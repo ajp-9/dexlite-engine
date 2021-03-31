@@ -2,17 +2,15 @@
 
 namespace nim
 {
-	namespace GL
+	class Framebuffer
 	{
-		class Framebuffer
-		{
-			Framebuffer();
-			~Framebuffer();
+		Framebuffer();
+		~Framebuffer();
 
-			void bind();
-			void unbind();
+		void bind();
+		void unbind();
 
-			void resize();
-		};
-	}
+		void resize();
+	};
+	
 }
