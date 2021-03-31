@@ -1,8 +1,8 @@
 #pragma once
 
 #include <memory>
-#include "Shader/Shader.hpp"
-#include "Texture/Texture.hpp"
+#include "../Shader/Shader.hpp"
+#include "../Texture/Texture.hpp"
 
 namespace nim
 {

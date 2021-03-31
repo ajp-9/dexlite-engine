@@ -4,7 +4,7 @@
 #include <nim/Renderer/VertexArray/VertexArray.hpp>
 #include <nim/Renderer/Camera/OrthographicCamera.hpp>
 #include <nim/Renderer/Camera/PerspectiveCamera.hpp>
-#include <nim/Renderer/Mesh/Material/Shader/Shader.hpp>
+#include <nim/Renderer/Shader/Shader.hpp>
 #include <nim/Scene/Scene.hpp>
 #include <nim/Scene/Entity/Entity.hpp>
 

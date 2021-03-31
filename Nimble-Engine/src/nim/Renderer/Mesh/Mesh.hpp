@@ -4,7 +4,7 @@
 
 #include "Vertex.hpp"
 #include "../VertexArray/VertexArray.hpp"
-#include "Material/Material.hpp"
+#include "Material.hpp"
 
 namespace nim
 {
