@@ -4,39 +4,15 @@ namespace nim
 {
 	namespace Component
 	{
-		Model::Model()
+		Model::Model(const std::weak_ptr<Shader>& shader)
+			: m_Material(shader)
 		{
 		}
 
 		void Model::render()
 		{
-			for (auto& m : m_Meshes)
-			{
-				m.render();
-			}
-		}
-
-		void Model::addMesh()
-		{
-
-			updateShaders();
-		}
-
-		void Model::updateShaders()
-		{
-			std::vector<std::weak_ptr<Shader>> shaders;
-
-			for (auto& m : m_Meshes)
-			{
-				shaders.emplace_back(m.getShader());
-			}
-
-			m_Shaders = shaders;
-		}
-
-		std::vector<std::weak_ptr<Shader>>& Model::getShaders()
-		{
-			return m_Shaders;
+			m_Material.setUniforms();
+			m_Mesh.render();
 		}
 	}
 }

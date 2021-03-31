@@ -15,17 +15,9 @@ namespace nim
 		template<typename T, typename... Args>
 		inline T& addComponent(Args&&... args)
 		{
-			if (!hasComponent<T>())
-			{
-				if (m_Scene != nullptr)
-					return m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<Args>(args)...);
-			}
-			else
-			{
-				std::cout << "WARNING: Entity already has that component!\n";
-			}
+			if (hasComponent<T>()) std::cout << "WARNING: Entity already has that component!\n";
 
-			static T t; return t;
+			return m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<Args>(args)...);
 		}
 
 		template <typename T>

@@ -7,19 +7,15 @@ namespace nim
 {
 	namespace Component
 	{
-		// Add <> at tne end to specifiy no paramaters
 		struct Model
 		{
 		public:
-			Model();
+			Model(const std::weak_ptr<Shader>& shader);
 
 			void render();
 
-			void addMesh();
-			void updateShaders();
-
-			std::vector<Mesh<Vertex>> m_Meshes;
-			std::weak_ptr<Shader> m_Shader;
+			Mesh<Vertex> m_Mesh;
+			Material m_Material;
 		};
 	}
 }
