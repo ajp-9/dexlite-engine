@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Renderer/Model/Mesh/Mesh.hpp"
+#include "../../Renderer/Mesh/Mesh.hpp"
 #include "../Entity/Entity.hpp"
 
 namespace nim
