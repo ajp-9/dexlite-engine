@@ -13,6 +13,11 @@
 #include <imgui/imgui.h>
 #include <nim/Scene/Component/ModelComponent.hpp>
 
+enum class t
+{
+	w = 3
+};
+
 using nim::NimbleEngine;
 
 void SandBox::Init()
@@ -26,15 +31,16 @@ void SandBox::Init()
 
 	std::vector<nim::Vertex> vertices =
 	{	
-		{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0, .2, 0)},
-	    {glm::vec3( 0.5f, -0.5f, 0.0f), glm::vec3(0, 0, 0)},
-	    {glm::vec3( 0.5f,  0.5f, 0.0f), glm::vec3(0, .2, 0)},
-		{glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec3(0, 0, 0)}
+		{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0, .2, 0), glm::vec2(0, 0),},
+	    {glm::vec3( 0.5f, -0.5f, 0.0f), glm::vec3(0, 0, 0) , glm::vec2(0, 0),},
+	    {glm::vec3( 0.5f,  0.5f, 0.0f), glm::vec3(0, .2, 0), glm::vec2(0, 0),},
+		{glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec3(0, 0, 0) , glm::vec2(0, 0)}
 	};
 
 	std::vector<unsigned> indices = { 0, 1, 2, 2, 3, 0 };
 
 	m_Entity = m_Scene.createEntity();
+	std::cout << ((int)t::w >> 4);
 
 	m_Entity.addComponent<nim::Component::Model>(nim::Mesh(vertices, indices), shader);
 	m_Entity.addComponent<nim::Component::Transform>();

@@ -9,9 +9,9 @@ namespace nim
 	public:
 		Camera(
 			const glm::mat4& projectionMatrix,
-			const glm::mat4& viewMatrix = glm::mat4(1.0f),
-			const glm::vec3& position = glm::vec3(0.0f),
-			const glm::vec3& rotation = glm::vec3(0.0f))
+			const glm::mat4& viewMatrix,
+			const glm::vec3& position,
+			const glm::vec3& rotation)
 			: m_ProjectionMatrix(projectionMatrix), m_ViewMatrix(viewMatrix), m_Position(position), m_Rotation(rotation)
 		{}
 
