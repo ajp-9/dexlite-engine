@@ -18,7 +18,7 @@ namespace nim
 		{
 			m_VertexArray.bind();
 
-			m_VertexArray.m_VertexBuffers.setVertexLayout<NIM_VERTEX_LAYOUT>();
+			m_VertexArray.m_VertexBuffers.setVertexLayout<nim::Vertex>({ Data::Type::VEC3, Data::Type::VEC3, Data::Type::VEC2 });
 			m_VertexArray.m_VertexBuffers.uploadData(m_Vertices);
 
 			m_VertexArray.m_IndexBuffer.uploadData(m_Indices);
@@ -31,6 +31,6 @@ namespace nim
 	private:
 		std::vector<V> m_Vertices;
 		std::vector<uint32_t> m_Indices;
-		VertexArray<V> m_VertexArray;
+		VertexArray m_VertexArray;
 	};
 }

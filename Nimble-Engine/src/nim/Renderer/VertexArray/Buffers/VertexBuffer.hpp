@@ -1,151 +1,87 @@
 #pragma once
 
-#include <vector>
-#include <iostream>
 #include <glad/glad.h>
-#include <glm/vec3.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec4.hpp>
+#include <vector>
+
+#include "../DataTypes.hpp"
 
 namespace nim
 {
-	// BEFORE you do ANYTHING, bind the VAO!
-	// Template for type of vertex.
-	template <typename V>
+	enum class BufferDrawHint : uint32_t
+	{
+		STATIC = GL_STATIC_DRAW,
+		DYNAMIC = GL_DYNAMIC_DRAW
+	};
+
+	// BEFORE you do ANYTHING, bind the Array (Parent)!
 	class VertexBuffer
 	{
 	public:
 		VertexBuffer();
 
-		void uploadData(const std::vector<V>& vertices);
-
+		template <typename V>
+		void uploadData(const std::vector<V>& vertices, const BufferDrawHint drawHint = BufferDrawHint::STATIC);
+		
 		void bind();
 		void unbind();
 
-		// Specify the layout of each vertex with templates.
-		template <typename ...Ts> 
-		void setVertexLayout();
-	private:
-		template <typename T>
-		inline void addLocation();
+		template <typename V>
+		void setVertexLayout(const std::vector<Data::Type>& types);
 	private:
 		uint32_t m_ID = 0;
-		uint8_t m_LayoutSize = 0;
-		uint8_t m_CurrentOffset = 0;
 	};
 
-	namespace bufferType
+	/*
+	*  IMPLEMENTATION
+	*/
+
+	template<typename V>
+	inline void VertexBuffer::uploadData(const std::vector<V>& vertices, const BufferDrawHint drawHint)
 	{
-		enum
+		bind();
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(V), &vertices[0], uint32_t(drawHint));
+	}
+
+	template<typename V>
+	inline void nim::VertexBuffer::setVertexLayout(const std::vector<Data::Type>& types)
+	{
+		bind();
+
+		uint8_t currentOffset = 0;
+
+		for (uint32_t i = 0; i < types.size(); i++)
 		{
-			ARRAY = GL_ARRAY_BUFFER,
-			ELEMENT = GL_ELEMENT_ARRAY_BUFFER
-		};
-	}
+			Data::Type d_type = types.at(i);
 
-	namespace bufferDrawHint
-	{
-		enum
-		{
-			STATIC = GL_STATIC_DRAW
-		};
-	}
+			uint32_t d_gl_type = Data::getGLType(d_type);
+			uint32_t d_size = Data::getTypeSize(d_type);
+			uint32_t d_amount = Data::getTypeAmount(d_type);
 
-	// Implementation
+			glEnableVertexAttribArray(i);
 
-	template <typename V>
-	VertexBuffer<V>::VertexBuffer()
-	{
-		glGenBuffers(1, &m_ID);
-	}
+			if (d_type == Data::Type::BOOL ||
+				d_type == Data::Type::CHAR ||
+				d_type == Data::Type::DOUBLE ||
+				d_type == Data::Type::DVEC2 ||
+				d_type == Data::Type::DVEC3 ||
+				d_type == Data::Type::DVEC4 ||
+				d_type == Data::Type::INT ||
+				d_type == Data::Type::IVEC2 ||
+				d_type == Data::Type::IVEC3 ||
+				d_type == Data::Type::IVEC4 ||
+				d_type == Data::Type::UINT ||
+				d_type == Data::Type::UVEC2 ||
+				d_type == Data::Type::UVEC3 ||
+				d_type == Data::Type::UVEC4)
+			{
+				glVertexAttribIPointer(i, d_amount, d_gl_type, sizeof(V), (const void*)currentOffset);
+			}
+			else
+			{
+				glVertexAttribPointer(i, d_amount, d_gl_type, GL_FALSE, sizeof(V), (const void*)currentOffset);
+			}
 
-	template <typename V>
-	void VertexBuffer<V>::uploadData(const std::vector<V>& vertices)
-	{
-		bind();
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(V), &vertices[0], GL_STATIC_DRAW);
-	}
-
-	template <typename V>
-	void VertexBuffer<V>::bind()
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, m_ID);
-	}
-	template <typename V>
-	void VertexBuffer<V>::unbind()
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
-	template <typename V>
-	template <typename ...Ts>
-	void VertexBuffer<V>::setVertexLayout()
-	{
-		bind();
-		int types[] = { 0, (addLocation<Ts>(), 0)... };
-		// Suppresses compile warnings
-		(void)types;
-	}
-
-	template <typename V>
-	template <typename T>
-	void VertexBuffer<V>::addLocation()
-	{
-		bind();
-		uint32_t varAmount = 0;
-
-		uint32_t varType = 0;
-
-		// In order of most likely, but defaults to 1
-		if (std::is_same<T, glm::vec3>::value ||
-			std::is_same<T, glm::uvec3>::value ||
-			std::is_same<T, glm::ivec3>::value ||
-			std::is_same<T, glm::dvec3>::value)
-			varAmount = 3;
-		else if (std::is_same<T, glm::vec2>::value ||
-			std::is_same<T, glm::uvec2>::value ||
-			std::is_same<T, glm::ivec2>::value ||
-			std::is_same<T, glm::dvec2>::value)
-			varAmount = 2;
-		else if (std::is_same<T, glm::vec4>::value ||
-			std::is_same<T, glm::uvec4>::value ||
-			std::is_same<T, glm::ivec4>::value ||
-			std::is_same<T, glm::dvec4>::value)
-			varAmount = 4;
-		else
-			varAmount = 1;
-
-		// Defaults to GL_FLOAT
-		if (std::is_same<T, glm::vec2>::value ||
-			std::is_same<T, glm::vec3>::value ||
-			std::is_same<T, glm::vec4>::value ||
-			std::is_same<T, float>::value)
-			varType = GL_FLOAT;
-		else if (std::is_same<T, glm::uvec2>::value ||
-			std::is_same<T, glm::uvec3>::value ||
-			std::is_same<T, glm::uvec4>::value ||
-			std::is_same<T, unsigned int>::value)
-			varType = GL_UNSIGNED_INT;
-		else if (std::is_same<T, glm::ivec2>::value ||
-			std::is_same<T, glm::ivec3>::value ||
-			std::is_same<T, glm::ivec4>::value ||
-			std::is_same<T, int>::value)
-			varType = GL_INT;
-		else if (std::is_same<T, unsigned char>::value)
-			varType = GL_UNSIGNED_BYTE;
-		else
-			varType = GL_FLOAT;
-
-		glEnableVertexAttribArray(m_LayoutSize);
-
-		if(varType != GL_UNSIGNED_INT && varType != GL_INT && varType != GL_UNSIGNED_BYTE)
-			glVertexAttribPointer(m_LayoutSize, varAmount, varType, GL_FALSE, sizeof(V), (const void*)m_CurrentOffset);
-		else
-			glVertexAttribIPointer(m_LayoutSize, varAmount, varType, sizeof(V), (const void*)m_CurrentOffset);
-
-		//std::cout << (unsigned)m_LayoutSize << ", " << varAmount << ", " << varType << ", " << GL_FALSE << ", " << sizeof(V) << ", " << (unsigned)m_CurrentByteStep << "\n";
-
-		m_CurrentOffset += sizeof(T);
-		m_LayoutSize++;
+			currentOffset += d_size;
+		}
 	}
 }

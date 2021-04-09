@@ -6,7 +6,6 @@
 
 namespace nim
 {
-	template <typename V>
 	class VertexArray
 	{
 	public:
@@ -19,50 +18,9 @@ namespace nim
 		void bind();
 		void unbind();
 	public:
-		VertexBuffer<V> m_VertexBuffers;
+		VertexBuffer m_VertexBuffers;
 		IndexBuffer m_IndexBuffer;
 	private:
 		uint32_t m_ID;
 	};
-
-	// Implementation
-
-	template <typename V>
-	VertexArray<V>::VertexArray()
-	{
-		glGenVertexArrays(1, &m_ID);
-		bind();
-	}
-
-	template <typename V>
-	VertexArray<V>::~VertexArray()
-	{
-		//glDeleteVertexArrays(1, &m_ID);
-	}
-
-	template <typename V>
-	void VertexArray<V>::render()
-	{
-		bind();
-		glDrawElements(GL_TRIANGLES, m_IndexBuffer.getCount(), GL_UNSIGNED_INT, 0);
-	}
-
-	template <typename V>
-	void VertexArray<V>::renderAsLines()
-	{
-		bind();
-		glDrawElements(GL_LINES, m_IndexBuffer.getCount(), GL_UNSIGNED_INT, 0);
-	}
-
-	template <typename V>
-	void VertexArray<V>::bind()
-	{
-		glBindVertexArray(m_ID);
-	}
-
-	template <typename V>
-	void VertexArray<V>::unbind()
-	{
-		glBindVertexArray(0);
-	}
 }
