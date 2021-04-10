@@ -17,7 +17,7 @@ namespace nim
 			//m_Shader.lock()->setAlbedo(m_Albedo);
 		}
 
-		glm::vec4 m_Albedo;
+		glm::vec4 m_Albedo = glm::vec4(1, .5, .5, 1);
 		std::weak_ptr<Shader> m_Shader;
 	};
 }

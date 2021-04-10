@@ -8,6 +8,7 @@ void DebugLayer::update()
 
 void DebugLayer::render()
 {
+    /*
     static ImGuiIO& io = ImGui::GetIO(); (void)io;
 
     static bool show_another_window = false;
@@ -41,4 +42,5 @@ void DebugLayer::render()
             show_another_window = false;
         ImGui::End();
     }
+    */
 }

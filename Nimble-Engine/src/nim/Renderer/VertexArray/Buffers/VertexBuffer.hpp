@@ -13,7 +13,7 @@ namespace nim
 		DYNAMIC = GL_DYNAMIC_DRAW
 	};
 
-	// BEFORE you do ANYTHING, bind the Array (Parent)!
+	// BEFORE you do ANYTHING to the children, bind the Array (Parent)!
 	class VertexBuffer
 	{
 	public:
