@@ -1,6 +1,5 @@
 # Nimble-Engine
-The goal of this engine is to be able to work fast and efficiently on lower quality computers and smaller electronics. The engine was made in mind with the fact that you need to interact natively with the engine for maximum performance. 
-This engine isn't something that is necessarily aiming for ultra fancy graphics, this is meant to deliver decent graphics and gameplay on weaker machines like phones and tablets, and also I'm not that interested in this project taking years to finish, since this is more of a hobby for me and anyone else who wants to get involved.
+The goal of this engine is to be able to work fast and efficiently on lower quality computers and smaller electronics. The engine was made in mind with the fact that you need to interact natively with the engine for maximum performance. This engine isn't something that is necessarily aiming for ultra fancy graphics, this is meant to deliver decent graphics and gameplay on weaker machines like phones and tablets, and also I'm not that interested in this project taking years to finish, since this is more of a hobby for me and anyone else who wants to get involved.
 
 ## How to Compile:
 As long as you're on Windows and use Visual Studio 2019 it should be trivial to run the .bat file in the scripts folder. After that you should be able to compile without issue.
