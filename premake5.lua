@@ -1,4 +1,4 @@
-workspace "Nimble-Engine"
+workspace "Zimble-Engine"
     architecture "x64"
     startproject "SandBox"
 
@@ -18,5 +18,5 @@ group "Dependencies"
     include "vendor/dependencies/assimp"
 group ""
 
-include "Nimble-Engine"
+include "Zimble-Engine"
 include "Sandbox"

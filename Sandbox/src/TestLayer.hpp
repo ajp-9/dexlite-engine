@@ -1,14 +1,14 @@
 #pragma once
 
-#include <nim/Application/Layer/Event/Event.hpp>
-#include <nim/Application/Layer/Layer.hpp>
+#include <zim/Application/Layer/Event/Event.hpp>
+#include <zim/Application/Layer/Layer.hpp>
 
-class TestLayer : public nim::Layer
+class TestLayer : public zim::Layer
 {
 	virtual void Attach() override;
 	virtual void Detach() override;
 
 	virtual void update() override;
 	virtual void render() override;
-	virtual void event(std::unique_ptr<nim::Event::Event>& e) override;
+	virtual void event(std::unique_ptr<zim::Event::Event>& e) override;
 };

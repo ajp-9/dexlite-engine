@@ -7,32 +7,24 @@
 
 #include <iostream>
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-
-#include <nim/Renderer/VertexArray/Buffers/VertexBuffer.hpp>
-#include <nim/Scene/Component/TransformComponent.hpp>
+#include <zim/Renderer/VertexArray/Buffers/VertexBuffer.hpp>
+#include <zim/Scene/Component/TransformComponent.hpp>
 #include "Layers/DebugLayer.hpp"
 #include <imgui/imgui.h>
-#include <nim/Scene/Component/ModelComponent.hpp>
+#include <zim/Scene/Component/ModelComponent.hpp>
 
-using nim::NimbleEngine;
+using zim::ZimbleEngine;
 
 void SandBox::Init()
 {
-	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile("", aiProcess_Triangulate | aiProcess_FlipUVs);
-
-
-	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<TestLayer>());
-	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<SecondLayer>());
-	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
+	ZimbleEngine::m_LayerManager.pushLayer(std::make_shared<TestLayer>());
+	ZimbleEngine::m_LayerManager.pushLayer(std::make_shared<SecondLayer>());
+	ZimbleEngine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
 
 	shader->bind();
 	shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
 
-	std::vector<nim::Vertex> vertices =
+	std::vector<zim::Vertex> vertices =
 	{
 		{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0, .3, 0), glm::vec2(0, 0),},
 		{glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(0, 0, 0) , glm::vec2(0, 0),},
@@ -44,8 +36,8 @@ void SandBox::Init()
 
 	m_Entity = m_Scene.createEntity();
 
-	m_Entity.addComponent<nim::Component::Model>(nim::Mesh(vertices, indices), shader);
-	m_Entity.addComponent<nim::Component::Transform>();
+	m_Entity.addComponent<zim::Component::Model>(zim::Mesh(vertices, indices), shader);
+	m_Entity.addComponent<zim::Component::Transform>();
 }
 
 void SandBox::Shutdown()
@@ -88,7 +80,7 @@ void SandBox::render()
 	static char buf[50];
 	ImGui::InputText("Text Input", buf, 50);
 
-	nim::Component::Transform trans;
+	zim::Component::Transform trans;
 
 	trans.setPosition(glm::vec3(posX, posY, posZ));
 	trans.setRotation(glm::vec3(rotX, rotY, rotZ));

@@ -1,10 +1,7 @@
-project "SandBox"
-    kind "ConsoleApp"
+project "Zimble-Engine"
+    kind "StaticLib"
     language "C++"
     cppdialect "C++17"
-
-    filter "system:windows"
-        systemversion "latest"
 
     targetdir ("%{prj.location}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")
@@ -17,8 +14,6 @@ project "SandBox"
 
     sysincludedirs
     {
-        "%{wks.location}/Zimble-Engine/src",
-
         "%{IncludeDir.includes}",
         "%{IncludeDir.SDL2}",
         "%{IncludeDir.glad}",
@@ -27,19 +22,15 @@ project "SandBox"
     }
 
     links
-    {
-        "Zimble-Engine",
-
+    {        
         "glad",
         "SDL2",
         "imgui",
         "assimp"
     }
 
-    defines
-    {
-        "SDL_MAIN_HANDLED"
-    }
+    filter "system:windows"
+        systemversion "latest"
 
     filter "configurations:Debug"
         optimize "Off"
