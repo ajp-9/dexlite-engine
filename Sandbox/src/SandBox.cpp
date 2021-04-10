@@ -7,6 +7,10 @@
 
 #include <iostream>
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #include <nim/Renderer/VertexArray/Buffers/VertexBuffer.hpp>
 #include <nim/Scene/Component/TransformComponent.hpp>
 #include "Layers/DebugLayer.hpp"
@@ -17,6 +21,10 @@ using nim::NimbleEngine;
 
 void SandBox::Init()
 {
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile("", aiProcess_Triangulate | aiProcess_FlipUVs);
+
+
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<TestLayer>());
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<SecondLayer>());
 	NimbleEngine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());

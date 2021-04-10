@@ -22,7 +22,8 @@ project "SandBox"
         "%{IncludeDir.includes}",
         "%{IncludeDir.SDL2}",
         "%{IncludeDir.glad}",
-        "%{IncludeDir.imgui}"
+        "%{IncludeDir.imgui}",
+        "%{IncludeDir.assimp}"
     }
 
     links
@@ -30,8 +31,9 @@ project "SandBox"
         "Nimble-Engine",
 
         "glad",
+        "SDL2",
         "imgui",
-        "SDL2"
+        "assimp"
     }
 
     defines

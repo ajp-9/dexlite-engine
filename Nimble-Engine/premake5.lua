@@ -17,7 +17,8 @@ project "Nimble-Engine"
         "%{IncludeDir.includes}",
         "%{IncludeDir.SDL2}",
         "%{IncludeDir.glad}",
-        "%{IncludeDir.imgui}"
+        "%{IncludeDir.imgui}",
+        "%{IncludeDir.assimp}"
     }
 
     links
@@ -25,6 +26,7 @@ project "Nimble-Engine"
         "glad",
         "SDL2",
         "imgui",
+        "assimp"
     }
 
     filter "system:windows"

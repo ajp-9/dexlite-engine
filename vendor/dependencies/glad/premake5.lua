@@ -1,7 +1,9 @@
 project "glad"
     kind "StaticLib"
     language "C"
-    cppdialect "C++17"
+
+    filter "system:windows"
+        systemversion "latest"
 
     targetdir ("%{prj.location}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")
@@ -16,9 +18,6 @@ project "glad"
     {
         "%{prj.location}/include"
     }
-
-    filter "system:windows"
-        systemversion "latest"
 
     filter "configurations:Debug"
         optimize "Off"

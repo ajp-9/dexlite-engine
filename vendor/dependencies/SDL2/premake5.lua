@@ -11,10 +11,10 @@ project "SDL2"
 	filter "system:windows"
 		links 
 		{
-					"setupapi",
-					"winmm",
-					"imm32",
-					"version"
+			"setupapi",
+			"winmm",
+			"imm32",
+			"version"
 		}
 	filter {}
 
