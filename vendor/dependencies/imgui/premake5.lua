@@ -3,6 +3,9 @@ project "imgui"
     language "C++"
     cppdialect "C++17"
 
+    filter "system:windows"
+        systemversion "latest"
+
     targetdir ("%{prj.location}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")
 
@@ -19,24 +22,15 @@ project "imgui"
 
     sysincludedirs
     {
-        "%{IncludeDir.SDL2}",
-        "%{IncludeDir.glad}"
-    }
-
-    syslibdirs
-    {
-        "%{LibDir.SDL2}"
+        "%{IncludeDir.glad}",
+        "%{IncludeDir.SDL2}"
     }
 
     links
-    {
-        "SDL2-static.lib",
-        
-        "glad"
+    {        
+        "glad",
+        "SDL2"
     }
-
-    filter "system:windows"
-    systemversion "latest"
 
     filter "configurations:Debug"
         optimize "Off"

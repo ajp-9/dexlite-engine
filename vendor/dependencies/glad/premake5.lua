@@ -1,6 +1,7 @@
 project "glad"
     kind "StaticLib"
     language "C"
+    cppdialect "C++17"
 
     targetdir ("%{prj.location}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")

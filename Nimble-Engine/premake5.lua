@@ -20,17 +20,11 @@ project "Nimble-Engine"
         "%{IncludeDir.imgui}"
     }
 
-    syslibdirs
-    {
-        "%{LibDir.SDL2}"
-    }
-
     links
-    {
-        "SDL2-static.lib",
-        
+    {        
         "glad",
-        "imgui"
+        "SDL2",
+        "imgui",
     }
 
     filter "system:windows"

@@ -3,6 +3,9 @@ project "SandBox"
     language "C++"
     cppdialect "C++17"
 
+    filter "system:windows"
+        systemversion "latest"
+
     targetdir ("%{prj.location}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")
 
@@ -28,20 +31,13 @@ project "SandBox"
 
         "glad",
         "imgui",
-
-        "winmm.lib",
-        "imm32.lib",
-        "version.lib",
-        "setupapi.lib"
+        "SDL2"
     }
 
     defines
     {
         "SDL_MAIN_HANDLED"
     }
-
-    filter "system:windows"
-        systemversion "latest"
 
     filter "configurations:Debug"
         optimize "Off"
