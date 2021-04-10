@@ -5,7 +5,7 @@
 #include "../Application/Layer/LayerManager.hpp"
 #include "../Renderer/Renderer.hpp"
 #include "Program/Program.hpp"
-#include "EntryPoint.hpp"
+#include "Program/EntryPoint.hpp"
 
 namespace zim
 {

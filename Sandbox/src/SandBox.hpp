@@ -1,6 +1,6 @@
 #pragma once
 
-#include <zim/Nimble.hpp>
+#include <zim/Zimble.hpp>
 #include <zim/Renderer/Camera/OrthographicCamera.hpp>
 #include <zim/Renderer/Camera/PerspectiveCamera.hpp>
 #include <zim/Renderer/Shader/Shader.hpp>
@@ -26,4 +26,4 @@ private:
 	zim::Entity m_Entity;
 };
 
-NIMBLE_DEFINE_MAIN(SandBox);
+ZIMBLE_DEFINE_MAIN(SandBox);

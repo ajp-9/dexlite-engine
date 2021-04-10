@@ -29,6 +29,11 @@ project "Zimble-Engine"
         "assimp"
     }
 
+    defines
+    {
+        "SDL_MAIN_HANDLED"
+    }
+
     filter "system:windows"
         systemversion "latest"
 

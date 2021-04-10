@@ -3,8 +3,6 @@
 #include <glm/vec3.hpp>
 #include <glm/vec2.hpp>
 
-#define NIM_VERTEX_LAYOUT glm::vec3, glm::vec3, glm::vec2
-
 namespace zim
 {
 	struct Vertex
