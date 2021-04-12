@@ -21,13 +21,12 @@
 
 #include "Renderer/ImGui/ImGuiAPI.hpp"
 
-#include "Renderer/Mesh/Material.hpp"
+#include "Renderer/Mesh/Material/Material.hpp"
 #include "Renderer/Mesh/Mesh.hpp"
 #include "Renderer/Mesh/Vertex.hpp"
 
 #include "Renderer/Renderer.hpp"
 
-#include "Renderer/Shader/AlbedoShader.hpp"
 #include "Renderer/Shader/Shader.hpp"
 #include "Renderer/Shader/ShaderManager.hpp"
 #include "Renderer/Shader/Uniform/UniformBufferObject.hpp"
@@ -43,7 +42,7 @@
 #include "Renderer/VertexArray/DataTypes.hpp"
 #include "Renderer/VertexArray/VertexArray.hpp"
 
-#include "Scene/Component/CameraComponent.hpp"
+#include "Scene/Component/OrthoCamera.hpp"
 #include "Scene/Component/ModelComponent.hpp"
 #include "Scene/Component/TagComponent.hpp"
 #include "Scene/Component/TransformComponent.hpp"

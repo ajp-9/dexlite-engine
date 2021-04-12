@@ -2,6 +2,9 @@
 
 #include <entt.hpp>
 
+#include "Component/Camera/OrthoCamera.hpp"
+#include "Component/Camera/PerspCamera.hpp"
+
 namespace zim
 {
 	class Entity;
@@ -15,6 +18,8 @@ namespace zim
 		Entity createEntity();
 		void destroyEntity(Entity entity);
 
+		void findSetMainCamera();
+
 		void update();
 		void physics();
 		void render();
@@ -22,7 +27,9 @@ namespace zim
 		void doCustumUpdate() {}
 	private:
 		entt::registry m_Registry;
-
+		Component::OrthoCamera* m_OrthoCamera = nullptr;
+		Component::PerspCamera* m_PerspCamera = nullptr;
+		
 		friend class Entity;
 	};
 }
