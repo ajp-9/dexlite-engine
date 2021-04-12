@@ -1,8 +1,8 @@
 #pragma once
 
-#ifdef PROFILE
+#ifdef ZIM_ENABLE_PROFILE
 #include "Time/Timer.hpp"
-#define NIM_PROFILE_SCOPE(name) zim::Timer Timer(name)
+#define ZIM_PROFILE_SCOPE(name) zim::Timer Timer(name)
 #else
-#define NIM_PROFILE_SCOPE
+#define ZIM_PROFILE_SCOPE
 #endif

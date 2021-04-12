@@ -10,7 +10,7 @@ namespace zim
 		struct Model
 		{
 		public:
-			Model(Mesh<Vertex> mesh, const std::weak_ptr<Shader>& shader);
+			Model(Mesh<Vertex>& mesh, const Material& material);
 
 			void render();
 

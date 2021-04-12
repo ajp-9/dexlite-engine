@@ -4,7 +4,7 @@
 
 #include "Vertex.hpp"
 #include "../VertexArray/VertexArray.hpp"
-#include "Material.hpp"
+#include "Material/Material.hpp"
 
 namespace zim
 {
@@ -22,7 +22,7 @@ namespace zim
 			m_VertexArray.m_VertexBuffers.uploadData(m_Vertices);
 
 			m_VertexArray.m_IndexBuffer.uploadData(m_Indices);
-		}
+		} 
 
 		void render()
 		{

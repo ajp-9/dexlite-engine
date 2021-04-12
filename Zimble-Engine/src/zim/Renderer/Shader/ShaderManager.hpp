@@ -10,13 +10,14 @@ namespace zim
 	class ShaderManager
 	{
 	public:
-		ShaderManager();
+		static void Init() {}
 
-		void addShader(const std::shared_ptr<Shader>& shader);
-		void removeShader();
-
-		void setUBO();
+		static void addShader(const std::shared_ptr<Shader>& shader);
+		std::weak_ptr<Shader> getShader(const char* name);
+		static void removeShader(const char* name);
+		// Global
+		static void setProjectionViewMatrix(const glm::mat4& mat);
 	private:
-		std::vector<std::shared_ptr<Shader>> m_Shaders;
+		static std::vector<std::shared_ptr<Shader>> m_Shaders;
 	};
 }

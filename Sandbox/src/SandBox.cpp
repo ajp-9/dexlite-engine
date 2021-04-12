@@ -12,6 +12,7 @@
 #include "Layers/DebugLayer.hpp"
 #include <imgui/imgui.h>
 #include <zim/Scene/Component/ModelComponent.hpp>
+#include <zim/Scene/Component/Camera/PerspCamera.hpp>
 
 using zim::ZimbleEngine;
 
@@ -22,13 +23,19 @@ void SandBox::Init()
 	ZimbleEngine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
 
 	shader->bind();
-	shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
+	zim::ShaderManager::addShader(shader);
+	//shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
+
+	auto& player = m_Scene.createEntity();
+	player.addComponent<zim::Component::PerspCamera>(true, zim::PerspectiveCamera(60, zim::ZimbleEngine::m_Window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
+
+	m_Scene.findSetMainCamera();
 
 	std::vector<zim::Vertex> vertices =
 	{
 		{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0, .3, 0), glm::vec2(0, 0),},
-		{glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(0, 0, 0) , glm::vec2(0, 0),},
-		{glm::vec3(0.5f,  0.5f, 0.0f), glm::vec3(0, .3, 0), glm::vec2(0, 0),},
+		{glm::vec3(0.5f, -0.5f, 0.0f),  glm::vec3(0, 0, 0) , glm::vec2(0, 0),},
+		{glm::vec3(0.5f,  0.5f, 0.0f),  glm::vec3(0, .3, 0), glm::vec2(0, 0),},
 		{glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec3(0, 0, 0) , glm::vec2(0, 0)}
 	};
 
@@ -36,7 +43,7 @@ void SandBox::Init()
 
 	m_Entity = m_Scene.createEntity();
 
-	m_Entity.addComponent<zim::Component::Model>(zim::Mesh(vertices, indices), shader);
+	m_Entity.addComponent<zim::Component::Model>(zim::Mesh(vertices, indices), zim::Material(shader));
 	m_Entity.addComponent<zim::Component::Transform>();
 }
 
@@ -62,7 +69,7 @@ void SandBox::render()
 
 	static float posX = 0.0f;
 	static float posY = 0.0f;
-	static float posZ = 1.0f;
+	static float posZ = 0.0f;
 
 	static const float maxRot = 360;
 	static const float maxPos = 20;
@@ -80,7 +87,7 @@ void SandBox::render()
 	static char buf[50];
 	ImGui::InputText("Text Input", buf, 50);
 
-	zim::Component::Transform trans;
+	auto& trans = m_Entity.getComponent<zim::Component::Transform>();
 
 	trans.setPosition(glm::vec3(posX, posY, posZ));
 	trans.setRotation(glm::vec3(rotX, rotY, rotZ));

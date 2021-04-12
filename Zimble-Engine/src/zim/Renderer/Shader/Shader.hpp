@@ -4,21 +4,21 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <functional>
+
 namespace zim
 {
 	class Shader
 	{
 	public:
-		Shader(const char* src);
+		Shader(const char* src, const char* name);
 		~Shader();
-
-		void setLocations();
-
-		void setProjectionViewMatrix(const glm::mat4& mat);
-		void setModelMatrix(const glm::mat4& mat);
 
 		void bind() const;
 		void unbind() const;
+
+		virtual void setProjectionViewMatrix(const glm::mat4& mat) {};
+		virtual void setModelMatrix(const glm::mat4& mat) {};
 
 		void setBool(const std::string& name, bool value) const;
 		void setInt(const std::string& name, int value) const;
@@ -32,13 +32,12 @@ namespace zim
 		void setMat2(const std::string& name, const glm::mat2& mat) const;
 		void setMat3(const std::string& name, const glm::mat3& mat) const;
 		void setMat4(const std::string& name, const glm::mat4& mat) const;
+
+		const std::string& getName() const { return m_Name; }
 	private:
 		void checkShaderErrors(unsigned int shader, std::string type);
-	private:
+	protected:
 		uint32_t m_ProgramID = 0;
-		uint8_t m_Type = 0;
-
-		uint32_t u_ProjectionViewMatrix_Location = 0;
-		uint32_t u_ModelMatrix_Location = 0;
+		const std::string m_Name;
 	};
 }

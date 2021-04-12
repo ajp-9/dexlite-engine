@@ -6,7 +6,8 @@
 
 namespace zim
 {
-	Shader::Shader(const char* src)
+	Shader::Shader(const char* src, const char* name)
+		: m_Name(name)
 	{
 		std::ifstream source;
 		source.open(std::string(src));
@@ -73,29 +74,11 @@ namespace zim
 		{
 			std::cout << "Shader at source: " << src << ", is invalid!\n";
 		}
-
-		setLocations();
 	}
 
 	Shader::~Shader()
 	{
 		glDeleteProgram(m_ProgramID);
-	}
-
-	void Shader::setLocations()
-	{
-		u_ProjectionViewMatrix_Location = glGetUniformLocation(m_ProgramID, "u_ProjectionViewMatrix");
-		u_ModelMatrix_Location = glGetUniformLocation(m_ProgramID, "u_ModelMatrix");
-	}
-
-	void Shader::setProjectionViewMatrix(const glm::mat4& mat)
-	{
-		glUniformMatrix4fv(u_ProjectionViewMatrix_Location, 1, GL_FALSE, glm::value_ptr(mat));
-	}
-
-	void Shader::setModelMatrix(const glm::mat4& mat)
-	{
-		glUniformMatrix4fv(u_ModelMatrix_Location, 1, GL_FALSE, glm::value_ptr(mat));
 	}
 
 	void Shader::bind() const

@@ -4,8 +4,8 @@ namespace zim
 {
 	namespace Component
 	{
-		Model::Model(Mesh<Vertex> mesh, const std::weak_ptr<Shader>& shader)
-			: m_Mesh(mesh), m_Material(shader)
+		Model::Model(Mesh<Vertex>& mesh, const Material& material)
+			: m_Mesh(mesh), m_Material(material)
 		{
 		}
 
