@@ -31,7 +31,8 @@ project "Zimble-Engine"
 
     defines
     {
-        "SDL_MAIN_HANDLED"
+        "SDL_MAIN_HANDLED",
+        "GLM_FORCE_LEFT_HANDED"
     }
 
     filter "system:windows"

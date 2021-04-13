@@ -35,7 +35,7 @@ void SandBox::Init()
 	{
 		{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0, .3, 0), glm::vec2(0, 0),},
 		{glm::vec3(0.5f, -0.5f, 0.0f),  glm::vec3(0, 0, 0) , glm::vec2(0, 0),},
-		{glm::vec3(0.5f,  0.5f, 0.0f),  glm::vec3(0, .3, 0), glm::vec2(0, 0),},
+		{glm::vec3(0.5f,  0.5f, 0.0f),  glm::vec3(0, .3, 1), glm::vec2(0, 0),},
 		{glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec3(0, 0, 0) , glm::vec2(0, 0)}
 	};
 
@@ -91,7 +91,7 @@ void SandBox::render()
 
 	trans.setPosition(glm::vec3(posX, posY, posZ));
 	trans.setRotation(glm::vec3(rotX, rotY, rotZ));
-	shader->setModelMatrix(trans);
+	//shader->setModelMatrix(trans);
 
 	ImGui::End();
 }

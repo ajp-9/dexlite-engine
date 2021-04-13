@@ -10,6 +10,7 @@ namespace zim
 		glm::mat4(1.0f), position, rotation)
 	{
 		// View is here b/c everything needs to initialize first.
+		// REMEMBER to define GLM_FORCE_LEFT_HANDED in the preprocessor
 		m_ViewMatrix = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
 
 		m_ProjectionViewMatrix = m_ProjectionMatrix * m_ViewMatrix;
@@ -17,7 +18,9 @@ namespace zim
 
 	void PerspectiveCamera::calculateViewMatrix()
 	{
-		glm::lookAt(m_Position, m_Position + m_Front, m_Up);
+		m_ViewMatrix = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
+
+		m_ProjectionViewMatrix = m_ProjectionMatrix * m_ViewMatrix;
 
 		/*glm::mat4 transform =
 			glm::translate(glm::mat4(1.0f), m_Position) * glm::toMat4(glm::quat(glm::radians(m_Rotation)));
