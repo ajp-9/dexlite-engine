@@ -2,7 +2,6 @@
 
 #include <zim/Zimble.hpp>
 #include <zim/Renderer/Shader/Shader3D.hpp>
-#include "TestLayer.hpp"
 
 class SandBox : public zim::Program
 {
@@ -18,6 +17,7 @@ private:
 	std::shared_ptr<zim::Shader> shader = std::make_shared<zim::Shader3D>("assets/shaders/simple.glsl", "Shader3D");
 	zim::Scene m_Scene;
 	zim::Entity m_Entity;
+	zim::Entity m_Player;
 };
 
 ZIMBLE_DEFINE_MAIN(SandBox);

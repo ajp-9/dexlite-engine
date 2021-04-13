@@ -1,10 +1,10 @@
 #pragma once
 
-#include <zim/Application/Layer/Event/Event.hpp>
-#include <zim/Application/Layer/Layer.hpp>
+#include <zim/Zimble.hpp>
 
-class SecondLayer : public zim::Layer
+class WorldLayer : public zim::Layer
 {
+public:
 	virtual void Attach() override;
 	virtual void Detach() override;
 

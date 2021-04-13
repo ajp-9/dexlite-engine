@@ -1,7 +1,6 @@
 #include "SandBox.hpp"
 
-#include "TestLayer.hpp"
-#include "SecondLayer.hpp"
+#include "Layers/WorldLayer.hpp"
 
 #include <entt.hpp>
 
@@ -18,16 +17,15 @@ using zim::ZimbleEngine;
 
 void SandBox::Init()
 {
-	ZimbleEngine::m_LayerManager.pushLayer(std::make_shared<TestLayer>());
-	ZimbleEngine::m_LayerManager.pushLayer(std::make_shared<SecondLayer>());
+	ZimbleEngine::m_LayerManager.pushLayer(std::make_shared<WorldLayer>());
 	ZimbleEngine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
 
 	shader->bind();
 	zim::ShaderManager::addShader(shader);
 	//shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
 
-	auto& player = m_Scene.createEntity();
-	player.addComponent<zim::Component::PerspCamera>(true, zim::PerspectiveCamera(60, zim::ZimbleEngine::m_Window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
+	m_Player = m_Scene.createEntity();
+	m_Player.addComponent<zim::Component::PerspCamera>(true, zim::PerspectiveCamera(60, zim::ZimbleEngine::m_Window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
 
 	m_Scene.findSetMainCamera();
 
@@ -58,6 +56,10 @@ void SandBox::update()
 
 void SandBox::render()
 {
+	/*static glm::vec3 p = glm::vec3(0);
+	p.z += .005;
+	m_Player.getComponent<zim::Component::PerspCamera>().m_Camera.setPosition(p);*/
+
 	//va.render();
 	m_Scene.render();
 
