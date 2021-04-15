@@ -4,7 +4,8 @@ project "glad"
 
     filter "system:windows"
         systemversion "latest"
-
+    filter {}
+    
     targetdir ("%{prj.location}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")
 

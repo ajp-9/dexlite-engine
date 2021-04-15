@@ -8,8 +8,7 @@ project "Zimble-Engine"
 
     files
     {
-        "%{prj.location}/src/**",
-        "%{prj.location}/vendor/**"
+        "%{prj.location}/src/**"
     }
 
     sysincludedirs
@@ -37,10 +36,13 @@ project "Zimble-Engine"
 
     filter "system:windows"
         systemversion "latest"
+    filter {}
 
     filter "configurations:Debug"
         optimize "Off"
+    filter {}
 
     filter "configurations:Release"
         optimize "Speed"
         inlining "Auto"
+    filter {}

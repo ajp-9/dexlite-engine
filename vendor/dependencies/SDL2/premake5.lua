@@ -3,8 +3,9 @@ project "SDL2"
 	language "C"
 
 	filter "system:windows"
-	systemversion "latest"
-
+		systemversion "latest"
+	filter {}
+	
 	targetdir ("%{prj.location}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")
 
