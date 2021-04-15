@@ -15,7 +15,7 @@ namespace zim
 
 			// Put in the template the type of event.
 			template <class T>
-			inline T& getSelfSubstruct()
+			inline T& getSelf()
 			{
 				return *static_cast<T*>(this);
 			}

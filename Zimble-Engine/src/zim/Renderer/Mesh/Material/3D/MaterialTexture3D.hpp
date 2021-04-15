@@ -6,13 +6,12 @@
 
 namespace zim
 {
-	class MaterialDiffuse
+	struct MaterialDiffuse
 	{
-	public:
 		MaterialDiffuse(const std::weak_ptr<ShaderDiffuse>& shader, const Texture& texture)
 			: m_Shader(shader), m_DiffuseMap(texture)
 		{}
-	protected:
+
 		std::weak_ptr<ShaderDiffuse> m_Shader;
 		Texture m_DiffuseMap;
 	};

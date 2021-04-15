@@ -6,14 +6,33 @@
 
 namespace zim
 {
-	struct Material
+	namespace Material
 	{
-		Material(const std::weak_ptr<Shader>& shader)
-			: m_Shader(shader)
-		{}
+		enum class Type : uint8_t
+		{
+			DEFAULT,
+			ALBEDO_3D,
+			TEXTURE_3D
+		};
 
-		virtual void setUniforms() {}
+		struct Material
+		{
+			Material(const std::weak_ptr<Shader::Shader>& shader, Type type = Type::DEFAULT)
+				: m_Shader(shader), m_Type(type)
+			{}
 
-		std::weak_ptr<Shader> m_Shader;
-	};
+			virtual void setUniforms() {};
+
+			// Put in the template the type of material.
+			template <class T>
+			inline T& getSelf()
+			{
+				return *static_cast<T*>(this);
+			}
+
+			std::weak_ptr<Shader::Shader> m_Shader;
+		private:
+			Type m_Type;
+		};
+	}
 }

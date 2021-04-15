@@ -12,6 +12,7 @@
 #include <imgui/imgui.h>
 #include <zim/Scene/Component/ModelComponent.hpp>
 #include <zim/Scene/Component/Camera/PerspCamera.hpp>
+#include <zim/Renderer/Texture/Texture.hpp>
 
 using zim::ZimbleEngine;
 
@@ -21,27 +22,28 @@ void SandBox::Init()
 	ZimbleEngine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
 
 	shader->bind();
+	shader->setInt("u_TextureSampler", 0);
 	zim::ShaderManager::addShader(shader);
 	//shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
-
 	m_Player = m_Scene.createEntity();
 	m_Player.addComponent<zim::Component::PerspCamera>(true, zim::PerspectiveCamera(60, zim::ZimbleEngine::m_Window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
 
 	m_Scene.findSetMainCamera();
 
-	std::vector<zim::Vertex> vertices =
+	std::vector<zim::Vertex3D> vertices =
 	{
-		{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0, .3, 0), glm::vec2(0, 0),},
-		{glm::vec3(0.5f, -0.5f, 0.0f),  glm::vec3(0, 0, 0) , glm::vec2(0, 0),},
-		{glm::vec3(0.5f,  0.5f, 0.0f),  glm::vec3(0, .3, 1), glm::vec2(0, 0),},
-		{glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec3(0, 0, 0) , glm::vec2(0, 0)}
+		// positions          // colors           // texture coords
+		{glm::vec3( 0.5f,  0.5f, 0.0f),   glm::vec3(1.0f, 0.0f, 0.0f),   glm::vec2(1.0f, 1.0f)}, // top right
+		{glm::vec3( 0.5f, -0.5f, 0.0f),   glm::vec3(0.0f, 1.0f, 0.0f),   glm::vec2(1.0f, 0.0f)}, // bottom right
+		{glm::vec3(-0.5f, -0.5f, 0.0f),   glm::vec3(0.0f, 0.0f, 1.0f),   glm::vec2(0.0f, 0.0f)}, // bottom left
+		{glm::vec3(-0.5f,  0.5f, 0.0f),   glm::vec3(1.0f, 1.0f, 0.0f),   glm::vec2(0.0f, 1.0f)}  // top left 
 	};
 
-	std::vector<unsigned> indices = { 0, 1, 2, 2, 3, 0 };
+	std::vector<unsigned> indices = { 0, 1, 3, 1, 2, 3 };
 
 	m_Entity = m_Scene.createEntity();
 
-	m_Entity.addComponent<zim::Component::Model>(zim::Mesh(vertices, indices), zim::Material(shader));
+	m_Entity.addComponent<zim::Component::Model>(zim::Mesh(vertices, indices), std::make_unique<zim::Material::Material>(shader));
 	m_Entity.addComponent<zim::Component::Transform>();
 }
 
@@ -96,4 +98,6 @@ void SandBox::render()
 	//shader->setModelMatrix(trans);
 
 	ImGui::End();
+	m_Texture.bind();
+
 }

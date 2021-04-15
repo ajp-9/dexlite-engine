@@ -76,7 +76,7 @@ namespace zim
 
         for (auto& entityID : view)
         {
-            m_Registry.get<Component::Model>(entityID).m_Material.m_Shader.lock()->setModelMatrix(m_Registry.get<Component::Transform>(entityID));
+            m_Registry.get<Component::Model>(entityID).m_Material->m_Shader.lock()->setModelMatrix(m_Registry.get<Component::Transform>(entityID));
             m_Registry.get<Component::Model>(entityID).render();
         }
     }
