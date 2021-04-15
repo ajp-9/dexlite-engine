@@ -146,6 +146,13 @@ project "assimp"
         "contrib/rapidjson/include",
     }
 
+    sysincludedirs {
+        "include",
+        "contrib/irrXML",
+        "contrib/zlib",
+        "contrib/rapidjson/include",
+    }
+
     filter "configurations:Debug"
         optimize "Off"
 

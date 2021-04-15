@@ -15,7 +15,7 @@ project "glad"
         "%{prj.location}/include/**"
     }
 
-    includedirs
+    sysincludedirs
     {
         "%{prj.location}/include"
     }
