@@ -1,6 +1,8 @@
 bin/
 intermediates/
 
+.DS_Store
+
 *.xcf
 
 .vs/
@@ -8,3 +10,7 @@ intermediates/
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
+
+**.pbxproj
+**.xcworkspace
+**.plist
