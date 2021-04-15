@@ -18,8 +18,8 @@ IncludeDir["imgui"] = "%{wks.location}/vendor/dependencies/imgui/include"
 IncludeDir["assimp"] = "%{wks.location}/vendor/dependencies/assimp/include"
 
 LibDir = {}
-LibDir["SDL2"] = "%{wks.location}/vendor/dependencies/SDL2/bin"
-LibDir["assimp"] = "%{wks.location}/vendor/dependencies/assimp/bin"
+LibDir["SDL2"] = "%{wks.location}/vendor/dependencies/SDL2/lib"
+LibDir["assimp"] = "%{wks.location}/vendor/dependencies/assimp/lib"
 
 filter "system:windows"
     WindowsLibrary = {}
