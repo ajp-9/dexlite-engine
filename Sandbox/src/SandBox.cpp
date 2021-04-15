@@ -30,9 +30,9 @@ void SandBox::Init()
 
 	m_Scene.findSetMainCamera();
 
-	std::vector<zim::Vertex3D> vertices =
+
+	std::vector<zim::Vertex_TextureNormal3D> vertices =
 	{
-		// positions          // colors           // texture coords
 		{glm::vec3( 0.5f,  0.5f, 0.0f),   glm::vec3(1.0f, 0.0f, 0.0f),   glm::vec2(1.0f, 1.0f)}, // top right
 		{glm::vec3( 0.5f, -0.5f, 0.0f),   glm::vec3(0.0f, 1.0f, 0.0f),   glm::vec2(1.0f, 0.0f)}, // bottom right
 		{glm::vec3(-0.5f, -0.5f, 0.0f),   glm::vec3(0.0f, 0.0f, 1.0f),   glm::vec2(0.0f, 0.0f)}, // bottom left
@@ -40,10 +40,11 @@ void SandBox::Init()
 	};
 
 	std::vector<unsigned> indices = { 0, 1, 3, 1, 2, 3 };
+	//std::unique_ptr<zim::Mesh> m = std::make_unique<zim::Mesh>(vertices, indices);
 
 	m_Entity = m_Scene.createEntity();
 
-	m_Entity.addComponent<zim::Component::Model>(zim::Mesh(vertices, indices), std::make_unique<zim::Material::Material>(shader));
+	m_Entity.addComponent<zim::Component::Model>(std::make_unique<zim::Mesh::Mesh_TextureNormal3D>(vertices, indices), std::make_unique<zim::Material::Material>(shader));
 	m_Entity.addComponent<zim::Component::Transform>();
 }
 

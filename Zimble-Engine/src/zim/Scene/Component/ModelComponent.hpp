@@ -10,23 +10,21 @@ namespace zim
 	{
 		struct Model
 		{
-			Model(Mesh<Vertex3D>& mesh, std::unique_ptr<Material::Material> material)
-				: m_Mesh(mesh), m_Material(std::move(material))
+			Model(std::unique_ptr<Mesh::Mesh> mesh, std::unique_ptr<Material::Material> material)
+				: m_Mesh(std::move(mesh)), m_Material(std::move(material))
 			{}
 			
 			void render()
 			{
 				m_Material->setUniforms();
-				m_Mesh.render();
+				m_Mesh->render();
 			}
 
-			Mesh<Vertex3D> m_Mesh;
+			std::unique_ptr<Mesh::Mesh> m_Mesh;
 			std::unique_ptr<Material::Material> m_Material;
 		};
 
-
-
-		struct Model2D
+		/*struct Model2D
 		{
 			Model2D(Mesh<Vertex2D>& mesh, std::unique_ptr<Material::Material> material)
 				: m_Mesh(mesh), m_Material(std::move(material))
@@ -40,6 +38,6 @@ namespace zim
 
 			Mesh<Vertex2D> m_Mesh;
 			std::unique_ptr<Material::Material> m_Material;
-		};
+		};*/
 	}
 }

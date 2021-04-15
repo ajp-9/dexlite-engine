@@ -11,14 +11,7 @@ namespace zim
 		public:
 			ShaderAlbedo3D(const char* src = "assets/shaders/3d/albedo.glsl", const char* name = "ShaderDiffuse")
 				: Shader(src, name)
-			{
-				setSamplers();
-			}
-
-			void setSamplers()
-			{
-				setInt("u_TextureSampler", 0);
-			}
+			{}
 		};
 	}
 }

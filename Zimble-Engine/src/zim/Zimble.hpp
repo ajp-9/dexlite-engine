@@ -23,8 +23,8 @@
 
 #include "Renderer/Mesh/Material/Material.hpp"
 #include "Renderer/Mesh/Mesh.hpp"
-#include "Renderer/Mesh/Vertex2D.hpp"
-#include "Renderer/Mesh/Vertex3D.hpp"
+#include "Renderer/Mesh/Vertex/Vertex2D.hpp"
+#include "Renderer/Mesh/Vertex/Vertex3D.hpp"
 
 #include "Renderer/Renderer.hpp"
 

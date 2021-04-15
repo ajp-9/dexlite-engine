@@ -28,12 +28,7 @@ project "SandBox"
 
     links
     {
-        "Zimble-Engine",
-
-        "glad",
-        "SDL2",
-        "imgui",
-        "assimp"
+        "Zimble-Engine"
     }
 
     defines

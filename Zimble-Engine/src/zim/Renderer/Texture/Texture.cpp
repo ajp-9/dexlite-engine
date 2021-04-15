@@ -11,7 +11,7 @@ namespace zim
 	Texture::Texture(const char* src, bool blending)
 	{
         glGenTextures(1, &m_ID);
-        glBindTexture(GL_TEXTURE_2D, m_ID); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+        bind(); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
         // set the texture wrapping parameters
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -44,12 +44,11 @@ namespace zim
             {
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
             }
-            /*glGenerateMipmap(GL_TEXTURE_2D);
+            glGenerateMipmap(GL_TEXTURE_2D);
 
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, -1);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, 2);*/
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, -1.5);
         }
         else
         {
@@ -62,6 +61,7 @@ namespace zim
 
 	Texture::~Texture()
 	{
+        //glDeleteTextures(1, &m_ID);
 	}
 
 	void Texture::bind()
