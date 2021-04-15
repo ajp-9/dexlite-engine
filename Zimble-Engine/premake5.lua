@@ -20,13 +20,34 @@ project "Zimble-Engine"
         "%{IncludeDir.assimp}"
     }
 
-    links
-    {        
-        "glad",
-        "SDL2",
-        "imgui",
-        "assimp"
+    syslibdirs
+    {
+        "%{LibDir.SDL2}",
+        "%{LibDir.assimp}"
     }
+
+    links
+    {
+        "glad",
+        "imgui"
+    }
+
+    filter "system:windows"
+        links
+        {
+            "%{WindowsLibrary.SDL2}",
+            "%{WindowsLibrary.assimp}"
+        }
+    filter {}
+
+    filter "system:mac"
+        links
+        {
+            "%{MacLibrary.SDL2}",
+            "%{MacLibrary.assimp}",
+            "%{MacLibrary.zlibstatic}"
+        }
+    filter {}
 
     defines
     {

@@ -14,10 +14,14 @@
 #include <zim/Scene/Component/Camera/PerspCamera.hpp>
 #include <zim/Renderer/Texture/Texture.hpp>
 
+#include <assimp/Importer.hpp>
+
 using zim::ZimbleEngine;
 
 void SandBox::Init()
 {
+	Assimp::Importer impoter;
+	impoter.ReadFile("eewwe", 0);
 	ZimbleEngine::m_LayerManager.pushLayer(std::make_shared<WorldLayer>());
 	ZimbleEngine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
 

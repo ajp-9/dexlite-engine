@@ -27,10 +27,38 @@ project "SandBox"
         "%{IncludeDir.assimp}"
     }
 
+    syslibdirs
+    {
+        "%{LibDir.assimp}",
+        "%{LibDir.zlibstatic}"
+    }
+
     links
     {
-        "Zimble-Engine"
+        "Zimble-Engine",
+        "glad",
+        "imgui"
     }
+
+    filter "system:windows"
+        links
+        {
+            "%{WindowsLibrary.assimp}",
+            "%{WindowsLibrary.zlibstatic}",
+            "winmm.lib",
+            "imm32.lib",
+            "version.lib",
+            "setupapi.lib"
+        }
+    filter {}
+
+    filter "system:mac"
+        links
+        {
+            "%{MacLibrary.assimp}",
+            "%{MacLibrary.zlibstatic}"
+        }
+    filter {}
 
     defines
     {
