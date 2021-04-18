@@ -1,8 +1,8 @@
 #pragma once
 
-#include <zim/Zimble.hpp>
+#include <dex/Core/Engine.hpp>
 
-class WorldLayer : public zim::Layer
+class WorldLayer : public dex::Layer
 {
 public:
 	virtual void Attach() override;
@@ -10,5 +10,5 @@ public:
 
 	virtual void update() override;
 	virtual void render() override;
-	virtual void event(std::unique_ptr<zim::Event::Event>& e) override;
+	virtual void event(std::unique_ptr<dex::Event::Event>& e) override;
 };

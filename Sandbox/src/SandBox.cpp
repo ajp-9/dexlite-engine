@@ -6,36 +6,36 @@
 
 #include <iostream>
 
-#include <zim/Renderer/VertexArray/Buffers/VertexBuffer.hpp>
-#include <zim/Scene/Component/TransformComponent.hpp>
+#include <dex/Renderer/VertexArray/Buffers/VertexBuffer.hpp>
+#include <dex/Scene/Component/TransformComponent.hpp>
 #include "Layers/DebugLayer.hpp"
 #include <imgui/imgui.h>
-#include <zim/Scene/Component/ModelComponent.hpp>
-#include <zim/Scene/Component/Camera/PerspCamera.hpp>
-#include <zim/Renderer/Texture/Texture.hpp>
+#include <dex/Scene/Component/ModelComponent.hpp>
+#include <dex/Scene/Component/Camera/PerspCamera.hpp>
+#include <dex/Renderer/Texture/Texture.hpp>
 
 #include <assimp/Importer.hpp>
 
-using zim::ZimbleEngine;
+using dex::Engine;
 
 void SandBox::Init()
 {
 	Assimp::Importer impoter;
 	impoter.ReadFile("eewwe", 0);
-	ZimbleEngine::m_LayerManager.pushLayer(std::make_shared<WorldLayer>());
-	ZimbleEngine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
+	Engine::m_LayerManager.pushLayer(std::make_shared<WorldLayer>());
+	Engine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
 
 	shader->bind();
 	shader->setInt("u_TextureSampler", 0);
-	zim::ShaderManager::addShader(shader);
+	dex::ShaderManager::addShader(shader);
 	//shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
 	m_Player = m_Scene.createEntity();
-	m_Player.addComponent<zim::Component::PerspCamera>(true, zim::PerspectiveCamera(60, zim::ZimbleEngine::m_Window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
+	m_Player.addComponent<dex::Component::PerspCamera>(true, dex::PerspectiveCamera(60, dex::Engine::m_Window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
 
 	m_Scene.findSetMainCamera();
 
 
-	std::vector<zim::Vertex_TextureNormal3D> vertices =
+	std::vector<dex::Vertex_TextureNormal3D> vertices =
 	{
 		{glm::vec3( 0.5f,  0.5f, 0.0f),   glm::vec3(1.0f, 0.0f, 0.0f),   glm::vec2(1.0f, 1.0f)}, // top right
 		{glm::vec3( 0.5f, -0.5f, 0.0f),   glm::vec3(0.0f, 1.0f, 0.0f),   glm::vec2(1.0f, 0.0f)}, // bottom right
@@ -44,12 +44,12 @@ void SandBox::Init()
 	};
 
 	std::vector<unsigned> indices = { 0, 1, 3, 1, 2, 3 };
-	//std::unique_ptr<zim::Mesh> m = std::make_unique<zim::Mesh>(vertices, indices);
+	//std::unique_ptr<dex::Mesh> m = std::make_unique<dex::Mesh>(vertices, indices);
 
 	m_Entity = m_Scene.createEntity();
 
-	m_Entity.addComponent<zim::Component::Model>(std::make_unique<zim::Mesh::Mesh_TextureNormal3D>(vertices, indices), std::make_unique<zim::Material::Material>(shader));
-	m_Entity.addComponent<zim::Component::Transform>();
+	m_Entity.addComponent<dex::Component::Model>(std::make_unique<dex::Mesh::Mesh_TextureNormal3D>(vertices, indices), std::make_unique<dex::Material::Material>(shader));
+	m_Entity.addComponent<dex::Component::Transform>();
 }
 
 void SandBox::Shutdown()
@@ -65,7 +65,7 @@ void SandBox::render()
 {
 	/*static glm::vec3 p = glm::vec3(0);
 	p.z += .005;
-	m_Player.getComponent<zim::Component::PerspCamera>().m_Camera.setPosition(p);*/
+	m_Player.getComponent<dex::Component::PerspCamera>().m_Camera.setPosition(p);*/
 
 	//va.render();
 	m_Scene.render();
@@ -96,7 +96,7 @@ void SandBox::render()
 	static char buf[50];
 	ImGui::InputText("Text Input", buf, 50);
 
-	auto& trans = m_Entity.getComponent<zim::Component::Transform>();
+	auto& trans = m_Entity.getComponent<dex::Component::Transform>();
 
 	trans.setPosition(glm::vec3(posX, posY, posZ));
 	trans.setRotation(glm::vec3(rotX, rotY, rotZ));

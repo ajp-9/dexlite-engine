@@ -1,8 +1,8 @@
 #pragma once
 
-#include <zim/Application/Layer/ImGuiLayer.hpp>
+#include <dex/Application/Layer/ImGuiLayer.hpp>
 
-class DebugLayer : public zim::ImGuiLayer
+class DebugLayer : public dex::ImGuiLayer
 {
 	virtual void update() override;
 	virtual void render() override;
