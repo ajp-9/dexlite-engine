@@ -3,6 +3,10 @@ project "Zimble-Engine"
     language "C++"
     cppdialect "C++17"
 
+    filter "system:windows"
+        systemversion "latest"
+    filter {}
+    
     targetdir ("%{prj.location}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")
 
@@ -13,41 +17,20 @@ project "Zimble-Engine"
 
     sysincludedirs
     {
-        "%{IncludeDir.includes}",
+        "%{IncludeDir.include}",
         "%{IncludeDir.SDL2}",
         "%{IncludeDir.glad}",
         "%{IncludeDir.imgui}",
         "%{IncludeDir.assimp}"
     }
 
-    syslibdirs
-    {
-        "%{LibDir.SDL2}",
-        "%{LibDir.assimp}"
-    }
-
     links
-    {
+    {        
         "glad",
-        "imgui"
+        "SDL2",
+        "imgui",
+        "assimp"
     }
-
-    filter "system:windows"
-        links
-        {
-            "%{WindowsLibrary.SDL2}",
-            "%{WindowsLibrary.assimp}"
-        }
-    filter {}
-
-    filter "system:mac"
-        links
-        {
-            "%{MacLibrary.SDL2}",
-            "%{MacLibrary.assimp}",
-            "%{MacLibrary.zlibstatic}"
-        }
-    filter {}
 
     defines
     {

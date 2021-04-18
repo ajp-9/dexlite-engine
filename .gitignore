@@ -11,6 +11,4 @@ intermediates/
 **.vcxproj.filters
 **.vcxproj.user
 
-**.pbxproj
-**.xcworkspace
-**.plist
+CMakeLists.txt

@@ -27,33 +27,17 @@ project "imgui"
         "%{IncludeDir.SDL2}"
     }
 
-    syslibdirs
-    {
-        "%{LibDir.SDL2}"
-    }
-
     links
     {        
-        "glad"
+        "glad",
+        "SDL2"
     }
-
-    filter "system:windows"
-        links
-        {
-            "%{WindowsLibrary.SDL2}"
-        }
-    filter {}
-
-    filter "system:mac"
-        links
-        {
-            "%{MacLibrary.SDL2}"
-        }
-    filter {}
 
     filter "configurations:Debug"
         optimize "Off"
-
+    filter {}
+    
     filter "configurations:Release"
         optimize "Speed"
         inlining "Auto"
+    filter {}

@@ -22,7 +22,9 @@ project "glad"
 
     filter "configurations:Debug"
         optimize "Off"
+    filter {}
 
     filter "configurations:Release"
         optimize "Speed"
         inlining "Auto"
+    filter {}

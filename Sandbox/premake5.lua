@@ -20,45 +20,17 @@ project "SandBox"
     {
         "%{wks.location}/Zimble-Engine/src",
 
-        "%{IncludeDir.includes}",
+        "%{IncludeDir.include}",
         "%{IncludeDir.SDL2}",
         "%{IncludeDir.glad}",
         "%{IncludeDir.imgui}",
         "%{IncludeDir.assimp}"
     }
 
-    syslibdirs
-    {
-        "%{LibDir.assimp}",
-        "%{LibDir.zlibstatic}"
-    }
-
     links
     {
-        "Zimble-Engine",
-        "glad",
-        "imgui"
+        "Zimble-Engine"
     }
-
-    filter "system:windows"
-        links
-        {
-            "%{WindowsLibrary.assimp}",
-            "%{WindowsLibrary.zlibstatic}",
-            "winmm.lib",
-            "imm32.lib",
-            "version.lib",
-            "setupapi.lib"
-        }
-    filter {}
-
-    filter "system:mac"
-        links
-        {
-            "%{MacLibrary.assimp}",
-            "%{MacLibrary.zlibstatic}"
-        }
-    filter {}
 
     defines
     {
