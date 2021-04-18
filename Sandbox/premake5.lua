@@ -18,7 +18,7 @@ project "SandBox"
 
     sysincludedirs
     {
-        "%{wks.location}/Zimble-Engine/src",
+        "%{wks.location}/Dexterous-Engine/src",
 
         "%{IncludeDir.include}",
         "%{IncludeDir.SDL2}",
@@ -29,7 +29,7 @@ project "SandBox"
 
     links
     {
-        "Zimble-Engine"
+        "Dexterous-Engine"
     }
 
     defines

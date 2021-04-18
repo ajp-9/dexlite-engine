@@ -1,4 +1,4 @@
-project "Zimble-Engine"
+project "Dexterous-Engine"
     kind "StaticLib"
     language "C++"
     cppdialect "C++17"

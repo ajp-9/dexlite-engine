@@ -1,4 +1,4 @@
-workspace "Zimble-Engine"
+workspace "Dexterous-Engine"
     architecture "x64"
     startproject "SandBox"
 
@@ -24,5 +24,5 @@ group "Dependencies"
     include "vendor/dependencies/imgui"
 group ""
 
-include "Zimble-Engine"
+include "Dexterous-Engine"
 include "Sandbox"
