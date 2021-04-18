@@ -24,4 +24,4 @@ private:
 	dex::Entity m_Player;
 };
 
-ZIMBLE_DEFINE_MAIN(SandBox);
+DEXTEROUS_DEFINE_MAIN(SandBox);
