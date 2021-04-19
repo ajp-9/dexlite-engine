@@ -8,7 +8,7 @@ namespace dex
 	{
 		struct Model : dex::Model
 		{
-			Model(dex::Model& model)
+			Model(dex::Model model)
 				: dex::Model(std::move(model))
 			{}
 

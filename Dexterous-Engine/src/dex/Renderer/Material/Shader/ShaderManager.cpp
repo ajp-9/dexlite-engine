@@ -27,5 +27,9 @@ namespace dex
 			shader->setProjectionViewMatrix(mat);
 	}
 
+	/*
+	*  Initialize member variables here.
+	*/
+
 	std::vector<std::shared_ptr<Shader::Base>> ShaderManager::m_Shaders;
 }

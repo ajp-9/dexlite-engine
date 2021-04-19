@@ -11,11 +11,19 @@ namespace dex
 			: m_Mesh(std::move(mesh)), m_Material(std::move(material))
 		{}
 
-		void render()
-		{
-			m_Material->setUniforms();
-			m_Mesh->render();
-		}
+		// Supported file types:
+		// ***.assbin
+		// ***.blend
+		// ***.fbx
+		// ***.obj
+		Model(const char* location);
+
+		void render();
+
+	private:
+
+	public:
+		std::string m_Name;
 
 		std::unique_ptr<Mesh::Base> m_Mesh;
 		std::unique_ptr<Material::Base> m_Material;
