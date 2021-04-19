@@ -6,13 +6,13 @@ namespace dex
 {
 	namespace Component
 	{
-		struct PerspCamera
+		struct PerspectiveCamera
 		{
-			PerspCamera(bool isMainCamera, PerspectiveCamera& camera)
+			PerspectiveCamera(bool isMainCamera, Camera::Perspective& camera)
 				: m_IsMainCamera(isMainCamera), m_Camera(camera)
 			{}
 
-			PerspectiveCamera m_Camera;
+			Camera::Perspective m_Camera;
 			bool m_IsMainCamera = false;
 		};
 	}

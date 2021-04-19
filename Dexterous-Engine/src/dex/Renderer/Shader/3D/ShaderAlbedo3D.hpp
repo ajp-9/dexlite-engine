@@ -1,16 +1,16 @@
 #pragma once
 
-#include "../Shader.hpp"
+#include "../ShaderBase.hpp"
 
 namespace dex
 {
 	namespace Shader
 	{
-		class ShaderAlbedo3D : public Shader
+		class Albedo3D : public Base
 		{
 		public:
-			ShaderAlbedo3D(const char* src = "assets/shaders/3d/albedo.glsl", const char* name = "ShaderDiffuse")
-				: Shader(src, name)
+			Albedo3D(const char* src = "assets/shaders/3d/albedo.glsl", const char* name = "ShaderDiffuse")
+				: Base(src, name)
 			{}
 		};
 	}

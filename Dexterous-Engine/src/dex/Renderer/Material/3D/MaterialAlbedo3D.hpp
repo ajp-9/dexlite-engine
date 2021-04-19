@@ -6,11 +6,11 @@ namespace dex
 {
 	namespace Material
 	{
-		struct MaterialAlbedo3D : public Material
+		struct Albedo3D : public Base
 		{
 		public:
-			MaterialAlbedo3D(std::weak_ptr<Shader::Shader> shader, glm::vec4 albedo)
-				: Material(shader), m_Albedo(albedo)
+			Albedo3D(std::weak_ptr<Shader::Base> shader, glm::vec4 albedo)
+				: Base(shader), m_Albedo(albedo)
 			{}
 
 			virtual void setUniforms() override {}

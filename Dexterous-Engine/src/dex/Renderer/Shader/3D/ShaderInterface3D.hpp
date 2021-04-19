@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../Shader.hpp"
+#include "../ShaderBase.hpp"
 
 namespace dex
 {
 	namespace Shader
 	{
-		class Shader3D : public Shader
+		class Interface3D : public Base
 		{
 		public:
-			Shader3D(const char* src = "assets/shaders/3d/texture.glsl", const char* name = "Shader3D");
+			Interface3D(const char* src = "assets/shaders/3d/texture.glsl", const char* name = "Shader3D");
 			
 			void setLocations3D();
 

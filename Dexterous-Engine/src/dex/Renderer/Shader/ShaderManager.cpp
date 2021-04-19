@@ -2,12 +2,12 @@
 
 namespace dex
 {
-	void ShaderManager::addShader(const std::shared_ptr<Shader::Shader>& shader)
+	void ShaderManager::addShader(const std::shared_ptr<Shader::Base>& shader)
 	{
 		m_Shaders.emplace_back(shader);
 	}
 
-	std::weak_ptr<Shader::Shader> ShaderManager::getShader(const char* name)
+	std::weak_ptr<Shader::Base> ShaderManager::getShader(const char* name)
 	{
 		for (auto& shader : m_Shaders)
 			if (shader->getName() == name)
@@ -27,5 +27,5 @@ namespace dex
 			shader->setProjectionViewMatrix(mat);
 	}
 
-	std::vector<std::shared_ptr<Shader::Shader>> ShaderManager::m_Shaders;
+	std::vector<std::shared_ptr<Shader::Base>> ShaderManager::m_Shaders;
 }

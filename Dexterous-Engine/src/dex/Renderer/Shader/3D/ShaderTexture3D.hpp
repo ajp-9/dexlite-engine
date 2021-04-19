@@ -1,16 +1,16 @@
 #pragma once
 
-#include "Shader3D.hpp"
+#include "ShaderInterface3D.hpp"
 
 namespace dex
 {
 	namespace Shader
 	{
-		class ShaderTexture3D : public Shader3D
+		class Texture3D : public Interface3D
 		{
 		public:
-			ShaderTexture3D(const char* src = "assets/shaders/3d/texture.glsl", const char* name = "ShaderTexture3D")
-				: Shader3D(src, name)
+			Texture3D(const char* src = "assets/shaders/3d/texture.glsl", const char* name = "ShaderTexture3D")
+				: Interface3D(src, name)
 			{
 				setSamplers();
 			}

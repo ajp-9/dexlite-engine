@@ -17,11 +17,11 @@ namespace dex
 			TEXTURE_3D
 		};
 
-		class Shader
+		class Base
 		{
 		public:
-			Shader(const char* src, const char* name, Type type = Type::DEFAULT);
-			~Shader();
+			Base(const char* src, const char* name, Type type = Type::DEFAULT);
+			~Base();
 
 			void bind() const;
 			void unbind() const;

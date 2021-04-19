@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "Shader.hpp"
+#include "ShaderBase.hpp"
 
 namespace dex
 {
@@ -12,12 +12,12 @@ namespace dex
 	public:
 		static void Init() {}
 
-		static void addShader(const std::shared_ptr<Shader::Shader>& shader);
-		std::weak_ptr<Shader::Shader> getShader(const char* name);
+		static void addShader(const std::shared_ptr<Shader::Base>& shader);
+		std::weak_ptr<Shader::Base> getShader(const char* name);
 		static void removeShader(const char* name);
 		// Global
 		static void setProjectionViewMatrix(const glm::mat4& mat);
 	private:
-		static std::vector<std::shared_ptr<Shader::Shader>> m_Shaders;
+		static std::vector<std::shared_ptr<Shader::Base>> m_Shaders;
 	};
 }

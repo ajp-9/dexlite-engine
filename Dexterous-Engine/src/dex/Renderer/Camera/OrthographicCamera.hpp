@@ -1,14 +1,17 @@
 #pragma once
 
-#include "Camera.hpp"
+#include "CameraBase.hpp"
 
 namespace dex
 {
-	class OrthographicCamera : public Camera
+	namespace Camera
 	{
-	public:
-		OrthographicCamera(glm::vec4 bounds, glm::vec3 position, glm::vec3 rotation);
-	private:
-		void calculateViewMatrix();
-	};
+		class Orthographic : public Base
+		{
+		public:
+			Orthographic(glm::vec4 bounds, glm::vec3 position, glm::vec3 rotation);
+		private:
+			void calculateViewMatrix();
+		};
+	}
 }

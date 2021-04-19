@@ -1,8 +1,8 @@
 #pragma once
 
 #include <memory>
-#include "../../Shader/Shader.hpp"
-#include "../../Texture/Texture.hpp"
+#include "../Shader/ShaderBase.hpp"
+#include "../Texture/Texture.hpp"
 
 namespace dex
 {
@@ -15,9 +15,9 @@ namespace dex
 			TEXTURE_3D
 		};
 
-		struct Material
+		struct Base
 		{
-			Material(const std::weak_ptr<Shader::Shader>& shader, Type type = Type::DEFAULT)
+			Base(const std::weak_ptr<Shader::Base>& shader, Type type = Type::DEFAULT)
 				: m_Shader(shader), m_Type(type)
 			{}
 
@@ -30,7 +30,7 @@ namespace dex
 				return *static_cast<T*>(this);
 			}
 
-			std::weak_ptr<Shader::Shader> m_Shader;
+			std::weak_ptr<Shader::Base> m_Shader;
 		private:
 			Type m_Type;
 		};

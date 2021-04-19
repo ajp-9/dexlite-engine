@@ -15,20 +15,20 @@
 #include "Core/Program/EntryPoint.hpp"
 #include "Core/Engine.hpp"
 
-#include "Renderer/Camera/Camera.hpp"
+#include "Renderer/Camera/CameraBase.hpp"
 #include "Renderer/Camera/OrthographicCamera.hpp"
 #include "Renderer/Camera/PerspectiveCamera.hpp"
 
 #include "Renderer/ImGui/ImGuiAPI.hpp"
 
-#include "Renderer/Mesh/Material/Material.hpp"
+#include "Renderer/Material/Material.hpp"
 #include "Renderer/Mesh/Mesh.hpp"
 #include "Renderer/Mesh/Vertex/Vertex2D.hpp"
 #include "Renderer/Mesh/Vertex/Vertex3D.hpp"
 
 #include "Renderer/Renderer.hpp"
 
-#include "Renderer/Shader/Shader.hpp"
+#include "Renderer/Shader/ShaderBase.hpp"
 #include "Renderer/Shader/ShaderManager.hpp"
 #include "Renderer/Shader/Uniform/UniformBufferObject.hpp"
 #include "Renderer/Shader/Uniform/Uniforms.hpp"
@@ -43,7 +43,8 @@
 #include "Renderer/VertexArray/DataTypes.hpp"
 #include "Renderer/VertexArray/VertexArray.hpp"
 
-#include "Scene/Component/OrthoCamera.hpp"
+#include "Scene/Component/Camera/OrthographicCamComponent.hpp"
+#include "Scene/Component/Camera/PerspectiveCamComponent.hpp"
 #include "Scene/Component/ModelComponent.hpp"
 #include "Scene/Component/TagComponent.hpp"
 #include "Scene/Component/TransformComponent.hpp"

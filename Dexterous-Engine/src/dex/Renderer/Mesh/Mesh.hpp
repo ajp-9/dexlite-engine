@@ -5,7 +5,7 @@
 #include "Vertex/Vertex2D.hpp"
 #include "Vertex/Vertex3D.hpp"
 #include "../VertexArray/VertexArray.hpp"
-#include "Material/Material.hpp"
+#include "../Material/Material.hpp"
 
 namespace dex
 {
@@ -30,11 +30,11 @@ namespace dex
 		};
 
 		template <typename V>
-		class Mesh_Custom : public Mesh
+		class Interface : public Mesh
 		{
 		public:
-			Mesh_Custom() {}
-			Mesh_Custom(const std::vector<V>& vertices, const std::vector<uint32_t>& indices)
+			Interface() {}
+			Interface(const std::vector<V>& vertices, const std::vector<uint32_t>& indices)
 				: m_Vertices(vertices), m_Indices(indices)
 			{
 				m_VertexArray.bind();
@@ -51,14 +51,14 @@ namespace dex
 
 		/*class Mesh2D : public Mesh<Vertex2D> {};
 		class Mesh3D : public Mesh<Vertex3D> {};*/
-		class Mesh_Albedo2D : public Mesh {};
-		class Mesh_Albedo3D : public Mesh {};
-		class Mesh_Texture2D : public Mesh {};
-		class Mesh_TextureNormal3D : public Mesh_Custom<Vertex_TextureNormal3D>
+		class Albedo2D : public Mesh {};
+		class Albedo3D : public Mesh {};
+		class Texture2D : public Mesh {};
+		class TextureNormal3D : public Interface<Vertex_TextureNormal3D>
 		{
 		public:
-			Mesh_TextureNormal3D(const std::vector<Vertex_TextureNormal3D>& vertices, const std::vector<uint32_t>& indices)
-				: Mesh_Custom(vertices, indices)
+			TextureNormal3D(const std::vector<Vertex_TextureNormal3D>& vertices, const std::vector<uint32_t>& indices)
+				: Interface(vertices, indices)
 			{}
 		};
 	}

@@ -2,8 +2,8 @@
 
 #include <entt.hpp>
 
-#include "Component/Camera/OrthoCamera.hpp"
-#include "Component/Camera/PerspCamera.hpp"
+#include "Component/Camera/OrthographicCamComponent.hpp"
+#include "Component/Camera/PerspectiveCamComponent.hpp"
 
 namespace dex
 {
@@ -27,8 +27,8 @@ namespace dex
 		void doCustumUpdate() {}
 	private:
 		entt::registry m_Registry;
-		Component::OrthoCamera* m_OrthoCamera = nullptr;
-		Component::PerspCamera* m_PerspCamera = nullptr;
+		Component::OrthographicCamera* m_OrthoCamera = nullptr;
+		Component::PerspectiveCamera* m_PerspCamera = nullptr;
 		
 		friend class Entity;
 	};

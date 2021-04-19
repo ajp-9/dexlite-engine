@@ -11,17 +11,13 @@
 #include "Layers/DebugLayer.hpp"
 #include <imgui/imgui.h>
 #include <dex/Scene/Component/ModelComponent.hpp>
-#include <dex/Scene/Component/Camera/PerspCamera.hpp>
+#include <dex/Scene/Component/Camera/PerspectiveComponent.hpp>
 #include <dex/Renderer/Texture/Texture.hpp>
-
-#include <assimp/Importer.hpp>
 
 using dex::Engine;
 
 void SandBox::Init()
 {
-	Assimp::Importer impoter;
-	impoter.ReadFile("eewwe", 0);
 	Engine::m_LayerManager.pushLayer(std::make_shared<WorldLayer>());
 	Engine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
 
@@ -30,17 +26,16 @@ void SandBox::Init()
 	dex::ShaderManager::addShader(shader);
 	//shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
 	m_Player = m_Scene.createEntity();
-	m_Player.addComponent<dex::Component::PerspCamera>(true, dex::PerspectiveCamera(60, dex::Engine::m_Window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
+	m_Player.addComponent<dex::Component::PerspectiveCamera>(true, dex::Camera::Perspective(60, dex::Engine::m_Window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
 
 	m_Scene.findSetMainCamera();
 
-
 	std::vector<dex::Vertex_TextureNormal3D> vertices =
 	{
-		{glm::vec3( 0.5f,  0.5f, 0.0f),   glm::vec3(1.0f, 0.0f, 0.0f),   glm::vec2(1.0f, 1.0f)}, // top right
-		{glm::vec3( 0.5f, -0.5f, 0.0f),   glm::vec3(0.0f, 1.0f, 0.0f),   glm::vec2(1.0f, 0.0f)}, // bottom right
-		{glm::vec3(-0.5f, -0.5f, 0.0f),   glm::vec3(0.0f, 0.0f, 1.0f),   glm::vec2(0.0f, 0.0f)}, // bottom left
-		{glm::vec3(-0.5f,  0.5f, 0.0f),   glm::vec3(1.0f, 1.0f, 0.0f),   glm::vec2(0.0f, 1.0f)}  // top left 
+		{glm::vec3(0.5f,  0.5f, 0.0f),  glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)}, // top right
+		{glm::vec3(0.5f, -0.5f, 0.0f),  glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)}, // bottom right
+		{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f)}, // bottom left
+		{glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)}  // top left 
 	};
 
 	std::vector<unsigned> indices = { 0, 1, 3, 1, 2, 3 };
@@ -48,7 +43,7 @@ void SandBox::Init()
 
 	m_Entity = m_Scene.createEntity();
 
-	m_Entity.addComponent<dex::Component::Model>(std::make_unique<dex::Mesh::Mesh_TextureNormal3D>(vertices, indices), std::make_unique<dex::Material::Material>(shader));
+	m_Entity.addComponent<dex::Component::Model>(std::make_unique<dex::Mesh::TextureNormal3D>(vertices, indices), std::make_unique<dex::Material::Base>(shader));
 	m_Entity.addComponent<dex::Component::Transform>();
 }
 
