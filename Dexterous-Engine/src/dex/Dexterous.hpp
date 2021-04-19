@@ -28,20 +28,19 @@
 
 #include "Renderer/Renderer.hpp"
 
-#include "Renderer/Shader/ShaderBase.hpp"
-#include "Renderer/Shader/ShaderManager.hpp"
-#include "Renderer/Shader/Uniform/UniformBufferObject.hpp"
-#include "Renderer/Shader/Uniform/Uniforms.hpp"
+#include "Renderer/Material/Shader/ShaderBase.hpp"
+#include "Renderer/Material/Shader/ShaderManager.hpp"
+#include "Renderer/Material/Shader/Uniform/UniformBufferObject.hpp"
+#include "Renderer/Material/Shader/Uniform/Uniforms.hpp"
 
-#include "Renderer/Texture/Texture.hpp"
+#include "Renderer/Material/Texture/Texture.hpp"
 
-#include "Renderer/VertexArray/Buffers/Buffer.hpp"
-#include "Renderer/VertexArray/Buffers/BufferLayout.hpp"
-#include "Renderer/VertexArray/Buffers/Framebuffer.hpp"
-#include "Renderer/VertexArray/Buffers/IndexBuffer.hpp"
-#include "Renderer/VertexArray/Buffers/VertexBuffer.hpp"
-#include "Renderer/VertexArray/DataTypes.hpp"
-#include "Renderer/VertexArray/VertexArray.hpp"
+#include "Renderer/Mesh/VertexArray/Buffers/BufferLayout.hpp"
+#include "Renderer/Framebuffer/Framebuffer.hpp"
+#include "Renderer/Mesh/VertexArray/Buffers/IndexBuffer.hpp"
+#include "Renderer/Mesh/VertexArray/Buffers/VertexBuffer.hpp"
+#include "Renderer/Mesh/DataTypes/DataTypes.hpp"
+#include "Renderer/Mesh/VertexArray/VertexArray.hpp"
 
 #include "Scene/Component/Camera/OrthographicCamComponent.hpp"
 #include "Scene/Component/Camera/PerspectiveCamComponent.hpp"

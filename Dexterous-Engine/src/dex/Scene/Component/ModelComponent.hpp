@@ -1,43 +1,20 @@
 #pragma once
 
-#include "../../Renderer/Mesh/Mesh.hpp"
-#include "../Entity/Entity.hpp"
-#include "../../Renderer/Material/3D/MaterialAlbedo3D.hpp"
+#include "../../Renderer/Model/Model.hpp"
 
 namespace dex
 {
 	namespace Component
 	{
-		struct Model
+		struct Model : dex::Model
 		{
-			Model(std::unique_ptr<Mesh::Mesh> mesh, std::unique_ptr<Material::Base> material)
-				: m_Mesh(std::move(mesh)), m_Material(std::move(material))
+			Model(dex::Model& model)
+				: dex::Model(std::move(model))
 			{}
-			
-			void render()
-			{
-				m_Material->setUniforms();
-				m_Mesh->render();
-			}
 
-			std::unique_ptr<Mesh::Mesh> m_Mesh;
-			std::unique_ptr<Material::Base> m_Material;
+			Model(std::unique_ptr<Mesh::Base> mesh, std::unique_ptr<Material::Base> material)
+				: dex::Model(std::move(mesh), std::move(material))
+			{}
 		};
-
-		/*struct Model2D
-		{
-			Model2D(Mesh<Vertex2D>& mesh, std::unique_ptr<Material::Material> material)
-				: m_Mesh(mesh), m_Material(std::move(material))
-			{}
-
-			void render()
-			{
-				m_Material->setUniforms();
-				m_Mesh.render();
-			}
-
-			Mesh<Vertex2D> m_Mesh;
-			std::unique_ptr<Material::Material> m_Material;
-		};*/
 	}
 }

@@ -6,12 +6,10 @@
 
 #include <iostream>
 
-#include <dex/Renderer/VertexArray/Buffers/VertexBuffer.hpp>
 #include <dex/Scene/Component/TransformComponent.hpp>
 #include "Layers/DebugLayer.hpp"
 #include <imgui/imgui.h>
 #include <dex/Scene/Component/ModelComponent.hpp>
-#include <dex/Renderer/Texture/Texture.hpp>
 
 using dex::Engine;
 
@@ -30,7 +28,7 @@ void SandBox::Init()
 
 	m_Scene.findSetMainCamera();
 
-	std::vector<dex::Vertex_TextureNormal3D> vertices =
+	std::vector<dex::Vertex3D::TextureNormal> vertices =
 	{
 		{glm::vec3(0.5f,  0.5f, 0.0f),  glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)}, // top right
 		{glm::vec3(0.5f, -0.5f, 0.0f),  glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)}, // bottom right

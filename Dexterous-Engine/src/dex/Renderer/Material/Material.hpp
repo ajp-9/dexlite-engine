@@ -1,8 +1,8 @@
 #pragma once
 
 #include <memory>
-#include "../Shader/ShaderBase.hpp"
-#include "../Texture/Texture.hpp"
+#include "../Material/Shader/ShaderBase.hpp"
+#include "../Material/Texture/Texture.hpp"
 
 namespace dex
 {

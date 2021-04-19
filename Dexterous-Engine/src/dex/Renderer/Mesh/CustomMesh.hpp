@@ -4,15 +4,14 @@
 
 #include "Vertex/Vertex2D.hpp"
 #include "Vertex/Vertex3D.hpp"
-#include "../VertexArray/VertexArray.hpp"
-#include "Material/Material.hpp"
+#include "VertexArray/VertexArray.hpp"
 
 namespace dex
 {
 	namespace Mesh
 	{
-		/*template <typename V>
-		class Mesh_Custom
+		template <typename V>
+		class Custom
 		{
 		public:
 			Mesh_Custom() {}
@@ -35,6 +34,6 @@ namespace dex
 			std::vector<V> m_Vertices;
 			std::vector<uint32_t> m_Indices;
 			VertexArray m_VertexArray;
-		};*/
+		};
 	}
 }

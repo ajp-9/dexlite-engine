@@ -4,14 +4,13 @@
 
 #include "Vertex/Vertex2D.hpp"
 #include "Vertex/Vertex3D.hpp"
-#include "../VertexArray/VertexArray.hpp"
-#include "../Material/Material.hpp"
+#include "VertexArray/VertexArray.hpp"
 
 namespace dex
 {
 	namespace Mesh
 	{
-		class Mesh
+		class Base
 		{
 		public:
 			virtual void render()
@@ -30,7 +29,7 @@ namespace dex
 		};
 
 		template <typename V>
-		class Interface : public Mesh
+		class Interface : public Base
 		{
 		public:
 			Interface() {}
@@ -51,13 +50,13 @@ namespace dex
 
 		/*class Mesh2D : public Mesh<Vertex2D> {};
 		class Mesh3D : public Mesh<Vertex3D> {};*/
-		class Albedo2D : public Mesh {};
-		class Albedo3D : public Mesh {};
-		class Texture2D : public Mesh {};
-		class TextureNormal3D : public Interface<Vertex_TextureNormal3D>
+		class Albedo2D : public Interface<Vertex2D::Albedo> {};
+		class Texture2D : public Interface<Vertex2D::Texture> {};
+		class Albedo3D : public Interface<Vertex3D::Albedo> {};
+		class TextureNormal3D : public Interface<Vertex3D::TextureNormal>
 		{
 		public:
-			TextureNormal3D(const std::vector<Vertex_TextureNormal3D>& vertices, const std::vector<uint32_t>& indices)
+			TextureNormal3D(const std::vector<Vertex3D::TextureNormal>& vertices, const std::vector<uint32_t>& indices)
 				: Interface(vertices, indices)
 			{}
 		};

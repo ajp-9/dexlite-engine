@@ -3,7 +3,7 @@
 #include "Entity/Entity.hpp"
 #include "Component/ModelComponent.hpp"
 #include "Component/TransformComponent.hpp"
-#include "../Renderer/Shader/ShaderManager.hpp"
+#include "../Renderer/Material/Shader/ShaderManager.hpp"
 
 namespace dex
 {

@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include <vector>
 
-#include "../DataTypes.hpp"
+#include "../../DataTypes/DataTypes.hpp"
 
 namespace dex
 {

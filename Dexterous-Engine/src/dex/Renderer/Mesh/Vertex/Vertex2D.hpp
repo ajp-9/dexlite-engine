@@ -3,37 +3,40 @@
 #include <glm/vec3.hpp>
 #include <glm/vec2.hpp>
 
+#include "../DataTypes/DataTypes.hpp"
+
 namespace dex
 {
-	struct Vertex2D
+	namespace Vertex2D
 	{
-		Vertex2D(glm::vec3 position = glm::vec3(0), glm::vec3 normal = glm::vec3(0), glm::vec2 texCoord = glm::vec2(0))
-			: m_Position(position), m_Normal(normal), m_TexCoord(texCoord)
-		{}
+		struct Albedo
+		{
+			Albedo(glm::vec2 position = glm::vec2(0), glm::vec4 albedo = glm::vec4(1, 0, 1, 1))
+				: m_Position(position), m_Albedo(albedo)
+			{}
 
-		glm::vec3 m_Position;
-		glm::vec3 m_Normal;
-		glm::vec2 m_TexCoord;
-	};
-	
-	struct Vertex_Albedo2D
-	{
-		Vertex_Albedo2D(glm::vec3 position = glm::vec3(0), glm::vec4 albedo = glm::vec4(1, 0, 1, 1))
-			: m_Position(position), m_Albedo(albedo)
-		{}
+			static const std::vector<Data::Type> getTypes()
+			{
+				return { Data::Type::VEC2, Data::Type::VEC4 };
+			}
 
-		glm::vec3 m_Position;
-		glm::vec4 m_Albedo;
-	};
-	
-	struct Vertex_Texture2D
-	{
-		Vertex_Texture2D(glm::vec3 position = glm::vec3(0), glm::vec3 normal = glm::vec3(0), glm::vec2 texCoord = glm::vec2(0))
-			: m_Position(position), m_Normal(normal), m_TexCoord(texCoord)
-		{}
+			glm::vec2 m_Position;
+			glm::vec4 m_Albedo;
+		};
 
-		glm::vec3 m_Position;
-		glm::vec3 m_Normal;
-		glm::vec2 m_TexCoord;
-	};
+		struct Texture
+		{
+			Texture(glm::vec2 position = glm::vec2(0), glm::vec2 texCoord = glm::vec2(0))
+				: m_Position(position), m_TexCoord(texCoord)
+			{}
+
+			static const std::vector<Data::Type> getTypes()
+			{
+				return { Data::Type::VEC3, Data::Type::VEC2 };
+			}
+
+			glm::vec2 m_Position;
+			glm::vec2 m_TexCoord;
+		};
+	}
 }
