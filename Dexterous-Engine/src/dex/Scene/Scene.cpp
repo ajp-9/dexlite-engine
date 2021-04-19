@@ -18,41 +18,44 @@ namespace dex
 
     void Scene::destroyEntity(Entity entity)
     {
-        if (entity.getComponent<Component::OrthographicCamera>().m_IsMainCamera)
-            m_OrthoCamera = nullptr;
-        if (entity.getComponent<Component::PerspectiveCamera>().m_IsMainCamera)
-            m_PerspCamera = nullptr;
+        if (entity.getComponent<Component::OrthographicCamera>().m_IsMainCamera ||
+            entity.getComponent<Component::PerspectiveCamera>().m_IsMainCamera)
+            m_MainCamera = nullptr;
 
         m_Registry.destroy(entity);
     }
 
     void Scene::findSetMainCamera()
     {
-        if (m_Registry.view<Component::OrthographicCamera>().size() + m_Registry.view<Component::PerspectiveCamera>().size() > 1)
-            std::cout << "Scene: Too many main cameras\n";
-
-        auto& orthoView = m_Registry.view<dex::Component::OrthographicCamera>();
-
-        for (auto& entityID : orthoView)
+        if (m_Registry.view<Component::OrthographicCamera>().size() + m_Registry.view<Component::PerspectiveCamera>().size() == 1)
         {
-            auto& camera = m_Registry.get<Component::OrthographicCamera>(entityID);
+            auto& orthoView = m_Registry.view<dex::Component::OrthographicCamera>();
 
-            if (camera.m_IsMainCamera)
+            for (auto& entityID : orthoView)
             {
-                m_OrthoCamera = &camera;
+                auto& camera = m_Registry.get<Component::OrthographicCamera>(entityID);
+
+                if (camera.m_IsMainCamera)
+                {
+                    m_MainCamera = &camera.m_Camera;
+                }
+            }
+
+            auto& perspView = m_Registry.view<Component::PerspectiveCamera>();
+
+            for (auto& entityID : perspView)
+            {
+                auto& camera = m_Registry.get<Component::PerspectiveCamera>(entityID);
+
+                if (camera.m_IsMainCamera)
+                {
+                    m_MainCamera = &camera.m_Camera;
+                }
             }
         }
-
-        auto& perspView = m_Registry.view<Component::PerspectiveCamera>();
-
-        for (auto& entityID : perspView)
+        else
         {
-            auto& camera = m_Registry.get<Component::PerspectiveCamera>(entityID);
-
-            if (camera.m_IsMainCamera)
-            {
-                m_PerspCamera = &camera;
-            }
+            std::cout << "Scene: Error! Too many main cameras\n";
         }
     }
 
@@ -67,10 +70,8 @@ namespace dex
 
     void Scene::render()
     {
-        if (m_OrthoCamera != nullptr)
-            ShaderManager::setProjectionViewMatrix(m_OrthoCamera->m_Camera.getProjectionViewMatrix());
-        if (m_PerspCamera != nullptr)
-            ShaderManager::setProjectionViewMatrix(m_PerspCamera->m_Camera.getProjectionViewMatrix());
+        if (m_MainCamera != nullptr)
+            ShaderManager::setProjectionViewMatrix(m_MainCamera->getProjectionViewMatrix());
 
         auto& view = m_Registry.view<Component::Model, Component::Transform>();
 

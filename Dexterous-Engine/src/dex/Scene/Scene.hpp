@@ -27,8 +27,7 @@ namespace dex
 		void doCustumUpdate() {}
 	private:
 		entt::registry m_Registry;
-		Component::OrthographicCamera* m_OrthoCamera = nullptr;
-		Component::PerspectiveCamera* m_PerspCamera = nullptr;
+		Camera::Base* m_MainCamera = nullptr;
 		
 		friend class Entity;
 	};

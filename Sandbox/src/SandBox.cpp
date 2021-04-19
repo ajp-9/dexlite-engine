@@ -11,7 +11,6 @@
 #include "Layers/DebugLayer.hpp"
 #include <imgui/imgui.h>
 #include <dex/Scene/Component/ModelComponent.hpp>
-#include <dex/Scene/Component/Camera/PerspectiveComponent.hpp>
 #include <dex/Renderer/Texture/Texture.hpp>
 
 using dex::Engine;
@@ -24,6 +23,7 @@ void SandBox::Init()
 	shader->bind();
 	shader->setInt("u_TextureSampler", 0);
 	dex::ShaderManager::addShader(shader);
+
 	//shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
 	m_Player = m_Scene.createEntity();
 	m_Player.addComponent<dex::Component::PerspectiveCamera>(true, dex::Camera::Perspective(60, dex::Engine::m_Window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
