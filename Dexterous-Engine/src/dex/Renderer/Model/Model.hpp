@@ -3,6 +3,8 @@
 #include "../Mesh/Mesh.hpp"
 #include "../Material/Material.hpp"
 
+#include <assimp/scene.h>
+
 namespace dex
 {
 	struct Model
@@ -16,12 +18,13 @@ namespace dex
 		// ***.blend
 		// ***.fbx
 		// ***.obj
-		Model(const char* location);
+		Model(const char* location, std::unique_ptr<Material::Base> material);
 
 		void render();
 
 	private:
-
+		void processNode(aiNode* node, const aiScene* scene);
+		void processMesh(aiMesh* mesh, const aiScene* scene);
 	public:
 		std::string m_Name;
 

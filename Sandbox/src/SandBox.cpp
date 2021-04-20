@@ -41,7 +41,7 @@ void SandBox::Init()
 
 	m_Entity = m_Scene.createEntity();
 
-	m_Entity.addComponent<dex::Component::Model>(std::make_unique<dex::Mesh::TextureNormal3D>(vertices, indices), std::make_unique<dex::Material::Base>(shader));
+	m_Entity.addComponent<dex::Component::Model>(dex::Model("assets/models/ship.fbx", std::make_unique<dex::Material::Base>(shader)));
 	m_Entity.addComponent<dex::Component::Transform>();
 }
 
@@ -73,6 +73,8 @@ void SandBox::render()
 	static float posY = 0.0f;
 	static float posZ = 0.0f;
 
+	static float scale = 0.0f;
+
 	static const float maxRot = 360;
 	static const float maxPos = 20;
 
@@ -86,6 +88,10 @@ void SandBox::render()
 	ImGui::SliderFloat("Position Y", &posY, -20, maxPos);
 	ImGui::SliderFloat("Position Z", &posZ, -20, maxPos);
 
+	ImGui::NewLine();
+
+	ImGui::SliderFloat("Scale X", &scale, 0.1, 1);
+
 	static char buf[50];
 	ImGui::InputText("Text Input", buf, 50);
 
@@ -93,6 +99,7 @@ void SandBox::render()
 
 	trans.setPosition(glm::vec3(posX, posY, posZ));
 	trans.setRotation(glm::vec3(rotX, rotY, rotZ));
+	trans.setScale(glm::vec3(scale, scale, scale));
 	//shader->setModelMatrix(trans);
 
 	ImGui::End();
