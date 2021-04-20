@@ -21,10 +21,12 @@ project "glad"
     }
 
     filter "configurations:Debug"
-        optimize "Off"
+        runtime "Debug"
+        symbols "on"
     filter {}
 
     filter "configurations:Release"
+        runtime "Release"
         optimize "Speed"
         inlining "Auto"
     filter {}
