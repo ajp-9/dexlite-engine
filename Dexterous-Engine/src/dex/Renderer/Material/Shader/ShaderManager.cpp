@@ -32,4 +32,5 @@ namespace dex
 	*/
 
 	std::vector<std::shared_ptr<Shader::Base>> ShaderManager::m_Shaders;
+	std::vector<UniformBufferObject> ShaderManager::m_UBOs;
 }

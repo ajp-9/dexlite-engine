@@ -9,10 +9,20 @@ out vec4 pass_Albedo;
 uniform mat4 u_ProjectionViewMatrix;
 uniform mat4 u_ModelMatrix;
 
+layout (std140) uniform ubo_ProjectionViewMatrix
+{
+    mat4 ubo_ProjectionViewMatrix;
+};
+
+layout (std140) uniform ubo_ModelMatrix
+{
+    mat4 modelMatrix;
+};
+
 void main()
 {
     pass_Albedo = in_Albedo;
-    gl_Position = u_ProjectionViewMatrix * u_ModelMatrix * vec4(in_Pos, 1.0);
+    gl_Position = ubo_ProjectionViewMatrix * u_ProjectionViewMatrix * u_ModelMatrix * vec4(in_Pos, 1.0);
 }
 
 #type FRAGMENT

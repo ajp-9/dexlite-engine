@@ -117,4 +117,42 @@ namespace dex
 			return 0;
 		}
 	}
+
+	uint32_t Data::get_std140_BaseAlignment(Type type)
+	{
+		switch (type)
+		{
+		case Type::BOOL: return sizeof(uint32_t) * 1;
+
+		case Type::CHAR: return sizeof(uint32_t) * 1;
+
+		case Type::INT: return sizeof(int) * 1;
+		case Type::IVEC2: return sizeof(int) * 2;
+		case Type::IVEC3: return sizeof(int) * 4;
+		case Type::IVEC4: return sizeof(int) * 4;
+
+		case Type::UINT: return sizeof(unsigned int) * 1;
+		case Type::UVEC2: return sizeof(unsigned int) * 2;
+		case Type::UVEC3: return sizeof(unsigned int) * 4;
+		case Type::UVEC4: return sizeof(unsigned int) * 4;
+
+		case Type::FLOAT: return sizeof(float) * 1;
+		case Type::VEC2: return sizeof(float) * 2;
+		case Type::VEC3: return sizeof(float) * 4;
+		case Type::VEC4: return sizeof(float) * 4;
+
+		case Type::DOUBLE: return sizeof(double) * 1;
+		case Type::DVEC2: return sizeof(double) * 2;
+		case Type::DVEC3: return sizeof(double) * 4;
+		case Type::DVEC4: return sizeof(double) * 4;
+
+		case Type::MAT2: return sizeof(float) * 4;
+		case Type::MAT3: return sizeof(float) * 16;
+		case Type::MAT4: return sizeof(float) * 16;
+
+		default:
+			std::cout << "Type::getTypeSize: Invalid Type\n";
+			return 0;
+		}
+	}
 }

@@ -37,10 +37,12 @@ namespace dex
 			MAT4
 		};
 
-		unsigned int getGLType(Type type);
+		uint32_t getGLType(Type type);
 
-		unsigned getTypeSize(Type type);
+		uint32_t getTypeSize(Type type);
 
-		unsigned getTypeAmount(Type type);
+		uint32_t getTypeAmount(Type type);
+
+		uint32_t get_std140_BaseAlignment(Type type);
 	}
 }

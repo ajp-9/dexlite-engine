@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "ShaderBase.hpp"
+#include "Uniform/UniformBufferObject.hpp"
 
 namespace dex
 {
@@ -19,5 +20,6 @@ namespace dex
 		static void setProjectionViewMatrix(const glm::mat4& mat);
 	private:
 		static std::vector<std::shared_ptr<Shader::Base>> m_Shaders;
+		static std::vector<UniformBufferObject> m_UBOs;
 	};
 }

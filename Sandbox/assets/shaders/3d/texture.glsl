@@ -10,6 +10,16 @@ out vec2 pass_TexCoord;
 uniform mat4 u_ProjectionViewMatrix;
 uniform mat4 u_ModelMatrix;
 
+layout (std140) uniform ubo_ProjectionViewMatrix
+{
+    mat4 ubo_ProjectionViewMatrix_Data;
+};
+
+layout (std140) uniform ubo_ModelMatrix
+{
+    mat4 modelMatrix;
+};
+
 void main()
 {
     pass_TexCoord = in_TexCoord;

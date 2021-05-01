@@ -41,7 +41,7 @@ void SandBox::Init()
 
 	m_Entity = m_Scene.createEntity();
 
-	m_Entity.addComponent<dex::Component::Model>(dex::Model("assets/models/ship.fbx", std::make_unique<dex::Material::Base>(shader)));
+	m_Entity.addComponent<dex::Component::Model>(dex::Model("assets/models/box.fbx", std::make_unique<dex::Material::Base>(shader)));
 	m_Entity.addComponent<dex::Component::Transform>();
 }
 
@@ -65,15 +65,15 @@ void SandBox::render()
 
 	ImGui::Begin("Test Window");
 
-	static float rotX = 0.0f;
-	static float rotY = 0.0f;
-	static float rotZ = 0.0f;
+	static float rotX = 45.0f;
+	static float rotY = 35.0f;
+	static float rotZ = 90.0f;
 
 	static float posX = 0.0f;
 	static float posY = 0.0f;
-	static float posZ = 0.0f;
+	static float posZ = 5.0f;
 
-	static float scale = 0.0f;
+	static float scale = 1.0f;
 
 	static const float maxRot = 360;
 	static const float maxPos = 20;

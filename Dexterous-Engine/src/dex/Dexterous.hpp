@@ -35,11 +35,10 @@
 
 #include "Renderer/Material/Texture/Texture.hpp"
 
-#include "Renderer/Mesh/VertexArray/Buffers/BufferLayout.hpp"
 #include "Renderer/Framebuffer/Framebuffer.hpp"
 #include "Renderer/Mesh/VertexArray/Buffers/IndexBuffer.hpp"
 #include "Renderer/Mesh/VertexArray/Buffers/VertexBuffer.hpp"
-#include "Renderer/Mesh/DataTypes/DataTypes.hpp"
+#include "Renderer/DataTypes/DataTypes.hpp"
 #include "Renderer/Mesh/VertexArray/VertexArray.hpp"
 
 #include "Scene/Component/Camera/OrthographicCamComponent.hpp"
