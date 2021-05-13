@@ -4,6 +4,7 @@ The goal of this engine is to be able to work fast and efficiently on lower qual
 ## How to Build:
 As long as you're on Windows and use Visual Studio 2019 it should be very easy to run the batch file (.bat) in the scripts folder to run the premake5 builder.  
 After that you should be able to open the solution compile without issue.  
+
 For Mac... well.. uh.. have fun =p
 
 ## Documentation:
