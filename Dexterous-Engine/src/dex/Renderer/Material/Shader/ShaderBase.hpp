@@ -44,6 +44,8 @@ namespace dex
 
 			const std::string& getName() const { return m_Name; }
 
+			const uint32_t getID() const { return m_ProgramID; }
+
 			// Put in the template the type of shader.
 			template <class T>
 			inline T& getSelf()

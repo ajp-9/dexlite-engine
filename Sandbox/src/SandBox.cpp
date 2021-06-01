@@ -43,6 +43,16 @@ void SandBox::Init()
 
 	m_Entity.addComponent<dex::Component::Model>(dex::Model("assets/models/box.fbx", std::make_unique<dex::Material::Base>(shader)));
 	m_Entity.addComponent<dex::Component::Transform>();
+
+	dex::UniformBufferObject model;
+	model.bindShader(shader, "ubo_ModelMatrix");
+
+	dex::UniformBufferObject proj;
+	proj.bindShader(shader, "ubo_ProjectionViewMatrix");
+
+	std::cout << proj.m_BlockSize << '\n';
+	std::cout << model.m_BlockSize << '\n';
+
 }
 
 void SandBox::Shutdown()
