@@ -10,14 +10,30 @@ namespace dex
 		bind();
 
 		m_BlockBinding = s_NextBlockBinding++;
-		std::cout << m_BlockBinding << ", " << s_NextBlockBinding << "\n";
 	}
 
 	void UniformBufferObject::bindShader(const std::shared_ptr<Shader::Base>& shader, const char* ubo_name)
 	{
-		m_InternalBlockBinding = glGetUniformBlockIndex(shader->getID(), ubo_name);
-		glUniformBlockBinding(shader->getID(), m_InternalBlockBinding, m_BlockBinding);
-		glGetActiveUniformBlockiv(shader->getID(), m_InternalBlockBinding, GL_UNIFORM_BLOCK_DATA_SIZE, &m_BlockSize);
+		bind();
+
+		uint32_t internalBlockBinding = glGetUniformBlockIndex(shader->getID(), ubo_name);
+
+		glUniformBlockBinding(shader->getID(), internalBlockBinding, m_BlockBinding);
+		glGetActiveUniformBlockiv(shader->getID(), internalBlockBinding, GL_UNIFORM_BLOCK_DATA_SIZE, &m_BlockSize);
+	}
+
+	void UniformBufferObject::setup()
+	{
+		bind();
+
+		glBufferData(GL_UNIFORM_BUFFER, m_BlockSize, NULL, GL_STATIC_DRAW);
+
+		glBindBufferBase(GL_UNIFORM_BUFFER, m_BlockBinding, m_ID); // Or maybe glBindBufferBase
+	}
+
+	void UniformBufferObject::uploadData(const void* data)
+	{
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, m_BlockSize, data);
 	}
 
 	void UniformBufferObject::bind()

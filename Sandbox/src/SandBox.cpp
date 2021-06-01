@@ -28,7 +28,7 @@ void SandBox::Init()
 
 	m_Scene.findSetMainCamera();
 
-	std::vector<dex::Vertex3D::TextureNormal> vertices =
+	/*std::vector<dex::Vertex3D::TextureNormal> vertices =
 	{
 		{glm::vec3(0.5f,  0.5f, 0.0f),  glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)}, // top right
 		{glm::vec3(0.5f, -0.5f, 0.0f),  glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)}, // bottom right
@@ -37,22 +37,34 @@ void SandBox::Init()
 	};
 
 	std::vector<unsigned> indices = { 0, 1, 3, 1, 2, 3 };
-	//std::unique_ptr<dex::Mesh> m = std::make_unique<dex::Mesh>(vertices, indices);
+	//std::unique_ptr<dex::Mesh> m = std::make_unique<dex::Mesh>(vertices, indices);*/
 
 	m_Entity = m_Scene.createEntity();
 
 	m_Entity.addComponent<dex::Component::Model>(dex::Model("assets/models/box.fbx", std::make_unique<dex::Material::Base>(shader)));
 	m_Entity.addComponent<dex::Component::Transform>();
 
-	dex::UniformBufferObject model;
-	model.bindShader(shader, "ubo_ModelMatrix");
-
 	dex::UniformBufferObject proj;
 	proj.bindShader(shader, "ubo_ProjectionViewMatrix");
 
-	std::cout << proj.m_BlockSize << '\n';
-	std::cout << model.m_BlockSize << '\n';
+	proj.setup();
 
+	struct Test
+	{
+		Test(float c) : color(c) {}
+		__declspec(align(16)) float color = 0;
+	};
+
+	struct smth {
+		Test tests[2] = { Test(0), Test(1) };
+	} s;
+
+	 Test tests[2] = { Test(0), Test(1) };
+
+	proj.uploadData(&tests);
+
+	std::cout << proj.m_BlockSize << '\n';
+	//std::cout << model.m_BlockSize << '\n';
 }
 
 void SandBox::Shutdown()
