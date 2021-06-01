@@ -50,9 +50,9 @@ namespace dex
 
 		/*class Mesh2D : public Mesh<Vertex2D> {};
 		class Mesh3D : public Mesh<Vertex3D> {};*/
-		class Albedo2D : public Interface<Vertex2D::Albedo> {};
+		class Diffuse2D : public Interface<Vertex2D::Diffuse> {};
 		class Texture2D : public Interface<Vertex2D::Texture> {};
-		class Albedo3D : public Interface<Vertex3D::Albedo> {};
+		class Diffuse3D : public Interface<Vertex3D::Diffuse> {};
 		class TextureNormal3D : public Interface<Vertex3D::TextureNormal>
 		{
 		public:

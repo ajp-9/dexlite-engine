@@ -24,11 +24,10 @@ namespace dex
 
 		void bind();
 		void unbind();
-	public:
+	private:
 		uint32_t m_ID = 0;
 		int32_t m_BlockSize = 0;
 
-		//uint32_t m_InternalBlockBinding = 0;
 		uint32_t m_BlockBinding = 0;
 		static uint32_t s_NextBlockBinding;
 	};

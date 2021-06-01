@@ -10,10 +10,10 @@ namespace dex
 {
 	namespace Vertex2D
 	{
-		struct Albedo
+		struct Diffuse
 		{
-			Albedo(glm::vec2 position = glm::vec2(0), glm::vec4 albedo = glm::vec4(1, 0, 1, 1))
-				: m_Position(position), m_Albedo(albedo)
+			Diffuse(glm::vec2 position = glm::vec2(0), glm::vec4 diffuse = glm::vec4(1, 0, 1, 1))
+				: m_Position(position), m_Diffuse(diffuse)
 			{}
 
 			static const std::vector<Data::Type> getTypes()
@@ -22,7 +22,7 @@ namespace dex
 			}
 
 			glm::vec2 m_Position;
-			glm::vec4 m_Albedo;
+			glm::vec4 m_Diffuse;
 		};
 
 		struct Texture

@@ -6,16 +6,16 @@
 
 #include <vector>
 
-#include "../DataTypes/DataTypes.hpp"
+#include "../../DataTypes/DataTypes.hpp"
 
 namespace dex
 {
 	namespace Vertex3D
 	{
-		struct Albedo
+		struct Diffuse
 		{
-			Albedo(glm::vec3 position = glm::vec3(0), glm::vec4 albedo = glm::vec4(1, 0, 1, 1))
-				: m_Position(position), m_Albedo(albedo)
+			Diffuse(glm::vec3 position = glm::vec3(0), glm::vec4 diffuse = glm::vec4(1, 0, 1, 1))
+				: m_Position(position), m_Diffuse(diffuse)
 			{}
 
 			static const std::vector<Data::Type> getTypes()
@@ -24,7 +24,7 @@ namespace dex
 			}
 
 			glm::vec3 m_Position;
-			glm::vec4 m_Albedo;
+			glm::vec4 m_Diffuse;
 		};
 
 		struct TextureNormal

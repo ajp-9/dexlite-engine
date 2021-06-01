@@ -62,9 +62,6 @@ void SandBox::Init()
 	 Test tests[2] = { Test(0), Test(1) };
 
 	proj.uploadData(&tests);
-
-	std::cout << proj.m_BlockSize << '\n';
-	//std::cout << model.m_BlockSize << '\n';
 }
 
 void SandBox::Shutdown()
