@@ -49,17 +49,22 @@ void SandBox::Init()
 
 	proj.setup();
 
-	struct Test
+	__declspec(align(16)) struct Test
 	{
-		Test(float c) : color(c) {}
-		__declspec(align(16)) float color = 0;
+		Test(float v) : values(v) {}
+
+		int b = 3;
+		__declspec(align(16)) glm::vec3 w = glm::vec3(0);
+		__declspec(align(16)) glm::mat4 m = glm::mat4(0);
+		__declspec(align(16)) glm::vec2 w1 = glm::vec2(0);
+		int what = 0;
+		__declspec(align(16)) glm::vec3 w2 = glm::vec3(0);
+		float values = 1;
 	};
 
-	struct smth {
-		Test tests[2] = { Test(0), Test(1) };
-	} s;
+	Test tests[2] = { Test(0), Test(1) };
 
-	 Test tests[2] = { Test(0), Test(1) };
+	std::cout << sizeof(tests) << "\n";
 
 	proj.uploadData(&tests);
 }

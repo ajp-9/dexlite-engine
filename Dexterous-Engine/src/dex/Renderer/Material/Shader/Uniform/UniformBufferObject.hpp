@@ -20,6 +20,13 @@ namespace dex
 
 		// Upload all the data in a struct before uploading.
 		// Or put "__declspec(align(16))" in front of all your variables.
+
+		/*
+		Important:
+		 Everything should be inside a struct, (or an array of structs)
+		 with the struct having "__declspec(align(16))" infront of the it.
+		 All glm types should also have "__declspec(align(16))" in front of them.
+		*/
 		void uploadData(const void* data);
 
 		void bind();

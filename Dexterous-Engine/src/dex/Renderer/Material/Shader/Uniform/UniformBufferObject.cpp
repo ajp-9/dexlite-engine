@@ -20,6 +20,7 @@ namespace dex
 
 		glUniformBlockBinding(shader->getID(), internalBlockBinding, m_BlockBinding);
 		glGetActiveUniformBlockiv(shader->getID(), internalBlockBinding, GL_UNIFORM_BLOCK_DATA_SIZE, &m_BlockSize);
+		std::cout << m_BlockSize << "\n";
 	}
 
 	void UniformBufferObject::setup()

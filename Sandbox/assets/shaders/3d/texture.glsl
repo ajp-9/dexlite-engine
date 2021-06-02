@@ -14,7 +14,13 @@ uniform mat4 u_ModelMatrix;
 
 struct Data
 {
-    float test;
+    int b;
+    vec3 w;
+    mat4 mm;
+    vec2 w1;
+    int what;
+    vec3 w2;
+    float values;
 };
 
 layout (std140) uniform ubo_ProjectionViewMatrix
@@ -30,8 +36,8 @@ layout (std140) uniform ubo_ModelMatrix
 void main()
 {
     pass_TexCoord = in_TexCoord;
-    pass_test1 = dat[0].test;
-        pass_test2 = dat[1].test;
+    pass_test1 = dat[0].values;
+    pass_test2 = dat[1].values;
 
     gl_Position = u_ProjectionViewMatrix * u_ModelMatrix * vec4(in_Pos, 1.0);
 }
