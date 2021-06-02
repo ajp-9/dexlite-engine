@@ -12,7 +12,7 @@ namespace dex
 
 	void ImGuiLayer::Detach() {}
 
-	void ImGuiLayer::event(std::unique_ptr<Event::Event>& e)
+	void ImGuiLayer::event(std::unique_ptr<Event::Base>& e)
 	{
 		ImGui_ImplSDL2_ProcessEvent(&e->m_RawEvent);
 		if (e->m_Type == Event::Type::KEYBOARD || e->m_Type == Event::Type::KEY_DOWN || e->m_Type == Event::Type::KEY_UP)

@@ -13,7 +13,7 @@ namespace dex
 		{
 			std::ifstream source;
 			source.open(std::string(src));
-
+			
 			std::string srcVertex, srcFragment;
 
 			if (source.is_open())

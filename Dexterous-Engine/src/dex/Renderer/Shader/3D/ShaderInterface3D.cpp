@@ -7,7 +7,7 @@ namespace dex
 	namespace Shader
 	{
 		Interface3D::Interface3D(const char* src, const char* name)
-			: Base(src, name, Type::DEFAULT)
+			: Base(src, name, Type::BASE)
 		{
 			setLocations3D();
 		}

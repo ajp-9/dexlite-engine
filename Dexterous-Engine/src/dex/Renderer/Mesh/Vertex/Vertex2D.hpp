@@ -4,7 +4,7 @@
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 
-#include "../DataTypes/DataTypes.hpp"
+#include "../../DataTypes/DataTypes.hpp"
 
 namespace dex
 {

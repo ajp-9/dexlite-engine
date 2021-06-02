@@ -17,12 +17,15 @@ namespace dex
 
 		static void run();
 	public:
+		static void Stop();
+
 		static DeltaTime m_DeltaTime;
 
 		static Window m_Window;
-		static LayerManager m_LayerManager;
 
-		friend class EventManager;
+		static Layer::Manager m_LayerManager;
+		static Event::Manager m_EventManager;
+
 		friend int ::main(int argc, char** argv);
 	private:
 		static bool m_Running;

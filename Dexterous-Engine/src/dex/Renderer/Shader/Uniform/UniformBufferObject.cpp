@@ -7,6 +7,7 @@ namespace dex
 	UniformBufferObject::UniformBufferObject()
 	{
 		glGenBuffers(1, &m_ID);
+
 		bind();
 
 		m_BlockBinding = s_NextBlockBinding++;
@@ -34,6 +35,8 @@ namespace dex
 
 	void UniformBufferObject::uploadData(const void* data)
 	{
+		bind();
+
 		glBufferSubData(GL_UNIFORM_BUFFER, 0, m_BlockSize, data);
 	}
 

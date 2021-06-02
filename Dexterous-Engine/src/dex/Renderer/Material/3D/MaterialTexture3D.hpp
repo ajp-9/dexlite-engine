@@ -2,7 +2,7 @@
 
 #include "../Material.hpp"
 #include "../Texture/Texture.hpp"
-#include "../Shader/3D/ShaderTexture3D.hpp"
+#include "../../Shader/3D/ShaderTexture3D.hpp"
 
 namespace dex
 {

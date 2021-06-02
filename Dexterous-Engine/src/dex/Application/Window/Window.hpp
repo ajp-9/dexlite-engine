@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 
-#include "../Layer/Event/Event.hpp"
+#include "../Layer/Event/EventBase.hpp"
 
 namespace dex
 {

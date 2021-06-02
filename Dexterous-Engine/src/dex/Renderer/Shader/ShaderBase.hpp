@@ -4,15 +4,13 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <functional>
-
 namespace dex
 {
 	namespace Shader
 	{
-		enum class Type : uint8_t
+		enum class Type : uint32_t
 		{
-			DEFAULT,
+			BASE,
 			ALBEDO_3D,
 			TEXTURE_3D
 		};
@@ -20,7 +18,7 @@ namespace dex
 		class Base
 		{
 		public:
-			Base(const char* src, const char* name, Type type = Type::DEFAULT);
+			Base(const char* src, const char* name, Type type = Type::BASE);
 			~Base();
 
 			void bind() const;

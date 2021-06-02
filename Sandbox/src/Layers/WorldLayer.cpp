@@ -16,6 +16,6 @@ void WorldLayer::render()
 {
 }
 
-void WorldLayer::event(std::unique_ptr<dex::Event::Event>& e)
+void WorldLayer::event(std::unique_ptr<dex::Event::Base>& e)
 {
 }

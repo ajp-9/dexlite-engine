@@ -18,8 +18,6 @@ namespace dex
 
     void Engine::Shutdown()
     {
-        m_Running = false;
-
         m_LayerManager.detachAllLayers();
         m_Program->Shutdown();
         Renderer::Shutdown();
@@ -63,6 +61,11 @@ namespace dex
         }
     }
 
+    void Engine::Stop()
+    {
+        m_Running = false;
+    }
+
     /*
     ** Initialize member variables
     */
@@ -71,7 +74,9 @@ namespace dex
 
     DeltaTime Engine::m_DeltaTime(60);
     Window Engine::m_Window(glm::uvec2(1280, 720));
-    LayerManager Engine::m_LayerManager;
+
+    Layer::Manager Engine::m_LayerManager;
+    Event::Manager Engine::m_EventManager;
 
     std::shared_ptr<Program> Engine::m_Program;
 }

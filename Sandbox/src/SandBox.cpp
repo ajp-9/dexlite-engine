@@ -20,8 +20,8 @@ void SandBox::Init()
 
 	shader->bind();
 	shader->setInt("u_TextureSampler", 0);
-	dex::ShaderManager::addShader(shader);
-
+	dex::Shader::ShaderManager::addShader(shader);
+	
 	//shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
 	m_Player = m_Scene.createEntity();
 	m_Player.addComponent<dex::Component::PerspectiveCamera>(true, dex::Camera::Perspective(60, dex::Engine::m_Window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
@@ -49,9 +49,9 @@ void SandBox::Init()
 
 	proj.setup();
 
-	__declspec(align(16)) struct Test
+	__declspec(align(16)) struct Data
 	{
-		Test(float v) : values(v) {}
+		Data(float v) : values(v) {}
 
 		int b = 3;
 		__declspec(align(16)) glm::vec3 w = glm::vec3(0);
@@ -62,11 +62,13 @@ void SandBox::Init()
 		float values = 1;
 	};
 
-	Test tests[2] = { Test(0), Test(1) };
+	Data dat[2] = { Data(0), Data(1) };
 
-	std::cout << sizeof(tests) << "\n";
+	dat[0].w = glm::vec3(0, 3, 1);
 
-	proj.uploadData(&tests);
+	std::cout << sizeof(dat) << "\n";
+
+	proj.uploadData(&dat);
 }
 
 void SandBox::Shutdown()

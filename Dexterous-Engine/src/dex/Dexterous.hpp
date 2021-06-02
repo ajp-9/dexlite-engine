@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Application/Layer/Event/Event.hpp"
+#include "Application/Layer/Event/EventBase.hpp"
 #include "Application/Layer/Event/EventManager.hpp"
 #include "Application/Layer/Event/KeyEvent.hpp"
 #include "Application/Layer/Event/MouseEvent.hpp"
 
 #include "Application/Layer/ImGuiLayer.hpp"
-#include "Application/Layer/Layer.hpp"
+#include "Application/Layer/LayerBase.hpp"
 #include "Application/Layer/LayerManager.hpp"
 
 #include "Application/Window/Window.hpp"
@@ -28,10 +28,10 @@
 
 #include "Renderer/Renderer.hpp"
 
-#include "Renderer/Material/Shader/ShaderBase.hpp"
-#include "Renderer/Material/Shader/ShaderManager.hpp"
-#include "Renderer/Material/Shader/Uniform/UniformBufferObject.hpp"
-#include "Renderer/Material/Shader/Uniform/Uniforms.hpp"
+#include "Renderer/Shader/ShaderManager.hpp"
+#include "Renderer/Shader/ShaderBase.hpp"
+#include "Renderer/Shader/Uniform/UniformBufferObject.hpp"
+#include "Renderer/Shader/Uniform/Uniforms.hpp"
 
 #include "Renderer/Material/Texture/Texture.hpp"
 

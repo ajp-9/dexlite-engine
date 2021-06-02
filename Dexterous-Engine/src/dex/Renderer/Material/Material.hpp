@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "../Material/Shader/ShaderBase.hpp"
+#include "../Shader/ShaderBase.hpp"
 #include "../Material/Texture/Texture.hpp"
 
 namespace dex

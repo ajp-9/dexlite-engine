@@ -3,7 +3,7 @@
 #include "Entity/Entity.hpp"
 #include "Component/ModelComponent.hpp"
 #include "Component/TransformComponent.hpp"
-#include "../Renderer/Material/Shader/ShaderManager.hpp"
+#include "../Renderer/Shader/ShaderManager.hpp"
 
 namespace dex
 {
@@ -71,7 +71,7 @@ namespace dex
     void Scene::render()
     {
         if (m_MainCamera != nullptr)
-            ShaderManager::setProjectionViewMatrix(m_MainCamera->getProjectionViewMatrix());
+            Shader::ShaderManager::setProjectionViewMatrix(m_MainCamera->getProjectionViewMatrix());
 
         auto& view = m_Registry.view<Component::Model, Component::Transform>();
 

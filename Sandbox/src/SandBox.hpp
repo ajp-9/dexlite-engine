@@ -2,9 +2,9 @@
 
 #include <stb_image.h>
 #include <dex/Dexterous.hpp>
-#include <dex/Renderer/Material/Shader/3D/ShaderInterface3D.hpp>
-#include <dex/Renderer/Material/Shader/3D/ShaderDiffuse3D.hpp>
-#include <dex/Renderer/Material/Shader/3D/ShaderTexture3D.hpp>
+#include <dex/Renderer/Shader/3D/ShaderInterface3D.hpp>
+#include <dex/Renderer/Shader/3D/ShaderDiffuse3D.hpp>
+#include <dex/Renderer/Shader/3D/ShaderTexture3D.hpp>
 
 class SandBox : public dex::Program
 {

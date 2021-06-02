@@ -4,13 +4,16 @@
 #include <vector>
 #include <memory>
 
-#include "Event.hpp"
+#include "EventBase.hpp"
 
 namespace dex
 {
-	class EventManager
+	namespace Event
 	{
-	public:
-		static std::vector<std::unique_ptr<Event::Event>> getEventQueue();
-	};
+		class Manager
+		{
+		public:
+			static std::vector<std::unique_ptr<Event::Base>> getEventQueue();
+		};
+	}
 }

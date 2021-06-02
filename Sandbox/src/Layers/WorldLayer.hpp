@@ -2,7 +2,7 @@
 
 #include <dex/Core/Engine.hpp>
 
-class WorldLayer : public dex::Layer
+class WorldLayer : public dex::Layer::Base
 {
 public:
 	virtual void Attach() override;
@@ -10,5 +10,5 @@ public:
 
 	virtual void update() override;
 	virtual void render() override;
-	virtual void event(std::unique_ptr<dex::Event::Event>& e) override;
+	virtual void event(std::unique_ptr<dex::Event::Base>& e) override;
 };
