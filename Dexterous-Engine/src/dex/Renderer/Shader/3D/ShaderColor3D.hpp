@@ -6,10 +6,10 @@ namespace dex
 {
 	namespace Shader
 	{
-		class Diffuse3D : public Base
+		class Color3D : public Base
 		{
 		public:
-			Diffuse3D(const char* src = "assets/shaders/3d/diffuse.glsl", const char* name = "ShaderDiffuse")
+			Color3D(const char* src = "assets/shaders/3d/color.glsl", const char* name = "ShaderColor")
 				: Base(src, name)
 			{}
 		};

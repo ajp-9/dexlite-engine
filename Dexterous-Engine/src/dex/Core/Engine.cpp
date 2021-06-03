@@ -23,7 +23,7 @@ namespace dex
         Renderer::Shutdown();
     }
 
-    void Engine::run()
+    void Engine::Run()
     {
         m_Program->Init();
 

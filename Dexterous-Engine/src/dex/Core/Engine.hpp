@@ -15,7 +15,7 @@ namespace dex
 		static void Init(std::shared_ptr<Program> program);
 		static void Shutdown();
 
-		static void run();
+		static void Run();
 	public:
 		static void Stop();
 

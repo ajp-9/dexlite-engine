@@ -11,11 +11,11 @@ namespace dex
 		struct Texture3D
 		{
 			Texture3D(const std::weak_ptr<Shader::Texture3D>& shader, const Texture& texture)
-				: m_Shader(shader), m_DiffuseMap(texture)
+				: m_Shader(shader), m_ColorMap(texture)
 			{}
 
 			std::weak_ptr<Shader::Texture3D> m_Shader;
-			Texture m_DiffuseMap;
+			Texture m_ColorMap;
 		};
 	}
 }
