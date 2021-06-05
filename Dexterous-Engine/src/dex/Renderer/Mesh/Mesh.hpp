@@ -48,6 +48,14 @@ namespace dex
 			std::vector<uint32_t> m_Indices;
 		};
 
+		class Default3D : public Interface<Vertex3D::Default>
+		{
+		public:
+			Default3D(const std::vector<Vertex3D::Default>& vertices, const std::vector<uint32_t>& indices)
+				: Interface(vertices, indices)
+			{}
+		};
+
 		/*class Mesh2D : public Mesh<Vertex2D> {};
 		class Mesh3D : public Mesh<Vertex3D> {};*/
 		class Color2D : public Interface<Vertex2D::Color> {};

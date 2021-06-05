@@ -4,17 +4,12 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "ShaderManager.hpp"
+
 namespace dex
 {
 	namespace Shader
 	{
-		enum class Type : uint32_t
-		{
-			BASE,
-			ALBEDO_3D,
-			TEXTURE_3D
-		};
-
 		class Base
 		{
 		public:

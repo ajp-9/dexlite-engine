@@ -44,7 +44,7 @@ void SandBox::Init()
 	m_Entity.addComponent<dex::Component::Model>(dex::Model("assets/models/box.fbx", std::make_unique<dex::Material::Base>(shader)));
 	m_Entity.addComponent<dex::Component::Transform>();
 
-	dex::UniformBufferObject proj;
+	dex::Shader::UniformBufferObject proj;
 	proj.bindShader(shader, "ubo_ProjectionViewMatrix");
 
 	proj.setup();

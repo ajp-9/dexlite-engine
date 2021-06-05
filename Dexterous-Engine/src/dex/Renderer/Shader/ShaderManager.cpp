@@ -1,11 +1,17 @@
 #include "ShaderManager.hpp"
 
 #include "ShaderBase.hpp"
+#include "3D/ShaderDefault3D.hpp"
 
 namespace dex
 {
 	namespace Shader
 	{
+		void ShaderManager::Init()
+		{
+
+		}
+
 		void ShaderManager::addShader(const std::shared_ptr<Shader::Base>& shader)
 		{
 			m_Shaders.emplace_back(shader);
