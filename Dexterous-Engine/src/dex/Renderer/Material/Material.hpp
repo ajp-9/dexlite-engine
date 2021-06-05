@@ -10,6 +10,7 @@ namespace dex
 	{
 		enum class Type : uint8_t
 		{
+			BASE,
 			DEFAULT,
 			ALBEDO_3D,
 			TEXTURE_3D
@@ -17,7 +18,7 @@ namespace dex
 
 		struct Base
 		{
-			Base(const std::weak_ptr<Shader::Base>& shader, Type type = Type::DEFAULT)
+			Base(const std::weak_ptr<Shader::Base>& shader, Type type = Type::BASE)
 				: m_Shader(shader), m_Type(type)
 			{}
 

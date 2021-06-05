@@ -20,7 +20,7 @@ namespace dex
 		VertexBuffer();
 
 		template <typename V>
-		void uploadData(const std::vector<V>& vertices, const BufferDrawHint drawHint = BufferDrawHint::STATIC);
+		void uploadData(const std::vector<V>& vertices, BufferDrawHint drawHint = BufferDrawHint::STATIC);
 		
 		void bind();
 		void unbind();
@@ -32,11 +32,11 @@ namespace dex
 	};
 
 	/*
-	*  IMPLEMENTATION
+	** Implementation:
 	*/
 
 	template<typename V>
-	inline void VertexBuffer::uploadData(const std::vector<V>& vertices, const BufferDrawHint drawHint)
+	inline void VertexBuffer::uploadData(const std::vector<V>& vertices, BufferDrawHint drawHint)
 	{
 		bind();
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(V), &vertices[0], uint32_t(drawHint));

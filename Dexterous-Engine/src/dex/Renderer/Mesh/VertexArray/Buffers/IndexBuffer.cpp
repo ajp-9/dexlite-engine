@@ -5,7 +5,6 @@
 
 namespace dex
 {
-
 	IndexBuffer::IndexBuffer()
 	{
 		glGenBuffers(1, &m_ID);
@@ -27,5 +26,4 @@ namespace dex
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
-	
 }

@@ -18,7 +18,7 @@ void SandBox::Init()
 	Engine::m_LayerManager.pushLayer(std::make_shared<WorldLayer>());
 	Engine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
 
-	shader->bind();
+	/*shader->bind();
 	shader->setInt("u_TextureSampler", 0);
 	dex::Shader::ShaderManager::addShader(shader);
 	
@@ -37,7 +37,7 @@ void SandBox::Init()
 	};
 
 	std::vector<unsigned> indices = { 0, 1, 3, 1, 2, 3 };
-	//std::unique_ptr<dex::Mesh> m = std::make_unique<dex::Mesh>(vertices, indices);*/
+	//std::unique_ptr<dex::Mesh> m = std::make_unique<dex::Mesh>(vertices, indices);/
 
 	m_Entity = m_Scene.createEntity();
 
@@ -68,7 +68,14 @@ void SandBox::Init()
 
 	std::cout << sizeof(dat) << "\n";
 
-	proj.uploadData(&dat);
+	proj.uploadData(&dat);*/
+
+	std::vector<dex::Vertex3D::Default> vertices = { dex::Vertex3D::Default(), dex::Vertex3D::Default() };
+	std::vector<unsigned> indices = { 0, 1, 3, 1, 2, 3 };
+	std::vector<dex::Material::Default3D> materials;
+
+	std::unique_ptr<dex::Mesh::Base> def = std::make_unique<dex::Mesh::Default3D>(vertices, indices, materials);
+	std::cout << (uint32_t)def->m_Type << "\n";
 }
 
 void SandBox::Shutdown()
@@ -84,7 +91,7 @@ void SandBox::render()
 {
 	/*static glm::vec3 p = glm::vec3(0);
 	p.z += .005;
-	m_Player.getComponent<dex::Component::PerspCamera>().m_Camera.setPosition(p);*/
+	m_Player.getComponent<dex::Component::PerspCamera>().m_Camera.setPosition(p);
 
 	//va.render();
 	m_Scene.render();
@@ -129,6 +136,6 @@ void SandBox::render()
 	//shader->setModelMatrix(trans);
 
 	ImGui::End();
-	m_Texture.bind();
+	m_Texture.bind();*/
 
 }

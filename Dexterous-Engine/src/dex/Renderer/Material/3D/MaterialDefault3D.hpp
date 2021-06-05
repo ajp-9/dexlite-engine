@@ -10,14 +10,30 @@ namespace dex
 	{
 		struct Default3D
 		{
-			Default3D(const std::weak_ptr<Shader::Default3D>& shader, const std::vector<Texture>& diffuseMaps, std::vector<Texture>& specularMaps)
-				: m_Shader(shader), m_DiffuseMaps(diffuseMaps), m_SpecularMaps(specularMaps)
+			Default3D(
+				const std::weak_ptr<Shader::Default3D>& shader,
+				glm::vec4 color,
+				float texTilingFactor,
+				const std::vector<Texture>& diffuseMaps,
+				const std::vector<Texture>& specularMaps)
+
+				: // Initializer List
+
+				m_Shader(shader),
+				m_Color(color),
+				m_TexTilingFactor(texTilingFactor),
+				m_DiffuseMaps(diffuseMaps),
+				m_SpecularMaps(specularMaps)
 			{}
 
 			std::weak_ptr<Shader::Default3D> m_Shader;
+		
+			glm::vec4 m_Color;
+
+			float m_TexTilingFactor;
+
 			std::vector<Texture> m_DiffuseMaps;
 			std::vector<Texture> m_SpecularMaps;
-			// might need color, idk though
 		};
 	}
 }

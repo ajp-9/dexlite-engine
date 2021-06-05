@@ -101,6 +101,6 @@ namespace dex
 				indices.push_back(face.mIndices[j]);
 		}
 
-		m_Mesh = std::make_unique<Mesh::TextureNormal3D>(vertices, indices);
+		//m_Mesh = std::make_unique<Mesh::TextureNormal3D>(vertices, indices);
 	}
 }
