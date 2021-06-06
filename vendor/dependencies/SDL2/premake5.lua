@@ -7,7 +7,7 @@ project "SDL2"
 	filter {}
 	
 	targetdir ("%{prj.location}/bin/%{cfg.buildcfg}")
-    objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")
+		objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")
 
 	filter "system:windows"
 		links 
@@ -199,13 +199,13 @@ project "SDL2"
 		}
 	filter {}
 
-    filter "configurations:Debug"
-        runtime "Debug"
-		symbols "on"
-    filter {}
+	filter "configurations:Debug"
+		runtime "Debug"
+	symbols "on"
+	filter {}
 
-    filter "configurations:Release"
-        runtime "Release"
-        optimize "Speed"
-        inlining "Auto"
-    filter {}
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "Speed"
+		inlining "Auto"
+	filter {}

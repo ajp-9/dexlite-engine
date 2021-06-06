@@ -1,9 +1,7 @@
 #pragma once
 
-#include <stb_image.h>
 #include <dex/Dexterous.hpp>
-#include <dex/Renderer/Shader/3D/ShaderInterface3D.hpp>
-#include <dex/Renderer/Shader/3D/ShaderColor3D.hpp>
+#include <memory>
 #include <dex/Renderer/Shader/3D/ShaderTexture3D.hpp>
 
 class SandBox : public dex::Program
@@ -15,6 +13,7 @@ public:
 	virtual void update() override;
 	virtual void render() override;
 private:
+	std::shared_ptr<dex::Shader::Texture3D> shader = std::make_shared<dex::Shader::Texture3D>();
 	dex::Scene m_Scene;
 	dex::Entity m_Entity;
 	dex::Entity m_Player;
