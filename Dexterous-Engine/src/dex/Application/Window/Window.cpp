@@ -1,8 +1,8 @@
 #include "Window.hpp"
 
 #include <glad/glad.h>
+
 #include <iostream>
-#include <glm/vec2.hpp>
 
 #include "../../Renderer/Renderer.hpp"
 
@@ -10,52 +10,68 @@ namespace dex
 {
     Window::Window(glm::uvec2 windowDimensions)
     {
-        if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+        if (!glfwInit())
+            std::cout << "Error: Problem when initializing GLFW!\n";
+
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+        m_Window_GLFW = glfwCreateWindow(windowDimensions.x, windowDimensions.y, "Dexterous Engine", NULL, NULL);
+        if (!m_Window_GLFW)
         {
-            std::cout << "Failed to initialize the SDL2 library\n";
+            glfwTerminate();
+            std::cout << "Error: Problem when creating the GLFW window!\n";
         }
 
-        m_SDL_WindowHandle = SDL_CreateWindow(
-            "Game",
-            SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowDimensions.x, windowDimensions.y,
-            SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+        glfwMakeContextCurrent(m_Window_GLFW);
 
-        if (!m_SDL_WindowHandle)
-            fprintf(stderr, "%s: %s\n", "Couldn't create window: ", SDL_GetError());
 
-        SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 0);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
-        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); // allocate 2 buffers
-        //SDL_GL_SetSwapInterval(1); // vsync
+        glfwSetWindowUserPointer(m_Window_GLFW, &m_Data);
 
-        m_GLContext = SDL_GL_CreateContext(m_SDL_WindowHandle);
-        if (m_GLContext == NULL)
-            fprintf(stderr, "%s: %s\n", "Could not create the OpenGL context: ", SDL_GetError());
+        glfwSetWindowSizeCallback(m_Window_GLFW, [](GLFWwindow* window, int width, int height)
+        {
+            Renderer::setViewportSize(glm::uvec2(width, height));
+        });
 
-        // Load OpenGL functions glad SDL
-        gladLoadGLLoader(SDL_GL_GetProcAddress);
+        glfwSetWindowPosCallback(m_Window_GLFW, [](GLFWwindow* window, int xpos, int ypos)
+        {
+            Renderer::setViewportPosition(glm::uvec2(xpos, ypos));
+        });
 
-        SDL_UpdateWindowSurface(m_SDL_WindowHandle);
+        glfwSetKeyCallback(m_Window_GLFW, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+        {
+            Data& data = *(Data*)glfwGetWindowUserPointer(window);
+
+            //Event::KeyEvent event = Event::KeyEvent(key, scancode, action);
+            //data.m_EventCallbackFunc()
+        });
+
+        // glad: load all OpenGL function pointers
+        // ---------------------------------------
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        {
+            std::cout << "Error: Window failed to initialize GLAD" << std::endl;
+        }
     }
 
     Window::~Window()
     {
-        SDL_GL_DeleteContext(m_GLContext);
-        SDL_DestroyWindow(m_SDL_WindowHandle);
-        SDL_Quit();
+        glfwDestroyWindow(m_Window_GLFW);
+        glfwTerminate();
     }
 
     void Window::update()
     {
-        SDL_GL_SwapWindow(m_SDL_WindowHandle); // swap buffers
+        glfwSwapBuffers(m_Window_GLFW);
+        glfwPollEvents();
     }
 
     glm::ivec2 Window::getDimensions()
     {
         glm::ivec2 dimensions;
-        SDL_GetWindowSize(m_SDL_WindowHandle, &dimensions.x, &dimensions.y);
+        glfwGetWindowSize(m_Window_GLFW, &dimensions.x, &dimensions.y);
         return dimensions;
     }
 }

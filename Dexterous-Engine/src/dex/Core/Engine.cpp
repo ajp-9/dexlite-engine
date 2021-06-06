@@ -1,6 +1,5 @@
 #include "Engine.hpp"
 
-#include <sdl2/SDL.h>
 #include <chrono>
 #include <iostream>
 #include <thread>
@@ -34,8 +33,6 @@ namespace dex
             s_DeltaTime.start();
 
             // Updating/events -------------
-            Renderer::trySetViewport(glm::uvec4(0, 0, s_Window.getDimensions()));
-
             s_Program->update();
             s_LayerManager.updateLayers();
             s_LayerManager.sendEvents();
@@ -76,7 +73,6 @@ namespace dex
     Window Engine::s_Window(glm::uvec2(1280, 720));
 
     Layer::Manager Engine::s_LayerManager;
-    Event::Manager Engine::s_EventManager;
 
     std::shared_ptr<Program> Engine::s_Program;
 }

@@ -24,7 +24,6 @@ namespace dex
 		static Window s_Window;
 
 		static Layer::Manager s_LayerManager;
-		static Event::Manager s_EventManager;
 
 		friend int ::main(int argc, char** argv);
 	private:

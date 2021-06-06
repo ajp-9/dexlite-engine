@@ -18,7 +18,6 @@ project "Dexterous-Engine"
 	sysincludedirs
 	{
 		"%{IncludeDir.include}",
-		"%{IncludeDir.SDL2}",
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.glad}",
 		"%{IncludeDir.imgui}",
@@ -29,7 +28,6 @@ project "Dexterous-Engine"
 	{        
 		"glad",
 		"glfw",
-		"SDL2",
 		"imgui",
 		"assimp"
 	}
@@ -37,7 +35,8 @@ project "Dexterous-Engine"
 	defines
 	{
 		"SDL_MAIN_HANDLED",
-		"GLM_FORCE_LEFT_HANDED"
+		"GLM_FORCE_LEFT_HANDED",
+		"GLFW_INCLUDE_NONE"
 	}
 
 	filter "configurations:Debug"

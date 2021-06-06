@@ -13,7 +13,6 @@ public:
 	virtual void update() override;
 	virtual void render() override;
 private:
-	std::shared_ptr<dex::Shader::Texture3D> shader = std::make_shared<dex::Shader::Texture3D>();
 	dex::Scene m_Scene;
 	dex::Entity m_Entity;
 	dex::Entity m_Player;

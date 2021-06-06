@@ -8,8 +8,6 @@ namespace dex
 {
 	void Renderer::Init(glm::uvec4 viewport)
 	{
-		trySetViewport(viewport);
-
 		glEnable(GL_DEPTH_TEST);
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -42,13 +40,16 @@ namespace dex
 		scene.render();
 	}
 
-	void Renderer::trySetViewport(glm::uvec4 viewport)
+	void Renderer::setViewportSize(glm::uvec2 size)
 	{
-		if (s_LastViewport != viewport)
-		{
-			glViewport(viewport.x, viewport.y, viewport.z, viewport.w);
-			s_LastViewport = viewport;
-		}
+		s_Viewport = glm::uvec4(s_Viewport.x, s_Viewport.y, size.x, size.y);
+		glViewport(s_Viewport.x, s_Viewport.y, size.x, size.y);
+	}
+
+	void Renderer::setViewportPosition(glm::uvec2 position)
+	{
+		s_Viewport = glm::uvec4(position.x, position.y, s_Viewport.z, s_Viewport.w);
+		glViewport(position.x, position.y, s_Viewport.x, s_Viewport.y);
 	}
 
 	void Renderer::setClearColor(const glm::vec4& color)
@@ -65,7 +66,7 @@ namespace dex
 	*  Initialize member variables here.
 	*/
 
-	glm::uvec4 Renderer::s_LastViewport(glm::uvec4(0));
+	glm::uvec4 Renderer::s_Viewport(glm::uvec4(0));
 
 	Shader::Manager Renderer::s_ShaderManager;
 }

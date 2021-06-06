@@ -1,7 +1,6 @@
 #pragma once
 
 #include <stdint.h>
-#include <SDL2/SDL_events.h>
 
 namespace dex
 {
@@ -23,8 +22,8 @@ namespace dex
 
 		struct Base
 		{
-			Base(Type type, SDL_Event rawEvent)
-				: m_Type(type), m_RawEvent(rawEvent)
+			Base(Type type)
+				: m_Type(type)
 			{}
 
 			// Put in the template the type of event.
@@ -38,7 +37,6 @@ namespace dex
 			}
 			
 			Type m_Type = Type::NONE;
-			SDL_Event m_RawEvent;
 			bool m_Handled = false;
 		};
 	}

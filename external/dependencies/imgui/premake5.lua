@@ -1,42 +1,36 @@
-project "SandBox"
-    kind "ConsoleApp"
+project "imgui"
+    kind "StaticLib"
     language "C++"
     cppdialect "C++17"
 
     filter "system:windows"
         systemversion "latest"
     filter {}
-
+    
     targetdir ("%{prj.location}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")
 
     files
     {
         "%{prj.location}/src/**",
-        "%{prj.location}/vendor/**"
+        "%{prj.location}/include/**"
+    }
+
+    includedirs
+    {
+        "%{prj.location}/include/imgui"
     }
 
     sysincludedirs
     {
-        "%{wks.location}/Dexterous-Engine/src",
-
-        "%{IncludeDir.include}",
-        "%{IncludeDir.glfw}",
         "%{IncludeDir.glad}",
-        "%{IncludeDir.imgui}",
-        "%{IncludeDir.assimp}"
+        "%{IncludeDir.glfw}"
     }
 
     links
-    {
-        "Dexterous-Engine"
-    }
-
-    defines
-    {
-        "SDL_MAIN_HANDLED",
-        "GLM_FORCE_LEFT_HANDED",
-        "GLFW_INCLUDE_NONE"
+    {        
+        "glad",
+        "glfw"
     }
 
     filter "configurations:Debug"

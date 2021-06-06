@@ -1,11 +1,9 @@
 #pragma once
 
-#include <memory>
 #include <vector>
 
-#include "Event/EventBase.hpp"
 #include "LayerBase.hpp"
-#include "Event/EventManager.hpp"
+#include "Event/EventBase.hpp"
 
 namespace dex
 {
@@ -23,11 +21,13 @@ namespace dex
 			void updateLayers();
 			void renderLayers();
 			void sendEvents();
+			void pushEvent(Event::Base& event);
 		private:
 			std::vector<std::shared_ptr<Base>> m_Layers;
-			Event::Manager m_EventManager;
+			//std::vector<Event::Base&> m_EventQueue;
 
 			friend class Engine;
+			friend class Window;
 		};
 	}
 }

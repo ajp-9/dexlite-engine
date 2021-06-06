@@ -8,8 +8,8 @@ namespace dex
 	{
 		struct KeyEvent : Base
 		{
-			KeyEvent(Type type, SDL_Event rawEvent, uint16_t keyCode)
-                : Base(type, rawEvent), m_KeyCode(keyCode)
+			KeyEvent(Type type, uint16_t keyCode)
+                : Base(type), m_KeyCode(keyCode)
             {}
 
 			uint16_t m_KeyCode;

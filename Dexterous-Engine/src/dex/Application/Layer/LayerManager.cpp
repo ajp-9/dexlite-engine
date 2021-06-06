@@ -1,17 +1,12 @@
 #include "LayerManager.hpp"
 
-#include <SDL2/SDL.h>
-
-#include "../../Core/Engine.hpp"
-#include "Event/KeyEvent.hpp"
-#include "Event/MouseEvent.hpp"
-
 namespace dex
 {
 	namespace Layer
 	{
 		Manager::Manager()
 		{
+			//dex::Engine::s_Window.m_Data.m_EventCallbackFunc = std::bind(&pushEvent, this, std::placeholders::_1);
 		}
 
 		void Manager::pushLayer(std::shared_ptr<Base> layer)
@@ -33,6 +28,10 @@ namespace dex
 				popLayer();
 		}
 
+		void Manager::pushEvent(Event::Base& event)
+		{
+		}
+
 		void Manager::updateLayers()
 		{
 			for (auto& l : m_Layers)
@@ -47,7 +46,7 @@ namespace dex
 
 		void Manager::sendEvents()
 		{
-			auto events = Event::Manager::getEventQueue();;
+			/*auto events = Event::Manager::getEventQueue();;
 
 			for (auto& e : events)
 			{
@@ -58,7 +57,7 @@ namespace dex
 					if (e->m_Handled)
 						return;
 				}
-			}
+			}*/
 		}
 	}
 }
