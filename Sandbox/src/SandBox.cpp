@@ -18,9 +18,6 @@ void SandBox::Init()
 	Engine::s_LayerManager.pushLayer(std::make_shared<WorldLayer>());
 	Engine::s_LayerManager.pushLayer(std::make_shared<DebugLayer>());
 
-	shader->bind();
-	shader->setInt("u_TextureSampler", 0);
-
 	/*
 	//shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
 	m_Player = m_Scene.createEntity();
@@ -68,14 +65,14 @@ void SandBox::Init()
 
 	proj.uploadData(&dat);*/
 
-	std::vector<dex::Vertex3D::Default> vertices = { dex::Vertex3D::Default(), dex::Vertex3D::Default() };
+	/*std::vector<dex::Vertex3D::Default> vertices = {dex::Vertex3D::Default(), dex::Vertex3D::Default()};
 	std::vector<unsigned> indices = { 0, 1, 3, 1, 2, 3 };
 	dex::Material::Default3D material = { dex::Renderer::s_ShaderManager.getShaderDerived<dex::Shader::Default3D>("Default3D") };
 
 	std::unique_ptr<dex::Mesh::Base> m = std::make_unique<dex::Mesh::Default3D>(vertices, indices, material);
 	m->getDerivedSelf<dex::Mesh::TextureNormal3D>();
 
-	std::cout << material.m_Shader->getName() << "\n";
+	std::cout << material.m_Shader->getName() << "\n";*/
 
 	//std::unique_ptr<dex::Mesh::Base> def = std::make_unique<dex::Mesh::Default3D>(vertices, indices, materials);
 	//std::cout << (uint32_t)def->m_Type << "\n";

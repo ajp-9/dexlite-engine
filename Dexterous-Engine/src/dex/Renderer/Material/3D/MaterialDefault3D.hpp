@@ -22,12 +22,31 @@ namespace dex
 				m_TexTilingFactor(texTilingFactor),
 				m_DiffuseMap(diffuseMap),
 				m_SpecularMap(specularMap)
-			{
-				m_Shader->getDerivedSelf<Shader::Default3D>(Shader::Type::DEFAULT_3D);
-			}
+			{}
 
 			virtual void setUniforms()
 			{
+				auto& tmp_shader = m_Shader->getDerivedSelf<Shader::Default3D>();
+				
+				if (m_DiffuseMapEnabled)
+				{
+					tmp_shader.setDiffuseMapEnabled(true);
+					tmp_shader.setDiffuseMapSampler();
+				}
+				else
+				{
+					tmp_shader.setDiffuseMapEnabled(false);
+				}
+
+				if (m_SpecularMapEnabled)
+				{
+					tmp_shader.setSpecularMapEnabled(true);
+					tmp_shader.setSpecularMapLocation();
+				}
+				else
+				{
+					tmp_shader.setSpecularMapEnabled(false);
+				}
 			}
 		public:
 			float m_TexTilingFactor;

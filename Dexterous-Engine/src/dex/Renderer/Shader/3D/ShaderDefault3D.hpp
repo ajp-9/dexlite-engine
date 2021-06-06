@@ -9,14 +9,19 @@ namespace dex
 		class Default3D : public Base
 		{
 		public:
-			Default3D(const char* src = "assets/shaders/3d/texture.glsl")
-				: Base(src, "Default3D", Type::DEFAULT_3D)
-			{}
+			Default3D(const char* src = "assets/shaders/3d/default.glsl");
 
-			void setSamplers()
-			{
-				setInt("u_TextureSampler", 0); //
-			}
+			void setDiffuseMapEnabled(bool enabled);
+			void setDiffuseMapSampler();
+
+			void setSpecularMapEnabled(bool enabled);
+			void setSpecularMapLocation();
+		private:
+			uint32_t m_DiffuseMapSampler_Location = 0;
+			uint32_t m_DiffuseMapEnabled_Location = 0;
+
+			uint32_t m_SpecularMapSampler_Location = 0;
+			uint32_t m_SpecularMapEnabled_Location = 0;
 		};
 	}
 }

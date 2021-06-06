@@ -41,13 +41,13 @@ namespace dex
 
 			const uint32_t getID() const { return m_ProgramID; }
 
-			// Put in the template the type of shader.
+			// Put in the template the type of material.
 			template <class T>
-			inline T& getDerivedSelf(Type type)
+			inline T& getDerivedSelf()
 			{
-				if (type != m_Type)
-					std::cout << "Error: Shader ID: " << uint32_t(type) << " class is not a derived class of Mesh::Base\n";
-				
+				if (typeid(T) != typeid(*this))
+					std::cout << "Error: The template input: (" << typeid(T).name() << ") can't be derived from the current object (" << typeid(*this).name() << ").\n";
+
 				return *static_cast<T*>(this);
 			}
 		private:

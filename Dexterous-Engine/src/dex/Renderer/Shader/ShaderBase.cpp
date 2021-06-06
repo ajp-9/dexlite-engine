@@ -85,6 +85,7 @@ namespace dex
 
 		Base::~Base()
 		{
+			std::cout << "delet " << "\n";
 			glDeleteProgram(m_ProgramID);
 		}
 

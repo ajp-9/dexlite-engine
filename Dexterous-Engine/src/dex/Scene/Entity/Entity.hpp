@@ -15,7 +15,7 @@ namespace dex
 		template<typename T, typename... Args>
 		inline T& addComponent(Args&&... args)
 		{
-			if (hasComponent<T>()) std::cout << "WARNING: Entity already has that component!\n";
+			if (hasComponent<T>()) std::cout << "Warning: Entity already has that component!\n";
 
 			return m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<Args>(args)...);
 		}

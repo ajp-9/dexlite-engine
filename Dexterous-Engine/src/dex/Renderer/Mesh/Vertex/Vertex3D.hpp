@@ -18,16 +18,14 @@ namespace dex
 				glm::vec3 position = glm::vec3(0),
 				glm::vec3 normal = glm::vec3(0),
 				glm::vec4 color = glm::vec4(0),
-				glm::vec2 texCoord = glm::vec2(0),
-				float texTilingFactor = 1.0f)
+				glm::vec2 texCoord = glm::vec2(0))
 
 				: // Initializer List
 
 				m_Position(position),
 				m_Normal(normal),
 				m_Color(color),
-				m_TexCoord(texCoord),
-				m_TexTilingFactor(texTilingFactor)
+				m_TexCoord(texCoord)
 			{}
 
 			static const std::vector<Data::Type> getTypes()
@@ -45,9 +43,7 @@ namespace dex
 			glm::vec3 m_Position;
 			glm::vec3 m_Normal;
 			glm::vec4 m_Color;
-
 			glm::vec2 m_TexCoord;
-			float m_TexTilingFactor;
 		};
 
 		struct Color
