@@ -13,9 +13,8 @@ namespace dex
 		static void renderModel(uint32_t id, const glm::mat4& modelMatrix);
 
 		static uint32_t getModelID(std::string& name);
-
 		static const Model& getModel(uint32_t id);
 	private:
-		static std::vector<Model> m_Models;
+		static std::vector<Model> s_Models;
 	};
 }

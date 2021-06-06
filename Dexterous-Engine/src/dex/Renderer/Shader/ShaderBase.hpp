@@ -13,7 +13,9 @@ namespace dex
 		class Base
 		{
 		public:
-			Base(const char* src, const char* name, Type type = Type::BASE);
+			Base();
+			Base(const char* src, const char* name = "Base", Type type = Type::BASE);
+
 			~Base();
 
 			void bind() const;
@@ -41,8 +43,11 @@ namespace dex
 
 			// Put in the template the type of shader.
 			template <class T>
-			inline T& getSelf()
+			inline T& getDerivedSelf(Type type)
 			{
+				if (type != m_Type)
+					std::cout << "Error: Shader ID: " << uint32_t(type) << " class is not a derived class of Mesh::Base\n";
+				
 				return *static_cast<T*>(this);
 			}
 		private:

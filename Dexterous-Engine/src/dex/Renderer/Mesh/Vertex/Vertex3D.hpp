@@ -19,9 +19,7 @@ namespace dex
 				glm::vec3 normal = glm::vec3(0),
 				glm::vec4 color = glm::vec4(0),
 				glm::vec2 texCoord = glm::vec2(0),
-				float texTilingFactor = 1.0f,
-				float diffuseMapIndex = 0,
-				float specularMapIndex = 0)
+				float texTilingFactor = 1.0f)
 
 				: // Initializer List
 
@@ -29,8 +27,6 @@ namespace dex
 				m_Normal(normal),
 				m_Color(color),
 				m_TexCoord(texCoord),
-				m_DiffuseMapIndex(diffuseMapIndex),
-				m_SpecularMapIndex(specularMapIndex),
 				m_TexTilingFactor(texTilingFactor)
 			{}
 
@@ -42,7 +38,6 @@ namespace dex
 					Data::Type::VEC3, 
 					Data::Type::VEC4,
 					Data::Type::VEC2,
-					Data::Type::FLOAT, 
 					Data::Type::FLOAT
 				};
 			}
@@ -53,12 +48,6 @@ namespace dex
 
 			glm::vec2 m_TexCoord;
 			float m_TexTilingFactor;
-
-			// For indices:
-			// Add flat for in/out in glsl so no interpolation.
-			// 0 index is for no texture.
-			float m_DiffuseMapIndex;
-			float m_SpecularMapIndex; 
 		};
 
 		struct Color

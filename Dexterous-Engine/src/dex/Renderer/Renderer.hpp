@@ -2,6 +2,7 @@
 
 #include <glm/vec4.hpp>
 #include "../Scene/Scene.hpp"
+#include "Shader/ShaderManager.hpp"
 
 namespace dex
 {
@@ -20,10 +21,13 @@ namespace dex
 
 		static void setClearColor(const glm::vec4& color);
 		static void clear();
+
+	public:
+		static Shader::Manager s_ShaderManager;
 	private:
 		// x, y = position of viewport
 		// z, w = dimensions of viewport
-		static glm::uvec4 m_LastViewport;
+		static glm::uvec4 s_LastViewport;
 
 		friend class Engine;
 		friend class Application;

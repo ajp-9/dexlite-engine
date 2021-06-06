@@ -19,18 +19,18 @@ namespace dex
 	public:
 		static void Stop();
 
-		static DeltaTime m_DeltaTime;
+		static DeltaTime s_DeltaTime;
 
-		static Window m_Window;
+		static Window s_Window;
 
-		static Layer::Manager m_LayerManager;
-		static Event::Manager m_EventManager;
+		static Layer::Manager s_LayerManager;
+		static Event::Manager s_EventManager;
 
 		friend int ::main(int argc, char** argv);
 	private:
-		static bool m_Running;
+		static bool s_Running;
 
 		// Is a unique ptr because of inheritance.
-		static std::shared_ptr<Program> m_Program;
+		static std::shared_ptr<Program> s_Program;
 	};
 }

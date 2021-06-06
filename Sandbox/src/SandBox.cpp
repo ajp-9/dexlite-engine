@@ -15,13 +15,13 @@ using dex::Engine;
 
 void SandBox::Init()
 {
-	Engine::m_LayerManager.pushLayer(std::make_shared<WorldLayer>());
-	Engine::m_LayerManager.pushLayer(std::make_shared<DebugLayer>());
+	Engine::s_LayerManager.pushLayer(std::make_shared<WorldLayer>());
+	Engine::s_LayerManager.pushLayer(std::make_shared<DebugLayer>());
 
-	/*shader->bind();
+	shader->bind();
 	shader->setInt("u_TextureSampler", 0);
-	dex::Shader::ShaderManager::addShader(shader);
-	
+
+	/*
 	//shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
 	m_Player = m_Scene.createEntity();
 	m_Player.addComponent<dex::Component::PerspectiveCamera>(true, dex::Camera::Perspective(60, dex::Engine::m_Window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
@@ -43,9 +43,9 @@ void SandBox::Init()
 
 	m_Entity.addComponent<dex::Component::Model>(dex::Model("assets/models/box.fbx", std::make_unique<dex::Material::Base>(shader)));
 	m_Entity.addComponent<dex::Component::Transform>();
-
-	dex::Shader::UniformBufferObject proj;
-	proj.bindShader(shader, "ubo_ProjectionViewMatrix");
+	
+	dex::Shader::UniformBufferObject proj = { "ubo_ProjectionViewMatrix" };
+	proj.bindShader(shader);
 
 	proj.setup();
 
@@ -66,16 +66,19 @@ void SandBox::Init()
 
 	dat[0].w = glm::vec3(0, 3, 1);
 
-	std::cout << sizeof(dat) << "\n";
-
 	proj.uploadData(&dat);*/
 
 	std::vector<dex::Vertex3D::Default> vertices = { dex::Vertex3D::Default(), dex::Vertex3D::Default() };
 	std::vector<unsigned> indices = { 0, 1, 3, 1, 2, 3 };
-	std::vector<dex::Material::Default3D> materials;
+	dex::Material::Default3D material = { dex::Renderer::s_ShaderManager.getShaderDerived<dex::Shader::Default3D>("Default3D") };
 
-	std::unique_ptr<dex::Mesh::Base> def = std::make_unique<dex::Mesh::Default3D>(vertices, indices, materials);
-	std::cout << (uint32_t)def->m_Type << "\n";
+	std::unique_ptr<dex::Mesh::Base> m = std::make_unique<dex::Mesh::Default3D>(vertices, indices, material);
+	m->getDerivedSelf<dex::Mesh::TextureNormal3D>();
+
+	std::cout << material.m_Shader->getName() << "\n";
+
+	//std::unique_ptr<dex::Mesh::Base> def = std::make_unique<dex::Mesh::Default3D>(vertices, indices, materials);
+	//std::cout << (uint32_t)def->m_Type << "\n";
 }
 
 void SandBox::Shutdown()

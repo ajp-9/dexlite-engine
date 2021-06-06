@@ -8,32 +8,35 @@ namespace dex
 {
 	namespace Material
 	{
-		struct Default3D
+		struct Default3D : Base
 		{
 			Default3D(
-				const std::weak_ptr<Shader::Default3D>& shader,
-				glm::vec4 color,
-				float texTilingFactor,
-				const std::vector<Texture>& diffuseMaps,
-				const std::vector<Texture>& specularMaps)
+				const std::shared_ptr<Shader::Default3D>& shader,
+				float texTilingFactor = 1.0f,
+				const Texture& diffuseMap = Texture(),
+				const Texture& specularMap = Texture())
 
 				: // Initializer List
 
-				m_Shader(shader),
-				m_Color(color),
+				Base(shader, Type::DEFAULT_3D),
 				m_TexTilingFactor(texTilingFactor),
-				m_DiffuseMaps(diffuseMaps),
-				m_SpecularMaps(specularMaps)
-			{}
+				m_DiffuseMap(diffuseMap),
+				m_SpecularMap(specularMap)
+			{
+				m_Shader->getDerivedSelf<Shader::Default3D>(Shader::Type::DEFAULT_3D);
+			}
 
-			std::weak_ptr<Shader::Default3D> m_Shader;
-		
-			glm::vec4 m_Color;
-
+			virtual void setUniforms()
+			{
+			}
+		public:
 			float m_TexTilingFactor;
 
-			std::vector<Texture> m_DiffuseMaps;
-			std::vector<Texture> m_SpecularMaps;
+			Texture m_DiffuseMap;
+			Texture m_SpecularMap;
+
+			bool m_DiffuseMapEnabled;
+			bool m_SpecularMapEnabled;
 		};
 	}
 }

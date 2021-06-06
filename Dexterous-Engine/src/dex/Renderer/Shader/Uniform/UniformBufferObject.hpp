@@ -14,10 +14,10 @@ namespace dex
 		{
 		public:
 			// Need to .bindShader() in order to get block size & the specifications.
-			UniformBufferObject();
+			UniformBufferObject(const char* name);
 
 			// UBO in shader should NOT change because it is being set everytime you bind another shader.
-			void bindShader(const std::shared_ptr<Shader::Base>& shader, const char* ubo_name);
+			void bindShader(const std::shared_ptr<Shader::Base>& shader);
 			// Do this AFTER you've bound all the shaders.
 			void setup();
 
@@ -34,6 +34,7 @@ namespace dex
 			void unbind();
 		private:
 			uint32_t m_ID = 0;
+			std::string m_Name;
 			int32_t m_BlockSize = 0;
 
 			// Universal binding index for the UBO

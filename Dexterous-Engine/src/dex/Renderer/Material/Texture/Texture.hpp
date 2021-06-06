@@ -7,6 +7,7 @@ namespace dex
 	class Texture
 	{
 	public:
+		Texture() {}
 		Texture(const char* src, bool blending = true);
 		~Texture();
 

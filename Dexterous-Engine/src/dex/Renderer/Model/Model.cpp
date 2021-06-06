@@ -5,8 +5,7 @@
 
 namespace dex
 {
-	Model::Model(const char* location, std::unique_ptr<Material::Base> material)
-		: m_Material(std::move(material))
+	Model::Model(const char* location)
 	{
 		Assimp::Importer importer;
 
@@ -30,8 +29,10 @@ namespace dex
 
 	void Model::render()
 	{
-		m_Material->setUniforms();
-		m_Mesh->render();
+		for (auto& mesh : m_Meshes)
+		{
+			mesh.render();
+		}
 	}
 
 	void Model::processNode(aiNode* node, const aiScene* scene)

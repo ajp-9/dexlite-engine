@@ -15,12 +15,12 @@ namespace dex
             std::cout << "Failed to initialize the SDL2 library\n";
         }
 
-        m_Window = SDL_CreateWindow(
+        m_SDL_WindowHandle = SDL_CreateWindow(
             "Game",
             SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowDimensions.x, windowDimensions.y,
             SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
-        if (!m_Window)
+        if (!m_SDL_WindowHandle)
             fprintf(stderr, "%s: %s\n", "Couldn't create window: ", SDL_GetError());
 
         SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 0);
@@ -30,32 +30,32 @@ namespace dex
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); // allocate 2 buffers
         //SDL_GL_SetSwapInterval(1); // vsync
 
-        m_GLContext = SDL_GL_CreateContext(m_Window);
+        m_GLContext = SDL_GL_CreateContext(m_SDL_WindowHandle);
         if (m_GLContext == NULL)
             fprintf(stderr, "%s: %s\n", "Could not create the OpenGL context: ", SDL_GetError());
 
         // Load OpenGL functions glad SDL
         gladLoadGLLoader(SDL_GL_GetProcAddress);
 
-        SDL_UpdateWindowSurface(m_Window);
+        SDL_UpdateWindowSurface(m_SDL_WindowHandle);
     }
 
     Window::~Window()
     {
         SDL_GL_DeleteContext(m_GLContext);
-        SDL_DestroyWindow(m_Window);
+        SDL_DestroyWindow(m_SDL_WindowHandle);
         SDL_Quit();
     }
 
     void Window::update()
     {
-        SDL_GL_SwapWindow(m_Window); // swap buffers
+        SDL_GL_SwapWindow(m_SDL_WindowHandle); // swap buffers
     }
 
     glm::ivec2 Window::getDimensions()
     {
         glm::ivec2 dimensions;
-        SDL_GetWindowSize(m_Window, &dimensions.x, &dimensions.y);
+        SDL_GetWindowSize(m_SDL_WindowHandle, &dimensions.x, &dimensions.y);
         return dimensions;
     }
 }

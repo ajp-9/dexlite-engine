@@ -34,9 +34,10 @@ namespace dex
         }
 
         // Setup Platform/Renderer backends
-        ImGui_ImplSDL2_InitForOpenGL(Engine::m_Window.m_Window, Engine::m_Window.m_GLContext);
+        ImGui_ImplSDL2_InitForOpenGL(Engine::s_Window.m_SDL_WindowHandle, Engine::s_Window.m_GLContext);
         ImGui_ImplOpenGL3_Init("#version 330");
 	}
+
 	void ImGuiAPI::Shutdown()
 	{
         ImGui_ImplOpenGL3_Shutdown();
@@ -47,9 +48,10 @@ namespace dex
     void ImGuiAPI::beginFrame()
     {
         ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplSDL2_NewFrame(Engine::m_Window.m_Window);
+        ImGui_ImplSDL2_NewFrame(Engine::s_Window.m_SDL_WindowHandle);
         ImGui::NewFrame();
     }
+
     void ImGuiAPI::endFrame()
     {
         // Rendering

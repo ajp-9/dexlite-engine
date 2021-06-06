@@ -11,72 +11,72 @@ namespace dex
 {
     void Engine::Init(std::shared_ptr<Program> program)
     {
-        m_Program = program;
-
-        Renderer::Init(glm::uvec4(0, 0, m_Window.getDimensions()));
+        s_Program = program;
+        
+        Renderer::Init(glm::uvec4(0, 0, s_Window.getDimensions()));
     }
 
     void Engine::Shutdown()
     {
-        m_LayerManager.detachAllLayers();
-        m_Program->Shutdown();
+        s_LayerManager.detachAllLayers();
+        s_Program->Shutdown();
         Renderer::Shutdown();
     }
-
+    
     void Engine::Run()
     {
-        m_Program->Init();
+        s_Program->Init();
 
-        m_Running = true;
+        s_Running = true;
 
-        while (m_Running)
+        while (s_Running)
         {
-            m_DeltaTime.start();
+            s_DeltaTime.start();
 
             // Updating/events -------------
-            Renderer::trySetViewport(glm::uvec4(0, 0, m_Window.getDimensions()));
+            Renderer::trySetViewport(glm::uvec4(0, 0, s_Window.getDimensions()));
 
-            m_Program->update();
-            m_LayerManager.updateLayers();
-            m_LayerManager.sendEvents();
+            s_Program->update();
+            s_LayerManager.updateLayers();
+            s_LayerManager.sendEvents();
 
             // Rendering ------------
             Renderer::clear();
             Renderer::beginFrame();
 
-            m_Program->render();
+            s_Program->render();
 
-            m_LayerManager.renderLayers();
+            s_LayerManager.renderLayers();
 
             Renderer::endFrame();
 
             // Swap buffers when FINISHED rendering
-            m_Window.update();
+            s_Window.update();
 
-            m_DeltaTime.sleep();
-            m_DeltaTime.end();
+            s_DeltaTime.sleep();
+            s_DeltaTime.end();
 
-            if (!m_Running)
+            if (!s_Running)
                 Shutdown();
         }
     }
 
     void Engine::Stop()
     {
-        m_Running = false;
+        s_Running = false;
     }
 
     /*
     ** Initialize member variables
     */
 
-    bool Engine::m_Running;
+    bool Engine::s_Running;
 
-    DeltaTime Engine::m_DeltaTime(60);
-    Window Engine::m_Window(glm::uvec2(1280, 720));
+    DeltaTime Engine::s_DeltaTime(60);
+    Window Engine::s_Window(glm::uvec2(1280, 720));
 
-    Layer::Manager Engine::m_LayerManager;
-    Event::Manager Engine::m_EventManager;
+    Layer::Manager Engine::s_LayerManager;
+    Event::Manager Engine::s_EventManager;
 
-    std::shared_ptr<Program> Engine::m_Program;
+    std::shared_ptr<Program> Engine::s_Program;
 }

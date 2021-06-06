@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Mesh/Mesh.hpp"
-#include "../Material/Material.hpp"
+#include "../Material/3D/MaterialDefault3D.hpp"
 
 #include <assimp/scene.h>
 
@@ -9,8 +9,8 @@ namespace dex
 {
 	struct Model
 	{
-		Model(std::unique_ptr<Mesh::Base> mesh, std::unique_ptr<Material::Base> material)
-			: m_Mesh(std::move(mesh)), m_Material(std::move(material))
+		Model(std::vector<Mesh::Default3D>& meshes)
+			: m_Meshes(meshes)
 		{}
 
 		// Supported file types:
@@ -18,7 +18,7 @@ namespace dex
 		// ***.blend
 		// ***.fbx
 		// ***.obj
-		Model(const char* location, std::unique_ptr<Material::Base> material);
+		Model(const char* location);
 
 		void render();
 
@@ -28,7 +28,6 @@ namespace dex
 	public:
 		std::string m_Name;
 
-		std::unique_ptr<Mesh::Base> m_Mesh;
-		std::unique_ptr<Material::Base> m_Material;
+		std::vector<Mesh::Default3D> m_Meshes;
 	};
 }

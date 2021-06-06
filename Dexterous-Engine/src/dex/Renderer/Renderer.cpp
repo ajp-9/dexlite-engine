@@ -44,10 +44,10 @@ namespace dex
 
 	void Renderer::trySetViewport(glm::uvec4 viewport)
 	{
-		if (m_LastViewport != viewport)
+		if (s_LastViewport != viewport)
 		{
 			glViewport(viewport.x, viewport.y, viewport.z, viewport.w);
-			m_LastViewport = viewport;
+			s_LastViewport = viewport;
 		}
 	}
 
@@ -65,5 +65,7 @@ namespace dex
 	*  Initialize member variables here.
 	*/
 
-	glm::uvec4 Renderer::m_LastViewport(glm::uvec4(0));
+	glm::uvec4 Renderer::s_LastViewport(glm::uvec4(0));
+
+	Shader::Manager Renderer::s_ShaderManager;
 }

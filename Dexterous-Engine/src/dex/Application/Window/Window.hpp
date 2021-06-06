@@ -18,7 +18,7 @@ namespace dex
 	public:
 		glm::ivec2 getDimensions();
 	private:
-		SDL_Window* m_Window;
+		SDL_Window* m_SDL_WindowHandle;
 		SDL_GLContext m_GLContext;
 
 		friend class Engine;

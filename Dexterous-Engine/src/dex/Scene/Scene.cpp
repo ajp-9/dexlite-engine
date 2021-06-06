@@ -70,14 +70,14 @@ namespace dex
 
     void Scene::render()
     {
-        if (m_MainCamera != nullptr)
-            Shader::ShaderManager::setProjectionViewMatrix(m_MainCamera->getProjectionViewMatrix());
+        //if (m_MainCamera != nullptr)
+         //   Shader::Manager.setProjectionViewMatrix(m_MainCamera->getProjectionViewMatrix());
 
         auto& view = m_Registry.view<Component::Model, Component::Transform>();
 
         for (auto& entityID : view)
         {
-            m_Registry.get<Component::Model>(entityID).m_Material->m_Shader.lock()->setModelMatrix(m_Registry.get<Component::Transform>(entityID));
+            //m_Registry.get<Component::Model>(entityID).m_Material->m_Shader.lock()->setModelMatrix(m_Registry.get<Component::Transform>(entityID));
             m_Registry.get<Component::Model>(entityID).render();
         }
     }

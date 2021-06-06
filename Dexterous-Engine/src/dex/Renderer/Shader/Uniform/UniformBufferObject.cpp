@@ -7,7 +7,8 @@ namespace dex
 {
 	namespace Shader
 	{
-		UniformBufferObject::UniformBufferObject()
+		UniformBufferObject::UniformBufferObject(const char* name)
+			: m_Name(name)
 		{
 			glGenBuffers(1, &m_ID);
 
@@ -16,11 +17,11 @@ namespace dex
 			m_BlockBinding = s_NextBlockBinding++;
 		}
 
-		void UniformBufferObject::bindShader(const std::shared_ptr<Shader::Base>& shader, const char* ubo_name)
+		void UniformBufferObject::bindShader(const std::shared_ptr<Shader::Base>& shader)
 		{
 			bind();
 
-			uint32_t internalBlockBinding = glGetUniformBlockIndex(shader->getID(), ubo_name);
+			uint32_t internalBlockBinding = glGetUniformBlockIndex(shader->getID(), m_Name.c_str());
 
 			glUniformBlockBinding(shader->getID(), internalBlockBinding, m_BlockBinding);
 			glGetActiveUniformBlockiv(shader->getID(), internalBlockBinding, GL_UNIFORM_BLOCK_DATA_SIZE, &m_BlockSize);
