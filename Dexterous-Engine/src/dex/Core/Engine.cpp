@@ -44,7 +44,7 @@ namespace dex
 
             renderer.endFrame();
 
-            // Swap buffers when FINISHED rendering
+            // Swap buffers when FINISHED rendering & reset event queue 
             window.update();
 
             deltaTime.sleep();

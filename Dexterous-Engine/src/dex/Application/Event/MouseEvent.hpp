@@ -8,7 +8,7 @@ namespace dex
 {
 	namespace Event
 	{
-		enum class MouseType : uint32_t
+		enum class MouseType : uint32
 		{
 			UNKNOWN,
 			MOVE,
@@ -18,7 +18,7 @@ namespace dex
 			SCROLL_DOWN
 		};
 
-		enum class MouseButton : uint32_t
+		enum class MouseButton : uint32
 		{
 			UNKNOWN,
 			LEFT,

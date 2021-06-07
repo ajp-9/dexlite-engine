@@ -6,7 +6,7 @@ namespace dex
 {
 	namespace Event
 	{
-        enum class Key : int32_t;
+        enum class Key : int32;
 
 		struct KeyEvent : Base
 		{
@@ -17,7 +17,7 @@ namespace dex
             Key m_KeyCode;
 		};
 
-        enum class Key : int32_t
+        enum class Key : int32
         {
             UNKNOWN       = -1,
 

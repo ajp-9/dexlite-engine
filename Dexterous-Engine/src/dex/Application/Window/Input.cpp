@@ -8,7 +8,7 @@ namespace dex
 {
 	bool Input::getKeyState(Event::Key e)
 	{
-		return (!areKeyEventsHalted) && (glfwGetKey(dex::Engine::window.m_Window_GLFW, int32_t(e)) == GLFW_PRESS);
+		return (!areKeyEventsHalted) && (glfwGetKey(dex::Engine::window.m_Window_GLFW, int32(e)) == GLFW_PRESS);
 	}
 
 	bool Input::isKeyPressed(Event::Key e)

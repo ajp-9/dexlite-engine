@@ -7,7 +7,7 @@
 
 namespace dex
 {
-	enum class BufferDrawHint : uint32_t
+	enum class BufferDrawHint : uint32
 	{
 		STATIC = GL_STATIC_DRAW,
 		DYNAMIC = GL_DYNAMIC_DRAW
@@ -28,7 +28,7 @@ namespace dex
 		template <typename V>
 		void setVertexLayout(const std::vector<Data::Type>& types);
 	private:
-		uint32_t m_ID = 0;
+		uint32 m_ID = 0;
 	};
 
 	/*
@@ -47,15 +47,15 @@ namespace dex
 	{
 		bind();
 
-		uint8_t currentOffset = 0;
+		uint8 currentOffset = 0;
 
-		for (uint32_t i = 0; i < types.size(); i++)
+		for (uint32 i = 0; i < types.size(); i++)
 		{
 			Data::Type d_type = types.at(i);
 
-			uint32_t d_gl_type = Data::getGLType(d_type);
-			uint32_t d_size = Data::getTypeSize(d_type);
-			uint32_t d_amount = Data::getTypeAmount(d_type);
+			uint32 d_gl_type = Data::getGLType(d_type);
+			uint32 d_size = Data::getTypeSize(d_type);
+			uint32 d_amount = Data::getTypeAmount(d_type);
 
 			glEnableVertexAttribArray(i);
 

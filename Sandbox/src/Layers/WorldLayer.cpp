@@ -12,18 +12,12 @@ void WorldLayer::Detach()
 
 void WorldLayer::update()
 {
-    if (Engine::window.input.isKeyPressed(dex::Event::Key::LEFT_CONTROL))
-        std::cout << "Clicked" << "\n";
+    if (Engine::window.input.getKeyState(dex::Event::Key::W))
+        std::cout << "Clicked ";
+
+    //std::cout << Engine::window.input.getMousePosition().x << ", " << Engine::window.input.getMousePosition().y << "\n";
 }
 
 void WorldLayer::render()
 {
-}
-
-void WorldLayer::event(dex::Event::Base& e)
-{
-    //if (e.m_Type == dex::Event::Type::KEY_DOWN)
-    //    std::cout << (int32_t)e.getDerivedSelf<dex::Event::KeyEvent>().m_KeyCode << "\n";
-
-    //std::cout << (int)e.m_Type << "\n";
 }

@@ -2,11 +2,13 @@
 
 #include <iostream>
 
+#include "../../Util/Typedefs.hpp"
+
 namespace dex
 {
 	namespace Data
 	{
-		enum class Type : uint16_t
+		enum class Type : uint16
 		{
 			BOOL,
 
@@ -37,12 +39,12 @@ namespace dex
 			MAT4
 		};
 
-		uint32_t getGLType(Type type);
+		uint32 getGLType(Type type);
 
-		uint32_t getTypeSize(Type type);
+		uint32 getTypeSize(Type type);
 
-		uint32_t getTypeAmount(Type type);
+		uint32 getTypeAmount(Type type);
 
-		uint32_t get_std140_BaseAlignment(Type type);
+		uint32 get_std140_BaseAlignment(Type type);
 	}
 }

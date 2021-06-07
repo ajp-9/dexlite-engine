@@ -2,6 +2,8 @@
 
 #include <chrono>
 
+#include "../Typedefs.hpp"
+
 namespace dex
 {
 	class DeltaTime
@@ -24,7 +26,7 @@ namespace dex
 	private:
 		double m_DeltaTime = 0;
 		double m_LastTimeDuration_ms = 0;
-		const uint32_t m_FPS = 60;
+		const uint32 m_FPS = 60;
 		// Using chrono sleep will be less accurate but
 		// it will use less CPU energy.
 		bool m_SleepInstead = false;

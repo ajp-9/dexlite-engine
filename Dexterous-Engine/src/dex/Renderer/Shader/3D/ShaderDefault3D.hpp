@@ -17,11 +17,11 @@ namespace dex
 			void setSpecularMapEnabled(bool enabled);
 			void setSpecularMapLocation();
 		private:
-			uint32_t m_DiffuseMapSampler_Location = 0;
-			uint32_t m_DiffuseMapEnabled_Location = 0;
+			uint32 m_DiffuseMapSampler_Location = 0;
+			uint32 m_DiffuseMapEnabled_Location = 0;
 
-			uint32_t m_SpecularMapSampler_Location = 0;
-			uint32_t m_SpecularMapEnabled_Location = 0;
+			uint32 m_SpecularMapSampler_Location = 0;
+			uint32 m_SpecularMapEnabled_Location = 0;
 		};
 	}
 }

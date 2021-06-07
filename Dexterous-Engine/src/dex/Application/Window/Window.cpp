@@ -79,9 +79,10 @@ namespace dex
             {
                 static double lastX, lastY;
                 //std::cout << -(lastX - xPos) << ", " << lastY - yPos << "\n";
-                lastX = xPos; lastY = yPos;
 
                 Engine::window.input.pushMouseEvent(Event::MouseEvent(Event::Type::MOUSE, Event::MouseType::MOVE, glm::dvec2(xPos, yPos), glm::dvec2(-(lastX - xPos), lastY - yPos), Event::MouseButton::UNKNOWN, 0));
+                
+                lastX = xPos; lastY = yPos;
             });
 
         glfwSetMouseButtonCallback(m_Window_GLFW, [](GLFWwindow* window, int button, int action, int mods)

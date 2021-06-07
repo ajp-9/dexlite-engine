@@ -21,6 +21,6 @@ namespace dex
 		VertexBuffer m_VertexBuffers;
 		IndexBuffer m_IndexBuffer;
 	private:
-		uint32_t m_ID;
+		uint32 m_ID;
 	};
 }

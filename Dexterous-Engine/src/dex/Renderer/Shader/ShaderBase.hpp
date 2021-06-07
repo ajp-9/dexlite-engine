@@ -39,7 +39,7 @@ namespace dex
 
 			const std::string& getName() const { return m_Name; }
 
-			const uint32_t getID() const { return m_ProgramID; }
+			const uint32 getID() const { return m_ProgramID; }
 
 			// Put in the template the type of material.
 			template <class T>
@@ -53,7 +53,7 @@ namespace dex
 		private:
 			void checkShaderErrors(unsigned int shader, std::string type);
 		protected:
-			uint32_t m_ProgramID = 0;
+			uint32 m_ProgramID = 0;
 			const std::string m_Name;
 			Type m_Type;
 		};

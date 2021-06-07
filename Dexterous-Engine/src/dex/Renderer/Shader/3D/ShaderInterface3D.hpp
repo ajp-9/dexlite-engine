@@ -16,8 +16,8 @@ namespace dex
 			virtual void setProjectionViewMatrix(const glm::mat4& mat) override;
 			virtual void setModelMatrix(const glm::mat4& mat) override;
 		private:
-			uint32_t u_ProjectionViewMatrix_Location = 0;
-			uint32_t u_ModelMatrix_Location = 0;
+			uint32 u_ProjectionViewMatrix_Location = 0;
+			uint32 u_ModelMatrix_Location = 0;
 		};
 	}
 }

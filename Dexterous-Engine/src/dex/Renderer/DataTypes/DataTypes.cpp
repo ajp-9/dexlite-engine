@@ -4,7 +4,7 @@
 
 namespace dex
 {
-	unsigned int Data::getGLType(Type type)
+	uint32 Data::getGLType(Type type)
 	{
 		switch (type)
 		{
@@ -42,7 +42,7 @@ namespace dex
 		}
 	}
 
-	unsigned Data::getTypeSize(Type type)
+	uint32 Data::getTypeSize(Type type)
 	{
 		switch (type)
 		{
@@ -80,7 +80,7 @@ namespace dex
 		}
 	}
 
-	unsigned Data::getTypeAmount(Type type)
+	uint32 Data::getTypeAmount(Type type)
 	{
 		switch (type)
 		{
@@ -118,13 +118,13 @@ namespace dex
 		}
 	}
 
-	uint32_t Data::get_std140_BaseAlignment(Type type)
+	uint32 Data::get_std140_BaseAlignment(Type type)
 	{
 		switch (type)
 		{
-		case Type::BOOL: return sizeof(uint32_t) * 1;
+		case Type::BOOL: return sizeof(uint32) * 1;
 
-		case Type::CHAR: return sizeof(uint32_t) * 1;
+		case Type::CHAR: return sizeof(uint32) * 1;
 
 		case Type::INT: return sizeof(int) * 1;
 		case Type::IVEC2: return sizeof(int) * 2;

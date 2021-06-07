@@ -1,12 +1,12 @@
 #pragma once
 
-#include <stdint.h>
+#include "../../Util/Typedefs.hpp"
 
 namespace dex
 {
     namespace Event
     {
-        enum class Type : uint32_t
+        enum class Type : uint32
         {
             UNKNOWN,
             KEYBOARD,

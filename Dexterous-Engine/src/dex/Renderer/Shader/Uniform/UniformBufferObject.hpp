@@ -33,12 +33,12 @@ namespace dex
 			void bind();
 			void unbind();
 		private:
-			uint32_t m_ID = 0;
+			uint32 m_ID = 0;
 			std::string m_Name;
-			int32_t m_BlockSize = 0;
+			int32 m_BlockSize = 0;
 
 			// Universal binding index for the UBO
-			uint32_t m_BlockBinding = 0;
+			uint32 m_BlockBinding = 0;
 
 			static uint32_t s_NextBlockBinding;
 		};

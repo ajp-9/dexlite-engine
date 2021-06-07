@@ -9,8 +9,8 @@ namespace dex
 		struct Color3D : public Base
 		{
 		public:
-			Color3D(std::weak_ptr<Shader::Base> shader, glm::vec4 color)
-				: Base(shader), m_Color(color)
+			Color3D(std::shared_ptr<Shader::Base> shader, glm::vec4 color)
+				: Base(shader, Type::ALBEDO_3D), m_Color(color)
 			{}
 
 			virtual void setUniforms() override {}

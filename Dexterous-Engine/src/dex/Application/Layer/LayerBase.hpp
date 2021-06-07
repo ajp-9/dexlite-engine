@@ -17,9 +17,8 @@ namespace dex
 
 			virtual void update() = 0;
 			virtual void render() = 0;
-			virtual void event(Event::Base& e) = 0;
 		public:
-			uint32_t m_Index = 0;
+			uint32 m_Index = 0;
 		};
 	}
 }

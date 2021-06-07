@@ -28,7 +28,7 @@ namespace dex
 
         void Manager::detachAllLayers()
         {
-            for (auto it = m_Layers.rbegin(); it != m_Layers.rend(); ++it)
+            for (auto& l : m_Layers)
                 popLayer();
         }
 

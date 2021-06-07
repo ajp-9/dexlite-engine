@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include "../../../Util/Typedefs.hpp"
 
 namespace dex
 {
@@ -14,6 +14,6 @@ namespace dex
 		void bind();
 		void unbind();
 	private:
-		uint32_t m_ID = 0;
+		uint32 m_ID = 0;
 	};
 }
