@@ -7,6 +7,8 @@
 #include "Program/Program.hpp"
 #include "Program/EntryPoint.hpp"
 
+using dex::Engine;
+
 namespace dex
 {
 	// Core engine.
@@ -19,11 +21,11 @@ namespace dex
 	public:
 		static void Stop();
 
-		static DeltaTime s_DeltaTime;
+		static Window window;
+		static Renderer renderer;
+		static Layer::Manager layerManager;
 
-		static Window s_Window;
-
-		static Layer::Manager s_LayerManager;
+		static DeltaTime deltaTime;
 
 		friend int ::main(int argc, char** argv);
 	private:

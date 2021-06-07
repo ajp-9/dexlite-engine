@@ -11,6 +11,6 @@ namespace dex
 		virtual void Detach() override;
 		virtual void update() override {}
 		virtual void render() override {}
-		virtual void event(std::unique_ptr<Event::Base>& e) override;
+		virtual void event(Event::Base& e) override;
 	};
 }

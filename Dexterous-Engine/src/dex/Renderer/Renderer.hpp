@@ -3,37 +3,38 @@
 #include <glm/vec4.hpp>
 #include "../Scene/Scene.hpp"
 #include "Shader/ShaderManager.hpp"
+#include "ImGui/ImGuiAPI.hpp"
 
 namespace dex
 {
-	class Renderer
-	{
-		static void Init(glm::uvec4 viewport);
-		static void Shutdown();
+    class Renderer
+    {
+        Renderer(glm::uvec4 viewport);
+        ~Renderer();
 
-		static void beginFrame();
-		static void endFrame();
+        void beginFrame();
+        void endFrame();
 
-		static void update();
-		static void renderScene(Scene& scene);
+        void update();
+        void renderScene(Scene& scene);
 
-		static void setViewportSize(glm::uvec2 size);
-		static void setViewportPosition(glm::uvec2 position);
+        void setViewportSize(glm::uvec2 size);
+        void setViewportPosition(glm::uvec2 position);
 
-		static void setClearColor(const glm::vec4& color);
-		static void clear();
+        void setClearColor(const glm::vec4& color);
+        void clear();
+    public:
+        Shader::Manager shaderManager;
+    private:
+        /*// x, y = position of viewport
+        // z, w = dimensions of viewport
+        static glm::uvec4 s_LastViewport;*/
 
-	public:
-		static Shader::Manager s_ShaderManager;
-	private:
-		/*// x, y = position of viewport
-		// z, w = dimensions of viewport
-		static glm::uvec4 s_LastViewport;*/
+        ImGuiAPI m_ImGuiAPI;
 
-		static glm::uvec4 s_Viewport;
+        glm::uvec4 m_Viewport;
 
-		friend class Engine;
-		friend class Application;
-		friend class Window;
-	};
+        friend class Engine;
+        friend class Window;
+    };
 }

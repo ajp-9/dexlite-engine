@@ -5,10 +5,10 @@ namespace dex
 	class ImGuiAPI
 	{
 	public:
-		static void Init();
-		static void Shutdown();
+		ImGuiAPI();
+		~ImGuiAPI();
 
-		static void beginFrame();
-		static void endFrame();
+		void beginFrame();
+		void endFrame();
 	};
 }

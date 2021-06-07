@@ -5,7 +5,8 @@
 #include <string>
 #include <functional>
 
-#include "../Layer/Event/EventBase.hpp"
+#include "../Event/EventBase.hpp"
+#include "Input.hpp"
 
 namespace dex
 {
@@ -16,17 +17,21 @@ namespace dex
 		Window(glm::uvec2 windowDimensions);
 		~Window();
 
+		// Update window when done handling events & rendering
 		void update();
 	public:
 		glm::ivec2 getDimensions();
+
+		Input input;
 	private:
 		GLFWwindow* m_Window_GLFW = nullptr;
 
 		friend class Engine;
 		friend class ImGuiAPI;
 		friend class Layer::Manager;
+		friend class Input;
 
-		using EventCallback = std::function<void(Event::Base&)>;
+		/*using EventCallback = std::function<void(Event::Base&)>;
 
 		struct Data
 		{
@@ -35,8 +40,6 @@ namespace dex
 			bool m_VSync;
 
 			EventCallback m_EventCallbackFunc;
-		};
-
-		Data m_Data;
+		} m_Data;*/
 	};
 }

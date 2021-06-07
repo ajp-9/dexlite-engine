@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Application/Layer/Event/EventBase.hpp"
-#include "Application/Layer/Event/KeyEvent.hpp"
-#include "Application/Layer/Event/MouseEvent.hpp"
+#include "Application/Event/EventBase.hpp"
+#include "Application/Event/KeyEvent.hpp"
+#include "Application/Event/MouseEvent.hpp"
 
 #include "Application/Layer/ImGuiLayer.hpp"
 #include "Application/Layer/LayerBase.hpp"

@@ -10,5 +10,5 @@ public:
 
 	virtual void update() override;
 	virtual void render() override;
-	virtual void event(std::unique_ptr<dex::Event::Base>& e) override;
+	virtual void event(dex::Event::Base& e) override;
 };

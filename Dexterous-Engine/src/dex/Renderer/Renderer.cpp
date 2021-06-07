@@ -2,11 +2,9 @@
 
 #include <glad/glad.h>
 
-#include "ImGui/ImGuiAPI.hpp"
-
 namespace dex
 {
-	void Renderer::Init(glm::uvec4 viewport)
+	Renderer::Renderer(glm::uvec4 viewport)
 	{
 		glEnable(GL_DEPTH_TEST);
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -14,23 +12,21 @@ namespace dex
 		//glEnable(GL_CULL_FACE);
 		//glCullFace(GL_BACK);
 		glClearColor(.1, .1, .1, 1.0f); // Clear the color buffer
-
-		ImGuiAPI::Init();
 	}
 
-	void Renderer::Shutdown() 
+	Renderer::~Renderer() 
 	{
-		ImGuiAPI::Shutdown();
+
 	}
 
 	void Renderer::beginFrame()
 	{
-		ImGuiAPI::beginFrame();
+		m_ImGuiAPI.beginFrame();
 	}
 
 	void Renderer::endFrame()
 	{
-		ImGuiAPI::endFrame();
+		m_ImGuiAPI.endFrame();
 	}
 
 	void Renderer::update() {}
@@ -42,14 +38,14 @@ namespace dex
 
 	void Renderer::setViewportSize(glm::uvec2 size)
 	{
-		s_Viewport = glm::uvec4(s_Viewport.x, s_Viewport.y, size.x, size.y);
-		glViewport(s_Viewport.x, s_Viewport.y, size.x, size.y);
+		m_Viewport = glm::uvec4(m_Viewport.x, m_Viewport.y, size.x, size.y);
+		glViewport(m_Viewport.x, m_Viewport.y, size.x, size.y);
 	}
 
 	void Renderer::setViewportPosition(glm::uvec2 position)
 	{
-		s_Viewport = glm::uvec4(position.x, position.y, s_Viewport.z, s_Viewport.w);
-		glViewport(position.x, position.y, s_Viewport.x, s_Viewport.y);
+		m_Viewport = glm::uvec4(position.x, position.y, m_Viewport.z, m_Viewport.w);
+		glViewport(position.x, position.y, m_Viewport.x, m_Viewport.y);
 	}
 
 	void Renderer::setClearColor(const glm::vec4& color)
@@ -61,12 +57,4 @@ namespace dex
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
-
-	/*
-	*  Initialize member variables here.
-	*/
-
-	glm::uvec4 Renderer::s_Viewport(glm::uvec4(0));
-
-	Shader::Manager Renderer::s_ShaderManager;
 }

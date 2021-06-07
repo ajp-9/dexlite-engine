@@ -11,15 +11,12 @@ namespace dex
     void Engine::Init(std::shared_ptr<Program> program)
     {
         s_Program = program;
-        
-        Renderer::Init(glm::uvec4(0, 0, s_Window.getDimensions()));
     }
 
     void Engine::Shutdown()
     {
-        s_LayerManager.detachAllLayers();
+        layerManager.detachAllLayers();
         s_Program->Shutdown();
-        Renderer::Shutdown();
     }
     
     void Engine::Run()
@@ -30,28 +27,28 @@ namespace dex
 
         while (s_Running)
         {
-            s_DeltaTime.start();
+            deltaTime.start();
 
             // Updating/events -------------
             s_Program->update();
-            s_LayerManager.updateLayers();
-            s_LayerManager.sendEvents();
+            layerManager.updateLayers();
+            layerManager.sendEvents();
 
             // Rendering ------------
-            Renderer::clear();
-            Renderer::beginFrame();
+            renderer.clear();
+            renderer.beginFrame();
 
             s_Program->render();
 
-            s_LayerManager.renderLayers();
+            layerManager.renderLayers();
 
-            Renderer::endFrame();
+            renderer.endFrame();
 
             // Swap buffers when FINISHED rendering
-            s_Window.update();
+            window.update();
 
-            s_DeltaTime.sleep();
-            s_DeltaTime.end();
+            deltaTime.sleep();
+            deltaTime.end();
 
             if (!s_Running)
                 Shutdown();
@@ -69,10 +66,11 @@ namespace dex
 
     bool Engine::s_Running;
 
-    DeltaTime Engine::s_DeltaTime(60);
-    Window Engine::s_Window(glm::uvec2(1280, 720));
+    Window Engine::window(glm::uvec2(1280, 720));
+    Renderer Engine::renderer = { glm::uvec4(0, 0, 600, 300) };
+    Layer::Manager Engine::layerManager;
 
-    Layer::Manager Engine::s_LayerManager;
+    DeltaTime Engine::deltaTime(60);
 
     std::shared_ptr<Program> Engine::s_Program;
 }

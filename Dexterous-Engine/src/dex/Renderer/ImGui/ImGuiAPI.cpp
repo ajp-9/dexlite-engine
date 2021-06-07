@@ -10,10 +10,10 @@
 
 namespace dex
 {
-	void ImGuiAPI::Init()
-	{
-		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
+    ImGuiAPI::ImGuiAPI()
+    {
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
@@ -21,7 +21,7 @@ namespace dex
         //io.ConfigViewportsNoTaskBarIcon = true;
 
         // Setup Dear ImGui style
-        ImGui::StyleColorsDark();
+        //ImGui::StyleColorsDark();
         //ImGui::StyleColorsClassic();
 
         // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
@@ -33,12 +33,12 @@ namespace dex
         }
 
         // Setup Platform/Renderer backends
-        ImGui_ImplGlfw_InitForOpenGL(Engine::s_Window.m_Window_GLFW, true);
+        ImGui_ImplGlfw_InitForOpenGL(Engine::window.m_Window_GLFW, true);
         ImGui_ImplOpenGL3_Init("#version 330");
-	}
+    }
 
-	void ImGuiAPI::Shutdown()
-	{
+    ImGuiAPI::~ImGuiAPI()
+    {
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();

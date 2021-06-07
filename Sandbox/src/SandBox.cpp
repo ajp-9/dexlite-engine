@@ -15,8 +15,8 @@ using dex::Engine;
 
 void SandBox::Init()
 {
-	Engine::s_LayerManager.pushLayer(std::make_shared<WorldLayer>());
-	Engine::s_LayerManager.pushLayer(std::make_shared<DebugLayer>());
+	Engine::layerManager.pushLayer(std::make_shared<WorldLayer>());
+	Engine::layerManager.pushLayer(std::make_shared<DebugLayer>());
 
 	/*
 	//shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());

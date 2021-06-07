@@ -1,14 +1,15 @@
 #include "DebugLayer.hpp"
 
 #include <imgui/imgui.h>
+#include <dex/Dexterous.hpp>
 
 void DebugLayer::update()
 {
+    //Engine::window.input.stopEvents();
 }
 
 void DebugLayer::render()
 {
-    /*
     static ImGuiIO& io = ImGui::GetIO(); (void)io;
 
     static bool show_another_window = false;
@@ -20,6 +21,9 @@ void DebugLayer::render()
 
     ImGui::Begin("Debug Window");                          // Create a window called "Hello, world!" and append into it.
 
+    static char txt[500];
+    ImGui::InputText("Texti: ", txt, 500);
+
     ImGui::Checkbox("Another Window", &show_another_window);
 
     ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
@@ -28,6 +32,7 @@ void DebugLayer::render()
     if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
         counter++;
     ImGui::SameLine();
+
     ImGui::Text("counter = %d", counter);
 
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -42,5 +47,5 @@ void DebugLayer::render()
             show_another_window = false;
         ImGui::End();
     }
-    */
+    
 }

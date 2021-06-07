@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "../../Util/TypeDefs.hpp"
-#include "Event/EventBase.hpp"
+#include "../Event/EventBase.hpp"
 
 namespace dex
 {
@@ -17,9 +17,9 @@ namespace dex
 
 			virtual void update() = 0;
 			virtual void render() = 0;
-			virtual void event(std::unique_ptr<Event::Base>& e) = 0;
+			virtual void event(Event::Base& e) = 0;
 		public:
-			uint m_Index = 0;
+			uint32_t m_Index = 0;
 		};
 	}
 }
