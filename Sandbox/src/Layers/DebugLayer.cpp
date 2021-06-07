@@ -3,11 +3,6 @@
 #include <imgui/imgui.h>
 #include <dex/Dexterous.hpp>
 
-void DebugLayer::update()
-{
-    //Engine::window.input.stopEvents();
-}
-
 void DebugLayer::render()
 {
     static ImGuiIO& io = ImGui::GetIO(); (void)io;

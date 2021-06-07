@@ -13,12 +13,12 @@ namespace dex
 
     void ImGuiLayer::Detach() {}
 
-    void ImGuiLayer::event(Event::Base& e)
+    void ImGuiLayer::update()
     {
-        //ImGui_ImplGL(&e->m_RawEvent);
-        //if (e.m_Type == Event::Type::KEYBOARD || e.m_Type == Event::Type::KEY_DOWN || e.m_Type == Event::Type::KEY_UP)
-        //    e.m_Handled = ImGui::GetIO().WantCaptureKeyboard;
-        //if (e.m_Type == Event::Type::MOUSE_MOVE || e.m_Type == Event::Type::MOUSE_DOWN || e.m_Type == Event::Type::MOUSE_UP || e.m_Type == Event::Type::MOUSE_SCROLL)
-        //    e.m_Handled = ImGui::GetIO().WantCaptureMouse;
+        if (ImGui::GetIO().WantCaptureKeyboard)
+            Engine::window.input.stopKeyEvents();
+
+        if (ImGui::GetIO().WantCaptureMouse)
+            Engine::window.input.stopMouseEvents();
     }
 }
