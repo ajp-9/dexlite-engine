@@ -1,11 +1,17 @@
 # Dexterous-Engine
-The goal of this engine is to be able to work fast and efficiently on lower quality computers and smaller electronics. The engine was made in mind with the fact that you need to interact natively with the engine for maximum performance. This engine isn't something that is necessarily aiming for ultra fancy graphics, this is meant to deliver decent graphics and gameplay on weaker machines like phones and tablets. (and also I'm not that interested in this project taking years to finish, since this is pretty much just a hobby)
+This engine is a little hobby of mine. It is designed to run fast, but not necessarily have ultra fancy graphics--since getting really good graphics coupled with really good performance could take ages.
 
 ## How to Build:
-As long as you're on Windows and use Visual Studio 2019 it should be very easy to run the batch file (.bat) in the scripts folder to run the premake5 builder.  
-After that you should be able to open the solution compile without issue.  
+#### Windows:
 
-For Mac... well.. uh.. have fun =p
+Using Visual Studio 2019, it should be very easy to run the batch file (.bat) in the scripts folder to run the premake5 builder.  
+After that you should be able to open the solution and compile without issue.  
+
+#### MacOS:
+Not fully supported yet.
+
+#### Linux:
+Not supported yet.
 
 ## Documentation:
 The link to the wiki is here: https://github.com/ajp-9/dexterous-engine/wiki  
@@ -17,9 +23,10 @@ There isn't much in it currently but after I get this engine to a stable and dec
 * Integrating a physics engine
 * Making an editor
 * Adding Documentation
+* Possibly adding a scripting api
 
 ## Contribution 
-If you find a bug, or just something that needs to be fixed, please do make an issue or pull request.  
+If you find a bug, or just something that needs to be fixed, please do make an issue or a pull request.  
 For now though keep in mind that this engine is going through a LOT of work and what you see one day will probably not be the same a few days or week later. 
 
 ## External Libraries:
