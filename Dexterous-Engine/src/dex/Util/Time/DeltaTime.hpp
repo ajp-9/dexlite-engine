@@ -20,7 +20,7 @@ namespace dex
 		double getDeltaTime();
 		double getFPS();
 
-		operator float() const { return (float)m_LastTimeDuration_ms; }
+		operator float32() const { return (float32)m_LastTimeDuration_ms; }
 	private:
 		double getCurrentTime();
 	private:

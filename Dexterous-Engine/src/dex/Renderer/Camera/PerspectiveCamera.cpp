@@ -7,8 +7,8 @@ namespace dex
 {
 	namespace Camera
 	{
-		Perspective::Perspective(float fov, glm::uvec2 screenDimensions, glm::vec2 bounds, glm::vec3 position, glm::vec3 rotation)
-			: Base(glm::perspective(glm::radians(fov), float(screenDimensions.x) / float(screenDimensions.y), bounds.x, bounds.y),
+		Perspective::Perspective(float32 fov, glm::uvec2 screenDimensions, glm::vec2 bounds, glm::vec3 position, glm::vec3 rotation)
+			: Base(glm::perspective(glm::radians(fov), float32(screenDimensions.x) / float32(screenDimensions.y), bounds.x, bounds.y),
 				glm::mat4(1.0f), position, rotation)
 		{
 			// View is here b/c everything needs to initialize first.

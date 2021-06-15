@@ -60,19 +60,19 @@ namespace dex
 		case Type::UVEC3: return sizeof(unsigned int) * 3;
 		case Type::UVEC4: return sizeof(unsigned int) * 4;
 
-		case Type::FLOAT: return sizeof(float) * 1;
-		case Type::VEC2: return sizeof(float) * 2;
-		case Type::VEC3: return sizeof(float) * 3;
-		case Type::VEC4: return sizeof(float) * 4;
+		case Type::FLOAT: return sizeof(float32) * 1;
+		case Type::VEC2: return sizeof(float32) * 2;
+		case Type::VEC3: return sizeof(float32) * 3;
+		case Type::VEC4: return sizeof(float32) * 4;
 
 		case Type::DOUBLE: return sizeof(double) * 1;
 		case Type::DVEC2: return sizeof(double) * 2;
 		case Type::DVEC3: return sizeof(double) * 3;
 		case Type::DVEC4: return sizeof(double) * 4;
 
-		case Type::MAT2: return sizeof(float) * 4;
-		case Type::MAT3: return sizeof(float) * 9;
-		case Type::MAT4: return sizeof(float) * 16;
+		case Type::MAT2: return sizeof(float32) * 4;
+		case Type::MAT3: return sizeof(float32) * 9;
+		case Type::MAT4: return sizeof(float32) * 16;
 
 		default:
 			std::cout << "Type::getTypeSize: Invalid Type\n";
@@ -136,19 +136,19 @@ namespace dex
 		case Type::UVEC3: return sizeof(unsigned int) * 4;
 		case Type::UVEC4: return sizeof(unsigned int) * 4;
 
-		case Type::FLOAT: return sizeof(float) * 1;
-		case Type::VEC2: return sizeof(float) * 2;
-		case Type::VEC3: return sizeof(float) * 4;
-		case Type::VEC4: return sizeof(float) * 4;
+		case Type::FLOAT: return sizeof(float32) * 1;
+		case Type::VEC2: return sizeof(float32) * 2;
+		case Type::VEC3: return sizeof(float32) * 4;
+		case Type::VEC4: return sizeof(float32) * 4;
 
 		case Type::DOUBLE: return sizeof(double) * 1;
 		case Type::DVEC2: return sizeof(double) * 2;
 		case Type::DVEC3: return sizeof(double) * 4;
 		case Type::DVEC4: return sizeof(double) * 4;
 
-		case Type::MAT2: return sizeof(float) * 4;
-		case Type::MAT3: return sizeof(float) * 16;
-		case Type::MAT4: return sizeof(float) * 16;
+		case Type::MAT2: return sizeof(float32) * 4;
+		case Type::MAT3: return sizeof(float32) * 16;
+		case Type::MAT4: return sizeof(float32) * 16;
 
 		default:
 			std::cout << "Type::getTypeSize: Invalid Type\n";

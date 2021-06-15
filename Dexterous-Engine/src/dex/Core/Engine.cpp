@@ -31,6 +31,7 @@ namespace dex
 
             // Updating/events -------------
             s_Program->update();
+
             layerManager.updateLayers();
             layerManager.sendEvents();
 

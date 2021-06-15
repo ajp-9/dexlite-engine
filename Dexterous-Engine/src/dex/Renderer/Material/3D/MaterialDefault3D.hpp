@@ -12,7 +12,7 @@ namespace dex
 		{
 			Default3D(
 				const std::shared_ptr<Shader::Default3D>& shader,
-				float texTilingFactor = 1.0f,
+				float32 texTilingFactor = 1.0f,
 				const Texture& diffuseMap = Texture(),
 				const Texture& specularMap = Texture())
 
@@ -22,7 +22,9 @@ namespace dex
 				m_TexTilingFactor(texTilingFactor),
 				m_DiffuseMap(diffuseMap),
 				m_SpecularMap(specularMap)
-			{}
+			{
+				setUniforms();
+			}
 
 			virtual void setUniforms()
 			{
@@ -49,7 +51,7 @@ namespace dex
 				}
 			}
 		public:
-			float m_TexTilingFactor;
+			float32 m_TexTilingFactor;
 
 			Texture m_DiffuseMap;
 			Texture m_SpecularMap;

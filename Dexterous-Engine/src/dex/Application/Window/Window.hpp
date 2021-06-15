@@ -30,16 +30,5 @@ namespace dex
 		friend class ImGuiAPI;
 		friend class Layer::Manager;
 		friend class Input;
-
-		/*using EventCallback = std::function<void(Event::Base&)>;
-
-		struct Data
-		{
-			std::string m_Title;
-			glm::uvec2 m_Dimensions;
-			bool m_VSync;
-
-			EventCallback m_EventCallbackFunc;
-		} m_Data;*/
 	};
 }

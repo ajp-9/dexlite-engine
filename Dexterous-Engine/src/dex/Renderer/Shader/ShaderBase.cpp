@@ -109,7 +109,7 @@ namespace dex
 			glUniform1i(glGetUniformLocation(m_ProgramID, name.c_str()), value);
 		}
 
-		void Base::setFloat(const std::string& name, float value) const
+		void Base::setFloat(const std::string& name, float32 value) const
 		{
 			glUniform1f(glGetUniformLocation(m_ProgramID, name.c_str()), value);
 		}
@@ -118,7 +118,7 @@ namespace dex
 		{
 			glUniform2fv(glGetUniformLocation(m_ProgramID, name.c_str()), 1, &value[0]);
 		}
-		void Base::setVec2(const std::string& name, float x, float y) const
+		void Base::setVec2(const std::string& name, float32 x, float32 y) const
 		{
 			glUniform2f(glGetUniformLocation(m_ProgramID, name.c_str()), x, y);
 		}
@@ -127,7 +127,7 @@ namespace dex
 		{
 			glUniform3fv(glGetUniformLocation(m_ProgramID, name.c_str()), 1, &value[0]);
 		}
-		void Base::setVec3(const std::string& name, float x, float y, float z) const
+		void Base::setVec3(const std::string& name, float32 x, float32 y, float32 z) const
 		{
 			glUniform3f(glGetUniformLocation(m_ProgramID, name.c_str()), x, y, z);
 		}
@@ -136,7 +136,7 @@ namespace dex
 		{
 			glUniform4fv(glGetUniformLocation(m_ProgramID, name.c_str()), 1, &value[0]);
 		}
-		void Base::setVec4(const std::string& name, float x, float y, float z, float w)
+		void Base::setVec4(const std::string& name, float32 x, float32 y, float32 z, float32 w)
 		{
 			glUniform4f(glGetUniformLocation(m_ProgramID, name.c_str()), x, y, z, w);
 		}

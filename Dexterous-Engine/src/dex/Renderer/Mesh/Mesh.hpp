@@ -12,7 +12,7 @@ namespace dex
 {
 	namespace Mesh
 	{
-		enum class Type : uint8_t
+		enum class Type : uint32
 		{
 			BASE,
 			INTERFACE,

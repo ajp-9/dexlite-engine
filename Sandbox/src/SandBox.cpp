@@ -17,14 +17,13 @@ void SandBox::Init()
 {
 	Engine::layerManager.pushLayer(std::make_shared<WorldLayer>());
 	Engine::layerManager.pushLayer(std::make_shared<DebugLayer>());
-
-	/*
+	
 	//shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
 	m_Player = m_Scene.createEntity();
-	m_Player.addComponent<dex::Component::PerspectiveCamera>(true, dex::Camera::Perspective(60, dex::Engine::m_Window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
+	m_Player.addComponent<dex::Component::PerspectiveCamera>(true, dex::Camera::Perspective(60, dex::Engine::window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
 
 	m_Scene.findSetMainCamera();
-
+	
 	/*std::vector<dex::Vertex3D::TextureNormal> vertices =
 	{
 		{glm::vec3(0.5f,  0.5f, 0.0f),  glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)}, // top right
@@ -64,18 +63,17 @@ void SandBox::Init()
 	dat[0].w = glm::vec3(0, 3, 1);
 
 	proj.uploadData(&dat);*/
-
-	/*std::vector<dex::Vertex3D::Default> vertices = {dex::Vertex3D::Default(), dex::Vertex3D::Default()};
+	std::array<int, 3> e;
+	std::vector<dex::Vertex3D::Default> vertices =
+	{
+		dex::Vertex3D::Default(), dex::Vertex3D::Default()
+	};
 	std::vector<unsigned> indices = { 0, 1, 3, 1, 2, 3 };
-	dex::Material::Default3D material = { dex::Renderer::s_ShaderManager.getShaderDerived<dex::Shader::Default3D>("Default3D") };
+	dex::Material::Default3D material = { Engine::renderer.shaderManager.getShaderDerived<dex::Shader::Default3D>(dex::Shader::Type::DEFAULT_3D) };
 
 	std::unique_ptr<dex::Mesh::Base> m = std::make_unique<dex::Mesh::Default3D>(vertices, indices, material);
-	m->getDerivedSelf<dex::Mesh::TextureNormal3D>();
 
-	std::cout << material.m_Shader->getName() << "\n";*/
-
-	//std::unique_ptr<dex::Mesh::Base> def = std::make_unique<dex::Mesh::Default3D>(vertices, indices, materials);
-	//std::cout << (uint32_t)def->m_Type << "\n";
+	std::cout << (uint32)m->getDerivedSelf<dex::Mesh::Default3D>().m_Type << "\n";
 }
 
 void SandBox::Shutdown()
