@@ -4,6 +4,6 @@
 
 class DebugLayer : public dex::ImGuiLayer
 {
-	//virtual void update() override;
-	virtual void render() override;
+    //virtual void update() override;
+    virtual void render() override;
 };

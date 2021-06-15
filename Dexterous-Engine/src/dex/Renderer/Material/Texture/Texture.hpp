@@ -4,16 +4,16 @@
 
 namespace dex
 {
-	class Texture
-	{
-	public:
-		Texture() {}
-		Texture(const char* src, bool blending = true);
-		~Texture();
+    class Texture
+    {
+    public:
+        Texture() {}
+        Texture(const char* src, bool blending = true);
+        ~Texture();
 
-		void bind();
-		void unbind();
-	private:
-		uint32 m_ID = 0;
-	};
+        void bind();
+        void unbind();
+    private:
+        uint32 m_ID = 0;
+    };
 }

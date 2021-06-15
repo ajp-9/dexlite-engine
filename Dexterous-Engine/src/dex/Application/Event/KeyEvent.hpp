@@ -4,18 +4,18 @@
 
 namespace dex
 {
-	namespace Event
-	{
+    namespace Event
+    {
         enum class Key : int32;
 
-		struct KeyEvent : Base
-		{
-			KeyEvent(Type type, Key keyCode)
+        struct KeyEvent : Base
+        {
+            KeyEvent(Type type, Key keyCode)
                 : Base(type), m_KeyCode(keyCode)
             {}
 
             Key m_KeyCode;
-		};
+        };
 
         enum class Key : int32
         {
@@ -144,5 +144,5 @@ namespace dex
             RIGHT_SUPER   = 347,
             MENU          = 348
         };
-	}
+    }
 }

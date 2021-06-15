@@ -2,15 +2,15 @@
 
 namespace dex
 {
-	class Framebuffer
-	{
-		Framebuffer();
-		~Framebuffer();
+    class Framebuffer
+    {
+        Framebuffer();
+        ~Framebuffer();
 
-		void bind();
-		void unbind();
+        void bind();
+        void unbind();
 
-		void resize();
-	};
-	
+        void resize();
+    };
+    
 }

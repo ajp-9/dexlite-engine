@@ -7,18 +7,18 @@
 
 namespace dex
 {
-	namespace Layer
-	{
-		class Base
-		{
-		public:
-			virtual void Attach() = 0;
-			virtual void Detach() = 0;
+    namespace Layer
+    {
+        class Base
+        {
+        public:
+            virtual void Attach() = 0;
+            virtual void Detach() = 0;
 
-			virtual void update() = 0;
-			virtual void render() = 0;
-		public:
-			uint32 m_Index = 0;
-		};
-	}
+            virtual void update() = 0;
+            virtual void render() = 0;
+        public:
+            uint32 m_Index = 0;
+        };
+    }
 }

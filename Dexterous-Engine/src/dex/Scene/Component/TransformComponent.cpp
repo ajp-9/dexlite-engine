@@ -6,14 +6,14 @@
 
 namespace dex
 {
-	namespace Component
-	{
-		void Transform::calculateTransformation()
-		{
-			m_TransformationMatrix = 
-				glm::translate(glm::mat4(1.0f), m_Position) *
-				glm::toMat4(glm::quat(glm::radians(m_Rotation))) *
-				glm::scale(glm::mat4(1.0f), m_Scale);
-		}
-	}
+    namespace Component
+    {
+        void Transform::calculateTransformation()
+        {
+            m_TransformationMatrix = 
+                glm::translate(glm::mat4(1.0f), m_Position) *
+                glm::toMat4(glm::quat(glm::radians(m_Rotation))) *
+                glm::scale(glm::mat4(1.0f), m_Scale);
+        }
+    }
 }

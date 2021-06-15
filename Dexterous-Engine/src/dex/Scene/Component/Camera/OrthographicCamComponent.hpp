@@ -4,16 +4,16 @@
 
 namespace dex
 {
-	namespace Component
-	{
-		struct OrthographicCamera
-		{
-			OrthographicCamera(bool isMainCamera, Camera::Orthographic& camera)
-				: m_IsMainCamera(isMainCamera), m_Camera(camera)
-			{}
+    namespace Component
+    {
+        struct OrthographicCamera
+        {
+            OrthographicCamera(bool isMainCamera, Camera::Orthographic& camera)
+                : m_IsMainCamera(isMainCamera), m_Camera(camera)
+            {}
 
-			Camera::Orthographic m_Camera;
-			bool m_IsMainCamera = false;
-		};
-	}
+            Camera::Orthographic m_Camera;
+            bool m_IsMainCamera = false;
+        };
+    }
 }

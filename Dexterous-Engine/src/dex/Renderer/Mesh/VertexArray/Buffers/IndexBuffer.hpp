@@ -6,19 +6,19 @@
 
 namespace dex
 {
-	class IndexBuffer
-	{
-	public:
-		IndexBuffer();
+    class IndexBuffer
+    {
+    public:
+        IndexBuffer();
 
-		void uploadData(const std::vector<uint32_t>& indices);
+        void uploadData(const std::vector<uint32_t>& indices);
 
-		void bind();
-		void unbind();
+        void bind();
+        void unbind();
 
-		uint32 getCount() const { return m_Count; }
-	private:
-		uint32 m_ID = 0;
-		uint32 m_Count = 0;
-	};
+        uint32 getCount() const { return m_Count; }
+    private:
+        uint32 m_ID = 0;
+        uint32 m_Count = 0;
+    };
 }

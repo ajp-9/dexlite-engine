@@ -11,27 +11,27 @@ using dex::Engine;
 
 namespace dex
 {
-	// Core engine.
-	class Engine
-	{
-		static void Init(std::shared_ptr<Program> program);
-		static void Shutdown();
+    // Core engine.
+    class Engine
+    {
+        static void Init(std::shared_ptr<Program> program);
+        static void Shutdown();
 
-		static void Run();
-	public:
-		static void Stop();
+        static void Run();
+    public:
+        static void Stop();
 
-		static Window window;
-		static Renderer renderer;
-		static Layer::Manager layerManager;
+        static Window window;
+        static Renderer renderer;
+        static Layer::Manager layerManager;
 
-		static DeltaTime deltaTime;
+        static DeltaTime deltaTime;
 
-		friend int ::main(int argc, char** argv);
-	private:
-		static bool s_Running;
+        friend int ::main(int argc, char** argv);
+    private:
+        static bool s_Running;
 
-		// Is a unique ptr because of inheritance.
-		static std::shared_ptr<Program> s_Program;
-	};
+        // Is a unique ptr because of inheritance.
+        static std::shared_ptr<Program> s_Program;
+    };
 }

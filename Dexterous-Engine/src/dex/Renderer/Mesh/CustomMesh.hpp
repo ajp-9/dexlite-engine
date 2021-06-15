@@ -8,32 +8,32 @@
 
 namespace dex
 {
-	namespace Mesh
-	{
-		template <typename V>
-		class Custom
-		{
-		public:
-			Mesh_Custom() {}
-			Mesh_Custom(const std::vector<V>& vertices, const std::vector<uint32_t>& indices)
-				: m_Vertices(vertices), m_Indices(indices)
-			{
-				m_VertexArray.bind();
+    namespace Mesh
+    {
+        template <typename V>
+        class Custom
+        {
+        public:
+            Mesh_Custom() {}
+            Mesh_Custom(const std::vector<V>& vertices, const std::vector<uint32_t>& indices)
+                : m_Vertices(vertices), m_Indices(indices)
+            {
+                m_VertexArray.bind();
 
-				m_VertexArray.m_VertexBuffers.setVertexLayout<V>(V::getTypes());
-				m_VertexArray.m_VertexBuffers.uploadData(m_Vertices);
+                m_VertexArray.m_VertexBuffers.setVertexLayout<V>(V::getTypes());
+                m_VertexArray.m_VertexBuffers.uploadData(m_Vertices);
 
-				m_VertexArray.m_IndexBuffer.uploadData(m_Indices);
-			}
+                m_VertexArray.m_IndexBuffer.uploadData(m_Indices);
+            }
 
-			void render()
-			{
-				m_VertexArray.render();
-			}
-		private:
-			std::vector<V> m_Vertices;
-			std::vector<uint32> m_Indices;
-			VertexArray m_VertexArray;
-		};
-	}
+            void render()
+            {
+                m_VertexArray.render();
+            }
+        private:
+            std::vector<V> m_Vertices;
+            std::vector<uint32> m_Indices;
+            VertexArray m_VertexArray;
+        };
+    }
 }

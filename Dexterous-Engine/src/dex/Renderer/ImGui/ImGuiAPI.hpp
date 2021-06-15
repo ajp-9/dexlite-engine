@@ -2,13 +2,13 @@
 
 namespace dex
 {
-	class ImGuiAPI
-	{
-	public:
-		ImGuiAPI();
-		~ImGuiAPI();
+    class ImGuiAPI
+    {
+    public:
+        ImGuiAPI();
+        ~ImGuiAPI();
 
-		void beginFrame();
-		void endFrame();
-	};
+        void beginFrame();
+        void endFrame();
+    };
 }

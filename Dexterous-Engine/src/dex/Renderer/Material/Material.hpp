@@ -6,36 +6,36 @@
 
 namespace dex
 {
-	namespace Material
-	{
-		enum class Type : uint8_t
-		{
-			BASE,
-			DEFAULT_3D,
-			ALBEDO_3D,
-			TEXTURE_3D
-		};
+    namespace Material
+    {
+        enum class Type : uint8_t
+        {
+            BASE,
+            DEFAULT_3D,
+            ALBEDO_3D,
+            TEXTURE_3D
+        };
 
-		struct Base
-		{
-			Base(const std::shared_ptr<Shader::Base>& shader, Type type = Type::BASE)
-				: m_Shader(shader), m_Type(type)
-			{}
+        struct Base
+        {
+            Base(const std::shared_ptr<Shader::Base>& shader, Type type = Type::BASE)
+                : m_Shader(shader), m_Type(type)
+            {}
 
-			virtual void setUniforms() = 0;
+            virtual void setUniforms() = 0;
 
-			// Put in the template the type of material.
-			template <class T>
-			inline T& getDerivedSelf()
-			{
-				if (typeid(T) != typeid(*this))
-					std::cout << "Error: The template input: (" << typeid(T).name() << ") can't be derived from the current object (" << typeid(*this).name() << ").\n";
+            // Put in the template the type of material.
+            template <class T>
+            inline T& getDerivedSelf()
+            {
+                if (typeid(T) != typeid(*this))
+                    std::cout << "Error: The template input: (" << typeid(T).name() << ") can't be derived from the current object (" << typeid(*this).name() << ").\n";
 
-				return *static_cast<T*>(this);
-			}
-		public:
-			std::shared_ptr<Shader::Base> m_Shader;
-			Type m_Type;
-		};
-	}
+                return *static_cast<T*>(this);
+            }
+        public:
+            std::shared_ptr<Shader::Base> m_Shader;
+            Type m_Type;
+        };
+    }
 }

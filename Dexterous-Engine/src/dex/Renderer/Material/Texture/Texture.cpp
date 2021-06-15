@@ -8,8 +8,8 @@
 
 namespace dex
 {
-	Texture::Texture(const char* src, bool blending)
-	{
+    Texture::Texture(const char* src, bool blending)
+    {
         glGenTextures(1, &m_ID);
         bind(); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
         // set the texture wrapping parameters
@@ -56,20 +56,20 @@ namespace dex
 
         stbi_image_free(data);
         unbind();
-	}
+    }
 
-	Texture::~Texture()
-	{
+    Texture::~Texture()
+    {
         //glDeleteTextures(1, &m_ID);
-	}
+    }
 
-	void Texture::bind()
-	{
+    void Texture::bind()
+    {
         glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m_ID);
-	}
-	void Texture::unbind()
-	{
+        glBindTexture(GL_TEXTURE_2D, m_ID);
+    }
+    void Texture::unbind()
+    {
         glBindTexture(GL_TEXTURE_2D, 0);
-	}
+    }
 }

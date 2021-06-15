@@ -6,58 +6,58 @@
 
 namespace dex
 {
-	namespace Material
-	{
-		struct Default3D : Base
-		{
-			Default3D(
-				const std::shared_ptr<Shader::Default3D>& shader,
-				float32 texTilingFactor = 1.0f,
-				const Texture& diffuseMap = Texture(),
-				const Texture& specularMap = Texture())
+    namespace Material
+    {
+        struct Default3D : Base
+        {
+            Default3D(
+                const std::shared_ptr<Shader::Default3D>& shader,
+                float32 texTilingFactor = 1.0f,
+                const Texture& diffuseMap = Texture(),
+                const Texture& specularMap = Texture())
 
-				: // Initializer List
+                : // Initializer List
 
-				Base(shader, Type::DEFAULT_3D),
-				m_TexTilingFactor(texTilingFactor),
-				m_DiffuseMap(diffuseMap),
-				m_SpecularMap(specularMap)
-			{
-				setUniforms();
-			}
+                Base(shader, Type::DEFAULT_3D),
+                m_TexTilingFactor(texTilingFactor),
+                m_DiffuseMap(diffuseMap),
+                m_SpecularMap(specularMap)
+            {
+                setUniforms();
+            }
 
-			virtual void setUniforms()
-			{
-				auto& tmp_shader = m_Shader->getDerivedSelf<Shader::Default3D>();
-				
-				if (m_DiffuseMapEnabled)
-				{
-					tmp_shader.setDiffuseMapEnabled(true);
-					tmp_shader.setDiffuseMapSampler();
-				}
-				else
-				{
-					tmp_shader.setDiffuseMapEnabled(false);
-				}
+            virtual void setUniforms()
+            {
+                auto& tmp_shader = m_Shader->getDerivedSelf<Shader::Default3D>();
+                
+                if (m_DiffuseMapEnabled)
+                {
+                    tmp_shader.setDiffuseMapEnabled(true);
+                    tmp_shader.setDiffuseMapSampler();
+                }
+                else
+                {
+                    tmp_shader.setDiffuseMapEnabled(false);
+                }
 
-				if (m_SpecularMapEnabled)
-				{
-					tmp_shader.setSpecularMapEnabled(true);
-					tmp_shader.setSpecularMapLocation();
-				}
-				else
-				{
-					tmp_shader.setSpecularMapEnabled(false);
-				}
-			}
-		public:
-			float32 m_TexTilingFactor;
+                if (m_SpecularMapEnabled)
+                {
+                    tmp_shader.setSpecularMapEnabled(true);
+                    tmp_shader.setSpecularMapLocation();
+                }
+                else
+                {
+                    tmp_shader.setSpecularMapEnabled(false);
+                }
+            }
+        public:
+            float32 m_TexTilingFactor;
 
-			Texture m_DiffuseMap;
-			Texture m_SpecularMap;
+            Texture m_DiffuseMap;
+            Texture m_SpecularMap;
 
-			bool m_DiffuseMapEnabled;
-			bool m_SpecularMapEnabled;
-		};
-	}
+            bool m_DiffuseMapEnabled;
+            bool m_SpecularMapEnabled;
+        };
+    }
 }

@@ -75,9 +75,9 @@ namespace dex
                 }
             });
 
-        glfwSetCursorPosCallback(m_Window_GLFW, [](GLFWwindow* window, double xPos, double yPos)
+        glfwSetCursorPosCallback(m_Window_GLFW, [](GLFWwindow* window, float64 xPos, float64 yPos)
             {
-                static double lastX, lastY;
+                static float32 lastX, lastY;
                 //std::cout << -(lastX - xPos) << ", " << lastY - yPos << "\n";
 
                 Engine::window.input.pushMouseEvent(Event::MouseEvent(Event::Type::MOUSE, Event::MouseType::MOVE, glm::dvec2(xPos, yPos), glm::dvec2(-(lastX - xPos), lastY - yPos), Event::MouseButton::UNKNOWN, 0));
