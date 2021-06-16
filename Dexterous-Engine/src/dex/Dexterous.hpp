@@ -14,10 +14,6 @@
 #include "Core/Program/EntryPoint.hpp"
 #include "Core/Engine.hpp"
 
-#include "Renderer/Camera/CameraBase.hpp"
-#include "Renderer/Camera/OrthographicCamera.hpp"
-#include "Renderer/Camera/PerspectiveCamera.hpp"
-
 #include "Renderer/ImGui/ImGuiAPI.hpp"
 
 #include "Renderer/Material/Material.hpp"
@@ -40,8 +36,6 @@
 #include "Renderer/DataTypes/DataTypes.hpp"
 #include "Renderer/Mesh/VertexArray/VertexArray.hpp"
 
-#include "Scene/Component/Camera/OrthographicCamComponent.hpp"
-#include "Scene/Component/Camera/PerspectiveCamComponent.hpp"
 #include "Scene/Component/ModelComponent.hpp"
 #include "Scene/Component/TagComponent.hpp"
 #include "Scene/Component/TransformComponent.hpp"

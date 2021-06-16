@@ -11,6 +11,18 @@ namespace dex
         {
             addShader(std::make_shared<Base>());
             addShader(std::make_shared<Default3D>());
+
+            //auto modelUBO = std::make_unique<UniformBufferObject>("ubo_ModelMatrix");
+            //modelUBO.bindShader(getShader(Type::BASE));
+            //modelUBO->bindShader(getShader(Type::DEFAULT_3D));
+            std::cout << sizeof(__declspec(align(16)) int) << " eee\n";
+
+            UniformBufferObject("ubo_ModelMatrix").bindShader(getShader(Type::DEFAULT_3D));
+        }
+
+        void Manager::addUBO(const std::shared_ptr<UniformBufferObject>& ubo)
+        {
+            m_UBOs.emplace_back(ubo);
         }
 
         void Manager::addShader(const std::shared_ptr<Shader::Base>& shader)
@@ -34,6 +46,10 @@ namespace dex
         {
             for (auto& shader : m_Shaders)
                 shader->setProjectionViewMatrix(mat);
+        }
+
+        void Manager::setModalMatrix(const glm::mat4& mat)
+        {
         }
     }
 }

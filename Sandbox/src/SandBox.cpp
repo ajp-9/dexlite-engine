@@ -17,63 +17,14 @@ void SandBox::Init()
 {
     Engine::layerManager.pushLayer(std::make_shared<WorldLayer>());
     Engine::layerManager.pushLayer(std::make_shared<DebugLayer>());
-    
+
     //shader->setProjectionViewMatrix(pCamera.getProjectionViewMatrix());
     m_Player = m_Scene.createEntity();
-    m_Player.addComponent<dex::Component::PerspectiveCamera>(true, dex::Camera::Perspective(60, dex::Engine::window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
+    //m_Player.addComponent<dex::Component::PerspectiveCamera>(true, dex::Camera::Perspective(60, dex::Engine::window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
 
-    m_Scene.findSetMainCamera();
-    
-    /*std::vector<dex::Vertex3D::TextureNormal> vertices =
-    {
-        {glm::vec3(0.5f,  0.5f, 0.0f),  glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)}, // top right
-        {glm::vec3(0.5f, -0.5f, 0.0f),  glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)}, // bottom right
-        {glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f)}, // bottom left
-        {glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)}  // top left 
-    };
 
-    std::vector<unsigned> indices = { 0, 1, 3, 1, 2, 3 };
-    //std::unique_ptr<dex::Mesh> m = std::make_unique<dex::Mesh>(vertices, indices);/
 
-    m_Entity = m_Scene.createEntity();
 
-    m_Entity.addComponent<dex::Component::Model>(dex::Model("assets/models/box.fbx", std::make_unique<dex::Material::Base>(shader)));
-    m_Entity.addComponent<dex::Component::Transform>();
-    
-    dex::Shader::UniformBufferObject proj = { "ubo_ProjectionViewMatrix" };
-    proj.bindShader(shader);
-
-    proj.setup();
-
-    __declspec(align(16)) struct Data
-    {
-        Data(float v) : values(v) {}
-
-        int b = 3;
-        __declspec(align(16)) glm::vec3 w = glm::vec3(0);
-        __declspec(align(16)) glm::mat4 m = glm::mat4(0);
-        __declspec(align(16)) glm::vec2 w1 = glm::vec2(0);
-        int what = 0;
-        __declspec(align(16)) glm::vec3 w2 = glm::vec3(0);
-        float values = 1;
-    };
-
-    Data dat[2] = { Data(0), Data(1) };
-
-    dat[0].w = glm::vec3(0, 3, 1);
-
-    proj.uploadData(&dat);*/
-    std::array<int, 3> e;
-    std::vector<dex::Vertex3D::Default> vertices =
-    {
-        dex::Vertex3D::Default(), dex::Vertex3D::Default()
-    };
-    std::vector<unsigned> indices = { 0, 1, 3, 1, 2, 3 };
-    dex::Material::Default3D material = { Engine::renderer.shaderManager.getShaderDerived<dex::Shader::Default3D>(dex::Shader::Type::DEFAULT_3D) };
-
-    std::unique_ptr<dex::Mesh::Base> m = std::make_unique<dex::Mesh::Default3D>(vertices, indices, material);
-
-    std::cout << (uint32)m->getDerivedSelf<dex::Mesh::Default3D>().m_Type << "\n";
 }
 
 void SandBox::Shutdown()

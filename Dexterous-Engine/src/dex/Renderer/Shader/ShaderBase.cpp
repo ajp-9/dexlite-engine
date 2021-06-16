@@ -85,7 +85,7 @@ namespace dex
 
         Base::~Base()
         {
-            std::cout << "delet " << "\n";
+            //std::cout << "delet " << "\n";
             glDeleteProgram(m_ProgramID);
         }
 
@@ -99,11 +99,6 @@ namespace dex
             glUseProgram(0);
         }
 
-        void Base::setBool(const std::string& name, bool value) const
-        {
-            glUniform1i(glGetUniformLocation(m_ProgramID, name.c_str()), (int)value);
-        }
-
         void Base::setInt(const std::string& name, int value) const
         {
             glUniform1i(glGetUniformLocation(m_ProgramID, name.c_str()), value);
@@ -112,48 +107,6 @@ namespace dex
         void Base::setFloat(const std::string& name, float32 value) const
         {
             glUniform1f(glGetUniformLocation(m_ProgramID, name.c_str()), value);
-        }
-
-        void Base::setVec2(const std::string& name, const glm::vec2& value) const
-        {
-            glUniform2fv(glGetUniformLocation(m_ProgramID, name.c_str()), 1, &value[0]);
-        }
-        void Base::setVec2(const std::string& name, float32 x, float32 y) const
-        {
-            glUniform2f(glGetUniformLocation(m_ProgramID, name.c_str()), x, y);
-        }
-
-        void Base::setVec3(const std::string& name, const glm::vec3& value) const
-        {
-            glUniform3fv(glGetUniformLocation(m_ProgramID, name.c_str()), 1, &value[0]);
-        }
-        void Base::setVec3(const std::string& name, float32 x, float32 y, float32 z) const
-        {
-            glUniform3f(glGetUniformLocation(m_ProgramID, name.c_str()), x, y, z);
-        }
-
-        void Base::setVec4(const std::string& name, const glm::vec4& value) const
-        {
-            glUniform4fv(glGetUniformLocation(m_ProgramID, name.c_str()), 1, &value[0]);
-        }
-        void Base::setVec4(const std::string& name, float32 x, float32 y, float32 z, float32 w)
-        {
-            glUniform4f(glGetUniformLocation(m_ProgramID, name.c_str()), x, y, z, w);
-        }
-
-        void Base::setMat2(const std::string& name, const glm::mat2& mat) const
-        {
-            glUniformMatrix2fv(glGetUniformLocation(m_ProgramID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
-        }
-
-        void Base::setMat3(const std::string& name, const glm::mat3& mat) const
-        {
-            glUniformMatrix3fv(glGetUniformLocation(m_ProgramID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
-        }
-
-        void Base::setMat4(const std::string& name, const glm::mat4& mat) const
-        {
-            glUniformMatrix4fv(glGetUniformLocation(m_ProgramID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
         }
 
         void Base::checkShaderErrors(unsigned int shader, std::string type)

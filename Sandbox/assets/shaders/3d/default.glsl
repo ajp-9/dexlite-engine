@@ -18,6 +18,7 @@ layout (std140) uniform ubo_ProjectionViewMatrix
 layout (std140) uniform ubo_ModelMatrix
 {
     mat4 u_ModelMatrix;
+    int d;
 };
 
 void main()

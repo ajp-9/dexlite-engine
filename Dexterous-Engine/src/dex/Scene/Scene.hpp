@@ -2,8 +2,7 @@
 
 #include <entt.hpp>
 
-#include "Component/Camera/OrthographicCamComponent.hpp"
-#include "Component/Camera/PerspectiveCamComponent.hpp"
+#include "Component/CameraComponent.hpp"
 
 namespace dex
 {
@@ -18,16 +17,16 @@ namespace dex
         Entity createEntity();
         void destroyEntity(Entity entity);
 
-        void findSetMainCamera();
-
         void update();
         void physics();
         void render();
         template <typename T>
         void doCustumUpdate() {}
+
+        void findNSetMainCamera();
     private:
         entt::registry m_Registry;
-        Camera::Base* m_MainCamera = nullptr;
+        entt::entity m_MainCameraID;
         
         friend class Entity;
     };
