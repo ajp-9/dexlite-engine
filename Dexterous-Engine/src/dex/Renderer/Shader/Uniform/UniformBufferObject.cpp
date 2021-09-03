@@ -17,6 +17,10 @@ namespace dex
             m_BlockBinding = s_NextBlockBinding++;
         }
 
+        void UniformBufferObject::bindMultipleShaders(const std::vector<std::shared_ptr<Shader::Base>>& shaders)
+        {
+        }
+
         void UniformBufferObject::bindShader(const std::shared_ptr<Shader::Base>& shader)
         {
             bind();

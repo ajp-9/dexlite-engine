@@ -2,7 +2,6 @@
 
 #include <dex/Dexterous.hpp>
 #include <memory>
-#include <dex/Renderer/Shader/3D/ShaderTexture3D.hpp>
 
 class SandBox : public dex::Program
 {
@@ -16,6 +15,9 @@ private:
     dex::Scene m_Scene;
     dex::Entity m_Entity;
     dex::Entity m_Player;
+    
+    dex::Shader::New3D shader;
+    dex::VertexArray varr;
 };
 
 DEXTEROUS_DEFINE_MAIN(SandBox);

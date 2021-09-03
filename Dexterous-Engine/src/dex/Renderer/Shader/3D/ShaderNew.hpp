@@ -6,11 +6,11 @@ namespace dex
 {
     namespace Shader
     {
-        class Interface3D : public Base
+        class New3D : public Base
         {
         public:
-            Interface3D(const char* src = "assets/shaders/3d/texture.glsl", const char* name = "Shader3D");
-            
+            New3D(const char* src = "assets/shaders/3d/new.glsl");
+
             void setLocations3D();
 
             virtual void setProjectionViewMatrix(const glm::mat4& mat);

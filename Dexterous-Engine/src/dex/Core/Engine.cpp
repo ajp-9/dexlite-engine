@@ -66,8 +66,8 @@ namespace dex
     */
 
     bool Engine::s_Running;
-
-    Window Engine::window(glm::uvec2(1280, 720));
+    //1280 720
+    Window Engine::window(glm::uvec2(720, 720));
     Renderer Engine::renderer = { glm::uvec4(0, 0, 600, 300) };
     Layer::Manager Engine::layerManager;
 

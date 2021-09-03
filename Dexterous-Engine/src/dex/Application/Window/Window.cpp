@@ -41,7 +41,7 @@ namespace dex
 
         glfwSetWindowPosCallback(m_Window_GLFW, [](GLFWwindow* window, int xpos, int ypos)
             {
-            dex::Engine::renderer.setViewportPosition(glm::uvec2(xpos, ypos));
+                //dex::Engine::renderer.setViewportPosition(glm::uvec2(xpos, ypos));
             });
 
 

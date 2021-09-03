@@ -38,15 +38,15 @@ namespace dex
 
     void Renderer::setViewportSize(glm::uvec2 size)
     {
-        m_Viewport = glm::uvec4(m_Viewport.x, m_Viewport.y, size.x, size.y);
-        glViewport(m_Viewport.x, m_Viewport.y, size.x, size.y);
+        m_ScreenDimensions = size;
+        glViewport(0, 0, m_ScreenDimensions.x, m_ScreenDimensions.y);
     }
 
-    void Renderer::setViewportPosition(glm::uvec2 position)
+    /*void Renderer::setViewportPosition(glm::uvec2 position)
     {
         m_Viewport = glm::uvec4(position.x, position.y, m_Viewport.z, m_Viewport.w);
-        glViewport(position.x, position.y, m_Viewport.x, m_Viewport.y);
-    }
+        glViewport(0, 0, m_Viewport.z, m_Viewport.w);
+    }*/
 
     void Renderer::setClearColor(const glm::vec4& color)
     {

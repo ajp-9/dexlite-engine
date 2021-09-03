@@ -25,6 +25,7 @@
 
 #include "Renderer/Shader/ShaderManager.hpp"
 #include "Renderer/Shader/ShaderBase.hpp"
+#include "Renderer/Shader/3D/ShaderNew.hpp"
 #include "Renderer/Shader/Uniform/UniformBufferObject.hpp"
 #include "Renderer/Shader/Uniform/Uniforms.hpp"
 

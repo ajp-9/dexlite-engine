@@ -13,6 +13,7 @@ namespace dex
         {
 
         }
+
         Base::Base(const char* src, const char* name, Type type)
             : m_Name(name), m_Type(type)
         {

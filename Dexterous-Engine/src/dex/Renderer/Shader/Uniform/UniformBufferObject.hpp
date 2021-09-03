@@ -17,6 +17,7 @@ namespace dex
             UniformBufferObject(const char* name);
             ~UniformBufferObject() { std::cout << "delet UBO\n"; }
 
+            void bindMultipleShaders(const std::vector<std::shared_ptr<Shader::Base>>& shaders);
             // UBO in shader should NOT change because it is being set everytime you bind another shader.
             void bindShader(const std::shared_ptr<Shader::Base>& shader);
             // Do this AFTER you've bound all the shaders.
@@ -41,7 +42,7 @@ namespace dex
             // Universal binding index for the UBO
             uint32 m_BlockBinding = 0;
 
-            static uint32_t s_NextBlockBinding;
+            static uint32 s_NextBlockBinding;
         };
     }
 }

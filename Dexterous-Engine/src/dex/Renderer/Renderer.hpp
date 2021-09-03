@@ -19,7 +19,7 @@ namespace dex
         void renderScene(Scene& scene);
 
         void setViewportSize(glm::uvec2 size);
-        void setViewportPosition(glm::uvec2 position);
+        //void setViewportPosition(glm::uvec2 position);
 
         void setClearColor(const glm::vec4& color);
         void clear();
@@ -32,7 +32,8 @@ namespace dex
 
         ImGuiAPI m_ImGuiAPI;
 
-        glm::uvec4 m_Viewport;
+        //glm::uvec4 m_Viewport;
+        glm::uvec2 m_ScreenDimensions;
 
         friend class Engine;
         friend class Window;

@@ -44,7 +44,6 @@ namespace dex
         class Interface : public Base
         {
         public:
-            Interface() {}
             Interface(
                 const std::vector<V>& vertices,
                 const std::vector<uint32_t>& indices,
@@ -88,23 +87,5 @@ namespace dex
                 m_Type = Type::DEFAULT_3D;
             }
         };
-
-        class TextureNormal3D : public Interface<Vertex3D::Color, Material::Default3D>
-        {
-
-        };
-
-        /*class Mesh2D : public Mesh<Vertex2D> {};
-        class Mesh3D : public Mesh<Vertex3D> {};
-        class Color2D : public Interface<Vertex2D::Color> {};
-        class Texture2D : public Interface<Vertex2D::Texture> {};
-        class Color3D : public Interface<Vertex3D::Color> {};
-        class TextureNormal3D : public Interface<Vertex3D::TextureNormal>
-        {
-        public:
-            TextureNormal3D(const std::vector<Vertex3D::TextureNormal>& vertices, const std::vector<uint32_t>& indices)
-                : Interface(vertices, indices)
-            {}
-        };*/
     }
 }

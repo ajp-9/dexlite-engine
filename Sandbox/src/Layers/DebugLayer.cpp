@@ -5,7 +5,7 @@
 
 void DebugLayer::render()
 {
-    static ImGuiIO& io = ImGui::GetIO(); (void)io;
+    /*static ImGuiIO& io = ImGui::GetIO(); (void)io;
 
     static bool show_another_window = false;
     static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
@@ -41,6 +41,6 @@ void DebugLayer::render()
         if (ImGui::Button("Close Me"))
             show_another_window = false;
         ImGui::End();
-    }
+    }*/
     
 }

@@ -6,21 +6,20 @@
 
 namespace dex
 {
-
     void Camera::setOrthographic(float32 size, float32 near, float32 far)
     {
         m_Type = CameraType::ORTHOGRAPHIC;
         m_Ortho_Size = size;
-        m_Ortho_Near = near;
-        m_Ortho_Far = far;
-
-        glm::ivec2& dim = Engine::window.getDimensions();
-        m_AspectRatio = float32(dim.x) / float32(dim.y);
+        m_Near = near;
+        m_Far = far;
     }
 
     void Camera::setPerspective(float32 fov, float32 near, float32 far)
     {
-        
+        m_Type = CameraType::PERSPECTIVE;
+        m_Persp_FOV = fov;
+        m_Near = near;
+        m_Far = far;
     }
 
     void Camera::updateViewMatrix()
@@ -31,7 +30,7 @@ namespace dex
         }
         else if (m_Type == CameraType::PERSPECTIVE)
         {
-
+            
         }
 
         m_ProjectionViewMatrix = m_ProjectionMatrix * m_ViewMatrix;
@@ -39,18 +38,21 @@ namespace dex
 
     void Camera::updateProjectionMatrix()
     {
+        glm::ivec2& dim = Engine::window.getDimensions();
+        m_AspectRatio = float32(dim.x) / float32(dim.y);
+
         if (m_Type == CameraType::ORTHOGRAPHIC)
         {
-            float32 orthoLeft = -m_Ortho_Size * m_AspectRatio * 0.5f;
-            float32 orthoRight = m_Ortho_Size * m_AspectRatio * 0.5f;
+            float32 orthoLeft = -m_Ortho_Size * 0.5f;
+            float32 orthoRight = m_Ortho_Size * 0.5f;
             float32 orthoBottom = -m_Ortho_Size * 0.5f;
             float32 orthoTop = m_Ortho_Size * 0.5f;
 
-            m_ProjectionMatrix = glm::ortho(orthoLeft, orthoRight, orthoBottom, orthoTop, m_Ortho_Near, m_Ortho_Far);
+            m_ProjectionMatrix = glm::ortho(orthoLeft * m_AspectRatio, orthoRight * m_AspectRatio, orthoBottom, orthoTop, m_Near, m_Far);
         }
         else if (m_Type == CameraType::PERSPECTIVE)
         {
-
+            m_ProjectionMatrix = glm::perspective(glm::radians(m_Persp_FOV), m_AspectRatio, m_Near, m_Far);
         }
 
         m_ProjectionViewMatrix = m_ProjectionMatrix * m_ViewMatrix;

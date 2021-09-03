@@ -37,24 +37,23 @@ namespace dex
 
         glm::mat4 m_ProjectionViewMatrix = glm::mat4(1.0f);
 
-        // Orthographic
-        float32 m_Ortho_Size = 1.0f;
-        float32 m_Ortho_Near = -1.0f;
-        float32 m_Ortho_Far = 1.0f;
+        // Orthographic ---
+        float32 m_Ortho_Size = 15.0f;
 
-        // Perspective
+        // Perspective ---
         float32 m_Persp_FOV = glm::radians(45.0f);
-        float32 m_Persp_Near = 0.01f;
-        float32 m_Persp_Far = 1000.0f;
 
-        // Shared
+        // Shared ---
         glm::vec3 m_Position = glm::vec3(0.0f);
         glm::vec3 m_Rotation = glm::vec3(0.0f);
+
+        float32 m_Near = 0.01f;
+        float32 m_Far = 1000.0f;
 
         glm::vec3 m_Front = glm::vec3(0.0f, 0.0f, 1.0f);
         glm::vec3 m_Right = glm::vec3(1.0f, 0.0f, 0.0f);
         glm::vec3 m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-        float32 m_AspectRatio = 0.0f;
+        float32 m_AspectRatio = 1.0f;
     };
 }
