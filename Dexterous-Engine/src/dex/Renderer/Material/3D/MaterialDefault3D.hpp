@@ -3,52 +3,40 @@
 #include "../Material.hpp"
 #include "../Texture/Texture.hpp"
 #include "../../Shader/3D/ShaderDefault3D.hpp"
+#include "../../../Core/Engine.hpp"
 
 namespace dex
 {
     namespace Material
     {
-        struct Default3D : Base
+        struct Default3D : Interface<Shader::Default3D>
         {
             Default3D(
-                const std::shared_ptr<Shader::Default3D>& shader,
                 float32 texTilingFactor = 1.0f,
                 const Texture& diffuseMap = Texture(),
                 const Texture& specularMap = Texture())
 
                 : // Initializer List
 
-                Base(shader, Type::DEFAULT_3D),
+                Interface(Engine::renderer.shaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D), "Material::Default3D"),
                 m_TexTilingFactor(texTilingFactor),
                 m_DiffuseMap(diffuseMap),
                 m_SpecularMap(specularMap)
             {
-                setUniforms();
+
             }
 
             virtual void setUniforms()
-            {
-                auto& tmp_shader = m_Shader->getDerivedSelf<Shader::Default3D>();
-                
+            {                
                 if (m_DiffuseMapEnabled)
-                {
-                    tmp_shader.setDiffuseMapEnabled(true);
-                    tmp_shader.setDiffuseMapSampler();
-                }
+                    m_Shader->setDiffuseMapEnabled(true);
                 else
-                {
-                    tmp_shader.setDiffuseMapEnabled(false);
-                }
+                    m_Shader->setDiffuseMapEnabled(false);
 
                 if (m_SpecularMapEnabled)
-                {
-                    tmp_shader.setSpecularMapEnabled(true);
-                    tmp_shader.setSpecularMapLocation();
-                }
+                    m_Shader->setSpecularMapEnabled(true);
                 else
-                {
-                    tmp_shader.setSpecularMapEnabled(false);
-                }
+                    m_Shader->setSpecularMapEnabled(false);
             }
         public:
             float32 m_TexTilingFactor;
@@ -56,8 +44,8 @@ namespace dex
             Texture m_DiffuseMap;
             Texture m_SpecularMap;
 
-            bool m_DiffuseMapEnabled;
-            bool m_SpecularMapEnabled;
+            bool m_DiffuseMapEnabled = false;
+            bool m_SpecularMapEnabled = false;
         };
     }
 }

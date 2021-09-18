@@ -58,7 +58,7 @@ namespace dex
             glBindBuffer(GL_UNIFORM_BUFFER, 0);
         }
 
-        /*
+        /* 
         ** Initialize Static Memeber Variables
         */
 

@@ -19,7 +19,6 @@ namespace dex
 
         void update();
         void physics();
-        void render();
         template <typename T>
         void doCustumUpdate() {}
 
@@ -29,5 +28,6 @@ namespace dex
         entt::entity m_MainCameraID;
         
         friend class Entity;
+        friend class Renderer;
     };
 }

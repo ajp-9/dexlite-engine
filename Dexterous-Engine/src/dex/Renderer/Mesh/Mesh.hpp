@@ -44,14 +44,13 @@ namespace dex
         class Interface : public Base
         {
         public:
+            Interface() {}
             Interface(
                 const std::vector<V>& vertices,
-                const std::vector<uint32_t>& indices,
-                const M& material)
+                const std::vector<uint32_t>& indices)
                 :
                 m_Vertices(vertices),
-                m_Indices(indices),
-                m_Material(material)
+                m_Indices(indices)
             {
                 m_Type = Type::INTERFACE;
 
@@ -66,23 +65,21 @@ namespace dex
             virtual void render()
             {
                 m_VertexArray.render();
-                //m_Material.
             }
-        protected:
+        public:
             std::vector<V> m_Vertices;
             std::vector<uint32> m_Indices;
-            M m_Material;
         };
 
         class Default3D : public Interface<Vertex3D::Default, Material::Default3D>
         {
         public:
+            Default3D() {}
             Default3D(
                 const std::vector<Vertex3D::Default>& vertices,
-                const std::vector<uint32_t>& indices,
-                const Material::Default3D& material)
+                const std::vector<uint32_t>& indices)
                 :
-                Interface(vertices, indices, material)
+                Interface(vertices, indices/*Engine::renderer.materialManager.getMaterialDerived<Material::Default3D>("Material::Default3D")*/)// hmmmmm think many meshes need to optimize operation
             {
                 m_Type = Type::DEFAULT_3D;
             }

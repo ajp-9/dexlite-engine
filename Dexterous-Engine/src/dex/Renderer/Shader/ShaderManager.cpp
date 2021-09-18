@@ -43,7 +43,7 @@ namespace dex
             return m_Shaders.at(uint8_t(type));
         }
 
-        void Manager::setProjectionViewMatrix(const glm::mat4& mat)
+        /*void Manager::setProjectionViewMatrix(const glm::mat4& mat)
         {
             //for (auto& shader : m_Shaders)
             //    shader->setProjectionViewMatrix(mat);
@@ -51,6 +51,6 @@ namespace dex
 
         void Manager::setModalMatrix(const glm::mat4& mat)
         {
-        }
+        }*/
     }
 }

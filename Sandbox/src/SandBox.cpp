@@ -20,59 +20,44 @@ void SandBox::Init()
 
     m_Player = m_Scene.createEntity();
     m_Entity = m_Scene.createEntity();
-    //m_Player.addComponent<dex::Component::PerspectiveCamera>(true, dex::Camera::Perspective(60, dex::Engine::window.getDimensions(), glm::vec2(.1, 100), glm::vec3(0, 0, -1)));
+
+    auto& camera = m_Player.addComponent<dex::Component::Camera>(true);
     
-    m_Player.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, -3));
-    m_Player.addComponent<dex::Component::Camera>(true);
+    //camera.setOrthographic(5, 0.001, 5);
+    camera.setPerspective(60, .001, 1000);
 
-    //m_Player.getComponent<dex::Component::Camera>().setOrthographic(5, 0.001, 5);
-    m_Player.getComponent<dex::Component::Camera>().setPerspective(75, .001, 1000);
-    
-    m_Player.getComponent<dex::Component::Camera>().updateProjectionMatrix();
-    m_Player.getComponent<dex::Component::Camera>().updateViewMatrix();
+    camera.updateProjectionMatrix();
+    camera.updateViewMatrix();
 
-    shader.bind();
-
-    std::vector<dex::Vertex3D::Color> vertices =
+    std::vector<dex::Vertex3D::Default> vertices =
     {
-        { glm::vec3(-1, -1, 0), glm::vec4(0, 1, 0, 1)},
-        { glm::vec3(0, 1, 0),   glm::vec4(1, 0, 0, 1) },
-        { glm::vec3(1, -1, 0),  glm::vec4(0, 0, 1, 1) }
+        dex::Vertex3D::Default(glm::vec3(-1, -1, 0), glm::vec3(0, 0, 0), glm::vec4(0, 1, 0, 1)),
+        dex::Vertex3D::Default(glm::vec3(0, 1, 0),   glm::vec3(0, 0, 0), glm::vec4(1, 0, 0, 1)),
+        dex::Vertex3D::Default(glm::vec3(1, -1, 0),  glm::vec3(0, 0, 0), glm::vec4(0, 0, 1, 1))
     };
 
     auto indices = std::vector<uint32>{ 0, 1, 2 };
 
-    varr.bind();
+    m_Entity.addComponent<dex::Component::Model>(dex::Mesh::Default3D(vertices, indices), mat);
+    auto& model = m_Entity.getComponent<dex::Component::Model>();
 
-    varr.m_VertexBuffers.setVertexLayout<dex::Vertex3D::Color>(dex::Vertex3D::Color::getTypes());
-    varr.m_VertexBuffers.uploadData(vertices);
-
-    varr.m_IndexBuffer.uploadData(indices);
+    //model.m_Material->m_Shader->bind();
 }
 
 void SandBox::Shutdown()
 {
-    
+
 }
 
 void SandBox::update()
 {
-    //m_Player.getComponent<dex::Component::Camera>().setOrthographic(10, -5, 5);
-    m_Player.getComponent<dex::Component::Camera>().updateProjectionMatrix(); // make into 1
-    m_Player.getComponent<dex::Component::Camera>().updateViewMatrix();
-
-    shader.setModelMatrix(m_Entity.getComponent<dex::Component::Transform>());
-    shader.setProjectionViewMatrix(m_Player.getComponent<dex::Component::Camera>().getProjectionViewMatrix());
 }
 
 void SandBox::render()
 {
-    static glm::vec3 p = glm::vec3(0);
-    p.z += .005;
-    //m_Player.getComponent<dex::Component::PerspCamera>().m_Camera.setPosition(p);
+    //auto& model = m_Player.getComponent<dex::Component::Model>();
 
-    //va.render();
-    //m_Scene.render();
+    //model.m_Material->m_Shader->bind();
 
     ImGui::Begin("Test Window");
 
@@ -92,7 +77,7 @@ void SandBox::render()
     ImGui::SliderFloat("Rotation X", &rotX, 0, maxRot);
     ImGui::SliderFloat("Rotation Y", &rotY, 0, maxRot);
     ImGui::SliderFloat("Rotation Z", &rotZ, 0, maxRot);
-
+     
     ImGui::NewLine();
 
     ImGui::SliderFloat("Position X", &posX, -maxPos, maxPos);
@@ -103,19 +88,21 @@ void SandBox::render()
 
     ImGui::SliderFloat("Scale X", &scale, 0.1, 1.5);
 
-    static char buf[50];
-    ImGui::InputText("Text Input", buf, 50);
+    //static char buf[50];
+    //ImGui::InputText("Text Input", buf, 50);
 
     auto& trans = m_Entity.getComponent<dex::Component::Transform>();
 
     trans.setPosition(glm::vec3(posX, posY, posZ));
     trans.setRotation(glm::vec3(rotX, rotY, rotZ));
     trans.setScale(glm::vec3(scale, scale, scale));
-    shader.setModelMatrix(trans);
+    //m_Entity.getComponent<dex::Component::Model>().m_Material->m_Shader->setModelMatrix(trans);
+
+    //model.m_Mesh.render();
+
+    Engine::renderer.renderScene(m_Scene);
 
     ImGui::End();
 
     //m_Texture.bind();
-    varr.bind();
-    varr.render();
 }

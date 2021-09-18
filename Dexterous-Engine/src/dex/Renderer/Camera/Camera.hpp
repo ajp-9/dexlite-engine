@@ -13,14 +13,27 @@ namespace dex
         void setOrthographic(float32 size, float32 near, float32 far);
         void setPerspective(float32 fov, float32 near, float32 far);
 
-        void setPosition(const glm::vec3& position) { m_Position = position; }
-        void setRotation(const glm::vec3& rotation) { m_Rotation = rotation; }
+        void setPosition(const glm::vec3& position) { m_Position = position; isViewMatrixOld = true; }
+        void setRotation(const glm::vec3& rotation) { m_Rotation = rotation; isViewMatrixOld = true;  }
 
         const glm::vec3& getPosition() const { return m_Position; }
         const glm::vec3& getRotation() const { return m_Rotation; }
 
-        const glm::mat4& getViewMatrix() { return m_ViewMatrix; }
-        const glm::mat4& getProjectionMatrix() { return m_ProjectionMatrix; }
+        const glm::mat4& getViewMatrix()
+        { 
+            if (isViewMatrixOld)
+                updateViewMatrix();
+
+            return m_ViewMatrix;
+        }
+
+        const glm::mat4& getProjectionMatrix()
+        {
+            if (isProjectionMatrixOld)
+                updateProjectionMatrix(); 
+
+            return m_ProjectionMatrix;
+        }
 
         const glm::mat4& getProjectionViewMatrix() { return m_ProjectionViewMatrix; }
 
@@ -30,6 +43,9 @@ namespace dex
         void updateProjectionMatrix();
     protected:
         CameraType m_Type;
+
+        bool isViewMatrixOld = true;
+        bool isProjectionMatrixOld = true;
 
         // Matrices
         glm::mat4 m_ProjectionMatrix = glm::mat4(1.0f);

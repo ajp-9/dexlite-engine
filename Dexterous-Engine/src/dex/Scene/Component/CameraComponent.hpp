@@ -8,12 +8,13 @@ namespace dex
     {
         struct Camera : dex::Camera
         {
-            Camera(bool isMain = true)
+            // Only 1 camera can be enabled.
+            Camera(bool isEnabled = true)
             {
-                m_isMain = isMain;
+                m_IsEnabled = isEnabled;
             }
 
-            bool m_isMain = false;
+            bool m_IsEnabled = false;
         };
     }
 }

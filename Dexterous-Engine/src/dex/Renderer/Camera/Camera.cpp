@@ -34,6 +34,8 @@ namespace dex
         }
 
         m_ProjectionViewMatrix = m_ProjectionMatrix * m_ViewMatrix;
+
+        isViewMatrixOld = false;
     }
 
     void Camera::updateProjectionMatrix()

@@ -10,28 +10,43 @@ namespace dex
     {
         enum class Type : uint8_t
         {
+            NONE,
             BASE,
             DEFAULT_3D,
             ALBEDO_3D,
             TEXTURE_3D
         };
 
-        // Shader
-        template <class S>
         struct BaseNew
         {
-            BaseNew(const std::shared_ptr<S>& shader, Type type = Type::BASE) // link shaders w string of the name
-                : m_Shader(shader), m_Type(type)
+            BaseNew(std::string name, Type type = Type::NONE) // link shaders w string of the name
+                : m_Name(name), m_Type(type)
             {}
 
             virtual void setUniforms() = 0;
         public:
-            std::shared_ptr<S> m_Shader;
+            std::string m_Name;
             Type m_Type;
         };
-        
+
+        template <class S> // Shader
+        struct Interface : BaseNew
+        {
+            Interface(const std::shared_ptr<S>& shader, std::string name, Type type = Type::NONE)
+                : BaseNew(name, type), m_Shader(shader)
+            {}
+        public:
+            std::shared_ptr<S> m_Shader;
+        };
+
+
+
+
+
+        // enter the gross zone -------------------
+
         // template to link w shader !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!~
-        struct Base
+        /*struct Base
         {
             Base(const std::shared_ptr<Shader::Base>& shader, Type type = Type::BASE)
                 : m_Shader(shader), m_Type(type)
@@ -51,6 +66,6 @@ namespace dex
         public:
             std::shared_ptr<Shader::Base> m_Shader;
             Type m_Type;
-        };
+        };*/
     }
 }

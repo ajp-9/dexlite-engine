@@ -13,11 +13,14 @@ public:
     virtual void render() override;
 private:
     dex::Scene m_Scene;
-    dex::Entity m_Entity;
     dex::Entity m_Player;
+    dex::Entity m_Entity;
     
-    dex::Shader::New3D shader;
-    dex::VertexArray varr;
+    std::shared_ptr<dex::Material::Default3D> mat = std::make_shared<dex::Material::Default3D>();
+    //dex::Shader::New3D shader;
+    //dex::Component::Model model;
+    //dex::Mesh::Default3D mesh;
+    //dex::VertexArray varr;
 };
 
 DEXTEROUS_DEFINE_MAIN(SandBox);

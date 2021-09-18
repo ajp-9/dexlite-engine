@@ -1,6 +1,7 @@
 #type VERTEX
 
 #version 330 core
+
 layout (location = 0) in vec3 in_Position;
 layout (location = 1) in vec3 in_Normal;
 layout (location = 2) in vec4 in_Color;
@@ -10,16 +11,8 @@ out vec3 pass_Normal;
 out vec4 pass_Color;
 out vec2 pass_TexCoord;
 
-layout (std140) uniform ubo_ProjectionViewMatrix
-{
-    mat4 u_ProjectionViewMatrix;
-};
-
-layout (std140) uniform ubo_ModelMatrix
-{
-    mat4 u_ModelMatrix;
-    int d;
-};
+uniform mat4 u_ProjectionViewMatrix;
+uniform mat4 u_ModelMatrix;
 
 void main()
 {

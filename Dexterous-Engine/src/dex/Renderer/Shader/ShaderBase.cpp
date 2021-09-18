@@ -10,9 +10,7 @@ namespace dex
     {
         Base::Base()
             : m_Name("Base"), m_Type(Type::BASE)
-        {
-
-        }
+        {}
 
         Base::Base(const char* src, const char* name, Type type)
             : m_Name(name), m_Type(type)

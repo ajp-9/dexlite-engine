@@ -3,12 +3,14 @@
 #include <glm/vec4.hpp>
 #include "../Scene/Scene.hpp"
 #include "Shader/ShaderManager.hpp"
+#include "Material/MaterialManager.hpp"
 #include "ImGui/ImGuiAPI.hpp"
 
 namespace dex
 {
     class Renderer
     {
+    private:
         Renderer(glm::uvec4 viewport);
         ~Renderer();
 
@@ -16,7 +18,10 @@ namespace dex
         void endFrame();
 
         void update();
-        void renderScene(Scene& scene);
+
+        //void renderEntities(Component::Camera& main_camera);
+
+        //void submitEntity(Entity& entity);
 
         void setViewportSize(glm::uvec2 size);
         //void setViewportPosition(glm::uvec2 position);
@@ -24,16 +29,20 @@ namespace dex
         void setClearColor(const glm::vec4& color);
         void clear();
     public:
-        Shader::Manager shaderManager;
+        void renderScene(Scene& scene);
     private:
-        /*// x, y = position of viewport
-        // z, w = dimensions of viewport
-        static glm::uvec4 s_LastViewport;*/
+
+    public:
+        Shader::Manager shaderManager;
+        Material::Manager materialManager;
+    private:
+        bool m_ChangeProjectionMatrixNext = true; // For when the window/viewport resizes
 
         ImGuiAPI m_ImGuiAPI;
 
-        //glm::uvec4 m_Viewport;
         glm::uvec2 m_ScreenDimensions;
+
+        //std::vector<Entity> m_EntityRenderingQueue;
 
         friend class Engine;
         friend class Window;

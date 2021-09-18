@@ -36,22 +36,6 @@ namespace dex
     {
     }
 
-    void Scene::render()
-    {
-        findNSetMainCamera();
-
-        Engine::renderer.shaderManager.setProjectionViewMatrix(m_Registry.get<Component::Camera>(m_MainCameraID).getProjectionViewMatrix());
-
-        auto& view = m_Registry.view<Component::Model>();
-
-        for (auto& entityID : view)
-        {
-            Engine::renderer.shaderManager.setModalMatrix(m_Registry.get<Component::Transform>(m_MainCameraID));
-
-            m_Registry.get<Component::Model>(entityID).render();
-        }
-    }
-
     void Scene::findNSetMainCamera()
     {
         auto& cameraView = m_Registry.view<Component::Camera>();
@@ -60,7 +44,7 @@ namespace dex
         {
             for (auto& eID : cameraView)
             {
-                if (m_Registry.get<Component::Camera>(eID).m_isMain)
+                if (m_Registry.get<Component::Camera>(eID).m_IsEnabled)
                     m_MainCameraID = eID;
             }
         }

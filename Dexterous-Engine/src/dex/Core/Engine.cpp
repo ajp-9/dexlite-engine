@@ -35,7 +35,7 @@ namespace dex
             layerManager.updateLayers();
             layerManager.sendEvents();
 
-            // Rendering ------------
+            // Rendering -------------------
             renderer.clear();
             renderer.beginFrame();
 

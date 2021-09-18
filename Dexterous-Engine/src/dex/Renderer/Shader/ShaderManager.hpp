@@ -6,6 +6,8 @@
 #include <glm/mat4x4.hpp>
 #include "Uniform/UniformBufferObject.hpp"
 
+#include "../../Util/Time/Timer.hpp"
+
 namespace dex
 {
     namespace Shader
@@ -25,8 +27,8 @@ namespace dex
             std::shared_ptr<Base>& getShader(const char* name);
             std::shared_ptr<Base>& getShader(Type type);
             // Global
-            void setProjectionViewMatrix(const glm::mat4& mat);
-            void setModalMatrix(const glm::mat4& mat);
+            //void setProjectionViewMatrix(const glm::mat4& mat);
+            //void setModalMatrix(const glm::mat4& mat);
 
             // Util
             template <typename T>
@@ -58,13 +60,13 @@ namespace dex
         template<typename T>
         inline std::shared_ptr<T> Manager::getShaderDerived(const char* name)
         {
-            return std::make_shared<T>(static_cast<T&>(*getShader(name)));
+            return std::static_pointer_cast<T>(getShader(name));
         }
 
         template<typename T>
         inline std::shared_ptr<T> Manager::getShaderDerived(Type type)
         {
-            return std::make_shared<T>(static_cast<T&>(*getShader(type)));
+            return std::static_pointer_cast<T>(getShader(type));
         }
     }
 }

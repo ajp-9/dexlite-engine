@@ -2,6 +2,9 @@
 
 #include <glad/glad.h>
 
+#include "../Scene/Component/ModelComponent.hpp"
+#include "../Scene/Component/TransformComponent.hpp"
+
 namespace dex
 {
     Renderer::Renderer(glm::uvec4 viewport)
@@ -14,7 +17,7 @@ namespace dex
         glClearColor(.1, .1, .1, 1.0f); // Clear the color buffer
     }
 
-    Renderer::~Renderer() 
+    Renderer::~Renderer()
     {
 
     }
@@ -26,18 +29,19 @@ namespace dex
 
     void Renderer::endFrame()
     {
+        m_ChangeProjectionMatrixNext = false;
+
         m_ImGuiAPI.endFrame();
     }
 
-    void Renderer::update() {}
-
-    void Renderer::renderScene(Scene& scene)
+    void Renderer::update()
     {
-        scene.render();
     }
 
     void Renderer::setViewportSize(glm::uvec2 size)
     {
+        m_ChangeProjectionMatrixNext = true;
+        std::cout << size.x << '\n';
         m_ScreenDimensions = size;
         glViewport(0, 0, m_ScreenDimensions.x, m_ScreenDimensions.y);
     }
@@ -56,5 +60,33 @@ namespace dex
     void Renderer::clear()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    void Renderer::renderScene(Scene& scene)
+    {
+        auto& shader = shaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D);
+
+        scene.findNSetMainCamera();
+
+        if (m_ChangeProjectionMatrixNext)
+        {
+            auto& cam_view = scene.m_Registry.view<Component::Camera>();
+
+            for (auto& entityID : cam_view)
+            {
+                scene.m_Registry.get<Component::Camera>(entityID).updateProjectionMatrix();
+            }
+        }
+        
+        shader->setProjectionViewMatrix(scene.m_Registry.get<Component::Camera>(scene.m_MainCameraID).getProjectionViewMatrix());
+
+        auto& model_view = scene.m_Registry.view<Component::Model>();
+        
+        for (auto& entityID : model_view)
+        {
+            auto& model = scene.m_Registry.get<Component::Model>(entityID);
+            model.prepareRendering(scene.m_Registry.get<Component::Transform>(entityID));
+            model.render();
+        }
     }
 }
