@@ -23,13 +23,23 @@ namespace dex
                 m_DiffuseMap(diffuseMap),
                 m_SpecularMap(specularMap)
             {
+                if (m_DiffuseMap.isActive())
+                    m_DiffuseMapEnabled = true;
 
+                if (m_SpecularMap.isActive())
+                    m_SpecularMapEnabled = true;
             }
 
             virtual void setUniforms()
-            {                
+            {
+                if (m_DiffuseMapEnabled || m_SpecularMapEnabled)
+                    m_Shader->setTexTilingFactor(m_TexTilingFactor);
+
                 if (m_DiffuseMapEnabled)
+                {
                     m_Shader->setDiffuseMapEnabled(true);
+                    m_DiffuseMap.bind();
+                }
                 else
                     m_Shader->setDiffuseMapEnabled(false);
 

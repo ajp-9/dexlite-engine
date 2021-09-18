@@ -11,6 +11,8 @@ namespace dex
         Texture(const char* src, bool blending = true);
         ~Texture();
 
+        bool isActive() { return m_ID; }
+
         void bind();
         void unbind();
     private:

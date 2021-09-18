@@ -45,10 +45,10 @@ void main()
 {
     vec4 fragColor = pass_Color;
 
-    if (u_DiffuseMapEnabled == true)
+    if (u_DiffuseMapEnabled)
         fragColor *= texture(u_DiffuseMapSampler, pass_TexCoord * u_TexTilingFactor);
 
-    if (u_SpecularMapEnabled == true)
+    if (u_SpecularMapEnabled)
         fragColor *= texture(u_DiffuseMapSampler, pass_TexCoord * u_TexTilingFactor);
 
     out_FragColor = fragColor;

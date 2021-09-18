@@ -31,12 +31,13 @@ void SandBox::Init()
 
     std::vector<dex::Vertex3D::Default> vertices =
     {
-        dex::Vertex3D::Default(glm::vec3(-1, -1, 0), glm::vec3(0, 0, 0), glm::vec4(0, 1, 0, 1)),
-        dex::Vertex3D::Default(glm::vec3(0, 1, 0),   glm::vec3(0, 0, 0), glm::vec4(1, 0, 0, 1)),
-        dex::Vertex3D::Default(glm::vec3(1, -1, 0),  glm::vec3(0, 0, 0), glm::vec4(0, 0, 1, 1))
+        dex::Vertex3D::Default(glm::vec3(1, 1, 0), glm::vec3(0, 0, 0), glm::vec4(0, 1, 0, 1), glm::vec2(1, 1)),
+        dex::Vertex3D::Default(glm::vec3(1, -1, 0),   glm::vec3(0, 0, 0), glm::vec4(1, 0, 0, 1), glm::vec2(1, 0)),
+        dex::Vertex3D::Default(glm::vec3(-1, -1, 0),  glm::vec3(0, 0, 0), glm::vec4(0, 0, 1, 1), glm::vec2(0, 0)),
+        dex::Vertex3D::Default(glm::vec3(-1, 1, 0),  glm::vec3(0, 0, 0), glm::vec4(0, 1, 1, 1), glm::vec2(0, 1))
     };
 
-    auto indices = std::vector<uint32>{ 0, 1, 2 };
+    auto indices = std::vector<uint32>{ 0, 1, 3, 1, 2, 3 };
 
     m_Entity.addComponent<dex::Component::Model>(dex::Mesh::Default3D(vertices, indices), mat);
     auto& model = m_Entity.getComponent<dex::Component::Model>();

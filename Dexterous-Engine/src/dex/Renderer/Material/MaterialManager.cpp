@@ -8,7 +8,7 @@ namespace dex
     {
         Manager::Manager()
         {
-            addMaterial(std::make_shared<Default3D>());
+            //addMaterial(std::make_shared<Default3D>());
         }
          
         void Manager::addMaterial(const std::shared_ptr<BaseNew>& shader)
