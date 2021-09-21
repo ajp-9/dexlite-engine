@@ -1,43 +1,24 @@
-project "SandBox"
-    kind "ConsoleApp"
+project "tinyobjloader"
+    kind "StaticLib"
     language "C++"
     cppdialect "C++17"
 
     filter "system:windows"
         systemversion "latest"
     filter {}
-
+    
     targetdir ("%{prj.location}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")
 
     files
     {
         "%{prj.location}/src/**",
-        "%{prj.location}/vendor/**"
+        "%{prj.location}/include/**"
     }
 
     sysincludedirs
     {
-        "%{wks.location}/Dexterous-Engine/src",
-
-        "%{IncludeDir.include}",
-        "%{IncludeDir.glfw}",
-        "%{IncludeDir.glad}",
-        "%{IncludeDir.imgui}",
-        "%{IncludeDir.assimp}",
-        "%{IncludeDir.tinyobjloader}"
-    }
-
-    links
-    {
-        "Dexterous-Engine"
-    }
-
-    defines
-    {
-        "SDL_MAIN_HANDLED",
-        "GLM_FORCE_LEFT_HANDED",
-        "GLFW_INCLUDE_NONE"
+        "%{prj.location}/include"
     }
 
     filter "configurations:Debug"

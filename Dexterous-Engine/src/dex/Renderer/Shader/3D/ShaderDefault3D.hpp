@@ -19,10 +19,7 @@ namespace dex
             void setTexTilingFactor(float tiling_factor);
 
             void setDiffuseMapEnabled(bool enabled);
-            void setDiffuseMapSampler();
-
             void setSpecularMapEnabled(bool enabled);
-            void setSpecularMapSampler();
         private:
             uint32 m_ProjectionViewMatrix_Location = 0;
             uint32 m_ModelMatrix_Location = 0;

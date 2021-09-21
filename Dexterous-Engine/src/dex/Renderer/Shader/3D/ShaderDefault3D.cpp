@@ -19,7 +19,7 @@ namespace dex
 
             setLocations3D();
 
-            glUniform1i(m_DiffuseMapSampler_Location, 0); // replacing functions....... for GL_TEX_0,1,2,3,4
+            glUniform1i(m_DiffuseMapSampler_Location, 0); // for GL_TEXTURE_0,1,2,3,4
             glUniform1i(m_SpecularMapSampler_Location, 1);
         }
 
@@ -49,19 +49,9 @@ namespace dex
             glUniform1i(m_DiffuseMapEnabled_Location, enabled);
         }
 
-        void Default3D::setDiffuseMapSampler()
-        {
-            glUniform1i(m_DiffuseMapSampler_Location, 0);
-        }
-
         void Default3D::setSpecularMapEnabled(bool enabled)
         {
             glUniform1i(m_SpecularMapEnabled_Location, enabled);
-        }
-
-        void Default3D::setSpecularMapSampler()
-        {
-            glUniform1i(m_SpecularMapSampler_Location, 1);
         }
     }
 }

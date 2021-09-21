@@ -6,6 +6,7 @@
 #include "../Renderer/Renderer.hpp"
 #include "Program/Program.hpp"
 #include "Program/EntryPoint.hpp"
+#include "Config.hpp"
 
 using dex::Engine;
 

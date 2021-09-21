@@ -21,7 +21,8 @@ project "Dexterous-Engine"
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.glad}",
 		"%{IncludeDir.imgui}",
-		"%{IncludeDir.assimp}"
+		"%{IncludeDir.assimp}",
+        "%{IncludeDir.tinyobjloader}"
 	}
 
 	links
@@ -29,7 +30,8 @@ project "Dexterous-Engine"
 		"glad",
 		"glfw",
 		"imgui",
-		"assimp"
+		"assimp",
+		"tinyobjloader"
 	}
 
 	defines

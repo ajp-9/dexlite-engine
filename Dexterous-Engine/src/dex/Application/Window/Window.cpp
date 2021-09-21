@@ -30,6 +30,8 @@ namespace dex
 
         glfwSetWindowUserPointer(m_Window_GLFW, &input);
 
+        glfwSwapInterval(1);
+
         /*
         ** Callbacks
         */
