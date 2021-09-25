@@ -20,21 +20,26 @@ project "Dexterous-Engine"
 		"%{IncludeDir.include}",
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.glad}",
-		"%{IncludeDir.imgui}"
+		"%{IncludeDir.imgui}",
+        "%{IncludeDir.stb_image}",
+		"%{IncludeDir.tinygltf}"
 	}
 
 	links
 	{        
 		"glad",
 		"glfw",
-		"imgui"
+		"imgui",
+		"tinygltf"
 	}
 
 	defines
 	{
 		"SDL_MAIN_HANDLED",
 		"GLM_FORCE_LEFT_HANDED",
-		"GLFW_INCLUDE_NONE"
+		"GLFW_INCLUDE_NONE",
+		"STB_IMAGE_IMPLEMENTATION",
+		"STB_IMAGE_WRITE_IMPLEMENTATION"
 	}
 
 	filter "configurations:Debug"

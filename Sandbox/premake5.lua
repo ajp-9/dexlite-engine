@@ -23,7 +23,9 @@ project "SandBox"
         "%{IncludeDir.include}",
         "%{IncludeDir.glfw}",
         "%{IncludeDir.glad}",
-        "%{IncludeDir.imgui}"
+        "%{IncludeDir.imgui}",
+        "%{IncludeDir.stb_image}",
+        "%{IncludeDir.tinygltf}"
     }
 
     links

@@ -11,6 +11,8 @@
 #include <imgui/imgui.h>
 #include <dex/Scene/Component/ModelComponent.hpp>
 
+#include <tiny_gltf.h>
+
 using dex::Engine;
 
 void SandBox::Init()
@@ -41,8 +43,81 @@ void SandBox::Init()
 
     //model.m_Material->m_Shader->bind();
 
+    tinygltf::Model model;
+    tinygltf::TinyGLTF gltf_ctx;
+    std::string err;
+    std::string warn;
+
+    gltf_ctx.LoadBinaryFromFile(&model, &err, &warn, "assets/models/warbird.glb");
+
+    if (!warn.empty()) {
+        printf("Warn: %s\n", warn.c_str());
+    }
+
+    if (!err.empty()) {
+        printf("Err: %s\n", err.c_str());
+    }
+
+    for (auto& mesh : model.meshes)
+    {
+        for (auto& primitive : mesh.primitives) 
+        {
+            const tinygltf::Accessor& accessor = model.accessors[primitive.attributes["POSITION"]];
+            const tinygltf::BufferView& bufferView = model.bufferViews[accessor.bufferView];
+
+            const tinygltf::Buffer& buffer = model.buffers[bufferView.buffer];
+            // bufferView byteoffset + accessor byteoffset tells you where the actual
+            // position data is within the buffer. From there you should already know
+            // how the data needs to be interpreted.
+            std::cout << (unsigned)&buffer.data[bufferView.byteOffset + accessor.byteOffset] << '\n';
+
+            const float* positions = reinterpret_cast<const float*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
+
+            // From here, you choose what you wish to do with this position data. In
+            // this case, we  will display it out.
+            for (size_t i = 0; i < accessor.count; ++i)
+            {
+                vertices.push_back(dex::Vertex3D::Default(glm::vec3(positions[i * 3 + 0], positions[i * 3 + 1], positions[i * 3 + 2]), glm::vec3(0), glm::vec4(1)));
+            } 
+        }
+    }
+
+    for (size_t bv = 0; bv < model.bufferViews.size(); bv++)
+    {
+        if (model.bufferViews[bv].target == GL_ELEMENT_ARRAY_BUFFER)
+        {
+            const tinygltf::Buffer& buffer = model.buffers[model.bufferViews[bv].buffer];
+            const tinygltf::Accessor& accessor = model.accessors[bv];
+            
+            if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_SHORT)
+            {
+                const uint16* bufferIndices = reinterpret_cast<const uint16*>(&buffer.data.at(0) + model.bufferViews[bv].byteOffset);
+
+                for (size_t i = 0; i < accessor.count; i++)
+                {
+                    indices.emplace_back(bufferIndices[i]);
+                }
+            }
+            else if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_INT)
+            {
+                const uint32* bufferIndices = reinterpret_cast<const uint32*>(&buffer.data.at(0) + model.bufferViews[bv].byteOffset);
+
+                for (size_t i = 0; i < accessor.count; i++)
+                {
+                    indices.emplace_back(bufferIndices[i]);
+                }
+            }
+            else
+            {
+                std::cout << "Wrong Type\n";
+                // Error
+            }
+        }
+    }
+
+
     m_Entity.addComponent<dex::Component::Model>(dex::Mesh::Default3D(vertices, indices), mat);
-    auto& model = m_Entity.getComponent<dex::Component::Model>();
+    //auto& model = m_Entity.getComponent<dex::Component::Model>();
 }
 
 void SandBox::Shutdown()
