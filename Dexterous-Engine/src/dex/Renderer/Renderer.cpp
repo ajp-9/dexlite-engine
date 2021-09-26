@@ -12,6 +12,7 @@ namespace dex
         glEnable(GL_DEPTH_TEST);
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+        //glFrontFace(GL_CW);
         //glEnable(GL_CULL_FACE);
         //glCullFace(GL_BACK);
         glClearColor(.1, .1, .1, 1.0f); // Clear the color buffer

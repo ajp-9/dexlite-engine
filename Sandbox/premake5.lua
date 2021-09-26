@@ -21,6 +21,7 @@ project "SandBox"
         "%{wks.location}/Dexterous-Engine/src",
 
         "%{IncludeDir.include}",
+        "%{IncludeDir.spdlog}",
         "%{IncludeDir.glfw}",
         "%{IncludeDir.glad}",
         "%{IncludeDir.imgui}",

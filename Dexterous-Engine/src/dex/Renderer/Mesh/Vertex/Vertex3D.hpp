@@ -17,7 +17,7 @@ namespace dex
             Default(
                 glm::vec3 position = glm::vec3(0),
                 glm::vec3 normal = glm::vec3(0),
-                glm::vec4 color = glm::vec4(0),
+                glm::vec4 color = glm::vec4(1),
                 glm::vec2 texCoord = glm::vec2(0))
 
                 : // Initializer List

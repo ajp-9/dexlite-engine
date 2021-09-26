@@ -10,8 +10,8 @@
 #include "Layers/DebugLayer.hpp"
 #include <imgui/imgui.h>
 #include <dex/Scene/Component/ModelComponent.hpp>
-
-#include <tiny_gltf.h>
+#include <dex/Util/Logging.hpp>
+#include <dex/Renderer/Model/ModelLoader.hpp>
 
 using dex::Engine;
 
@@ -24,100 +24,18 @@ void SandBox::Init()
     m_Entity = m_Scene.createEntity();
 
     auto& camera = m_Player.addComponent<dex::Component::Camera>(true);
-    
+
     //camera.setOrthographic(5, 0.001, 100);
     camera.setPerspective(60, .001, 1000);
 
     camera.updateProjectionMatrix();
     camera.updateViewMatrix();
 
-    std::vector<dex::Vertex3D::Default> vertices;/* =
-    {
-        dex::Vertex3D::Default(glm::vec3(1, 1, 0), glm::vec3(0, 0, 0), glm::vec4(0, 1, 0, 1), glm::vec2(1, 1)),
-        dex::Vertex3D::Default(glm::vec3(1, -1, 0),   glm::vec3(0, 0, 0), glm::vec4(1, 0, 0, 1), glm::vec2(1, 0)),
-        dex::Vertex3D::Default(glm::vec3(-1, -1, 0),  glm::vec3(0, 0, 0), glm::vec4(0, 0, 1, 1), glm::vec2(0, 0)),
-        dex::Vertex3D::Default(glm::vec3(-1, 1, 0),  glm::vec3(0, 0, 0), glm::vec4(0, 1, 1, 1), glm::vec2(0, 1))
-    };*/
+    std::vector<dex::Vertex3D::Default> vertices;
 
-    std::vector<uint32> indices/* = std::vector<uint32>{0, 1, 3, 1, 2, 3}*/;
-
-    //model.m_Material->m_Shader->bind();
-
-    tinygltf::Model model;
-    tinygltf::TinyGLTF gltf_ctx;
-    std::string err;
-    std::string warn;
-
-    gltf_ctx.LoadBinaryFromFile(&model, &err, &warn, "assets/models/warbird.glb");
-
-    if (!warn.empty()) {
-        printf("Warn: %s\n", warn.c_str());
-    }
-
-    if (!err.empty()) {
-        printf("Err: %s\n", err.c_str());
-    }
-
-    for (auto& mesh : model.meshes)
-    {
-        for (auto& primitive : mesh.primitives) 
-        {
-            const tinygltf::Accessor& accessor = model.accessors[primitive.attributes["POSITION"]];
-            const tinygltf::BufferView& bufferView = model.bufferViews[accessor.bufferView];
-
-            const tinygltf::Buffer& buffer = model.buffers[bufferView.buffer];
-            // bufferView byteoffset + accessor byteoffset tells you where the actual
-            // position data is within the buffer. From there you should already know
-            // how the data needs to be interpreted.
-            std::cout << (unsigned)&buffer.data[bufferView.byteOffset + accessor.byteOffset] << '\n';
-
-            const float* positions = reinterpret_cast<const float*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
-
-            // From here, you choose what you wish to do with this position data. In
-            // this case, we  will display it out.
-            for (size_t i = 0; i < accessor.count; ++i)
-            {
-                vertices.push_back(dex::Vertex3D::Default(glm::vec3(positions[i * 3 + 0], positions[i * 3 + 1], positions[i * 3 + 2]), glm::vec3(0), glm::vec4(1)));
-            } 
-        }
-    }
-
-    for (size_t bv = 0; bv < model.bufferViews.size(); bv++)
-    {
-        if (model.bufferViews[bv].target == GL_ELEMENT_ARRAY_BUFFER)
-        {
-            const tinygltf::Buffer& buffer = model.buffers[model.bufferViews[bv].buffer];
-            const tinygltf::Accessor& accessor = model.accessors[bv];
-            
-            if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_SHORT)
-            {
-                const uint16* bufferIndices = reinterpret_cast<const uint16*>(&buffer.data.at(0) + model.bufferViews[bv].byteOffset);
-
-                for (size_t i = 0; i < accessor.count; i++)
-                {
-                    indices.emplace_back(bufferIndices[i]);
-                }
-            }
-            else if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_INT)
-            {
-                const uint32* bufferIndices = reinterpret_cast<const uint32*>(&buffer.data.at(0) + model.bufferViews[bv].byteOffset);
-
-                for (size_t i = 0; i < accessor.count; i++)
-                {
-                    indices.emplace_back(bufferIndices[i]);
-                }
-            }
-            else
-            {
-                std::cout << "Wrong Type\n";
-                // Error
-            }
-        }
-    }
-
-
-    m_Entity.addComponent<dex::Component::Model>(dex::Mesh::Default3D(vertices, indices), mat);
-    //auto& model = m_Entity.getComponent<dex::Component::Model>();
+    std::vector<uint32> indices;
+   
+    m_Entity.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/cargo_ship.glb", true));
 }
 
 void SandBox::Shutdown()
@@ -138,14 +56,14 @@ void SandBox::render()
     ImGui::Begin("Test Window");
 
     static float rotX = 0.0f;
-    static float rotY = 205.0f;
-    static float rotZ = 350.0f;
+    static float rotY = 188.0f;
+    static float rotZ = 0.0f;
 
-    static float posX = 0.35f;
-    static float posY = -0.5f;
-    static float posZ = 2.4f;
+    static float posX = 0.0f;
+    static float posY = -0.45f;
+    static float posZ = 2.0f;
 
-    static float scale = 0.3f;
+    static float scale = 0.001f;
 
     static const float maxRot = 360;
     static const float maxPos = 5;

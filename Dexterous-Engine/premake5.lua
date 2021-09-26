@@ -18,6 +18,7 @@ project "Dexterous-Engine"
 	sysincludedirs
 	{
 		"%{IncludeDir.include}",
+        "%{IncludeDir.spdlog}",
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.glad}",
 		"%{IncludeDir.imgui}",
