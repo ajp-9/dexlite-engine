@@ -34,8 +34,8 @@ void SandBox::Init()
     std::vector<dex::Vertex3D::Default> vertices;
 
     std::vector<uint32> indices;
-   
-    m_Entity.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/cargo_ship.glb", true));
+
+    m_Entity.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/xyz.glb", true));
 }
 
 void SandBox::Shutdown()
@@ -56,7 +56,7 @@ void SandBox::render()
     ImGui::Begin("Test Window");
 
     static float rotX = 0.0f;
-    static float rotY = 188.0f;
+    static float rotY = 0.0f;
     static float rotZ = 0.0f;
 
     static float posX = 0.0f;
@@ -80,7 +80,7 @@ void SandBox::render()
 
     ImGui::NewLine();
 
-    ImGui::SliderFloat("Scale X", &scale, 0.1, 1.5);
+    ImGui::SliderFloat("Scale X", &scale, 0.01, 1.5);
 
     //static char buf[50];
     //ImGui::InputText("Text Input", buf, 50);

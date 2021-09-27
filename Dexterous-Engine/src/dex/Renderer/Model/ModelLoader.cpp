@@ -42,15 +42,26 @@ namespace dex
 
         std::vector<Vertex3D::Default> vertices;
         std::vector<uint32> indices;
-
+        
         for (auto& mesh : model.meshes)
         {
+            uint32 largest_index = -1;
+            
             for (auto& primitive : mesh.primitives)
-            {                
+            {
                 std::vector<glm::vec3> positions;
                 std::vector<glm::vec3> normals;
                 std::vector<glm::vec2> texCoords;
+                glm::vec4 baseColor = glm::vec4(1);
                 
+                //glm::vec3 real_angle = glm::eulerAngles(glm::quat(model.nodes[0].rotation[0], model.nodes[0].rotation[1], model.nodes[0].rotation[2], model.nodes[0].rotation[3]));
+
+                if (model.materials.size())
+                {
+                    const auto& raw_baseColor = model.materials[primitive.material].pbrMetallicRoughness.baseColorFactor;
+                    baseColor = glm::vec4(raw_baseColor.at(0), raw_baseColor.at(1), raw_baseColor.at(2), raw_baseColor.at(3));
+                }
+
                 if (primitive.attributes.find("POSITION") != primitive.attributes.end())
                 {
                     const tinygltf::Accessor& accessor = model.accessors[primitive.attributes["POSITION"]];
@@ -98,6 +109,7 @@ namespace dex
                     Vertex3D::Default vertex;
 
                     vertex.m_Position = positions[i];
+                    vertex.m_Color = baseColor;
 
                     if (positions.size() == normals.size())
                         vertex.m_Normal = normals[i];
@@ -106,39 +118,52 @@ namespace dex
 
                     vertices.push_back(vertex);
                 }
-            }
 
-            for (size_t bv = 0; bv < model.bufferViews.size(); bv++)
-            {
-                if (model.bufferViews[bv].target == GL_ELEMENT_ARRAY_BUFFER)
+                const tinygltf::Buffer& buffer = model.buffers[model.bufferViews[primitive.indices].buffer];
+                const tinygltf::Accessor& accessor = model.accessors[primitive.indices];
+                
+                if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_SHORT)
                 {
-                    const tinygltf::Buffer& buffer = model.buffers[model.bufferViews[bv].buffer];
-                    const tinygltf::Accessor& accessor = model.accessors[bv];
+                    const uint16* bufferIndices = reinterpret_cast<const uint16*>(&buffer.data.at(0) + model.bufferViews[primitive.indices].byteOffset);
 
-                    if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_SHORT)
-                    {
-                        const uint16* bufferIndices = reinterpret_cast<const uint16*>(&buffer.data.at(0) + model.bufferViews[bv].byteOffset);
+                    for (size_t i = 0; i < accessor.count; i++)
+                        indices.emplace_back(bufferIndices[i] + largest_index + 1);
+                }
+                else if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_INT)
+                {
+                    const uint32* bufferIndices = reinterpret_cast<const uint32*>(&buffer.data.at(0) + model.bufferViews[primitive.indices].byteOffset);
 
-                        for (size_t i = 0; i < accessor.count; i++)
-                            indices.emplace_back(bufferIndices[i]);
-                    }
-                    else if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_INT)
-                    {
-                        const uint32* bufferIndices = reinterpret_cast<const uint32*>(&buffer.data.at(0) + model.bufferViews[bv].byteOffset);
+                    for (size_t i = 0; i < accessor.count; i++)
+                        indices.emplace_back(bufferIndices[i] + largest_index + 1);
+                }
+                else
+                {
+                    DEX_LOG_ERROR("<ModelLoader::loadGLTF>: Indices doesn't have the correct component type.");
+                }
 
-                        for (size_t i = 0; i < accessor.count; i++)
-                            indices.emplace_back(bufferIndices[i]);
-                    }
-                    else
-                    {
-                        DEX_LOG_ERROR("<ModelLoader::loadGLTF>: Indices doesn't have the correct component type.");
-                    }
+                largest_index = *std::max_element(indices.begin(), indices.end());
+            }
+        }
+
+        std::shared_ptr<dex::Material::Default3D> material = std::make_shared<dex::Material::Default3D>();
+
+        for (auto& mat : model.materials)
+        {
+            if (mat.pbrMetallicRoughness.baseColorTexture.index != -1)
+            {
+                {
+                    const auto& texture = model.images[model.textures[mat.pbrMetallicRoughness.baseColorTexture.index].source];
+
+
+                    material->m_DiffuseMap = Texture(texture.image, glm::ivec2(texture.width, texture.height), texture.image.size() / (size_t(texture.width) * size_t(texture.height)), true);
+                    material->m_DiffuseMapEnabled = true;
+                }
+                {
+                    //DEX_LOG_ERROR("<ModelLoader::loadGLTF>: Only 1 texture for baseColorTexture.");
                 }
             }
         }
 
-        std::shared_ptr<dex::Material::Default3D> mat = std::make_shared<dex::Material::Default3D>(5, dex::Texture("assets/textures/test.png"));
-
-        return Component::Model(dex::Mesh::Default3D(vertices, indices), mat);
+        return Component::Model(dex::Mesh::Default3D(vertices, indices), material);
     }
 }
