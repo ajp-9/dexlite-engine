@@ -35,7 +35,7 @@ void SandBox::Init()
 
     std::vector<uint32> indices;
 
-    m_Entity.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/xyz.glb", true));
+    m_Entity.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/backpack.glb", true));
 }
 
 void SandBox::Shutdown()
@@ -60,10 +60,10 @@ void SandBox::render()
     static float rotZ = 0.0f;
 
     static float posX = 0.0f;
-    static float posY = -0.45f;
+    static float posY = 0.0f;
     static float posZ = 2.0f;
 
-    static float scale = 0.001f;
+    static float scale = 1.0f;
 
     static const float maxRot = 360;
     static const float maxPos = 5;
@@ -80,7 +80,7 @@ void SandBox::render()
 
     ImGui::NewLine();
 
-    ImGui::SliderFloat("Scale X", &scale, 0.01, 1.5);
+    ImGui::SliderFloat("Scale X", &scale, 0.001, 1);
 
     //static char buf[50];
     //ImGui::InputText("Text Input", buf, 50);

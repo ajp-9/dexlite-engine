@@ -1,6 +1,10 @@
 #include "ModelLoader.hpp"
 
 #include <tiny_gltf.h>
+#include <glm/gtc/matrix_transform.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
+#include <glm/mat4x4.hpp>
 
 #include "../../Util/Logging.hpp"
 
@@ -53,8 +57,6 @@ namespace dex
                 std::vector<glm::vec3> normals;
                 std::vector<glm::vec2> texCoords;
                 glm::vec4 baseColor = glm::vec4(1);
-                
-                //glm::vec3 real_angle = glm::eulerAngles(glm::quat(model.nodes[0].rotation[0], model.nodes[0].rotation[1], model.nodes[0].rotation[2], model.nodes[0].rotation[3]));
 
                 if (model.materials.size())
                 {
@@ -109,6 +111,9 @@ namespace dex
                     Vertex3D::Default vertex;
 
                     vertex.m_Position = positions[i];
+
+                    vertex.m_Position.z *= -1;
+
                     vertex.m_Color = baseColor;
 
                     if (positions.size() == normals.size())
@@ -129,6 +134,7 @@ namespace dex
                     for (size_t i = 0; i < accessor.count; i++)
                         indices.emplace_back(bufferIndices[i] + largest_index + 1);
                 }
+                
                 else if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_INT)
                 {
                     const uint32* bufferIndices = reinterpret_cast<const uint32*>(&buffer.data.at(0) + model.bufferViews[primitive.indices].byteOffset);
@@ -151,19 +157,79 @@ namespace dex
         {
             if (mat.pbrMetallicRoughness.baseColorTexture.index != -1)
             {
+                if (!material->m_DiffuseMapEnabled)
                 {
-                    const auto& texture = model.images[model.textures[mat.pbrMetallicRoughness.baseColorTexture.index].source];
+                    const tinygltf::Texture& texture = model.textures[mat.pbrMetallicRoughness.baseColorTexture.index];
+                    const tinygltf::Image& image = model.images[model.textures[mat.pbrMetallicRoughness.baseColorTexture.index].source];
 
-
-                    material->m_DiffuseMap = Texture(texture.image, glm::ivec2(texture.width, texture.height), texture.image.size() / (size_t(texture.width) * size_t(texture.height)), true);
+                    material->m_DiffuseMap = Texture(image.image, model.samplers[texture.sampler], glm::ivec2(image.width, image.height), (image.component == 4) ? GL_RGBA : (image.component == 3) ? GL_RGB : 0, true);
                     material->m_DiffuseMapEnabled = true;
                 }
+                else
                 {
-                    //DEX_LOG_ERROR("<ModelLoader::loadGLTF>: Only 1 texture for baseColorTexture.");
+                    DEX_LOG_ERROR("<ModelLoader::loadGLTF>: Only 1 texture for baseColorTexture.");
                 }
             }
         }
 
+        MeshTransformation meshTransformation_Final;
+
+        for (auto& scene : model.scenes)
+        {
+            for (auto& node_loc : scene.nodes)
+            {
+                MeshTransformation meshFinalTransformation_Temp;
+
+                if (parseNode(meshFinalTransformation_Temp, model.nodes.at(node_loc), model))
+                    meshTransformation_Final = meshFinalTransformation_Temp;
+            }
+        }
+
+        //if (meshTransformation_Final.m_Scale == glm::vec3(0))
+        //    meshTransformation_Final.m_Scale = glm::vec3(1);
+
+        glm::mat3 transformationMatrix =
+            glm::translate(glm::mat4(1.0f), meshTransformation_Final.m_Translation) *
+            glm::toMat4(glm::quat(meshTransformation_Final.m_Rotation)) *
+            glm::scale(glm::mat4(1.0f), meshTransformation_Final.m_Scale);
+
+
+        for (auto& vertex : vertices)
+        {
+            vertex.m_Position = vertex.m_Position * transformationMatrix;
+            vertex.m_Normal = vertex.m_Normal * glm::quat(meshTransformation_Final.m_Rotation);
+        }
+
         return Component::Model(dex::Mesh::Default3D(vertices, indices), material);
+    }
+
+    bool ModelLoader::parseNode(MeshTransformation& meshTransformation_Current, const tinygltf::Node& node, const tinygltf::Model& model)
+    {
+        if (node.translation.size() == 3)
+            meshTransformation_Current.m_Translation += glm::vec3(node.translation.at(0), node.translation.at(1), node.translation.at(2));
+
+        if (node.rotation.size() == 4)
+            meshTransformation_Current.m_Rotation += glm::eulerAngles(glm::quat(node.rotation.at(3), node.rotation.at(0), node.rotation.at(1), node.rotation.at(2)));
+
+        if (node.scale.size() == 3)
+            meshTransformation_Current.m_Scale *= glm::vec3(node.scale.at(0), node.scale.at(1), node.scale.at(2));
+
+        if (node.mesh != -1)
+        {
+            return true;
+        }
+        else
+        {
+            for (auto& child_node_loc : node.children)
+            {
+                MeshTransformation& meshFinalTransformation_Temp = meshTransformation_Current;
+
+                if (parseNode(meshFinalTransformation_Temp, model.nodes.at(child_node_loc), model))
+                {
+                    meshFinalTransformation_Temp = meshFinalTransformation_Temp;
+                    return true;
+                }
+            }
+        }
     }
 }
