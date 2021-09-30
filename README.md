@@ -4,7 +4,7 @@ This engine is a little hobby of mine. It is designed to run fast, but not neces
 ## How to Build:
 #### Windows:
 
-Using Visual Studio 2019, it should be very easy to run the batch file (.bat) in the scripts folder to run the premake5 builder.  
+Using Visual Studio 2019 & Premake, it should be very easy to run the batch file (.bat) in the scripts folder to run the premake5 builder.  
 After that you should be able to open the solution and compile without issue.  
 
 #### MacOS:
@@ -18,12 +18,27 @@ The link to the wiki is here: https://github.com/ajp-9/dexterous-engine/wiki
 There isn't much in it currently but after I get this engine to a stable and decent state I will begin to work on the wiki
 
 ## Future Plans:
-* Adding a simple material system
-* Model loading
-* Integrating a physics engine
-* Making an editor
-* Adding Documentation
-* Possibly adding a scripting api
+- [x] Basic application.
+- [x] Integrating a simple logging library (spdlog).
+- [x] Layer system.
+- [x] Basic 3D Rendering.
+- [x] ImGUI integration.
+- [x] Input system.
+- [x] Integrating EnTT with scenes & components.
+- [x] A basic material system.
+- [x] Model loading.
+- [ ] Basic lighting system.
+- [ ] Engine configuration interface.
+- [ ] Making an editor.
+- [ ] Integrating a physics engine.
+- [ ] More advanced lighting, ex: shadows.
+- [ ] Basic animation.
+- [ ] Audio system.
+- [ ] A GUI built ontop of ImGUI.
+- [ ] Mac & Linux support.
+- [ ] Adding Documentation.
+- [ ] Possibly adding a scripting api.
+- [ ] Release build ready.
 
 ## Contribution 
 If you find a bug, or just something that needs to be fixed, please do make an issue or a pull request.  
@@ -31,12 +46,14 @@ For now though keep in mind that this engine is going through a LOT of work and 
 
 ## External Libraries:
 
-- SDL2 (https://www.libsdl.org/)
-- ASSIMP (https://www.assimp.org/)
+- GLFW (https://github.com/goxjs/glfw)
 - glad (https://github.com/Dav1dde/glad)
 - GLM (https://github.com/g-truc/glm)
 - stb_image (https://github.com/nothings/stb)
+- json (https://github.com/nlohmann/json)
+- tinygltf (https://github.com/syoyo/tinygltf)
 - EnTT (https://github.com/skypjack/entt)
+- spdlog (https://github.com/gabime/spdlog)
 
 ## License:
 This project uses the MIT license.  
