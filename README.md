@@ -1,4 +1,4 @@
-# Dexterous-Engine
+# Dexlite-Engine
 This engine is a little hobby of mine. It is designed to run fast, but not necessarily have ultra fancy graphics--since getting really good graphics coupled with really good performance could take ages.
 
 ## How to Build:
@@ -14,7 +14,7 @@ Not fully supported yet.
 Not supported yet.
 
 ## Documentation:
-The link to the wiki is here: https://github.com/ajp-9/dexterous-engine/wiki  
+The link to the wiki is here: https://github.com/ajp-9/dexlite-engine/wiki  
 There isn't much in it currently but after I get this engine to a stable and decent state I will begin to work on the wiki
 
 ## Future Plans:
