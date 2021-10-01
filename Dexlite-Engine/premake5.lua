@@ -1,4 +1,4 @@
-project "Dexterous-Engine"
+project "Dexlite-Engine"
 	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
@@ -18,12 +18,12 @@ project "Dexterous-Engine"
 	sysincludedirs
 	{
 		"%{IncludeDir.include}",
-        "%{IncludeDir.spdlog}",
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.glad}",
 		"%{IncludeDir.imgui}",
         "%{IncludeDir.stb_image}",
-		"%{IncludeDir.tinygltf}"
+		"%{IncludeDir.tinygltf}",
+		"%{IncludeDir.spdlog}"
 	}
 
 	links
@@ -36,7 +36,6 @@ project "Dexterous-Engine"
 
 	defines
 	{
-		"SDL_MAIN_HANDLED",
 		"GLM_FORCE_LEFT_HANDED",
 		"GLFW_INCLUDE_NONE",
 		"STB_IMAGE_IMPLEMENTATION",

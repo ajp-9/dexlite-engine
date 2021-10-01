@@ -18,25 +18,24 @@ project "SandBox"
 
     sysincludedirs
     {
-        "%{wks.location}/Dexterous-Engine/src",
+        "%{wks.location}/Dexlite-Engine/src",
 
         "%{IncludeDir.include}",
-        "%{IncludeDir.spdlog}",
         "%{IncludeDir.glfw}",
         "%{IncludeDir.glad}",
         "%{IncludeDir.imgui}",
         "%{IncludeDir.stb_image}",
-        "%{IncludeDir.tinygltf}"
+        "%{IncludeDir.tinygltf}",
+        "%{IncludeDir.spdlog}"
     }
 
     links
     {
-        "Dexterous-Engine"
+        "Dexlite-Engine"
     }
 
     defines
     {
-        "SDL_MAIN_HANDLED",
         "GLM_FORCE_LEFT_HANDED",
         "GLFW_INCLUDE_NONE"
     }

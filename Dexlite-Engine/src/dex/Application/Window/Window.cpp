@@ -19,7 +19,7 @@ namespace dex
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        m_Window_GLFW = glfwCreateWindow(windowDimensions.x, windowDimensions.y, "Dexterous Engine", NULL, NULL);
+        m_Window_GLFW = glfwCreateWindow(windowDimensions.x, windowDimensions.y, "Dexlite Engine", NULL, NULL);
         if (!m_Window_GLFW)
         {
             glfwTerminate();

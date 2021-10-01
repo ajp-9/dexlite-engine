@@ -1,4 +1,4 @@
-workspace "Dexterous-Engine"
+workspace "Dexlite-Engine"
 	architecture "x64"
 	startproject "SandBox"
 
@@ -18,13 +18,13 @@ IncludeDir["tinygltf"] = "%{wks.location}/external/dependencies/tinygltf/include
 IncludeDir["spdlog"] = "%{wks.location}/external/dependencies/spdlog/include"
 
 group "Dependencies"
-	include "external/dependencies/spdlog"
 	include "external/dependencies/glfw"
 	include "external/dependencies/glad"
 	include "external/dependencies/imgui"
 	include "external/dependencies/stb_image"
 	include "external/dependencies/tinygltf"
+	include "external/dependencies/spdlog"
 group ""
 
-include "Dexterous-Engine"
+include "Dexlite-Engine"
 include "Sandbox"

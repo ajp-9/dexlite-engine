@@ -1,6 +1,6 @@
 #pragma once
 
-#include <dex/Dexterous.hpp>
+#include <dex/Dexlite.hpp>
 #include <memory>
 
 class SandBox : public dex::Program

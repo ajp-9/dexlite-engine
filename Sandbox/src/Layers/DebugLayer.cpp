@@ -1,7 +1,7 @@
 #include "DebugLayer.hpp"
 
 #include <imgui/imgui.h>
-#include <dex/Dexterous.hpp>
+#include <dex/Dexlite.hpp>
 
 void DebugLayer::render()
 {

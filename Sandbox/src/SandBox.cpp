@@ -35,7 +35,7 @@ void SandBox::Init()
 
     std::vector<uint32> indices;
 
-    m_Entity.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/backpack.glb", true));
+    m_Entity.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/xyz.glb", true));
 }
 
 void SandBox::Shutdown()
