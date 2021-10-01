@@ -17,10 +17,6 @@ private:
     dex::Entity m_Entity;
     
     std::shared_ptr<dex::Material::Default3D> mat = std::make_shared<dex::Material::Default3D>(3, dex::Texture("assets/textures/metal.jpg"));
-    //dex::Shader::New3D shader;
-    //dex::Component::Model model;
-    //dex::Mesh::Default3D mesh;
-    //dex::VertexArray varr;
 };
 
-DEXTEROUS_DEFINE_MAIN(SandBox);
+DEXLITE_DEFINE_MAIN(SandBox);
