@@ -13,9 +13,10 @@ public:
     virtual void render() override;
 private:
     dex::Scene m_Scene;
-    dex::Entity m_Player;
-    dex::Entity m_Entity;
-    
+    dex::Entity m_Player = { &m_Scene };
+    dex::Entity m_Entity = { &m_Scene };
+    dex::Entity m_Entity2 = { &m_Scene };
+
     std::shared_ptr<dex::Material::Default3D> mat = std::make_shared<dex::Material::Default3D>(3, dex::Texture("assets/textures/metal.jpg"));
 };
 

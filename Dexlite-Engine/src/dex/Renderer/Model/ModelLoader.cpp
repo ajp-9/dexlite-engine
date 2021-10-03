@@ -190,7 +190,7 @@ namespace dex
 
         glm::mat3 transformationMatrix =
             glm::translate(glm::mat4(1.0f), meshTransformation_Final.m_Translation) *
-            glm::toMat4(glm::quat(meshTransformation_Final.m_Rotation)) *
+            glm::toMat4(meshTransformation_Final.m_Rotation) *
             glm::scale(glm::mat4(1.0f), meshTransformation_Final.m_Scale);
 
 
@@ -209,7 +209,7 @@ namespace dex
             meshTransformation_Current.m_Translation += glm::vec3(node.translation.at(0), node.translation.at(1), node.translation.at(2));
 
         if (node.rotation.size() == 4)
-            meshTransformation_Current.m_Rotation += glm::eulerAngles(glm::quat(node.rotation.at(3), node.rotation.at(0), node.rotation.at(1), node.rotation.at(2)));
+            meshTransformation_Current.m_Rotation += glm::quat(node.rotation.at(3), node.rotation.at(0), node.rotation.at(1), node.rotation.at(2));
 
         if (node.scale.size() == 3)
             meshTransformation_Current.m_Scale *= glm::vec3(node.scale.at(0), node.scale.at(1), node.scale.at(2));

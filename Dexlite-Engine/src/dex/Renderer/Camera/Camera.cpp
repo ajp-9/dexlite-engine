@@ -6,33 +6,34 @@
 
 namespace dex
 {
-    void Camera::setOrthographic(float32 size, float32 near, float32 far)
+    void Camera::setOrthographic(float32 size, float32 near_plane, float32 far_plane)
     {
         m_Type = CameraType::ORTHOGRAPHIC;
         m_Ortho_Size = size;
-        m_Near = near;
-        m_Far = far;
+        m_Near = near_plane;
+        m_Far = far_plane;
     }
 
-    void Camera::setPerspective(float32 fov, float32 near, float32 far)
+    void Camera::setPerspective(float32 fov, float32 near_plane, float32 far_plane)
     {
         m_Type = CameraType::PERSPECTIVE;
         m_Persp_FOV = fov;
-        m_Near = near;
-        m_Far = far;
+        m_Near = near_plane;
+        m_Far = far_plane;
     }
-
+    
     void Camera::updateViewMatrix()
     {
         if (m_Type == CameraType::ORTHOGRAPHIC)
         {
-            m_ViewMatrix = glm::translate(glm::mat4(1.0f), m_Position) * glm::toMat4(glm::quat(glm::radians(m_Rotation)));
+            m_ViewMatrix = glm::translate(glm::mat4(1.0f), m_Position) * glm::toMat4(m_Rotation);
         }
         else if (m_Type == CameraType::PERSPECTIVE)
         {
-            
+            // make position more player relative
+            m_ViewMatrix = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
         }
-
+        
         m_ProjectionViewMatrix = m_ProjectionMatrix * m_ViewMatrix;
 
         isViewMatrixOld = false;

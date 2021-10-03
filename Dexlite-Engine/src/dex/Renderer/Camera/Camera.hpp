@@ -1,6 +1,8 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 #include "../../Util/Typedefs.hpp"
 
 namespace dex
@@ -12,12 +14,6 @@ namespace dex
     public:
         void setOrthographic(float32 size, float32 near, float32 far);
         void setPerspective(float32 fov, float32 near, float32 far);
-
-        void setPosition(const glm::vec3& position) { m_Position = position; isViewMatrixOld = true; }
-        void setRotation(const glm::vec3& rotation) { m_Rotation = rotation; isViewMatrixOld = true;  }
-
-        const glm::vec3& getPosition() const { return m_Position; }
-        const glm::vec3& getRotation() const { return m_Rotation; }
 
         const glm::mat4& getViewMatrix()
         { 
@@ -42,7 +38,7 @@ namespace dex
         // Called everytime you change the screen dimensions or the camera's fov, size, near, or far.
         void updateProjectionMatrix();
     protected:
-        CameraType m_Type;
+        CameraType m_Type = CameraType::ORTHOGRAPHIC;
 
         bool isViewMatrixOld = true;
         bool isProjectionMatrixOld = true;
@@ -50,7 +46,6 @@ namespace dex
         // Matrices
         glm::mat4 m_ProjectionMatrix = glm::mat4(1.0f);
         glm::mat4 m_ViewMatrix = glm::mat4(1.0f);
-
         glm::mat4 m_ProjectionViewMatrix = glm::mat4(1.0f);
 
         // Orthographic ---
@@ -61,7 +56,7 @@ namespace dex
 
         // Shared ---
         glm::vec3 m_Position = glm::vec3(0.0f);
-        glm::vec3 m_Rotation = glm::vec3(0.0f);
+        glm::quat m_Rotation = glm::quat(0.0f, 0.0f, 0.0f, 0.0f);
 
         float32 m_Near = 0.01f;
         float32 m_Far = 1000.0f;

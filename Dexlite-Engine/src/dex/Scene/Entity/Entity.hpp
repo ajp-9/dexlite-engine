@@ -9,8 +9,12 @@ namespace dex
     class Entity
     {
     public:
-        Entity() = default;
-        Entity(entt::entity handle, Scene* scene) : m_Handle(handle), m_Scene(scene) {}
+        Entity(Scene* scene)
+            : m_Handle(scene->createEntity()), m_Scene(scene)
+        {}
+        Entity(entt::entity handle, Scene* scene)
+            : m_Handle(handle), m_Scene(scene)
+        {}
 
         template<typename T, typename... Args>
         inline T& addComponent(Args&&... args)

@@ -20,11 +20,23 @@ namespace dex
         // Update window when done handling events & rendering
         void update();
     public:
+        void setWindowed();
+        void setFullscreen();
+
         glm::ivec2 getDimensions();
+        glm::ivec2 getPosition();
+
+        bool isFullscreen() { return m_IsFullscreen; }
 
         Input input;
     private:
         GLFWwindow* m_Window_GLFW = nullptr;
+
+        // Before fullscreen.
+        glm::ivec2 m_WindowedDimensions = glm::ivec2(0);
+        glm::ivec2 m_WindowedPosition = glm::ivec2(0);
+
+        bool m_IsFullscreen = false;
 
         friend class Engine;
         friend class ImGuiAPI;

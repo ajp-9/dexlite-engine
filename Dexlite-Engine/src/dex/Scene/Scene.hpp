@@ -22,10 +22,10 @@ namespace dex
         template <typename T>
         void doCustumUpdate() {}
 
-        void findNSetMainCamera();
+        void findNSetActiveCamera();
     private:
         entt::registry m_Registry;
-        entt::entity m_MainCameraID;
+        entt::entity m_ActiveCameraID;
         
         friend class Entity;
         friend class Renderer;

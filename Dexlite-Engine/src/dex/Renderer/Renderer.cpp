@@ -67,19 +67,12 @@ namespace dex
     {
         auto& shader = shaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D);
 
-        scene.findNSetMainCamera();
-
-        if (m_ChangeProjectionMatrixNext)
-        {
-            auto& cam_view = scene.m_Registry.view<Component::Camera>();
-
-            for (auto& entityID : cam_view)
-            {
-                scene.m_Registry.get<Component::Camera>(entityID).updateProjectionMatrix();
-            }
-        }
+        scene.findNSetActiveCamera();
         
-        shader->setProjectionViewMatrix(scene.m_Registry.get<Component::Camera>(scene.m_MainCameraID).getProjectionViewMatrix());
+        if (m_ChangeProjectionMatrixNext)
+            scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).updateProjectionMatrix();
+        
+        shader->setProjectionViewMatrix(scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).getProjectionViewMatrix());
 
         auto& model_view = scene.m_Registry.view<Component::Model>();
         

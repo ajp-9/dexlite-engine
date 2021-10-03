@@ -6,6 +6,7 @@
 #include "Component/ModelComponent.hpp"
 #include "Component/TransformComponent.hpp"
 #include "../Renderer/Shader/ShaderManager.hpp"
+#include "../Util/Logging.hpp"
 
 namespace dex
 {
@@ -36,7 +37,7 @@ namespace dex
     {
     }
 
-    void Scene::findNSetMainCamera()
+    void Scene::findNSetActiveCamera()
     {
         auto& cameraView = m_Registry.view<Component::Camera>();
 
@@ -45,16 +46,16 @@ namespace dex
             for (auto& eID : cameraView)
             {
                 if (m_Registry.get<Component::Camera>(eID).m_IsEnabled)
-                    m_MainCameraID = eID;
+                    m_ActiveCameraID = eID;
             }
         }
         else if (cameraView.size() > 1)
         {
-            std::cout << "Scene: Error! Too many main cameras.\n";
+            DEX_LOG_ERROR("<Scene::findNSetMainCamera>: Too many main cameras.");
         }
         else if (cameraView.size() < 1)
         {
-            std::cout << "Scene: Error! No cameras found.\n";
+            DEX_LOG_ERROR("<Scene::findNSetMainCamera>: No cameras found.");
         }
     }
 }

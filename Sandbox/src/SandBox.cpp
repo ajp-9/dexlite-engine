@@ -20,9 +20,6 @@ void SandBox::Init()
     Engine::layerManager.pushLayer(std::make_shared<WorldLayer>());
     Engine::layerManager.pushLayer(std::make_shared<DebugLayer>());
 
-    m_Player = m_Scene.createEntity();
-    m_Entity = m_Scene.createEntity();
-
     auto& camera = m_Player.addComponent<dex::Component::Camera>(true);
 
     //camera.setOrthographic(5, 0.001, 100);
@@ -35,7 +32,10 @@ void SandBox::Init()
 
     std::vector<uint32> indices;
 
-    m_Entity.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/xyz.glb", true));
+    m_Entity.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/warlock.glb", true));
+    //m_Entity2.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/xyz.glb", true));
+    m_Entity2.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 3.5));
+    m_Entity2.getComponent<dex::Component::Transform>().setScale(glm::vec3(.05));
 }
 
 void SandBox::Shutdown()
@@ -45,6 +45,17 @@ void SandBox::Shutdown()
 
 void SandBox::update()
 {
+    if (Engine::window.input.getKeyState(dex::Event::Key::W))
+    {
+        dex::Engine::window.setFullscreen();
+
+        auto& player_trans = m_Player.getComponent<dex::Component::Camera>();
+        //player_trans.setRotation(glm::vec3(player_trans.getRotation().x, player_trans.getRotation().y, player_trans.getRotation().z + .1));
+        player_trans.updateViewMatrix();
+    }
+
+    if (Engine::window.input.getKeyState(dex::Event::Key::E))
+        dex::Engine::window.setWindowed();
 }
 
 void SandBox::render()
@@ -63,7 +74,7 @@ void SandBox::render()
     static float posY = 0.0f;
     static float posZ = 2.0f;
 
-    static float scale = 1.0f;
+    static float scale = 0.5f;
 
     static const float maxRot = 360;
     static const float maxPos = 5;
@@ -88,7 +99,7 @@ void SandBox::render()
     auto& trans = m_Entity.getComponent<dex::Component::Transform>();
 
     trans.setPosition(glm::vec3(posX, posY, posZ));
-    trans.setRotation(glm::vec3(rotX, rotY, rotZ));
+    trans.setRotationDegrees(glm::vec3(rotX, rotY, rotZ));
     trans.setScale(glm::vec3(scale, scale, scale));
     //m_Entity.getComponent<dex::Component::Model>().m_Material->m_Shader->setModelMatrix(trans);
 
