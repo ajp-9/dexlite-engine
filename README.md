@@ -27,7 +27,9 @@ There isn't much in it currently but after I get this engine to a stable and dec
 - [x] Integrating EnTT with scenes & components.
 - [x] A basic material system.
 - [x] Model loading.
+- [ ] Updating the camera system.
 - [ ] Basic lighting system.
+- [ ] Scene heirarchy.
 - [ ] Engine configuration interface.
 - [ ] Making an editor.
 - [ ] Integrating a physics engine.
