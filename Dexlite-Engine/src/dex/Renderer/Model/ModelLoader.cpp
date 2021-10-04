@@ -185,19 +185,15 @@ namespace dex
             }
         }
 
-        //if (meshTransformation_Final.m_Scale == glm::vec3(0))
-        //    meshTransformation_Final.m_Scale = glm::vec3(1);
-
         glm::mat3 transformationMatrix =
             glm::translate(glm::mat4(1.0f), meshTransformation_Final.m_Translation) *
             glm::toMat4(meshTransformation_Final.m_Rotation) *
             glm::scale(glm::mat4(1.0f), meshTransformation_Final.m_Scale);
 
-
         for (auto& vertex : vertices)
         {
-            vertex.m_Position = vertex.m_Position * transformationMatrix;
-            vertex.m_Normal = vertex.m_Normal * glm::quat(meshTransformation_Final.m_Rotation);
+            vertex.m_Position = transformationMatrix * vertex.m_Position;
+            vertex.m_Normal = meshTransformation_Final.m_Rotation * vertex.m_Normal;
         }
 
         return Component::Model(dex::Mesh::Default3D(vertices, indices), material);
@@ -209,7 +205,13 @@ namespace dex
             meshTransformation_Current.m_Translation += glm::vec3(node.translation.at(0), node.translation.at(1), node.translation.at(2));
 
         if (node.rotation.size() == 4)
-            meshTransformation_Current.m_Rotation += glm::quat(node.rotation.at(3), node.rotation.at(0), node.rotation.at(1), node.rotation.at(2));
+        {
+            // It works, don't fix it.
+            auto& q = glm::eulerAngles(glm::quat(node.rotation.at(3), node.rotation.at(0), -node.rotation.at(2), node.rotation.at(1)));
+            //auto& q = glm::degrees(glm::eulerAngles(glm::quat(node.rotation.at(3), node.rotation.at(0), node.rotation.at(1), node.rotation.at(2))));
+
+            meshTransformation_Current.m_Rotation *= glm::quat(glm::vec3(-q.x, q.z, -q.y));
+        }
 
         if (node.scale.size() == 3)
             meshTransformation_Current.m_Scale *= glm::vec3(node.scale.at(0), node.scale.at(1), node.scale.at(2));

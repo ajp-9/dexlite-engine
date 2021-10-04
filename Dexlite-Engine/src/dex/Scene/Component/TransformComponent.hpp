@@ -10,7 +10,7 @@ namespace dex
     {
         struct Transform
         {
-            Transform(glm::vec3 position = glm::vec3(0.0f), glm::quat rotation = glm::quat(0.0f, 0.0f, 0.0f, 0.0f), glm::vec3 scale = glm::vec3(1.0f))
+            Transform(glm::vec3 position = glm::vec3(0.0f), glm::quat rotation = glm::quat(glm::vec3(0.0f)), glm::vec3 scale = glm::vec3(1.0f))
                 : m_TransformationMatrix(1.0f), m_Position(position), m_Rotation(rotation), m_Scale(scale)
             {
                 calculateTransformation();
@@ -40,10 +40,13 @@ namespace dex
 
             operator const glm::mat4&() const { return m_TransformationMatrix; }
         private:
+        public:
             glm::mat4 m_TransformationMatrix;
 
             glm::vec3 m_Position;
             glm::quat m_Rotation;
+            glm::mat4 rotMat = glm::mat4(1.0f);
+            glm::vec3 rot = glm::vec3(0);
             glm::vec3 m_Scale;
         };
     }

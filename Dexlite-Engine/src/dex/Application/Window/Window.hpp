@@ -26,6 +26,8 @@ namespace dex
         glm::ivec2 getDimensions();
         glm::ivec2 getPosition();
 
+        void setCaptureMouse(bool captured);
+
         bool isFullscreen() { return m_IsFullscreen; }
 
         Input input;

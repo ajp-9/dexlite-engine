@@ -22,17 +22,19 @@ void SandBox::Init()
 
     auto& camera = m_Player.addComponent<dex::Component::Camera>(true);
 
-    //camera.setOrthographic(5, 0.001, 100);
-    camera.setPerspective(60, .001, 1000);
+    camera.setOrthographic(5, 0.001, 100);
+    //camera.setPerspective(60, .001, 1000);
 
     camera.updateProjectionMatrix();
     camera.updateViewMatrix();
+
+    //dex::Engine::window.setCaptureMouse(true);
 
     std::vector<dex::Vertex3D::Default> vertices;
 
     std::vector<uint32> indices;
 
-    m_Entity.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/warlock.glb", true));
+    m_Entity.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/warlock-turned.glb", true));
     //m_Entity2.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/xyz.glb", true));
     m_Entity2.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 3.5));
     m_Entity2.getComponent<dex::Component::Transform>().setScale(glm::vec3(.05));
@@ -45,17 +47,64 @@ void SandBox::Shutdown()
 
 void SandBox::update()
 {
+    auto& player_trans = m_Player.getComponent<dex::Component::Camera>();
+
+    auto& m = Engine::window.input.getMousePosChange();
+
+    auto& ent = m_Entity.getComponent<dex::Component::Transform>();
+
+    //ent.rotateByDegrees()
+
+    player_trans.m_Rot += glm::vec3(.001) * glm::vec3(m.y, -m.x, 0);
+
+    player_trans.updateViewMatrix();
+
     if (Engine::window.input.getKeyState(dex::Event::Key::W))
     {
-        dex::Engine::window.setFullscreen();
+        player_trans.m_Rot += glm::vec3(0.01, 0, 0);
 
-        auto& player_trans = m_Player.getComponent<dex::Component::Camera>();
-        //player_trans.setRotation(glm::vec3(player_trans.getRotation().x, player_trans.getRotation().y, player_trans.getRotation().z + .1));
         player_trans.updateViewMatrix();
     }
 
-    if (Engine::window.input.getKeyState(dex::Event::Key::E))
+    if (Engine::window.input.getKeyState(dex::Event::Key::S))
+    {
+        player_trans.m_Rot += glm::vec3(-0.01, 0, 0);
+
+        player_trans.updateViewMatrix();
+    }
+
+    if (Engine::window.input.getKeyState(dex::Event::Key::A))
+    {
+        player_trans.m_Rot += glm::vec3(0, 0.01, 0);
+
+        player_trans.updateViewMatrix();
+    }
+
+    if (Engine::window.input.getKeyState(dex::Event::Key::D))
+    {
+        player_trans.m_Rot += glm::vec3(0, -0.01, 0);
+
+        player_trans.updateViewMatrix();
+    }
+
+
+    /*glm::vec3& rot_e = glm::eulerAngles(player_trans.m_Rotation);
+    glm::quat QuatAroundX = glm::angleAxis(rot_e.x, glm::vec3(1.0, 0.0, 0.0));
+    glm::quat QuatAroundY = glm::angleAxis(rot_e.y, glm::vec3(0.0, 1.0, 0.0));
+    glm::quat QuatAroundZ = glm::angleAxis(rot_e.z, glm::vec3(0.0, 0.0, 1.0));
+    glm::quat finalOrientation = QuatAroundX * QuatAroundY * QuatAroundZ;
+    player_trans.m_Rotation = finalOrientation;*/
+
+    if (Engine::window.input.getKeyState(dex::Event::Key::KB_1))
+        dex::Engine::window.setFullscreen();
+
+    if (Engine::window.input.getKeyState(dex::Event::Key::KB_2))
         dex::Engine::window.setWindowed();
+
+    if (Engine::window.input.getKeyState(dex::Event::Key::O))
+        dex::Engine::window.setCaptureMouse(true);
+    if (Engine::window.input.getKeyState(dex::Event::Key::P))
+        dex::Engine::window.setCaptureMouse(false);
 }
 
 void SandBox::render()
@@ -70,13 +119,17 @@ void SandBox::render()
     static float rotY = 0.0f;
     static float rotZ = 0.0f;
 
+    static float old_rotX = 0.0f;
+    static float old_rotY = 0.0f;
+    static float old_rotZ = 0.0f;
+
     static float posX = 0.0f;
     static float posY = 0.0f;
     static float posZ = 2.0f;
 
     static float scale = 0.5f;
 
-    static const float maxRot = 360;
+    static const float maxRot = 720;
     static const float maxPos = 5;
 
     ImGui::SliderFloat("Rotation X", &rotX, 0, maxRot);
@@ -99,15 +152,10 @@ void SandBox::render()
     auto& trans = m_Entity.getComponent<dex::Component::Transform>();
 
     trans.setPosition(glm::vec3(posX, posY, posZ));
-    trans.setRotationDegrees(glm::vec3(rotX, rotY, rotZ));
+    trans.m_Rotation = glm::quat(glm::radians(glm::vec3(rotX, rotY, rotZ)));
     trans.setScale(glm::vec3(scale, scale, scale));
-    //m_Entity.getComponent<dex::Component::Model>().m_Material->m_Shader->setModelMatrix(trans);
-
-    //model.m_Mesh.render();
 
     Engine::renderer.renderScene(m_Scene);
 
     ImGui::End();
-
-    //m_Texture.bind();
 }

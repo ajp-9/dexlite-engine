@@ -30,7 +30,32 @@ namespace dex
         }
         else if (m_Type == CameraType::PERSPECTIVE)
         {
+            //m_Up = glm::normalize(m_Rotation * glm::vec3(0, 1, 0));
+
+
+            //m_Front.x = cos(m_Rot.x) * cos(m_Rot.y);
+            //m_Front.y = sin(m_Rot.y);
+            //m_Front.z = sin(m_Rot.x) * cos(m_Rot.y);
+
+            /*glm::vec3& rot_e = glm::eulerAngles(m_Rotation);
+            glm::quat QuatAroundX = glm::angleAxis(rot_e.x, glm::vec3(1.0, 0.0, 0.0));
+            glm::quat QuatAroundY = glm::angleAxis(rot_e.y, glm::vec3(0.0, 1.0, 0.0));
+            glm::quat QuatAroundZ = glm::angleAxis(rot_e.z, glm::vec3(0.0, 0.0, 1.0));
+            glm::quat finalOrientation = glm::normalize(QuatAroundX * QuatAroundY * QuatAroundZ);
+            m_Rotation = finalOrientation;*/
+
+
+
+
+            //m_Front = glm::normalize(glm::conjugate(m_Rotation) * glm::vec3(0, 0, 1));
+            //m_Up = glm::normalize(glm::conjugate(m_Rotation) * glm::vec3(0, 1, 0));
+
+            //glm::vec3 a = glm::degrees(m_Rot);
+            //std::cout << a.x << ", " << a.y << ", " << a.z << std::endl;
+
+            //glm::quatLookAt()
             // make position more player relative
+
             m_ViewMatrix = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
         }
         

@@ -195,6 +195,8 @@ namespace dex
         const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
         glfwSetWindowMonitor(m_Window_GLFW, glfwGetPrimaryMonitor(), 0, 0, vid->width, vid->height, mode->refreshRate);
+
+        //glfwSwapInterval(1);
     }
 
     glm::ivec2 Window::getDimensions()
@@ -209,5 +211,13 @@ namespace dex
         glm::ivec2 position;
         glfwGetWindowPos(m_Window_GLFW, &position.x, &position.y);
         return position;
+    }
+
+    void Window::setCaptureMouse(bool captured)
+    {
+        if (captured)
+            glfwSetInputMode(m_Window_GLFW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        else
+            glfwSetInputMode(m_Window_GLFW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
 }

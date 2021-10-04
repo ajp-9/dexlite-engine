@@ -38,6 +38,7 @@ namespace dex
         // Called everytime you change the screen dimensions or the camera's fov, size, near, or far.
         void updateProjectionMatrix();
     protected:
+    public:
         CameraType m_Type = CameraType::ORTHOGRAPHIC;
 
         bool isViewMatrixOld = true;
@@ -52,11 +53,12 @@ namespace dex
         float32 m_Ortho_Size = 15.0f;
 
         // Perspective ---
-        float32 m_Persp_FOV = glm::radians(45.0f);
+        float32 m_Persp_FOV = glm::radians(60.0f);
 
         // Shared ---
         glm::vec3 m_Position = glm::vec3(0.0f);
         glm::quat m_Rotation = glm::quat(0.0f, 0.0f, 0.0f, 0.0f);
+        glm::vec3 m_Rot = glm::vec3(0.0f);
 
         float32 m_Near = 0.01f;
         float32 m_Far = 1000.0f;

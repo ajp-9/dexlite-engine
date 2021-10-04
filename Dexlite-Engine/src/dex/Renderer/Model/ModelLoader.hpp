@@ -7,7 +7,7 @@ namespace dex
     struct MeshTransformation
     {
         glm::vec3 m_Translation = glm::vec3(0);
-        glm::quat m_Rotation = glm::quat(0, 0, 0, 0);
+        glm::quat m_Rotation = glm::quat(glm::vec3(0.0f));
         glm::vec3 m_Scale = glm::vec3(1);
     };
 
