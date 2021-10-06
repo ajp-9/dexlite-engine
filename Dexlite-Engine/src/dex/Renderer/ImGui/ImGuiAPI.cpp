@@ -20,6 +20,8 @@ namespace dex
         //io.ConfigViewportsNoAutoMerge = true;
         //io.ConfigViewportsNoTaskBarIcon = true;
 
+        //io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
+
         // Setup Dear ImGui style
         //ImGui::StyleColorsDark();
         //ImGui::StyleColorsClassic();

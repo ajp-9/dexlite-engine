@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 #include <iostream>
+#include <imgui/imgui.h>
 
 #include "../../Core/Engine.hpp"
 #include "../../Renderer/Renderer.hpp"
@@ -83,8 +84,7 @@ namespace dex
 
         glfwSetCursorPosCallback(m_Window_GLFW, [](GLFWwindow* window, float64 xPos, float64 yPos)
             {
-                static float32 lastX, lastY;
-                //std::cout << -(lastX - xPos) << ", " << lastY - yPos << "\n";
+                static float32 lastX = xPos, lastY = yPos;
 
                 Engine::window.input.pushMouseEvent(Event::MouseEvent(Event::Type::MOUSE, Event::MouseType::MOVE, glm::dvec2(xPos, yPos), glm::dvec2(-(lastX - xPos), lastY - yPos), Event::MouseButton::UNKNOWN, 0));
 
@@ -154,6 +154,7 @@ namespace dex
     {
         input.resetInput();
 
+
         glfwSwapBuffers(m_Window_GLFW);
         glfwPollEvents();
     }
@@ -215,9 +216,18 @@ namespace dex
 
     void Window::setCaptureMouse(bool captured)
     {
+        auto& io = ImGui::GetIO();
+        m_IsMouseCaptured = captured;
+
         if (captured)
+        {
             glfwSetInputMode(m_Window_GLFW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
+        }
         else
+        {
             glfwSetInputMode(m_Window_GLFW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+        }
     }
 }

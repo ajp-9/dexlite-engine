@@ -27,6 +27,7 @@ namespace dex
         glm::ivec2 getPosition();
 
         void setCaptureMouse(bool captured);
+        bool isMouseCaptured() { return m_IsMouseCaptured; };
 
         bool isFullscreen() { return m_IsFullscreen; }
 
@@ -39,6 +40,7 @@ namespace dex
         glm::ivec2 m_WindowedPosition = glm::ivec2(0);
 
         bool m_IsFullscreen = false;
+        bool m_IsMouseCaptured = false;
 
         friend class Engine;
         friend class ImGuiAPI;

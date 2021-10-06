@@ -1,6 +1,5 @@
 #include "ModelLoader.hpp"
 
-#include <tiny_gltf.h>
 #include <glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
@@ -188,6 +187,7 @@ namespace dex
         glm::mat3 transformationMatrix =
             glm::translate(glm::mat4(1.0f), meshTransformation_Final.m_Translation) *
             glm::toMat4(meshTransformation_Final.m_Rotation) *
+            //glm::toMat4(glm::quat(glm::vec3(0))) *
             glm::scale(glm::mat4(1.0f), meshTransformation_Final.m_Scale);
 
         for (auto& vertex : vertices)
@@ -207,12 +207,13 @@ namespace dex
         if (node.rotation.size() == 4)
         {
             // It works, don't fix it.
-            auto& q = glm::eulerAngles(glm::quat(node.rotation.at(3), node.rotation.at(0), -node.rotation.at(2), node.rotation.at(1)));
-            //auto& q = glm::degrees(glm::eulerAngles(glm::quat(node.rotation.at(3), node.rotation.at(0), node.rotation.at(1), node.rotation.at(2))));
 
-            meshTransformation_Current.m_Rotation *= glm::quat(glm::vec3(-q.x, q.z, -q.y));
+            //auto& q = glm::eulerAngles(glm::quat(node.rotation.at(3), node.rotation.at(0), -node.rotation.at(2), node.rotation.at(1)));
+            auto& eRot = glm::eulerAngles(glm::quat(node.rotation.at(3), node.rotation.at(0), node.rotation.at(1), node.rotation.at(2)));
+
+            meshTransformation_Current.m_Rotation *= glm::quat(glm::vec3(-eRot.x, -eRot.y, eRot.z));
         }
-
+        
         if (node.scale.size() == 3)
             meshTransformation_Current.m_Scale *= glm::vec3(node.scale.at(0), node.scale.at(1), node.scale.at(2));
 

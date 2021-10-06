@@ -21,6 +21,17 @@ namespace dex
         m_Near = near_plane;
         m_Far = far_plane;
     }
+
+    void Camera::update(const glm::vec3& position, const glm::quat& rotation)
+    {
+        if (m_Position != position || m_Rotation != rotation)
+        {
+            m_Position = position;
+            m_Rotation = rotation;
+
+            updateViewMatrix();
+        }
+    }
     
     void Camera::updateViewMatrix()
     {
@@ -32,10 +43,14 @@ namespace dex
         {
             //m_Up = glm::normalize(m_Rotation * glm::vec3(0, 1, 0));
 
+            auto& rot = glm::eulerAngles(m_Rotation);
 
-            //m_Front.x = cos(m_Rot.x) * cos(m_Rot.y);
-            //m_Front.y = sin(m_Rot.y);
-            //m_Front.z = sin(m_Rot.x) * cos(m_Rot.y);
+            /*m_Front.x = cos(rot.y) * cos(rot.x);
+            m_Front.y = sin(rot.x);
+            m_Front.z = sin(rot.y) * cos(rot.x);
+            m_Front = glm::normalize(m_Front);
+            
+            m_Up = glm::normalize(glm::cross(m_Front, glm::vec3(1, 0, 0)));*/
 
             /*glm::vec3& rot_e = glm::eulerAngles(m_Rotation);
             glm::quat QuatAroundX = glm::angleAxis(rot_e.x, glm::vec3(1.0, 0.0, 0.0));
@@ -47,8 +62,8 @@ namespace dex
 
 
 
-            //m_Front = glm::normalize(glm::conjugate(m_Rotation) * glm::vec3(0, 0, 1));
-            //m_Up = glm::normalize(glm::conjugate(m_Rotation) * glm::vec3(0, 1, 0));
+            m_Front = glm::normalize(glm::conjugate(m_Rotation) * glm::vec3(0, 0, 1));
+            m_Up = glm::normalize(glm::conjugate(m_Rotation) * glm::vec3(0, 1, 0));
 
             //glm::vec3 a = glm::degrees(m_Rot);
             //std::cout << a.x << ", " << a.y << ", " << a.z << std::endl;
@@ -63,7 +78,7 @@ namespace dex
 
         isViewMatrixOld = false;
     }
-
+    
     void Camera::updateProjectionMatrix()
     {
         glm::ivec2& dim = Engine::window.getDimensions();

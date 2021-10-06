@@ -4,12 +4,14 @@
 
 #include "../Scene/Component/ModelComponent.hpp"
 #include "../Scene/Component/TransformComponent.hpp"
+#include "../Util/Logging.hpp"
 
 namespace dex
 {
     Renderer::Renderer(glm::uvec4 viewport)
     {
         glEnable(GL_DEPTH_TEST);
+
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
         //glFrontFace(GL_CW);
@@ -42,8 +44,8 @@ namespace dex
     void Renderer::setViewportSize(glm::uvec2 size)
     {
         m_ChangeProjectionMatrixNext = true;
-        std::cout << size.x << '\n';
         m_ScreenDimensions = size;
+
         glViewport(0, 0, m_ScreenDimensions.x, m_ScreenDimensions.y);
     }
 
@@ -71,7 +73,10 @@ namespace dex
         
         if (m_ChangeProjectionMatrixNext)
             scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).updateProjectionMatrix();
-        
+
+        Component::Transform& active_cam_transform = scene.m_Registry.get<Component::Transform>(scene.m_ActiveCameraID);
+        scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).update(active_cam_transform.getPosition(), active_cam_transform.getRotationQuat());
+
         shader->setProjectionViewMatrix(scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).getProjectionViewMatrix());
 
         auto& model_view = scene.m_Registry.view<Component::Model>();

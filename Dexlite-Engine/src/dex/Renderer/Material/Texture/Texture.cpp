@@ -1,8 +1,8 @@
 #include "Texture.hpp"
 
 #include <glad/glad.h>
-
 #include <stb_image.h>
+
 #include <iostream>
 
 #include "../../../Util/Logging.hpp"
@@ -30,7 +30,7 @@ namespace dex
         }
 
         // load image, create texture, and generate mipmaps
-        stbi_set_flip_vertically_on_load(true);
+        //stbi_set_flip_vertically_on_load(true);
 
         int width, height, nrChannels;
         unsigned char* data = stbi_load(src, &width, &height, &nrChannels, 0); // maybe change to 0 from 43
@@ -73,7 +73,7 @@ namespace dex
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, (sampler.magFilter != -1) ? sampler.magFilter : GL_LINEAR);
 
         // Manually vertically flip image because tinygltf doesn't do it for us.
-        stbi__vertical_flip(&image.at(0), dimensions.x, dimensions.y, sizeof(unsigned int));
+        //stbi__vertical_flip(&image.at(0), dimensions.x, dimensions.y, sizeof(unsigned int));
 
         glTexImage2D(GL_TEXTURE_2D, 0, format, dimensions.x, dimensions.y, 0, format, GL_UNSIGNED_BYTE, &image.at(0));
         

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/vec4.hpp>
+
 #include "../Scene/Scene.hpp"
 #include "Shader/ShaderManager.hpp"
 #include "Material/MaterialManager.hpp"
@@ -40,7 +41,7 @@ namespace dex
 
         ImGuiAPI m_ImGuiAPI;
 
-        glm::uvec2 m_ScreenDimensions;
+        glm::uvec2 m_ScreenDimensions = glm::uvec2(0);
 
         //std::vector<Entity> m_EntityRenderingQueue;
 
