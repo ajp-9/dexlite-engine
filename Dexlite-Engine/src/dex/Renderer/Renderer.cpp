@@ -15,7 +15,7 @@ namespace dex
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
         //glFrontFace(GL_CW);
-        //glEnable(GL_CULL_FACE);
+        //glEnable(GL_CULL_FACE); // do w materials
         //glCullFace(GL_BACK);
         glClearColor(.1, .1, .1, 1.0f); // Clear the color buffer
     }

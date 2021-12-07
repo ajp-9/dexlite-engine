@@ -8,12 +8,12 @@ namespace dex
 {
     bool Input::getKeyState(Event::Key e)
     {
-        return (!areKeyEventsHalted) && (glfwGetKey(dex::Engine::window.m_Window_GLFW, int32(e)) == GLFW_PRESS);
+        return (!m_AreKeyEventsHalted) && (glfwGetKey(dex::Engine::window.m_Window_GLFW, int32(e)) == GLFW_PRESS);
     }
 
     bool Input::isKeyPressed(Event::Key e)
     {
-        if (!areKeyEventsHalted)
+        if (!m_AreKeyEventsHalted)
             for (auto& evnt : m_KeyEvents)
                 if (evnt.m_Type == Event::Type::KEY_PRESS && evnt.m_KeyCode == e)
                     return true;
@@ -23,7 +23,7 @@ namespace dex
 
     bool Input::isKeyReleased(Event::Key e)
     {
-        if (!areKeyEventsHalted)
+        if (!m_AreKeyEventsHalted)
             for (auto& evnt : m_KeyEvents)
                 if (evnt.m_Type == Event::Type::KEY_RELEASE && evnt.m_KeyCode == e)
                     return true;
@@ -33,7 +33,7 @@ namespace dex
 
     glm::dvec2 Input::getMousePosition()
     {
-        if (!areMouseEventsHalted)
+        if (!m_AreMouseEventsHalted)
         {
             glm::dvec2 tmp_pos;
             glfwGetCursorPos(Engine::window.m_Window_GLFW, &tmp_pos.x, &tmp_pos.y);
@@ -45,7 +45,7 @@ namespace dex
 
     glm::dvec2 Input::getMousePosChange()
     {
-        if (!areMouseEventsHalted)
+        if (!m_AreMouseEventsHalted)
             for (auto& evnt : m_MouseEvents)
                 if (evnt.m_Type == Event::Type::MOUSE && evnt.m_MouseType == Event::MouseType::MOVE)
                     return evnt.m_MousePosChange;
@@ -55,7 +55,7 @@ namespace dex
 
     Event::MouseEvent Input::getMousePressed(Event::MouseButton btn)
     {
-        if (!areMouseEventsHalted)
+        if (!m_AreMouseEventsHalted)
             for (auto& evnt : m_MouseEvents)
                 if (evnt.m_Type == Event::Type::MOUSE && evnt.m_MouseType == Event::MouseType::BUTTON_PRESS && evnt.m_MouseButton == btn)
                     return evnt;
@@ -65,7 +65,7 @@ namespace dex
 
     Event::MouseEvent Input::getMouseReleased(Event::MouseButton btn)
     {
-        if (!areMouseEventsHalted)
+        if (!m_AreMouseEventsHalted)
             for (auto& evnt : m_MouseEvents)
                 if (evnt.m_Type == Event::Type::MOUSE && evnt.m_MouseType == Event::MouseType::BUTTON_RELEASE && evnt.m_MouseButton == btn)
                     return evnt;
@@ -75,7 +75,7 @@ namespace dex
 
     bool Input::isMousePressed(Event::MouseButton btn)
     {
-        if (!areMouseEventsHalted)
+        if (!m_AreMouseEventsHalted)
             for (auto& evnt : m_MouseEvents)
                 if (evnt.m_Type == Event::Type::MOUSE && evnt.m_MouseType == Event::MouseType::BUTTON_PRESS && evnt.m_MouseButton == btn)
                     return true;
@@ -85,7 +85,7 @@ namespace dex
 
     bool Input::isMouseReleased(Event::MouseButton btn)
     {
-        if (!areMouseEventsHalted)
+        if (!m_AreMouseEventsHalted)
             for (auto& evnt : m_MouseEvents)
                 if (evnt.m_Type == Event::Type::MOUSE && evnt.m_MouseType == Event::MouseType::BUTTON_RELEASE && evnt.m_MouseButton == btn)
                     return true;
@@ -95,18 +95,18 @@ namespace dex
 
     void Input::stopEvents()
     {
-        areKeyEventsHalted = true;
-        areMouseEventsHalted = true;
+        m_AreKeyEventsHalted = true;
+        m_AreMouseEventsHalted = true;
     }
 
     void Input::stopKeyEvents()
     {
-        areKeyEventsHalted = true;
+        m_AreKeyEventsHalted = true;
     }
 
     void Input::stopMouseEvents()
     {
-        areMouseEventsHalted = true;
+        m_AreMouseEventsHalted = true;
     }
 
     void Input::pushKeyEvent(Event::KeyEvent e)
@@ -121,9 +121,9 @@ namespace dex
 
     void Input::resetInput()
     {
-        areKeyEventsHalted = false;
+        m_AreKeyEventsHalted = false;
         m_KeyEvents.clear();
-        areMouseEventsHalted = false;
+        m_AreMouseEventsHalted = false;
         m_MouseEvents.clear();
     }
 }

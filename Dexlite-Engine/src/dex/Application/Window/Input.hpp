@@ -15,6 +15,9 @@ namespace dex
         bool isKeyPressed(Event::Key e);
         bool isKeyReleased(Event::Key e);
 
+        bool getAreKeyEventsHalted() { return m_AreKeyEventsHalted; }
+        bool getAreMouseEventsHalted() { return m_AreMouseEventsHalted; }
+
         glm::dvec2 getMousePosition();
         glm::dvec2 getMousePosChange();
 
@@ -41,8 +44,8 @@ namespace dex
         std::vector<Event::KeyEvent> m_KeyEvents;
         std::vector<Event::MouseEvent> m_MouseEvents;
 
-        bool areKeyEventsHalted = false;
-        bool areMouseEventsHalted = false;
+        bool m_AreKeyEventsHalted = false;
+        bool m_AreMouseEventsHalted = false;
 
         friend class Window;
     };

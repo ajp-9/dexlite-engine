@@ -28,7 +28,7 @@ namespace dex
         const glm::mat4& getProjectionMatrix()
         {
             if (isProjectionMatrixOld)
-                updateProjectionMatrix(); 
+                updateProjectionMatrix();
 
             return m_ProjectionMatrix;
         }
@@ -40,7 +40,7 @@ namespace dex
         // Called everytime you change the screen dimensions or the camera's fov, size, near, or far.
         void updateProjectionMatrix();
     protected:
-    public:
+    //public:
         CameraType m_Type = CameraType::ORTHOGRAPHIC;
 
         bool isViewMatrixOld = true;

@@ -13,7 +13,7 @@ public:
     virtual void render() override;
 private:
     dex::Scene m_Scene;
-    dex::Entity m_Player = { &m_Scene };
-    dex::Entity m_Entity = { &m_Scene };
-    dex::Entity m_Entity2 = { &m_Scene };
+    dex::Entity m_Player = m_Scene.createEntity();
+    dex::Entity m_Entity = m_Scene.createEntity();
+    dex::Entity m_Entity2 = m_Scene.createEntity();
 };

@@ -13,6 +13,7 @@ namespace dex
     {
         glGenTextures(1, &m_ID);
         bind(); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+
         // set the texture wrapping parameters
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

@@ -10,11 +10,13 @@ namespace dex
         struct Model
         {
             Model() {}
+
             Model(const std::vector<Vertex3D::Default>& vertices,
                 const std::vector<uint32_t>& indices,
                 std::shared_ptr<Material::Default3D> material)
                 : m_Mesh(vertices, indices), m_Material(material)
             {}
+
             Model(Mesh::Default3D& mesh,
                 std::shared_ptr<Material::Default3D> material)
                 : m_Mesh(mesh), m_Material(material)

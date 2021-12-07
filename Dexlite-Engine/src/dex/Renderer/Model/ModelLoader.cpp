@@ -55,6 +55,7 @@ namespace dex
                 std::vector<glm::vec3> positions;
                 std::vector<glm::vec3> normals;
                 std::vector<glm::vec2> texCoords;
+
                 glm::vec4 baseColor = glm::vec4(1);
 
                 if (model.materials.size())
@@ -166,7 +167,7 @@ namespace dex
                 }
                 else
                 {
-                    DEX_LOG_ERROR("<ModelLoader::loadGLTF>: Only 1 texture for baseColorTexture.");
+                    DEX_LOG_ERROR("<dex::ModelLoader::loadGLTF>: Only 1 texture for baseColorTexture.");
                 }
             }
         }
@@ -187,7 +188,6 @@ namespace dex
         glm::mat3 transformationMatrix =
             glm::translate(glm::mat4(1.0f), meshTransformation_Final.m_Translation) *
             glm::toMat4(meshTransformation_Final.m_Rotation) *
-            //glm::toMat4(glm::quat(glm::vec3(0))) *
             glm::scale(glm::mat4(1.0f), meshTransformation_Final.m_Scale);
 
         for (auto& vertex : vertices)
@@ -208,8 +208,14 @@ namespace dex
         {
             // It works, don't fix it.
 
-            //auto& q = glm::eulerAngles(glm::quat(node.rotation.at(3), node.rotation.at(0), -node.rotation.at(2), node.rotation.at(1)));
-            auto& eRot = glm::eulerAngles(glm::quat(node.rotation.at(3), node.rotation.at(0), node.rotation.at(1), node.rotation.at(2)));
+            auto& eRot = glm::eulerAngles(
+                glm::quat(
+                    float(node.rotation.at(3)),
+                    float(node.rotation.at(0)),
+                    float(node.rotation.at(1)),
+                    float(node.rotation.at(2))
+                )
+            );
 
             meshTransformation_Current.m_Rotation *= glm::quat(glm::vec3(-eRot.x, -eRot.y, eRot.z));
         }

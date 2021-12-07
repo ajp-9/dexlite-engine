@@ -17,7 +17,7 @@ void WorldLayer::Attach()
 
     camera.updateProjectionMatrix();
     camera.updateViewMatrix();
-
+    
     dex::Engine::window.setCaptureMouse(true);
 
     std::vector<dex::Vertex3D::Default> vertices;
@@ -36,6 +36,9 @@ void WorldLayer::Detach()
 
 void WorldLayer::update()
 {
+    auto f = [](std::vector<dex::Entity>& entities) { DEX_LOG_INFO("REEEEE: {}", entities.size()); };
+    m_Scene.doCustumUpdate(f);
+
     auto& player_trans = m_Player.getComponent<dex::Component::Transform>();
 
     auto& m = Engine::window.input.getMousePosChange() * .0025;
@@ -68,11 +71,10 @@ void WorldLayer::update()
     if (Engine::window.input.getKeyState(dex::Event::Key::G))
         player_trans.rotateByEuler(glm::vec3(.1, 0, 0));
 
-    // LMAO WTF IT WORKED??!!
-    player_trans.rotatePitch(m.y);
-    player_trans.rotateYaw(-m.x);
 
-    //player_trans.setRotationEuler(glm::vec3(player_trans.getRotationRadians().x, player_trans.getRotationRadians().y, 0));
+    player_trans.rotateByQuat(glm::quat(glm::vec3(0, -m.x, 0)));
+    player_trans.rotateByQuatLocal(glm::quat(glm::vec3(m.y, 0, 0)));
+
 
     if (Engine::window.input.getKeyState(dex::Event::Key::KB_1))
         dex::Engine::window.setFullscreen();
@@ -90,6 +92,7 @@ void WorldLayer::update()
 
 void WorldLayer::render()
 {
+    /*
     //auto& model = m_Player.getComponent<dex::Component::Model>();
 
     //model.m_Material->m_Shader->bind();
@@ -133,10 +136,10 @@ void WorldLayer::render()
     auto& trans = m_Entity.getComponent<dex::Component::Transform>();
 
     trans.setPosition(glm::vec3(posX, posY, posZ));
-    trans.m_Rotation = glm::quat(glm::radians(glm::vec3(rotX, rotY, rotZ)));
+    //trans.m_Rotation = glm::quat(glm::radians(glm::vec3(rotX, rotY, rotZ)));
     trans.setScale(glm::vec3(scale, scale, scale));
-
+    */
     Engine::renderer.renderScene(m_Scene);
 
-    ImGui::End();
+    //ImGui::End();
 }

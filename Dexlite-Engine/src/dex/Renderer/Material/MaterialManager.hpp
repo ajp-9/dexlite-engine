@@ -6,7 +6,7 @@ namespace dex
 {
     namespace Material
     {
-        class Manager // reee materials are just values attached to specific shaders
+        class Manager // reeeee materials are just values attached to specific shaders
         {
         public:
             Manager();

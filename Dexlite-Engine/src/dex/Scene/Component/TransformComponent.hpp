@@ -4,6 +4,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
+#include "../../Util/Logging.hpp"
+
 namespace dex
 {
     namespace Component
@@ -16,6 +18,11 @@ namespace dex
                 calculateTransformation();
             }
 
+            Transform operator+(const Transform& other)
+            {
+                return Transform(m_Position + other.m_Position, m_Rotation * other.m_Position, m_Scale * other.m_Scale);
+            }
+
             void setPosition(const glm::vec3& position) { m_Position = position; calculateTransformation(); }
             void setRotationQuat(const glm::quat& rotation) { m_Rotation = rotation; calculateTransformation(); }
             void setRotationEuler(const glm::vec3& rotation) { m_Rotation = glm::quat(rotation); calculateTransformation(); }
@@ -26,16 +33,43 @@ namespace dex
             void rotateByEuler(const glm::vec3& amount) { m_Rotation = glm::normalize(m_Rotation * glm::quat(amount)); calculateTransformation(); }
             void scaleBy(const glm::vec3& amount) { m_Scale *= amount; calculateTransformation(); }
 
-            void rotatePitch(float amount)
+            /*void rotatePitchNYawBy(float pitch_amount, float yaw_amount)
             {
+                auto rot_euler_deg = glm::degrees(glm::eulerAngles(m_Rotation));
+                auto rot_after_pitch = glm::quat(glm::vec3(pitch_amount, 0, 0)) * m_Rotation;
+
+                auto what = glm::degrees(glm::eulerAngles(glm::inverse(m_Rotation)));
+
+                //DEX_LOG_WARN("{0:0.2f}, {1:0.2f}, {2:0.2f}, {2:0.2f}", rot_after_pitch.x, rot_after_pitch.y, rot_after_pitch.z, rot_after_pitch.w);
+                //DEX_LOG_WARN("{0:0.3f}, {1:0.3f}, {2:0.3f}", rot_euler_deg.x, rot_euler_deg.y, rot_euler_deg.z);
+                //DEX_LOG_WARN("{0:0.3f}, {1:0.3f}, {2:0.3f}", m_Forward.x, m_Forward.y, m_Forward.z);
+                DEX_LOG_WARN("{0:0.3f}, {1:0.3f}, {2:0.3f}", what.x, what.y, what.z);
+
+                if (rot_euler_deg.x + pitch_amount > 90 && rot_euler_deg.y > 0)
+                    "t";
+                //else
+                    m_Rotation = glm::quat(glm::vec3(pitch_amount, 0, 0)) * m_Rotation;
+
+                m_Rotation = m_Rotation * glm::quat(glm::vec3(0, yaw_amount, 0));
+
+                calculateTransformation();
+            }
+
+            // Useful for FPS Cameras. Will stop rotating pitch at +/- 90 degrees;
+            void rotatePitchEuler(float amount)
+            {
+                //if (glm::degrees(glm::eulerAngles(m_Rotation).x) + glm::degrees(amount) > 90)
+                //    m_Rotation = glm::quat(90)
+
                 m_Rotation = glm::quat(glm::vec3(amount, 0, 0)) * m_Rotation;
                 calculateTransformation();
             }
-            void rotateYaw(float amount)
+
+            void rotateYawEuler(float amount)
             {
                 m_Rotation = m_Rotation * glm::quat(glm::vec3(0, amount, 0));
                 calculateTransformation();
-            }
+            }*/
 
             // Right, Up, and Forward.
             void moveByLocal(const glm::vec3& amount) { m_Position += (amount.x * m_Right) + (amount.y * m_Up) + (amount.z * m_Forward); calculateTransformation(); }
@@ -55,7 +89,6 @@ namespace dex
 
             operator const glm::mat4&() const { return m_TransformationMatrix; }
         private:
-        public:
             glm::mat4 m_TransformationMatrix;
 
             glm::vec3 m_Forward;

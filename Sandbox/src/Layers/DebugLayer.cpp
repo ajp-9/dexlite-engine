@@ -5,9 +5,8 @@
 
 void DebugLayer::render()
 {
-    /*
     static ImGuiIO& io = ImGui::GetIO(); (void)io;
-
+    
     static bool show_another_window = false;
     static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
@@ -17,6 +16,8 @@ void DebugLayer::render()
 
     ImGui::Begin("Debug Window");                          // Create a window called "Hello, world!" and append into it.
 
+    ImGui::Columns(2);
+    
     static char txt[500];
     ImGui::InputText("Texti: ", txt, 500);
 
@@ -27,7 +28,7 @@ void DebugLayer::render()
 
     if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
         counter++;
-    ImGui::SameLine();
+    ImGui::NextColumn();
 
     ImGui::Text("counter = %d", counter);
 
@@ -42,5 +43,5 @@ void DebugLayer::render()
         if (ImGui::Button("Close Me"))
             show_another_window = false;
         ImGui::End();
-    }*/
+    }
 }

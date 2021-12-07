@@ -2,9 +2,6 @@
 
 #include "../Core/Engine.hpp"
 #include "Entity/Entity.hpp"
-#include "Component/TagComponent.hpp"
-#include "Component/ModelComponent.hpp"
-#include "Component/TransformComponent.hpp"
 #include "../Renderer/Shader/ShaderManager.hpp"
 #include "../Util/Logging.hpp"
 
@@ -16,9 +13,8 @@ namespace dex
 
     Entity Scene::createEntity()
     {
-        Entity entity = Entity(m_Registry.create(), this);
-        entity.addComponent<Component::Tag>();
-        entity.addComponent<Component::Transform>();
+        Entity entity = Entity(this);
+        m_Entities.push_back(entity);
 
         return entity;
     }
@@ -30,7 +26,7 @@ namespace dex
 
     void Scene::update()
     {
-
+        
     }
 
     void Scene::physics()
