@@ -22,12 +22,11 @@ namespace dex
         m_Far = far_plane;
     }
 
-    void Camera::update(const glm::vec3& position, const glm::quat& rotation)
+    void Camera::update(const glm::mat4& transformation_matrix)
     {
-        if (m_Position != position || m_Rotation != rotation)
+        if (m_TransformationMatrix != transformation_matrix)
         {
-            m_Position = position;
-            m_Rotation = rotation;
+            m_TransformationMatrix = transformation_matrix;
 
             updateViewMatrix();
         }
@@ -37,41 +36,18 @@ namespace dex
     {
         if (m_Type == CameraType::ORTHOGRAPHIC)
         {
-            m_ViewMatrix = glm::translate(glm::mat4(1.0f), m_Position) * glm::toMat4(m_Rotation);
+            glm::vec3 position = glm::vec3(m_TransformationMatrix[3]);
+
+            m_ViewMatrix = glm::translate(glm::mat4(1.0f), position) * glm::toMat4(glm::quat(m_TransformationMatrix));
         }
         else if (m_Type == CameraType::PERSPECTIVE)
         {
-            //m_Up = glm::normalize(m_Rotation * glm::vec3(0, 1, 0));
+            m_Front = glm::quat(m_TransformationMatrix) * glm::vec3(0, 0, 1);
+            m_Up = glm::quat(m_TransformationMatrix) * glm::vec3(0, 1, 0);
 
-            auto& rot = glm::eulerAngles(m_Rotation);
+            glm::vec3 position = glm::vec3(m_TransformationMatrix[3]);
 
-            /*m_Front.x = cos(rot.y) * cos(rot.x);
-            m_Front.y = sin(rot.x);
-            m_Front.z = sin(rot.y) * cos(rot.x);
-            m_Front = glm::normalize(m_Front);
-            
-            m_Up = glm::normalize(glm::cross(m_Front, glm::vec3(1, 0, 0)));*/
-
-            /*glm::vec3& rot_e = glm::eulerAngles(m_Rotation);
-            glm::quat QuatAroundX = glm::angleAxis(rot_e.x, glm::vec3(1.0, 0.0, 0.0));
-            glm::quat QuatAroundY = glm::angleAxis(rot_e.y, glm::vec3(0.0, 1.0, 0.0));
-            glm::quat QuatAroundZ = glm::angleAxis(rot_e.z, glm::vec3(0.0, 0.0, 1.0));
-            glm::quat finalOrientation = glm::normalize(QuatAroundX * QuatAroundY * QuatAroundZ);
-            m_Rotation = finalOrientation;*/
-
-
-
-
-            m_Front = glm::normalize(glm::conjugate(m_Rotation) * glm::vec3(0, 0, 1));
-            m_Up = glm::normalize(glm::conjugate(m_Rotation) * glm::vec3(0, 1, 0));
-
-            //glm::vec3 a = glm::degrees(m_Rot);
-            //std::cout << a.x << ", " << a.y << ", " << a.z << std::endl;
-
-            //glm::quatLookAt()
-            // make position more player relative
-
-            m_ViewMatrix = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
+            m_ViewMatrix = glm::lookAt(position, position + m_Front, m_Up);
         }
         
         m_ProjectionViewMatrix = m_ProjectionMatrix * m_ViewMatrix;

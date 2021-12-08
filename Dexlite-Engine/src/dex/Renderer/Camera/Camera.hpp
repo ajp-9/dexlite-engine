@@ -15,7 +15,7 @@ namespace dex
         void setOrthographic(float32 size, float32 near, float32 far);
         void setPerspective(float32 fov, float32 near, float32 far);
 
-        void update(const glm::vec3& position, const glm::quat& rotation);
+        void update(const glm::mat4& transformation_matrix);
 
         const glm::mat4& getViewMatrix()
         { 
@@ -58,9 +58,7 @@ namespace dex
         float32 m_Persp_FOV = glm::radians(70.0f);
 
         // Shared ---
-        glm::vec3 m_Position = glm::vec3(0.0f);
-        glm::quat m_Rotation = glm::quat(glm::vec3(0.0f));
-        //glm::vec3 m_Rot = glm::vec3(0.0f);
+        glm::mat4 m_TransformationMatrix = glm::mat4(1.0f);
 
         float32 m_Near = 0.01f;
         float32 m_Far = 1000.0f;

@@ -15,78 +15,54 @@ namespace dex
     // Does not need to be a shared pointer, since its small contents (handle ID and ptr to registry) would remain constant between its instances.
     class Entity
     {
-    private:
-        // Creates a new entity.
-        Entity(Scene* scene)
-            : m_Handle(scene->m_Registry.create()), m_Scene(scene)
-        {
-            addComponent<Component::Tag>();
-            addComponent<Component::Transform>();
-
-            addComponent<ChildrenHandles>();
-        }
     public:
+        // Creates a new entity, and adds it to the scene's entity vector.
+        Entity(Scene* scene);
         // Creates a new class from a pre-existing entity handle.
-        Entity(entt::entity handle, Scene* scene)
-            : m_Handle(handle), m_Scene(scene)
-        {}
+        Entity(entt::entity handle, Scene* scene);
 
         // Destroys the handle in the registry. This class would remain intact and should be disgarded afterwards.
-        void destroy()
-        {
-            destroyChildren();
-
-            m_Scene->m_Registry.destroy(m_Handle);
-        }
+        void destroy();
 
         // Destroys all its children in the registry. Their classes would remain intact and should be disgarded afterwards.
-        void destroyChildren()
-        {
-            auto& children_handles = getChildrenHandles();
-
-            for (entt::entity child_handle : children_handles)
-            {
-                m_Scene->m_Registry.destroy(child_handle);
-            }
-
-            children_handles.clear();
-        }
+        void destroyChildren();
 
         bool isEntityValid()
         {
             return m_Scene->m_Registry.valid(m_Handle);
         }
 
-        void addChild(Entity child)
+        Entity addNewChild();
+
+        inline void addChild(Entity child)
         {
-            getChildrenHandles().push_back(child.m_Handle);
-        }
+            getChildrenHandles().push_back(child.m_Handle); 
+        };
 
         void addChild(entt::entity child_handle)
-        {
+        { 
             getChildrenHandles().push_back(child_handle);
         }
 
-        void removeChild(Entity child, bool destroy_handle = false)
+        void removeChild(Entity child, bool destroy_handle = false);
+
+        inline std::vector<entt::entity>& getChildrenHandles();
+
+        void updateChildrenTransform()
         {
-            auto& children_handles = getChildrenHandles();
-
-            auto& it = std::find(children_handles.begin(), children_handles.end(), child);
-
-            if (it != children_handles.end())
+            if (getComponent<Component::Transform>().m_FlagChanged)
             {
-                children_handles.erase(it);
+                auto& children_handles = getChildrenHandles();
 
-                if (destroy_handle)
-                    m_Scene->m_Registry.destroy(child);
+                for (entt::entity child_handle : children_handles)
+                {
+                    Component::Transform& child_transform = m_Scene->m_Registry.get<Component::Transform>(child_handle);
+
+                    child_transform.setParentTransformationMatrix(getComponent<Component::Transform>().getTransformationMatrix());
+                }
+
+                getComponent<Component::Transform>().m_FlagChanged = false;
             }
-            else
-                DEX_LOG_ERROR("<dex::Entity::removeChild>: Entity (ID: {}), is not in ChildrenHandles component of Entity (ID: {}).", child.m_Handle, m_Handle);
-        }
-
-        inline std::vector<entt::entity>& getChildrenHandles()
-        {
-            return getComponent<ChildrenHandles>();
         }
 
         template<typename T, typename... Args>
@@ -100,27 +76,27 @@ namespace dex
         template <typename T>
         inline void removeComponent()
         {
-            m_Scene->m_Registry.remove<T>(m_Handle);
+            m_Scene->m_Registry.remove<T>(m_Handle); 
         }
 
         template <typename T>
         inline T& getComponent()
-        {
-            return m_Scene->m_Registry.get<T>(m_Handle);
+        { 
+            return m_Scene->m_Registry.get<T>(m_Handle); 
         }
 
         template <typename T>
         inline bool hasComponent()
-        {
+        { 
             return m_Scene->m_Registry.has<T>(m_Handle);
         }
 
-        operator entt::entity() const;
+        operator entt::entity() const { return m_Handle; };
         bool operator==(const Entity& other);
     private:
         const entt::entity m_Handle;
         Scene* m_Scene = nullptr;
 
-        friend Scene;
+        friend class Scene;
     };
 }

@@ -75,7 +75,7 @@ namespace dex
             scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).updateProjectionMatrix();
 
         Component::Transform& active_cam_transform = scene.m_Registry.get<Component::Transform>(scene.m_ActiveCameraID);
-        scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).update(active_cam_transform.getPosition(), active_cam_transform.getRotationQuat());
+        scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).update(active_cam_transform.getTransformationMatrix());
 
         shader->setProjectionViewMatrix(scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).getProjectionViewMatrix());
 

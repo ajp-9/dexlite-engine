@@ -13,10 +13,7 @@ namespace dex
 
     Entity Scene::createEntity()
     {
-        Entity entity = Entity(this);
-        m_Entities.push_back(entity);
-
-        return entity;
+        return Entity(this);
     }
 
     void Scene::destroyEntity(Entity entity)
@@ -26,11 +23,13 @@ namespace dex
 
     void Scene::update()
     {
-        
+        for (auto& e : m_Entities)
+            e.updateChildrenTransform();
     }
 
     void Scene::physics()
     {
+
     }
 
     void Scene::findNSetActiveCamera()

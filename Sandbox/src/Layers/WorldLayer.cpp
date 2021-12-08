@@ -23,11 +23,18 @@ void WorldLayer::Attach()
     std::vector<dex::Vertex3D::Default> vertices;
 
     std::vector<uint32> indices;
+    
 
-    m_Entity.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/warlock.glb", true));
-    m_Entity2.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/xyz.glb", true));
-    m_Entity2.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 3.5));
-    m_Entity2.getComponent<dex::Component::Transform>().setScale(glm::vec3(.05));
+    m_Warlock.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/warlock.glb", true));
+    m_XYZ.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/xyz.glb", true));
+    m_XYZ.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 3.5));
+    m_XYZ.getComponent<dex::Component::Transform>().setScale(glm::vec3(.05));
+
+    m_Warlock.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 5));
+    //m_Warlock.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(15, 0, 0));
+
+    m_Player.addChild(m_XYZ);
+    m_Warlock.addChild(m_Player);
 }
 
 void WorldLayer::Detach()
@@ -36,14 +43,16 @@ void WorldLayer::Detach()
 
 void WorldLayer::update()
 {
-    auto f = [](std::vector<dex::Entity>& entities) { DEX_LOG_INFO("REEEEE: {}", entities.size()); };
-    m_Scene.doCustumUpdate(f);
+    m_Warlock.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(glm::radians(.01), 0, 0));
+    //m_Warlock.getComponent<dex::Component::Transform>().scaleByLocal(glm::vec3(1.001, 1.001, 1.001));
+
+    //m_XYZ.getComponent<dex::Component::Transform>().moveBy(glm::vec3(0, 0, .001));
 
     auto& player_trans = m_Player.getComponent<dex::Component::Transform>();
 
-    auto& m = Engine::window.input.getMousePosChange() * .0025;
+    //player_trans.logAsInfo();
 
-    auto& ent = m_Entity.getComponent<dex::Component::Transform>();
+    auto& m = Engine::window.input.getMousePosChange() * .0025;
 
     // transform needs move by LOCAL
 
@@ -72,8 +81,12 @@ void WorldLayer::update()
         player_trans.rotateByEuler(glm::vec3(.1, 0, 0));
 
 
-    player_trans.rotateByQuat(glm::quat(glm::vec3(0, -m.x, 0)));
-    player_trans.rotateByQuatLocal(glm::quat(glm::vec3(m.y, 0, 0)));
+    player_trans.rotateByEulerLocal((glm::vec3(0, m.x, 0)));
+    player_trans.rotateByEuler((glm::vec3(-m.y, 0, 0)));
+
+
+    //player_trans.rotateByQuat(glm::quat(glm::vec3(0, -m.x, 0)));
+    //player_trans.rotateByQuatLocal(glm::quat(glm::vec3(m.y, 0, 0)));
 
 
     if (Engine::window.input.getKeyState(dex::Event::Key::KB_1))
@@ -86,6 +99,8 @@ void WorldLayer::update()
         dex::Engine::window.setCaptureMouse(true);
     if (Engine::window.input.getKeyState(dex::Event::Key::P))
         dex::Engine::window.setCaptureMouse(false);
+
+    m_Scene.update();
 
     Engine::window.input.stopEvents();
 }
