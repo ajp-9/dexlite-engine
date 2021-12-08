@@ -8,7 +8,7 @@
 
 namespace dex
 {
-    Renderer::Renderer(glm::uvec4 viewport)
+    Renderer::Renderer()
     {
         glEnable(GL_DEPTH_TEST);
 

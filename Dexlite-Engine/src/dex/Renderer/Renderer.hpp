@@ -12,7 +12,7 @@ namespace dex
     class Renderer
     {
     private:
-        Renderer(glm::uvec4 viewport);
+        Renderer();
         ~Renderer();
 
         void beginFrame();

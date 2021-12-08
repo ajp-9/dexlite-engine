@@ -15,6 +15,8 @@ private:
     dex::Scene m_Scene;
 
     dex::Entity m_Player = { &m_Scene };
+    dex::Entity m_Head = { &m_Scene };
+
     dex::Entity m_XYZ = { &m_Scene };
     dex::Entity m_Warlock = { &m_Scene };
 };

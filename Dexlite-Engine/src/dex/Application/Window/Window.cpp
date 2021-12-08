@@ -197,7 +197,12 @@ namespace dex
 
         glfwSetWindowMonitor(m_Window_GLFW, glfwGetPrimaryMonitor(), 0, 0, vid->width, vid->height, mode->refreshRate);
 
-        //glfwSwapInterval(1);
+        /*static bool first = true;
+        if (first)
+        {
+            glfwSwapInterval(1);
+            first = false;
+        }*/
     }
 
     glm::ivec2 Window::getDimensions()

@@ -2,28 +2,22 @@
 
 #include <thread>
 #include <iostream>
+#include <GLFW/glfw3.h>
 
-void dex::DeltaTime::start()
+void dex::DeltaTime::doCycle()
 {
-    m_startTimepoint = std::chrono::high_resolution_clock::now();
-}
-
-void dex::DeltaTime::end()
-{
-    auto endTimepoint = std::chrono::high_resolution_clock::now();
-    auto start = std::chrono::time_point_cast<std::chrono::nanoseconds>(m_startTimepoint).time_since_epoch().count();
-    auto end = std::chrono::time_point_cast<std::chrono::nanoseconds>(endTimepoint).time_since_epoch().count();
-
-    auto ns = end - start;
-    m_LastTimeDuration_ms = ns * .000001;
+    float32 current_time = glfwGetTime();
+    m_DeltaTime = (m_LastTime_ms > 0.0f) ? current_time - m_LastTime_ms : 0;
+    std::cout << m_DeltaTime << "\n";
+    m_LastTime_ms = current_time;
 }
 
 void dex::DeltaTime::sleep()
 {
     if (!m_SleepInstead)
     {
-        auto last = getCurrentTime();
-        while (getCurrentTime() < last + (1000.0f / m_FPS) - .5) {}
+        float32 last = m_DeltaTime;
+        while (glfwGetTime() < m_LastTime_ms + (1.0f / m_FPS)) {}
     }
     else
     {
@@ -34,12 +28,12 @@ void dex::DeltaTime::sleep()
 
 float32 dex::DeltaTime::getDeltaTime()
 {
-    return m_LastTimeDuration_ms;
+    return m_DeltaTime;
 }
 
 float32 dex::DeltaTime::getFPS()
 {
-    return float32(1000) / m_LastTimeDuration_ms;
+    return float32(1000) / m_LastTime_ms;
 }
 
 float32 dex::DeltaTime::getCurrentTime()

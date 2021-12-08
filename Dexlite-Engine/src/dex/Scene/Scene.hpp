@@ -4,7 +4,6 @@
 
 #include "Component/CameraComponent.hpp"
 
-
 namespace dex
 {
     class Entity;
@@ -23,9 +22,9 @@ namespace dex
 
         // Lambda must have "std::vector<dex::Entity>& entities" as its sole argument.
         template <typename F>
-        void doCustumUpdate(F update_func)
+        void doCustumUpdate(F custom_update_func)
         {
-            update_func(m_Entities);
+            custom_update_func(m_Entities);
         }
 
         void findNSetActiveCamera();

@@ -27,7 +27,7 @@ namespace dex
 
         while (s_Running)
         {
-            deltaTime.start();
+            deltaTime.doCycle();
 
             // Updating/events -------------
             s_Program->update();
@@ -49,7 +49,6 @@ namespace dex
             window.update();
 
             deltaTime.sleep();
-            deltaTime.end();
 
             if (!s_Running)
                 Shutdown();
@@ -68,7 +67,7 @@ namespace dex
     bool Engine::s_Running;
     //1280 720
     Window Engine::window(glm::uvec2(720, 720));
-    Renderer Engine::renderer = { glm::uvec4(0, 0, 600, 300) };
+    Renderer Engine::renderer;
     Layer::Manager Engine::layerManager;
 
     DeltaTime Engine::deltaTime(60);

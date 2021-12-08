@@ -33,6 +33,8 @@ void DebugLayer::render()
     ImGui::Text("counter = %d", counter);
 
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::Text("Delta Time: %.4f", ImGui::GetIO().DeltaTime);
+    ImGui::Text("Delta Time: %.4f", Engine::deltaTime.getDeltaTime());
     ImGui::End();
 
     // 3. Show another simple window.
