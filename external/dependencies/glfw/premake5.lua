@@ -50,7 +50,7 @@ project "glfw"
 			"src/cocoa_monitor.c",
 			"src/cocoa_window.c",
 			"src/cocoa_time.c",
-			"src/posix_module.c"
+			"src/posix_module.c",
 			"src/posix_thread.c",
 			"src/glx_context.c",
 			"src/egl_context.c",
