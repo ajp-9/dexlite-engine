@@ -44,7 +44,7 @@
 #include "Scene/Scene.hpp"
 
 #include "Util/Profile.hpp"
-#include "Util/Time/DeltaTime.hpp"
-#include "Util/Time/Timer.hpp"
+#include "Util/Time/Time.hpp"
+#include "Util/Time/Stopwatch.hpp"
 
 #include "Util/TypeDefs.hpp"

@@ -167,6 +167,8 @@ namespace dex
             m_WindowedPosition = getPosition();
         }
 
+        glfwSwapInterval(0);
+
         m_IsFullscreen = false;
 
         const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -180,6 +182,8 @@ namespace dex
             glm::ivec2 current_dims = getDimensions();
             glfwSetWindowMonitor(m_Window_GLFW, NULL, m_WindowedPosition.x, m_WindowedPosition.y, current_dims.x, current_dims.y, mode->refreshRate);
         }
+
+        glfwSwapInterval(1);
     }
 
     void Window::setFullscreen()
@@ -190,6 +194,8 @@ namespace dex
             m_WindowedPosition = getPosition();
         }
 
+        glfwSwapInterval(0);
+
         m_IsFullscreen = true;
 
         auto* vid = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -197,12 +203,7 @@ namespace dex
 
         glfwSetWindowMonitor(m_Window_GLFW, glfwGetPrimaryMonitor(), 0, 0, vid->width, vid->height, mode->refreshRate);
 
-        /*static bool first = true;
-        if (first)
-        {
-            glfwSwapInterval(1);
-            first = false;
-        }*/
+        glfwSwapInterval(1);
     }
 
     glm::ivec2 Window::getDimensions()

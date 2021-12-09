@@ -27,7 +27,7 @@ namespace dex
 
         while (s_Running)
         {
-            deltaTime.doCycle();
+            time.doCycle();
 
             // Updating/events -------------
             s_Program->update();
@@ -48,7 +48,7 @@ namespace dex
             // Swap buffers when FINISHED rendering & reset event queue 
             window.update();
 
-            deltaTime.sleep();
+            time.sleep();
 
             if (!s_Running)
                 Shutdown();
@@ -70,7 +70,7 @@ namespace dex
     Renderer Engine::renderer;
     Layer::Manager Engine::layerManager;
 
-    DeltaTime Engine::deltaTime(60);
+    Time Engine::time(60);
 
     std::shared_ptr<Program> Engine::s_Program;
 }

@@ -1,10 +1,10 @@
-#include "Timer.hpp"
+#include "Stopwatch.hpp"
 
 #include <iostream>
 
 namespace dex
 {
-    Timer::Timer(const char* name)
+    Stopwatch::Stopwatch(const char* name)
         : m_Name(name), m_Stopped(false)
     {
         if (m_Name == "")
@@ -13,13 +13,13 @@ namespace dex
         m_startTimepoint = std::chrono::high_resolution_clock::now();
     }
 
-    Timer::~Timer()
+    Stopwatch::~Stopwatch()
     {
         if (!m_Stopped)
             stop();
     }
 
-    void Timer::stop()
+    void Stopwatch::stop()
     {
         auto endTimepoint = std::chrono::high_resolution_clock::now();
         auto start = std::chrono::time_point_cast<std::chrono::nanoseconds>(m_startTimepoint).time_since_epoch().count();

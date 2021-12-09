@@ -28,44 +28,6 @@ namespace dex
             inline void rotateByEuler(const glm::vec3& amount) { m_Rotation = glm::normalize(m_Rotation * glm::quat(amount)); calculateTransformation(); }
             inline void scaleBy(const glm::vec3& amount) { m_Scale *= amount; calculateTransformation(); }
 
-            /*void rotatePitchNYawBy(float pitch_amount, float yaw_amount)
-            {
-                auto rot_euler_deg = glm::degrees(glm::eulerAngles(m_Rotation));
-                auto rot_after_pitch = glm::quat(glm::vec3(pitch_amount, 0, 0)) * m_Rotation;
-
-                auto what = glm::degrees(glm::eulerAngles(glm::inverse(m_Rotation)));
-
-                //DEX_LOG_WARN("{0:0.2f}, {1:0.2f}, {2:0.2f}, {2:0.2f}", rot_after_pitch.x, rot_after_pitch.y, rot_after_pitch.z, rot_after_pitch.w);
-                //DEX_LOG_WARN("{0:0.3f}, {1:0.3f}, {2:0.3f}", rot_euler_deg.x, rot_euler_deg.y, rot_euler_deg.z);
-                //DEX_LOG_WARN("{0:0.3f}, {1:0.3f}, {2:0.3f}", m_Forward.x, m_Forward.y, m_Forward.z);
-                DEX_LOG_WARN("{0:0.3f}, {1:0.3f}, {2:0.3f}", what.x, what.y, what.z);
-
-                if (rot_euler_deg.x + pitch_amount > 90 && rot_euler_deg.y > 0)
-                    "t";
-                //else
-                    m_Rotation = glm::quat(glm::vec3(pitch_amount, 0, 0)) * m_Rotation;
-
-                m_Rotation = m_Rotation * glm::quat(glm::vec3(0, yaw_amount, 0));
-
-                calculateTransformation();
-            }
-
-            // Useful for FPS Cameras. Will stop rotating pitch at +/- 90 degrees;
-            void rotatePitchEuler(float amount)
-            {
-                //if (glm::degrees(glm::eulerAngles(m_Rotation).x) + glm::degrees(amount) > 90)
-                //    m_Rotation = glm::quat(90)
-
-                m_Rotation = glm::quat(glm::vec3(amount, 0, 0)) * m_Rotation;
-                calculateTransformation();
-            }
-
-            void rotateYawEuler(float amount)
-            {
-                m_Rotation = m_Rotation * glm::quat(glm::vec3(0, amount, 0));
-                calculateTransformation();
-            }*/
-
             // Right, Up, and Forward.
             inline void moveByLocal(const glm::vec3& amount) { m_Position += (amount.x * m_Right) + (amount.y * m_Up) + (amount.z * m_Forward); calculateTransformation(); }
             inline void rotateByQuatLocal(const glm::quat& amount) { m_Rotation = amount * m_Rotation; calculateTransformation(); }
@@ -80,12 +42,6 @@ namespace dex
             
             void calculateTransformation()
             {
-                /*
-                m_Forward = glm::normalize(glm::conjugate(m_Rotation) * glm::vec3(0, 0, 1));
-                m_Up = glm::normalize(glm::conjugate(m_Rotation) * glm::vec3(0, 1, 0));
-                m_Right = glm::normalize(glm::conjugate(m_Rotation) * glm::vec3(1, 0, 0));
-                */
-
                 m_Forward = m_Rotation * glm::vec3(0, 0, 1);
                 m_Up = m_Rotation * glm::vec3(0, 1, 0);
                 m_Right = m_Rotation * glm::vec3(1, 0, 0);
@@ -109,14 +65,13 @@ namespace dex
                     m_Scale.x, m_Scale.y, m_Scale.z);
             }
 
-            /*inline Transform operator+(const Transform& other)
-            {
-                return Transform(m_Position + other.m_Position, m_Rotation * other.m_Rotation, m_Scale * other.m_Scale);
-            }*/
-
             void setParentTransformationMatrix(glm::mat4& parent_transform_matrix)
             {
                 m_ParentTransformationMatrix = parent_transform_matrix;
+
+                calculateTransformation();
+
+                m_FlagChanged = true;
             }
 
             /*void resetParentTransformationMatrix()
@@ -124,7 +79,7 @@ namespace dex
                 m_ParentTransformationMatrix = glm::mat4(1.0f);
             }*/
 
-            inline glm::mat4& getTransformationMatrix() { calculateTransformation(); return m_TransformationMatrix; }
+            inline glm::mat4& getTransformationMatrix() { return m_TransformationMatrix; }
 
             inline operator const glm::mat4&() const { return m_TransformationMatrix; }
 

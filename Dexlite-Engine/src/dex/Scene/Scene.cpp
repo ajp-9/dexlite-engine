@@ -7,7 +7,10 @@
 
 namespace dex
 {
-    Scene::Scene() {}
+    Scene::Scene() 
+    {
+        m_Root = std::make_unique<Entity>(this, "Scene", false);
+    }
 
     Scene::~Scene() {}
 
@@ -23,8 +26,13 @@ namespace dex
 
     void Scene::update()
     {
+        //m_Root->updateChildrenTransform();
+        //DEX_LOG_INFO("{}", m_Root->getComponent<ChildrenHandles>().size());
+
         for (auto& e : m_Entities)
+        {
             e.updateChildrenTransform();
+        }
     }
 
     void Scene::physics()

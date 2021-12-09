@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Util/Time/DeltaTime.hpp"
+#include "../Util/Time/Time.hpp"
 #include "../Application/Window/Window.hpp"
 #include "../Application/Layer/LayerManager.hpp"
 #include "../Renderer/Renderer.hpp"
@@ -26,7 +26,7 @@ namespace dex
         static Renderer renderer;
         static Layer::Manager layerManager;
 
-        static DeltaTime deltaTime;
+        static Time time;
 
         friend int ::main(int argc, char** argv);
     private:

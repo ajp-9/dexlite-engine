@@ -6,11 +6,11 @@ namespace dex
 {
     // Times the amount of time it takes in a scope.
     // Prints the time in ms, with ns resolution.
-    class Timer
+    class Stopwatch
     {
     public:
-        Timer(const char* name = "Anonymous");
-        ~Timer();
+        Stopwatch(const char* name = "Anonymous");
+        ~Stopwatch();
 
         void stop();
     private:

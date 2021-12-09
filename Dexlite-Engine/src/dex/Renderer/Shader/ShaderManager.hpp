@@ -6,8 +6,6 @@
 #include <glm/mat4x4.hpp>
 #include "Uniform/UniformBufferObject.hpp"
 
-#include "../../Util/Time/Timer.hpp"
-
 namespace dex
 {
     namespace Shader

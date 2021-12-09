@@ -2,4 +2,4 @@
 
 cd "$(dirname "$0")"
 cd ../
-./scripts/premake/premake5 xcode4
+./scripts/premake/Linux/premake5 gmake2

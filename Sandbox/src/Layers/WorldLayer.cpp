@@ -26,18 +26,17 @@ void WorldLayer::Attach()
 
     std::vector<uint32> indices;
     
-
     m_Warlock.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/warlock.glb", true));
     m_XYZ.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/xyz.glb", true));
     m_XYZ.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 3.5));
     m_XYZ.getComponent<dex::Component::Transform>().setScale(glm::vec3(.05));
 
-    m_Warlock.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 5));
+    m_Warlock.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 10));
     //m_Warlock.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(15, 0, 0));
 
     m_Player.addChild(m_Head);
 
-    m_Player.addChild(m_XYZ);
+    //m_Head.addChild(m_XYZ);
     m_Warlock.addChild(m_Player);
 }
 
@@ -47,15 +46,19 @@ void WorldLayer::Detach()
 
 void WorldLayer::update()
 {
-    //m_Warlock.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(0, glm::radians(.05), 0));
-    //m_Warlock.getComponent<dex::Component::Transform>().scaleByLocal(glm::vec3(1.001, 1.001, 1.001));
+    m_Scene.update();
+
+    //m_Warlock.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(0, glm::radians(.05), glm::radians(.05)));
+    //m_Head.getComponent<dex::Component::Transform>().scaleByLocal(glm::vec3(1.001, 1.001, 1.001)); //fucks the camera
 
     //m_XYZ.getComponent<dex::Component::Transform>().moveBy(glm::vec3(0, 0, .001));
+
+
 
     auto& player_trans = m_Player.getComponent<dex::Component::Transform>();
     auto& head_trans = m_Head.getComponent<dex::Component::Transform>();
 
-    //player_trans.logAsInfo();
+    //player_trans.printAsInfo();
 
     if (Engine::window.input.getKeyState(dex::Event::Key::W))
         player_trans.moveByLocal(glm::vec3(0, 0, 0.01));
@@ -75,13 +78,6 @@ void WorldLayer::update()
     if (Engine::window.input.getKeyState(dex::Event::Key::E))
         player_trans.moveByLocal(glm::vec3(0, .01, 0));
 
-    if (Engine::window.input.getKeyState(dex::Event::Key::C))
-        player_trans.setRotationQuat(glm::vec3(0));
-
-    if (Engine::window.input.getKeyState(dex::Event::Key::G))
-        player_trans.rotateByEuler(glm::vec3(.1, 0, 0));
-
-
     auto& m = Engine::window.input.getMousePosChange() * .002;
 
     player_trans.rotateByEuler((glm::vec3(0, m.x, 0)));
@@ -91,9 +87,9 @@ void WorldLayer::update()
     if (head_trans.getRotationDegrees().x -m.y <= max_degrees && head_trans.getRotationDegrees().x -m.y >= -max_degrees)
         head_trans.rotateByEulerLocal((glm::vec3(-m.y, 0, 0)));
     else if (head_trans.getRotationDegrees().x > max_degrees)
-        head_trans.setRotationEuler(glm::vec3(glm::radians(max_degrees), glm::radians(head_trans.getRotationDegrees().y), glm::radians(head_trans.getRotationDegrees().z)));
+        head_trans.setRotationEuler(glm::vec3(glm::radians(max_degrees), 0, 0));
     else if (head_trans.getRotationDegrees().x < -max_degrees)
-        head_trans.setRotationEuler(glm::vec3(glm::radians(-max_degrees), glm::radians(head_trans.getRotationDegrees().y), glm::radians(head_trans.getRotationDegrees().z)));
+        head_trans.setRotationEuler(glm::vec3(glm::radians(-max_degrees), 0, 0));
     
 
     if (Engine::window.input.getKeyState(dex::Event::Key::KB_1))
@@ -106,8 +102,6 @@ void WorldLayer::update()
         dex::Engine::window.setCaptureMouse(true);
     if (Engine::window.input.getKeyState(dex::Event::Key::P))
         dex::Engine::window.setCaptureMouse(false);
-
-    m_Scene.update();
 
     Engine::window.input.stopEvents();
 }
