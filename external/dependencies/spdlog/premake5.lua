@@ -6,12 +6,6 @@ project "spdlog"
     filter "system:windows"
         systemversion "latest"
     filter {}
-    filter "system:macosx"
-        systemversion "latest"
-    filter {}
-    filter "system:linux"
-        systemversion "latest"
-    filter {}
     
     targetdir ("%{prj.location}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")
