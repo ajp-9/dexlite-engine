@@ -17,7 +17,7 @@ namespace dex
                 : m_Mesh(vertices, indices), m_Material(material)
             {}
 
-            Model(Mesh::Default3D& mesh,
+            Model(Mesh::Default3D mesh,
                 std::shared_ptr<Material::Default3D> material)
                 : m_Mesh(mesh), m_Material(material)
             {}

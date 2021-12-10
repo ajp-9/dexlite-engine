@@ -7,6 +7,8 @@
 
 namespace dex
 {
+    class Engine;
+
     namespace Layer
     {
         class Manager
@@ -24,7 +26,7 @@ namespace dex
         private:
             std::vector<std::shared_ptr<Base>> m_Layers;
 
-            friend class Engine;
+            friend Engine;
             friend class Window;
         };
     }

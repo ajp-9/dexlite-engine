@@ -47,4 +47,4 @@
 #include "Util/Time/Time.hpp"
 #include "Util/Time/Stopwatch.hpp"
 
-#include "Util/TypeDefs.hpp"
+#include "Util/Typedefs.hpp"

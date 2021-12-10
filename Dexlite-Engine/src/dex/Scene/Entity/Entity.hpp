@@ -70,15 +70,13 @@ namespace dex
         {
             if (getComponent<Component::Transform>().m_FlagChanged)
             {
-                auto& children_handles = getChildrenHandles();
+                auto children_handles = getChildrenHandles();
 
                 DEX_LOG_INFO("Did for: {}", getComponent<Component::Tag>().m_Tag);
 
                 for (entt::entity child_handle : children_handles)
                 {
-                    Component::Transform& child_transform = m_Scene->m_Registry.get<Component::Transform>(child_handle);
-
-                    child_transform.setParentTransformationMatrix(getComponent<Component::Transform>().getTransformationMatrix());
+                    m_Scene->m_Registry.get<Component::Transform>(child_handle).setParentTransformationMatrix(getComponent<Component::Transform>().getTransformationMatrix());
 
                     Entity(child_handle, m_Scene).updateChildrenTransform();
                 }

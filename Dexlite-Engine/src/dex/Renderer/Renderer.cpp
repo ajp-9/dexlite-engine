@@ -67,7 +67,7 @@ namespace dex
 
     void Renderer::renderScene(Scene& scene)
     {
-        auto& shader = shaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D);
+        auto shader = shaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D);
 
         scene.findNSetActiveCamera();
         
@@ -79,7 +79,7 @@ namespace dex
 
         shader->setProjectionViewMatrix(scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).getProjectionViewMatrix());
 
-        auto& model_view = scene.m_Registry.view<Component::Model>();
+        const auto& model_view = scene.m_Registry.view<Component::Model>();
         
         for (auto& entityID : model_view)
         {

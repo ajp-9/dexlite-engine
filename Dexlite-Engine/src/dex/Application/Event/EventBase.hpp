@@ -27,8 +27,8 @@ namespace dex
             template <class T>
             inline T& getDerivedSelf()
             {
-                if (typeid(T) != typeid(*this))
-                    std::cout << "Error: The template input: (" << typeid(T).name() << ") can't be derived from the current object (" << typeid(*this).name() << ").\n";
+                //if (typeid(T) != typeid(*this))
+                //    std::cout << "Error: The template input: (" << typeid(T).name() << ") can't be derived from the current object (" << typeid(*this).name() << ").\n";
 
                 return *static_cast<T*>(this);
             }

@@ -78,7 +78,7 @@ void WorldLayer::update()
     if (Engine::window.input.getKeyState(dex::Event::Key::E))
         player_trans.moveByLocal(glm::vec3(0, .01, 0));
 
-    auto& m = Engine::window.input.getMousePosChange() * .002;
+    const auto& m = Engine::window.input.getMousePosChange() * .002;
 
     player_trans.rotateByEuler((glm::vec3(0, m.x, 0)));
 

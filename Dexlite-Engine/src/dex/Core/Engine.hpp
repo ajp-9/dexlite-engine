@@ -8,8 +8,6 @@
 #include "Program/EntryPoint.hpp"
 #include "Config.hpp"
 
-using dex::Engine;
-
 namespace dex
 {
     // Core engine.
@@ -36,3 +34,5 @@ namespace dex
         static std::shared_ptr<Program> s_Program;
     };
 }
+
+using dex::Engine;

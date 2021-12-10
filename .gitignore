@@ -1,9 +1,13 @@
 bin/
 intermediates/
 
+Makefile
+
 .DS_Store
 
 *.xcf
+
+.vscode/
 
 .vs/
 **.sln

@@ -31,8 +31,22 @@ project "SandBox"
 
     links
     {
-        "Dexlite-Engine"
+        "Dexlite-Engine",
+        "glad",
+        "glfw",
+        "imgui",
+        "tinygltf"
     }
+
+    filter "system:linux"
+        links
+        {
+            "GL",
+            "X11",
+            "pthread",
+            "Xrandr"    
+        }
+    filter {}
 
     defines
     {

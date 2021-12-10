@@ -42,7 +42,7 @@ namespace dex
 
     void Scene::findNSetActiveCamera()
     {
-        auto& cameraView = m_Registry.view<Component::Camera>();
+        const auto& cameraView = m_Registry.view<Component::Camera>();
 
         if (cameraView.size() == 1)
         {

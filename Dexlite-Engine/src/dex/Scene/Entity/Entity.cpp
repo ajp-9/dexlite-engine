@@ -42,13 +42,13 @@ namespace dex
 
     void Entity::removeChild(Entity child, bool destroy_handle)
     {
-        auto& children_handles = getChildrenHandles();
+        const auto& children_handles = getChildrenHandles();
 
-        auto& it = std::find(children_handles.begin(), children_handles.end(), child);
+        const auto& it = std::find(children_handles.begin(), children_handles.end(), child);
 
         if (it != children_handles.end())
         {
-            children_handles.erase(it);
+            getChildrenHandles().erase(it);
 
             if (destroy_handle)
                 m_Scene->m_Registry.destroy(child);

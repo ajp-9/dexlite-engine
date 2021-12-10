@@ -208,7 +208,7 @@ namespace dex
         {
             // It works, don't fix it.
 
-            auto& eRot = glm::eulerAngles(
+            const auto& eRot = glm::eulerAngles(
                 glm::quat(
                     float(node.rotation.at(3)),
                     float(node.rotation.at(0)),
@@ -236,9 +236,12 @@ namespace dex
                 if (parseNode(meshFinalTransformation_Temp, model.nodes.at(child_node_loc), model))
                 {
                     meshFinalTransformation_Temp = meshFinalTransformation_Temp;
+                    
                     return true;
                 }
             }
         }
+
+        return false;
     }
 }

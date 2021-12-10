@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "../../Util/TypeDefs.hpp"
+#include "../../Util/Typedefs.hpp"
 #include "../Event/EventBase.hpp"
 
 namespace dex

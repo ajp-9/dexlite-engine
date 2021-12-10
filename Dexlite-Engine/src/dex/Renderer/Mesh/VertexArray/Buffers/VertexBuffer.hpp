@@ -47,7 +47,7 @@ namespace dex
     {
         bind();
 
-        uint8 currentOffset = 0;
+        uint64 currentOffset = 0;
 
         for (uint32 i = 0; i < types.size(); i++)
         {
