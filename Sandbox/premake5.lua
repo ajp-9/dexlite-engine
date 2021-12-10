@@ -6,7 +6,7 @@ project "SandBox"
     filter "system:windows"
         systemversion "latest"
     filter {}
-    filter "system:mac"
+    filter "system:macosx"
         systemversion "latest"
     filter {}
     filter "system:linux"
@@ -53,7 +53,7 @@ project "SandBox"
         }
     filter {}
 
-    filter "system:mac"
+    filter "system:macosx"
         links
         {
             "Cocoa.framework",

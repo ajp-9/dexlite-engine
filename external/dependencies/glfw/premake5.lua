@@ -5,7 +5,7 @@ project "glfw"
     filter "system:windows"
         systemversion "latest"
     filter {}
-    filter "system:mac"
+    filter "system:macosx"
         systemversion "latest"
     filter {}
     filter "system:linux"
@@ -49,11 +49,10 @@ project "glfw"
         }
     filter {}
 
-    filter "system:mac"        
+    filter "system:macosx"        
         files
         {
             "src/cocoa_time.c",
-            "src/posix_module.c",
             "src/posix_thread.c",
             "src/cocoa_init.m",
             "src/cocoa_joystick.m",
