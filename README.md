@@ -27,8 +27,8 @@ There isn't much in it currently but after I get this engine to a stable and dec
 - [x] Integrating EnTT with scenes & components.
 - [x] A basic material system.
 - [x] Model loading.
-- [ ] A simple heirarchy & transform inheritance system to the ECS.
-- [ ] Updating the camera system.
+- [x] A simple heirarchy & transform inheritance system to the ECS.
+- [x] Mac & Linux support.
 - [ ] Basic lighting system.
 - [ ] Scene heirarchy.
 - [ ] Engine configuration interface.
@@ -38,7 +38,6 @@ There isn't much in it currently but after I get this engine to a stable and dec
 - [ ] Basic animation.
 - [ ] Audio system.
 - [ ] A GUI built ontop of ImGUI.
-- [ ] Mac & Linux support.
 - [ ] Adding Documentation.
 - [ ] Possibly adding a scripting api.
 - [ ] Release build ready.
