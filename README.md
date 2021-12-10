@@ -30,16 +30,15 @@ There isn't much in it currently but after I get this engine to a stable and dec
 - [x] A simple heirarchy & transform inheritance system to the ECS.
 - [x] Mac & Linux support.
 - [ ] Basic lighting system.
-- [ ] Scene heirarchy.
-- [ ] Engine configuration interface.
+- [ ] Engine configuration.
 - [ ] Making an editor.
 - [ ] Integrating a physics engine.
 - [ ] More advanced lighting, ex: shadows.
 - [ ] Basic animation.
 - [ ] Audio system.
-- [ ] A GUI built ontop of ImGUI.
+- [ ] A skinnable GUI built ontop of ImGUI.
 - [ ] Adding Documentation.
-- [ ] Possibly adding a scripting api.
+- [ ] Possibly adding scripting.
 - [ ] Release build ready.
 
 ## Contribution 
