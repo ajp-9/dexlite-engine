@@ -6,6 +6,12 @@ project "SandBox"
     filter "system:windows"
         systemversion "latest"
     filter {}
+    filter "system:mac"
+        systemversion "latest"
+    filter {}
+    filter "system:linux"
+        systemversion "latest"
+    filter {}
 
     targetdir ("%{prj.location}/bin/%{cfg.buildcfg}")
     objdir ("%{prj.location}/intermediates/%{cfg.buildcfg}")
@@ -38,13 +44,13 @@ project "SandBox"
         "tinygltf"
     }
 
-    filter "system:windows"
-        --links
-        --{
-        --    "gdi32",
-        --    "opengl32.lib",
-        --    "imm32"
-        --}
+    filter {"system:windows", "toolset:gcc"}
+        links
+        {
+            "gdi32",
+            "opengl32.lib",
+            "imm32"
+        }
     filter {}
 
     filter "system:mac"
