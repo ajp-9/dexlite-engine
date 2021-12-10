@@ -38,6 +38,24 @@ project "SandBox"
         "tinygltf"
     }
 
+    filter "system:windows"
+        --links
+        --{
+        --    "gdi32",
+        --    "opengl32.lib",
+        --    "imm32"
+        --}
+    filter {}
+
+    filter "system:mac"
+        links
+        {
+            "Cocoa.framework",
+            "IOKit.framework",
+            "CoreFoundation.framework"
+        }
+    filter {}
+
     filter "system:linux"
         links
         {

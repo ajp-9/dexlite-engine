@@ -12,8 +12,6 @@ void WorldLayer::Attach()
 {
     auto& camera = m_Head.addComponent<dex::Component::Camera>(true);
 
-    m_Head.addComponent<float>(0);
-
     //camera.setOrthographic(5, 0.001, 100);
     camera.setPerspective(60, .001, 1000);
 
