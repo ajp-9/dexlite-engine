@@ -20,10 +20,15 @@ namespace dex
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+#ifdef __APPLE__
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+
         //auto* vid = glfwGetVideoMode(glfwGetPrimaryMonitor());
         //m_Window_GLFW = glfwCreateWindow(vid->width, vid->height, "Dexlite Engine", glfwGetPrimaryMonitor(), NULL);
 
         m_Window_GLFW = glfwCreateWindow(windowDimensions.x, windowDimensions.y, "Dexlite Engine", NULL, NULL);
+
         if (!m_Window_GLFW)
         {
             glfwTerminate();
