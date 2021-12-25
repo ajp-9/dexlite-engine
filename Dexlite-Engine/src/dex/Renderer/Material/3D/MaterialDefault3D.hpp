@@ -9,19 +9,23 @@ namespace dex
 {
     namespace Material
     {
-        struct Default3D : Interface<Shader::Default3D>
+        struct Default3D : Base<Shader::Default3D>
         {
+            Default3D()
+                : Base(Engine::renderer.shaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D))
+            {}
+            
             Default3D(
-                float32 texTilingFactor = 1.0f,
-                const Texture& diffuseMap = Texture(),
-                const Texture& specularMap = Texture())
+                float32 texTilingFactor,
+                Texture&& diffuseMap,
+                Texture&& specularMap)
+                
+                : // Initializer List:
 
-                : // Initializer List
-
-                Interface(Engine::renderer.shaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D), "Material::Default3D"),
+                Base(Engine::renderer.shaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)),
                 m_TexTilingFactor(texTilingFactor),
-                m_DiffuseMap(diffuseMap),
-                m_SpecularMap(specularMap)
+                m_DiffuseMap(std::move(diffuseMap)),
+                m_SpecularMap(std::move(specularMap))
             {
                 if (m_DiffuseMap.isActive())
                     m_DiffuseMapEnabled = true;
@@ -29,6 +33,8 @@ namespace dex
                 if (m_SpecularMap.isActive())
                     m_SpecularMapEnabled = true;
             }
+
+            // global get lights n persp
 
             virtual void setUniforms()
             {
@@ -49,7 +55,7 @@ namespace dex
                     m_Shader->setSpecularMapEnabled(false);
             }
         public:
-            float32 m_TexTilingFactor;
+            float32 m_TexTilingFactor = 1.0f;
 
             Texture m_DiffuseMap;
             Texture m_SpecularMap;

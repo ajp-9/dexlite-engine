@@ -24,7 +24,7 @@ namespace dex
                 : Uniform(id, name)
             {
             }
-
+            
             void set(bool b)
             {
 

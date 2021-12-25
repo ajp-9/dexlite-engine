@@ -6,7 +6,7 @@ namespace dex
 {
     namespace Material
     {
-        class Manager // reeeee materials are just values attached to specific shaders
+        /*class Manager // reeeee materials are just values attached to specific shaders
         {
         public:
             Manager();
@@ -23,6 +23,6 @@ namespace dex
             }
         private:
             std::vector<std::shared_ptr<BaseNew>> m_Materials;
-        };
+        };*/
     }
 }

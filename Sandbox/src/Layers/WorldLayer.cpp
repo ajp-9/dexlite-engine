@@ -8,6 +8,8 @@
 #include <dex/Util/Logging.hpp>
 #include <dex/Renderer/Model/ModelLoader.hpp>
 
+#include <filesystem>
+
 void WorldLayer::Attach()
 {
     auto& camera = m_Head.addComponent<dex::Component::Camera>(true);
@@ -51,7 +53,7 @@ void WorldLayer::update()
 
     //m_XYZ.getComponent<dex::Component::Transform>().moveBy(glm::vec3(0, 0, .001));
 
-
+    
 
     auto& player_trans = m_Player.getComponent<dex::Component::Transform>();
     auto& head_trans = m_Head.getComponent<dex::Component::Transform>();

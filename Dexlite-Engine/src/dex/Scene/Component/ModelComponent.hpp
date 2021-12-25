@@ -9,7 +9,7 @@ namespace dex
     {
         struct Model
         {
-            Model() {}
+            Model() = default;
 
             Model(const std::vector<Vertex3D::Default>& vertices,
                 const std::vector<uint32_t>& indices,
@@ -19,7 +19,7 @@ namespace dex
 
             Model(Mesh::Default3D mesh,
                 std::shared_ptr<Material::Default3D> material)
-                : m_Mesh(mesh), m_Material(material)
+                : m_Mesh(std::move(mesh)), m_Material(material)
             {}
 
             void prepareRendering(const glm::mat4& model_matrix)

@@ -10,7 +10,7 @@ namespace dex
 {
     namespace Mesh
     {
-        template <typename V>
+        /*template <typename V>
         class Custom
         {
         public:
@@ -34,6 +34,6 @@ namespace dex
             std::vector<V> m_Vertices;
             std::vector<uint32> m_Indices;
             VertexArray m_VertexArray;
-        };
+        };*/
     }
 }

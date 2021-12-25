@@ -21,10 +21,10 @@ namespace dex
             //UniformBufferObject("ubo_ModelMatrix").bindShader(getShader(Type::DEFAULT_3D));
         }
 
-        void Manager::addUBO(const std::shared_ptr<UniformBufferObject>& ubo)
+        /*void Manager::addUBO(const std::shared_ptr<UniformBufferObject>& ubo)
         {
             m_UBOs.emplace_back(ubo);
-        }
+        }*/
 
         void Manager::addShader(const std::shared_ptr<Shader::Base>& shader)
         {

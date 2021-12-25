@@ -60,7 +60,6 @@ namespace dex
         unbind();
     }
 
-
     Texture::Texture(std::vector<uint8> image, const tinygltf::Sampler& sampler, glm::ivec2 dimensions, GLenum format, bool blending)
     {
         glGenTextures(1, &m_ID);
@@ -85,22 +84,5 @@ namespace dex
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, -1.5);
 
         unbind();
-    }
-
-
-    Texture::~Texture()
-    {
-        //glDeleteTextures(1, &m_ID);
-    }
-
-    void Texture::bind()
-    {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, m_ID);
-    }
-
-    void Texture::unbind()
-    {
-        glBindTexture(GL_TEXTURE_2D, 0);
     }
 }

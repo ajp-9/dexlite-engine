@@ -130,7 +130,6 @@ namespace dex
                     std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n";
                 }
             }
-
         }
     }
 }

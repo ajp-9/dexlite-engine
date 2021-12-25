@@ -9,7 +9,7 @@
 
 namespace dex
 {
-    Component::Model ModelLoader::loadGLTF(const char* location, bool binary)
+    Component::Model ModelLoader::loadGLTF(const std::string& location, bool binary)
     {
         tinygltf::Model model;
         tinygltf::TinyGLTF loader;
@@ -196,7 +196,14 @@ namespace dex
             vertex.m_Normal = meshTransformation_Final.m_Rotation * vertex.m_Normal;
         }
 
-        return Component::Model(dex::Mesh::Default3D(vertices, indices), material);
+        //return Component::Model(vertices, indices, material);
+        Component::Model ret_model;
+
+        ret_model.m_Mesh = dex::Mesh::Default3D(vertices, indices);
+        ret_model.m_Material = material;
+
+        return ret_model;
+        //return Component::Model(, material);
     }
 
     bool ModelLoader::parseNode(MeshTransformation& meshTransformation_Current, const tinygltf::Node& node, const tinygltf::Model& model)

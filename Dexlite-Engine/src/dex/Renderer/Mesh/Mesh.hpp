@@ -74,7 +74,7 @@ namespace dex
         class Default3D : public Interface<Vertex3D::Default, Material::Default3D>
         {
         public:
-            Default3D() {}
+            Default3D() = default;
             Default3D(
                 const std::vector<Vertex3D::Default>& vertices,
                 const std::vector<uint32_t>& indices)

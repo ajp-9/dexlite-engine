@@ -6,7 +6,7 @@ namespace dex
 {
     namespace Material
     {
-        Manager::Manager()
+        /*Manager::Manager()
         {
             //addMaterial(std::make_shared<Default3D>());
         }
@@ -23,11 +23,11 @@ namespace dex
                     m_Materials.erase(m_Materials.begin() + i);
         }
 
-        std::shared_ptr<BaseNew>& Manager::getMaterial(const char* name)
+        /*std::shared_ptr<BaseNew>& Manager::getMaterial(const char* name)
         {
             for (auto& material : m_Materials)
                 if (material->m_Name == name)
                     return material;
-        }
+        }*/
     }
 }

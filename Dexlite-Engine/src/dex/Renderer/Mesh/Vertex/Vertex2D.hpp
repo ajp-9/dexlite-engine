@@ -14,7 +14,9 @@ namespace dex
         {
             Color(glm::vec2 position = glm::vec2(0), glm::vec4 color = glm::vec4(1, 0, 1, 1))
                 : m_Position(position), m_Color(color)
-            {}
+            {
+
+            }
 
             static const std::vector<Data::Type> getTypes()
             {

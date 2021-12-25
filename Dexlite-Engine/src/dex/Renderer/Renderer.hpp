@@ -35,7 +35,7 @@ namespace dex
 
     public:
         Shader::Manager shaderManager;
-        Material::Manager materialManager;
+        //Material::Manager materialManager;
     private:
         bool m_ChangeProjectionMatrixNext = true; // For when the window/viewport resizes
 

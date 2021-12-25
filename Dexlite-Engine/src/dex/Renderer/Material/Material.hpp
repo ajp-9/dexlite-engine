@@ -8,6 +8,9 @@ namespace dex
 {
     namespace Material
     {
+
+        // make base, + rm type
+
         enum class Type : uint8_t
         {
             NONE,
@@ -17,29 +20,28 @@ namespace dex
             TEXTURE_3D
         };
 
-        struct BaseNew
+        /*struct Base
         {
-            BaseNew(std::string name, Type type = Type::NONE) // link shaders w string of the name
-                : m_Name(name), m_Type(type)
+            Base(Type type = Type::NONE) // link shaders w string of the name
+                : m_Type(type)
             {}
-
+            
             virtual void setUniforms() = 0;
         public:
-            std::string m_Name;
             Type m_Type;
-        };
+        };*/
 
         template <class S> // Shader
-        struct Interface : BaseNew
+        struct Base
         {
-            Interface(const std::shared_ptr<S>& shader, std::string name, Type type = Type::NONE)
-                : BaseNew(name, type), m_Shader(shader)
+            Base(const std::shared_ptr<S>& shader)
+                : m_Shader(shader)
             {}
         public:
             std::shared_ptr<S> m_Shader;
         };
 
-
+        
 
 
 

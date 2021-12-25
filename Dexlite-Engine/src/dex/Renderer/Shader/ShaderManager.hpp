@@ -19,11 +19,12 @@ namespace dex
             // Initialize default shader types & default UBOs.
             Manager();
 
-            void addUBO(const std::shared_ptr<UniformBufferObject>& ubo);
+            //void addUBO(const std::shared_ptr<UniformBufferObject>& ubo);
 
             void addShader(const std::shared_ptr<Base>& shader);
             std::shared_ptr<Base>& getShader(const char* name);
             std::shared_ptr<Base>& getShader(Type type);
+
             // Global
             //void setProjectionViewMatrix(const glm::mat4& mat);
             //void setModalMatrix(const glm::mat4& mat);
@@ -43,12 +44,6 @@ namespace dex
             BASE,
             DEFAULT_3D,
             TEXTURE_3D
-        };
-
-        enum class UBO_Type : uint8
-        {
-            MODEL_MATRIX,
-            VIEW_PROJECTION_MATRIX
         };
 
         /*

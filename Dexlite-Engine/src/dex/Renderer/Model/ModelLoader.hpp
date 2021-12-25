@@ -13,7 +13,7 @@ namespace dex
 
     struct ModelLoader
     {
-        static Component::Model loadGLTF(const char* location, bool binary);
+        static Component::Model loadGLTF(const std::string& location, bool binary);
     private:
         // Returns true if a mesh was found.
         static bool parseNode(MeshTransformation& meshFinalTransformation_Current, const tinygltf::Node& node, const tinygltf::Model& model);

@@ -57,7 +57,7 @@ namespace dex
 
             void logAsInfo() const
             {
-                const auto& eRot = glm::degrees(glm::eulerAngles(m_Rotation));
+                const auto eRot = glm::degrees(glm::eulerAngles(m_Rotation));
                 
                 return DEX_LOG_INFO("Position: (X: {:.1f}, Y: {:.1f}, Z: {:.1f}), Rotation: (X: {:.1f}, Y: {:.1f}, Z: {:.1f}), Scale: (X: {:.1f}, Y: {:.1f}, Z: {:.1f}).",
                     m_Position.x, m_Position.y, m_Position.z,
