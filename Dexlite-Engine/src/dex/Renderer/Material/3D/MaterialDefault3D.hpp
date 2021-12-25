@@ -34,8 +34,6 @@ namespace dex
                     m_SpecularMapEnabled = true;
             }
 
-            // global get lights n persp
-
             virtual void setUniforms()
             {
                 if (m_DiffuseMapEnabled || m_SpecularMapEnabled)

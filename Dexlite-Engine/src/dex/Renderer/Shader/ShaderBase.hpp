@@ -10,6 +10,9 @@ namespace dex
 {
     namespace Shader
     {
+        // global get lights n persp
+        // add prep func thing ^
+
         class Base
         {
         public:
