@@ -20,10 +20,6 @@ namespace dex
 
         void update();
 
-        //void renderEntities(Component::Camera& main_camera);
-
-        //void submitEntity(Entity& entity);
-
         void setViewportSize(glm::uvec2 size);
         //void setViewportPosition(glm::uvec2 position);
 
@@ -35,15 +31,12 @@ namespace dex
 
     public:
         Shader::Manager shaderManager;
-        //Material::Manager materialManager;
     private:
         bool m_ChangeProjectionMatrixNext = true; // For when the window/viewport resizes
 
         ImGuiAPI m_ImGuiAPI;
 
         glm::uvec2 m_ScreenDimensions = glm::uvec2(0);
-
-        //std::vector<Entity> m_EntityRenderingQueue;
 
         friend class Engine;
         friend class Window;

@@ -61,6 +61,7 @@ namespace dex
         {
             glBindBuffer(GL_ARRAY_BUFFER, m_ID);
         }
+
         void unbind()
         {
             glBindBuffer(GL_ARRAY_BUFFER, 0);

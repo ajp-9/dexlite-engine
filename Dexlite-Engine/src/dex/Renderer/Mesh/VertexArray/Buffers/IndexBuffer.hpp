@@ -15,12 +15,10 @@ namespace dex
         {
             glGenBuffers(1, &m_ID);
         }
+
         ~IndexBuffer()
         {
-            //DEX_LOG_ERROR("Deleted IBO: {}", m_ID);
-
-            if (m_ID)
-                glDeleteBuffers(1, &m_ID);
+            if (m_ID) glDeleteBuffers(1, &m_ID);
         }
 
         IndexBuffer(const IndexBuffer& other) = delete;
@@ -55,6 +53,7 @@ namespace dex
         {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ID);
         }
+
         void unbind()
         {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

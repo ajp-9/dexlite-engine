@@ -20,7 +20,7 @@ namespace dex
                 glm::vec4 color = glm::vec4(1),
                 glm::vec2 texCoord = glm::vec2(0))
 
-                : // Initializer List
+                : // Initializer List:
 
                 m_Position(position),
                 m_Normal(normal),
@@ -28,12 +28,12 @@ namespace dex
                 m_TexCoord(texCoord)
             {}
 
-            static const std::vector<Data::Type> getTypes()
+            static inline const std::vector<Data::Type> getTypes()
             {
                 return
                 {
-                    Data::Type::VEC3, 
-                    Data::Type::VEC3, 
+                    Data::Type::VEC3,
+                    Data::Type::VEC3,
                     Data::Type::VEC4,
                     Data::Type::VEC2,
                     Data::Type::FLOAT
@@ -52,9 +52,13 @@ namespace dex
                 : m_Position(position), m_Color(color)
             {}
 
-            static const std::vector<Data::Type> getTypes()
+            static inline const std::vector<Data::Type> getTypes()
             {
-                return { Data::Type::VEC3, Data::Type::VEC4 };
+                return
+                {
+                    Data::Type::VEC3,
+                    Data::Type::VEC4
+                };
             }
 
             glm::vec3 m_Position;

@@ -6,6 +6,7 @@
 #include <glm/mat4x4.hpp>
 
 #include "../../Util/Logging.hpp"
+#include "../../Scene/Component/ModelComponent.hpp"
 
 namespace dex
 {
@@ -23,23 +24,23 @@ namespace dex
             ret = loader.LoadASCIIFromFile(&model, &error, &warn, location);
 
         if (!warn.empty())
-            DEX_LOG_WARN("<ModelLoader::loadGLTF>: {}", warn);
+            DEX_LOG_WARN("<ModelLoader::loadGLTF()>: {}", warn);
 
         if (!error.empty())
         {
-            DEX_LOG_ERROR("<ModelLoader::loadGLTF>: {}", error);
+            DEX_LOG_ERROR("<ModelLoader::loadGLTF()>: {}", error);
             return Component::Model();
         }
 
         if (!ret)
         {
-            DEX_LOG_ERROR("<ModelLoader::loadGLTF>: Failed to load model.");
+            DEX_LOG_ERROR("<ModelLoader::loadGLTF()>: Failed to load model.");
             return Component::Model();
         }
 
         if (model.meshes.size() != 1)
         {
-            DEX_LOG_ERROR("<ModelLoader::loadGLTF>: Only 1 mesh per model.");
+            DEX_LOG_ERROR("<ModelLoader::loadGLTF()>: Only 1 mesh per model.");
             return Component::Model();
         }
 
@@ -144,7 +145,7 @@ namespace dex
                 }
                 else
                 {
-                    DEX_LOG_ERROR("<ModelLoader::loadGLTF>: Indices doesn't have the correct component type.");
+                    DEX_LOG_ERROR("<ModelLoader::loadGLTF()>: Indices doesn't have the correct component type.");
                 }
 
                 largest_index = *std::max_element(indices.begin(), indices.end());
@@ -167,7 +168,7 @@ namespace dex
                 }
                 else
                 {
-                    DEX_LOG_ERROR("<dex::ModelLoader::loadGLTF>: Only 1 texture for baseColorTexture.");
+                    DEX_LOG_ERROR("<dex::ModelLoader::loadGLTF()>: Only 1 texture for baseColorTexture.");
                 }
             }
         }
@@ -196,14 +197,7 @@ namespace dex
             vertex.m_Normal = meshTransformation_Final.m_Rotation * vertex.m_Normal;
         }
 
-        //return Component::Model(vertices, indices, material);
-        Component::Model ret_model;
-
-        ret_model.m_Mesh = dex::Mesh::Default3D(vertices, indices);
-        ret_model.m_Material = material;
-
-        return ret_model;
-        //return Component::Model(, material);
+        return Component::Model(vertices, indices, material);
     }
 
     bool ModelLoader::parseNode(MeshTransformation& meshTransformation_Current, const tinygltf::Node& node, const tinygltf::Model& model)
@@ -248,7 +242,7 @@ namespace dex
                 }
             }
         }
-
+        
         return false;
     }
 }

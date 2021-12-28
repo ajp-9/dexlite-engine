@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 
+#include "../Scene/Component/Camera/CameraComponent.hpp"
 #include "../Scene/Component/ModelComponent.hpp"
 #include "../Scene/Component/TransformComponent.hpp"
 #include "../Util/Logging.hpp"
@@ -67,25 +68,29 @@ namespace dex
 
     void Renderer::renderScene(Scene& scene)
     {
-        auto shader = shaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D);
-
         scene.findNSetActiveCamera();
-        
-        if (m_ChangeProjectionMatrixNext)
-            scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).updateProjectionMatrix();
 
-        Component::Transform& active_cam_transform = scene.m_Registry.get<Component::Transform>(scene.m_ActiveCameraID);
-        scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).update(active_cam_transform.getTransformationMatrix());
-
-        shader->setProjectionViewMatrix(scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).getProjectionViewMatrix());
-
-        const auto& model_view = scene.m_Registry.view<Component::Model>();
-        
-        for (auto& entityID : model_view)
+        if (scene.m_ActiveCameraID != entt::null)
         {
-            auto& model = scene.m_Registry.get<Component::Model>(entityID);
-            model.prepareRendering(scene.m_Registry.get<Component::Transform>(entityID));
-            model.render();
+            auto shader = shaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D);
+
+            if (m_ChangeProjectionMatrixNext)
+                scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).updateProjectionMatrix();
+
+            shader->setProjectionViewMatrix(scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).getProjectionViewMatrix());
+
+            const auto& model_view = scene.m_Registry.view<Component::Model>();
+
+            for (auto& entityID : model_view)
+            {
+                auto& model = scene.m_Registry.get<Component::Model>(entityID);
+                model.prepareRendering(scene.m_Registry.get<Component::Transform>(entityID));
+                model.render();
+            }
+        }
+        else
+        {
+            DEX_LOG_WARN("<dex::Renderer::renderScene()>: No active camera found.");
         }
     }
 }

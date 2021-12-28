@@ -1,10 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include <entt.hpp>
 
-#include "../Component/TagComponent.hpp"
-#include "../Component/ModelComponent.hpp"
-#include "../Component/TransformComponent.hpp"
 #include "../../Util/Logging.hpp"
 #include "../Scene.hpp"
 
@@ -17,6 +15,7 @@ namespace dex
     class Entity
     {
     public:
+        Entity() = default;
         // Creates a new entity, and adds it to the scene's entity vector.
         Entity(Scene* scene, std::string tag = "", bool add_to_root = true);
         // Creates a new class from a pre-existing entity handle.
@@ -28,10 +27,10 @@ namespace dex
         // Destroys all its children in the registry. Their classes would remain intact and should be disgarded afterwards.
         void destroyChildren();
 
-        bool isEntityValid()
+        /*bool isEntityValid()
         {
             return m_Scene->m_Registry.valid(m_Handle);
-        }
+        }*/
 
         Entity addNewChild(std::string tag = "")
         {
@@ -61,28 +60,16 @@ namespace dex
 
         void removeChild(Entity child, bool destroy_handle = false);
 
-        inline std::vector<entt::entity>& getChildrenHandles()
+        inline std::vector<entt::entity>& getChildrenHandles() const
         {
             return getComponent<ChildrenHandles>();
         }
 
-        void updateChildrenTransform()
+        void updateChildrenTransform();
+
+        inline bool hasParent()
         {
-            if (getComponent<Component::Transform>().m_FlagChanged)
-            {
-                auto children_handles = getChildrenHandles();
-
-                DEX_LOG_INFO("Did for: {}", getComponent<Component::Tag>().m_Tag);
-
-                for (entt::entity child_handle : children_handles)
-                {
-                    m_Scene->m_Registry.get<Component::Transform>(child_handle).setParentTransformationMatrix(getComponent<Component::Transform>().getTransformationMatrix());
-
-                    Entity(child_handle, m_Scene).updateChildrenTransform();
-                }
-
-                getComponent<Component::Transform>().m_FlagChanged = false;
-            }
+            return getParent().m_Handle != entt::null;
         }
 
         inline void setParent(Entity parent)
@@ -103,8 +90,8 @@ namespace dex
         template<typename T, typename... Args>
         inline T& addComponent(Args&&... args)
         {
-            if (hasComponent<T>()) DEX_LOG_ERROR("Entity already has that component!");
-
+            if (hasComponent<T>()) DEX_LOG_ERROR("<dex::Entity::addComponent()>: Entity already has that component!");
+            
             return m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<Args>(args)...);
         }
 
@@ -115,7 +102,7 @@ namespace dex
         }
 
         template <typename T>
-        inline T& getComponent()
+        inline T& getComponent() const
         { 
             return m_Scene->m_Registry.get<T>(m_Handle);
         }
@@ -126,10 +113,12 @@ namespace dex
             return m_Scene->m_Registry.has<T>(m_Handle);
         }
 
+        const bool isValid() const { return m_Handle != entt::null; }
+
         operator entt::entity() const { return m_Handle; };
         bool operator==(const Entity& other) { return m_Handle == other.m_Handle && m_Scene == other.m_Scene; }
     private:
-        const entt::entity m_Handle;
+        entt::entity m_Handle = entt::null;
         Scene* m_Scene = nullptr;
 
         friend class Scene;

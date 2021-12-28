@@ -3,6 +3,7 @@
 #include "../Core/Engine.hpp"
 #include "Entity/Entity.hpp"
 #include "../Renderer/Shader/ShaderManager.hpp"
+#include "Component/Camera/CameraComponent.hpp"
 #include "../Util/Logging.hpp"
 
 namespace dex
@@ -26,13 +27,7 @@ namespace dex
 
     void Scene::update()
     {
-        //m_Root->updateChildrenTransform();
-        //DEX_LOG_INFO("{}", m_Root->getComponent<ChildrenHandles>().size());
-
-        for (auto& e : m_Entities)
-        {
-            e.updateChildrenTransform();
-        }
+        m_Root->updateChildrenTransform();
     }
 
     void Scene::physics()
@@ -47,18 +42,18 @@ namespace dex
         if (cameraView.size() == 1)
         {
             for (auto& eID : cameraView)
-            {
-                if (m_Registry.get<Component::Camera>(eID).m_IsEnabled)
+            {                
+                if (m_Registry.get<Component::Camera>(eID).IsEnabled)
                     m_ActiveCameraID = eID;
             }
         }
         else if (cameraView.size() > 1)
         {
-            DEX_LOG_ERROR("<Scene::findNSetMainCamera>: Too many main cameras.");
+            DEX_LOG_ERROR("<Scene::findNSetMainCamera>(): Too many main cameras.");
         }
         else if (cameraView.size() < 1)
         {
-            DEX_LOG_ERROR("<Scene::findNSetMainCamera>: No cameras found.");
+            DEX_LOG_ERROR("<Scene::findNSetMainCamera()>: No cameras found.");
         }
     }
 }

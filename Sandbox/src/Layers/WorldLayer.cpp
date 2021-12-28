@@ -53,55 +53,65 @@ void WorldLayer::update()
 
     //m_XYZ.getComponent<dex::Component::Transform>().moveBy(glm::vec3(0, 0, .001));
 
-    
-
     auto& player_trans = m_Player.getComponent<dex::Component::Transform>();
     auto& head_trans = m_Head.getComponent<dex::Component::Transform>();
 
-    //player_trans.printAsInfo();
+    //player_trans.logAsInfo();
+
+    float32 speed = .8 * Engine::time.getDeltaTime();
+
+    if (Engine::window.input.getKeyState(dex::Event::Key::LEFT_SHIFT))
+        speed = 6 * Engine::time.getDeltaTime();
 
     if (Engine::window.input.getKeyState(dex::Event::Key::W))
-        player_trans.moveByLocal(glm::vec3(0, 0, 0.01));
+        head_trans.moveByLocal(glm::vec3(0, 0, speed));
 
     if (Engine::window.input.getKeyState(dex::Event::Key::S))
-        player_trans.moveByLocal(glm::vec3(0, 0, -.01));
+        head_trans.moveByLocal(glm::vec3(0, 0, -speed));
 
     if (Engine::window.input.getKeyState(dex::Event::Key::A))
-        player_trans.moveByLocal(glm::vec3(-.01, 0, 0));
+        head_trans.moveByLocal(glm::vec3(-speed, 0, 0));
 
     if (Engine::window.input.getKeyState(dex::Event::Key::D))
-        player_trans.moveByLocal(glm::vec3(.01, 0, 0));
+        head_trans.moveByLocal(glm::vec3(speed, 0, 0));
 
     if (Engine::window.input.getKeyState(dex::Event::Key::Q))
-        player_trans.moveByLocal(glm::vec3(0, -.01, 0));
+        head_trans.moveByLocal(glm::vec3(0, -speed, 0));
 
     if (Engine::window.input.getKeyState(dex::Event::Key::E))
-        player_trans.moveByLocal(glm::vec3(0, .01, 0));
+        head_trans.moveByLocal(glm::vec3(0, speed, 0));
 
-    const auto& m = Engine::window.input.getMousePosChange() * .002;
+    if (Engine::window.isMouseCaptured())
+    {
+        const auto& m = Engine::window.input.getMousePosChange() * .002;
 
-    player_trans.rotateByEuler((glm::vec3(0, m.x, 0)));
+        player_trans.rotateByEuler((glm::vec3(0, m.x, 0)));
 
-    float max_degrees = 90;
-    
-    if (head_trans.getRotationDegrees().x -m.y <= max_degrees && head_trans.getRotationDegrees().x -m.y >= -max_degrees)
-        head_trans.rotateByEulerLocal((glm::vec3(-m.y, 0, 0)));
-    else if (head_trans.getRotationDegrees().x > max_degrees)
-        head_trans.setRotationEuler(glm::vec3(glm::radians(max_degrees), 0, 0));
-    else if (head_trans.getRotationDegrees().x < -max_degrees)
-        head_trans.setRotationEuler(glm::vec3(glm::radians(-max_degrees), 0, 0));
-    
+        float max_degrees = 90;
 
-    if (Engine::window.input.getKeyState(dex::Event::Key::KB_1))
-        dex::Engine::window.setFullscreen();
+        if (head_trans.getRotationDegrees().x <= max_degrees && head_trans.getRotationDegrees().x >= -max_degrees)
+            head_trans.rotateByEulerLocal((glm::vec3(-m.y, 0, 0)));
+        if (head_trans.getRotationDegrees().x >= max_degrees)
+            head_trans.setRotationEuler(glm::vec3(glm::radians(max_degrees), 0, 0));
+        if (head_trans.getRotationDegrees().x <= -max_degrees)
+            head_trans.setRotationEuler(glm::vec3(glm::radians(-max_degrees), 0, 0));
+    }
 
-    if (Engine::window.input.getKeyState(dex::Event::Key::KB_2))
-        dex::Engine::window.setWindowed();
+    if (Engine::window.input.isKeyPressed(dex::Event::Key::F11))
+    {
+        if (!dex::Engine::window.isFullscreen())
+            dex::Engine::window.setFullscreen();
+        else
+            dex::Engine::window.setWindowed();
+    }
 
-    if (Engine::window.input.getKeyState(dex::Event::Key::O))
-        dex::Engine::window.setCaptureMouse(true);
-    if (Engine::window.input.getKeyState(dex::Event::Key::P))
-        dex::Engine::window.setCaptureMouse(false);
+    if (Engine::window.input.isKeyPressed(dex::Event::Key::GRAVE_ACCENT))
+    {
+        if (dex::Engine::window.isMouseCaptured())
+            dex::Engine::window.setCaptureMouse(false);
+        else
+            dex::Engine::window.setCaptureMouse(true);
+    }
 
     Engine::window.input.stopEvents();
 }
@@ -109,10 +119,6 @@ void WorldLayer::update()
 void WorldLayer::render()
 {
     /*
-    //auto& model = m_Player.getComponent<dex::Component::Model>();
-
-    //model.m_Material->m_Shader->bind();
-
     ImGui::Begin("Test Window");
 
     static float rotX = 0.0f;

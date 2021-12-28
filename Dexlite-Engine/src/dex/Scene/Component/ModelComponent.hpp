@@ -5,21 +5,33 @@
 
 namespace dex
 {
+    class Entity;
+
     namespace Component
     {
         struct Model
         {
             Model() = default;
 
-            Model(const std::vector<Vertex3D::Default>& vertices,
+            Model(
+                const std::vector<Vertex3D::Default>& vertices,
                 const std::vector<uint32_t>& indices,
                 std::shared_ptr<Material::Default3D> material)
-                : m_Mesh(vertices, indices), m_Material(material)
+
+                : // Initializer List:
+
+                m_Mesh(vertices, indices),
+                m_Material(material)
             {}
 
-            Model(Mesh::Default3D mesh,
+            Model(
+                Mesh::Default3D mesh,
                 std::shared_ptr<Material::Default3D> material)
-                : m_Mesh(std::move(mesh)), m_Material(material)
+
+                :  // Initializer List:
+
+                m_Mesh(std::move(mesh)),
+                m_Material(material)
             {}
 
             void prepareRendering(const glm::mat4& model_matrix)
@@ -35,10 +47,8 @@ namespace dex
                 m_Mesh.render();
             }
         public:
-            std::string m_Name;
-
             Mesh::Default3D m_Mesh;
-            std::shared_ptr<Material::Default3D> m_Material;
+            std::shared_ptr<Material::Default3D> m_Material; /// hmmm make entity in base n make comp::mat
         };
     }
 }

@@ -16,12 +16,10 @@ namespace dex
             glGenVertexArrays(1, &m_ID);
             bind();
         }
+
         ~VertexArray()
         {
-            //DEX_LOG_ERROR("Deleted VAO: {}", m_ID);
-
-            if (m_ID)
-                glDeleteVertexArrays(1, &m_ID);
+            if (m_ID) glDeleteVertexArrays(1, &m_ID);
         }
 
         VertexArray(const VertexArray& other) = delete;
@@ -53,6 +51,7 @@ namespace dex
             bind();
             glDrawElements(GL_TRIANGLES, m_IndexBuffer.getCount(), GL_UNSIGNED_INT, 0);
         }
+
         void renderAsLines()
         {
             bind();
@@ -63,6 +62,7 @@ namespace dex
         {
             glBindVertexArray(m_ID);
         }
+        
         void unbind()
         {
             glBindVertexArray(0);

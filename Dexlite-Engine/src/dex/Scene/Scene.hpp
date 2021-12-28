@@ -2,8 +2,6 @@
 
 #include <entt.hpp>
 
-#include "Component/CameraComponent.hpp"
-
 namespace dex
 {
     class Entity;

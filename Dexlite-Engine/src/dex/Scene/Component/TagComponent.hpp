@@ -2,17 +2,19 @@
 
 #include <string>
 
+#include "BaseComponent.hpp"
+
 namespace dex
 {
     namespace Component
     {
         struct Tag
         {
-            Tag() : m_Tag("") {}
+            Tag() = default;
             Tag(const char* tag) : m_Tag(tag) {}
             Tag(const std::string& tag) : m_Tag(tag) {}
-            
-            std::string m_Tag;
+        public:
+            std::string m_Tag = "";
         };
     }
 }

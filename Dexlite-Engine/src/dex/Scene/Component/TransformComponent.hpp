@@ -4,6 +4,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
+#include "../Entity/Entity.hpp"
+#include "TagComponent.hpp"
 #include "../../Util/Logging.hpp"
 
 namespace dex
@@ -12,47 +14,86 @@ namespace dex
     {
         struct Transform
         {
-            Transform(glm::vec3 position = glm::vec3(0.0f), glm::quat rotation = glm::quat(glm::vec3(0.0f)), glm::vec3 scale = glm::vec3(1.0f))
-                : m_TransformationMatrix(1.0f), m_ParentTransformationMatrix(1.0f), m_Position(position), m_Rotation(rotation), m_Scale(scale)
+            Transform(
+                Entity entity,
+                glm::vec3 position = glm::vec3(0.0f),
+                glm::quat rotation = glm::quat(glm::vec3(0.0f)),
+                glm::vec3 scale = glm::vec3(1.0f))
+
+                : // Initializer List:
+                
+                m_Entity(entity),
+                m_Position(position),
+                m_Rotation(rotation), 
+                m_Scale(scale),
+                m_WorldPosition(position), 
+                m_WorldRotation(rotation),
+                m_WorldScale(scale)
             {
-                calculateTransformation();
+                m_FlagChanged = true;
             }
 
-            inline void setPosition(const glm::vec3& position) { m_Position = position; calculateTransformation(); }
-            inline void setRotationQuat(const glm::quat& rotation) { m_Rotation = rotation; calculateTransformation(); }
-            inline void setRotationEuler(const glm::vec3& rotation) { m_Rotation = glm::quat(rotation); calculateTransformation(); }
-            inline void setScale(const glm::vec3& scale) { m_Scale = scale; calculateTransformation(); }
+            inline void setPosition(const glm::vec3& position) { m_Position = position; m_FlagChanged = true; }
+            inline void setRotationQuat(const glm::quat& rotation) { m_Rotation = rotation; m_FlagChanged = true; }
+            inline void setRotationEuler(const glm::vec3& rotation) { m_Rotation = glm::quat(rotation); m_FlagChanged = true; }
+            inline void setScale(const glm::vec3& scale) { m_Scale = scale; m_FlagChanged = true; }
 
-            inline void moveBy(const glm::vec3& amount) { m_Position += amount; calculateTransformation(); }
-            inline void rotateByQuat(const glm::quat& amount) { m_Rotation *= amount; calculateTransformation(); }
-            inline void rotateByEuler(const glm::vec3& amount) { m_Rotation = glm::normalize(m_Rotation * glm::quat(amount)); calculateTransformation(); }
-            inline void scaleBy(const glm::vec3& amount) { m_Scale *= amount; calculateTransformation(); }
+            inline void moveBy(const glm::vec3& amount) { m_Position += amount; m_FlagChanged = true; }
+            inline void rotateByQuat(const glm::quat& amount) { m_Rotation *= amount; m_FlagChanged = true; }
+            inline void rotateByEuler(const glm::vec3& amount) { m_Rotation = m_Rotation * glm::quat(amount); m_FlagChanged = true; }
+            inline void scaleBy(const glm::vec3& amount) { m_Scale *= amount; m_FlagChanged = true; }
 
             // Right, Up, and Forward.
-            inline void moveByLocal(const glm::vec3& amount) { m_Position += (amount.x * m_Right) + (amount.y * m_Up) + (amount.z * m_Forward); calculateTransformation(); }
-            inline void rotateByQuatLocal(const glm::quat& amount) { m_Rotation = amount * m_Rotation; calculateTransformation(); }
-            inline void rotateByEulerLocal(const glm::vec3& amount) { m_Rotation = glm::quat(amount) * m_Rotation; calculateTransformation(); }
-            inline void scaleByLocal(const glm::vec3& amount) { m_Scale = amount * m_Scale; calculateTransformation(); }
+            inline void moveByLocal(const glm::vec3& amount) { m_Position += (amount.x * m_Right) + (amount.y * m_Up) + (amount.z * m_Forward); m_FlagChanged = true; }
+            inline void rotateByQuatLocal(const glm::quat& amount) { m_Rotation = amount * m_Rotation; m_FlagChanged = true; }
+            inline void rotateByEulerLocal(const glm::vec3& amount) { m_Rotation = glm::quat(amount) * m_Rotation; m_FlagChanged = true; }
+            inline void scaleByLocal(const glm::vec3& amount) { m_Scale = amount * m_Scale; m_FlagChanged = true; }
 
             inline const glm::vec3& getPosition() const { return m_Position; }
             inline const glm::quat& getRotationQuat() const { return m_Rotation; }
             inline const glm::vec3 getRotationRadians() const { return glm::eulerAngles(m_Rotation); }
             inline const glm::vec3 getRotationDegrees() const { return glm::degrees(glm::eulerAngles(m_Rotation)); }
             inline const glm::vec3& getScale() const { return m_Scale; }
-            
-            void calculateTransformation()
+
+            inline const glm::vec3& getWorldPosition() const { return m_WorldPosition; }
+            inline const glm::quat& getWorldRotationQuat() const { return m_WorldRotation; }
+            inline const glm::vec3 getWorldRotationRadians() const { return glm::eulerAngles(m_WorldRotation); }
+            inline const glm::vec3 getWorldRotationDegrees() const { return glm::degrees(glm::eulerAngles(m_WorldRotation)); }
+            inline const glm::vec3& getWorldScale() const { return m_WorldScale; }
+
+            inline const glm::vec3 getForward() const { return m_Forward; }
+            inline const glm::vec3 getRight() const { return m_Right; }
+            inline const glm::vec3 getUp() const { return m_Up; }
+
+            void update()
             {
-                m_Forward = m_Rotation * glm::vec3(0, 0, 1);
-                m_Up = m_Rotation * glm::vec3(0, 1, 0);
-                m_Right = m_Rotation * glm::vec3(1, 0, 0);
+                if (doesEntityHaveParent())
+                {
+                    const auto& parent_transform = m_Entity.getParent().getComponent<Component::Transform>();
 
-                m_TransformationMatrix = 
-                    m_ParentTransformationMatrix *
-                    glm::translate(glm::mat4(1.0f), m_Position) *
-                    glm::toMat4(m_Rotation) *
-                    glm::scale(glm::mat4(1.0f), m_Scale);
+                    m_WorldPosition = parent_transform.m_WorldPosition + m_Position;
+                    m_WorldRotation = parent_transform.m_WorldRotation * m_Rotation;
+                    m_WorldScale = parent_transform.m_WorldScale * m_Scale;
+                }
+                else
+                {
+                    m_WorldPosition = m_Position;
+                    m_WorldRotation = m_Rotation;
+                    m_WorldScale = m_Scale;
+                }
 
-                m_FlagChanged = true;
+                m_TransformationMatrix =
+                    glm::translate(glm::mat4(1.0f), m_WorldPosition) *
+                    glm::toMat4(m_WorldRotation) *
+                    glm::scale(glm::mat4(1.0f), m_WorldScale);
+
+                m_Forward = m_WorldRotation * glm::vec3(0, 0, 1);
+                m_Up = m_WorldRotation * glm::vec3(0, 1, 0);
+                m_Right = m_WorldRotation * glm::vec3(1, 0, 0);
+
+                DEX_LOG_INFO("Did for: {}", m_Entity.getComponent<Component::Tag>().m_Tag);
+
+                m_FlagChanged = false;
             }
 
             void logAsInfo() const
@@ -65,37 +106,37 @@ namespace dex
                     m_Scale.x, m_Scale.y, m_Scale.z);
             }
 
-            void setParentTransformationMatrix(glm::mat4& parent_transform_matrix)
-            {
-                m_ParentTransformationMatrix = parent_transform_matrix;
-
-                calculateTransformation();
-
-                m_FlagChanged = true;
-            }
-
-            /*void resetParentTransformationMatrix()
-            {
-                m_ParentTransformationMatrix = glm::mat4(1.0f);
-            }*/
-
-            inline glm::mat4& getTransformationMatrix() { return m_TransformationMatrix; }
+            inline const glm::mat4& getTransformationMatrix() const { return m_TransformationMatrix; }
 
             inline operator const glm::mat4&() const { return m_TransformationMatrix; }
-
-            bool m_FlagChanged = false;
         private:
-            glm::mat4 m_TransformationMatrix;
+            inline bool doesEntityHaveParent()
+            {
+                return m_Entity.hasParent();
+            }
 
-            glm::mat4 m_ParentTransformationMatrix;
+            inline const Transform& getParentTransform()
+            {
+                return m_Entity.getParent().getComponent<Transform>();
+            }
+        private:
+            Entity m_Entity;
 
-            glm::vec3 m_Forward;
-            glm::vec3 m_Right;
-            glm::vec3 m_Up;
+            glm::mat4 m_TransformationMatrix = glm::mat4(1.0f);
 
+            glm::vec3 m_Forward = { 0.0f, 0.0f, 0.0f };
+            glm::vec3 m_Right = { 0.0f, 0.0f, 0.0f };
+            glm::vec3 m_Up = { 0.0f, 0.0f, 0.0f };
+            
             glm::vec3 m_Position;
             glm::quat m_Rotation;
             glm::vec3 m_Scale;
+
+            glm::vec3 m_WorldPosition;
+            glm::quat m_WorldRotation;
+            glm::vec3 m_WorldScale;
+        public:
+            bool m_FlagChanged = false;
         };
     }
 }
