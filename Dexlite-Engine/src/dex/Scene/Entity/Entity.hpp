@@ -8,9 +8,6 @@
 
 namespace dex
 {
-    typedef std::vector<entt::entity> ChildrenHandles;
-    typedef entt::entity Parent;
-
     // Does not need to be a shared pointer, since its small contents (handle ID and ptr to registry) would remain constant between its instances.
     class Entity
     {
@@ -52,18 +49,11 @@ namespace dex
             child.setParent(m_Handle);
         };
 
-        void addChild(entt::entity child_handle)
-        { 
-            getChildrenHandles().push_back(child_handle);
-            m_Scene->m_Registry.get<Parent>(child_handle) = m_Handle;
-        }
+        void addChild(entt::entity child_handle);
 
         void removeChild(Entity child, bool destroy_handle = false);
 
-        inline std::vector<entt::entity>& getChildrenHandles() const
-        {
-            return getComponent<ChildrenHandles>();
-        }
+        std::vector<entt::entity>& getChildrenHandles() const;
 
         void updateChildrenTransform();
 
@@ -72,27 +62,21 @@ namespace dex
             return getParent().m_Handle != entt::null;
         }
 
-        inline void setParent(Entity parent)
-        {
-            getComponent<Parent>() = parent.m_Handle;
-        }
+        void setParent(Entity parent);
 
-        inline void setParent(entt::entity parent)
-        {
-            getComponent<Parent>() = parent;
-        }
+        void setParent(entt::entity parent);
 
-        inline Entity getParent()
-        {
-            return Entity(getComponent<Parent>(), m_Scene);
-        }
+        Entity getParent();
 
         template<typename T, typename... Args>
         inline T& addComponent(Args&&... args)
         {
             if (hasComponent<T>()) DEX_LOG_ERROR("<dex::Entity::addComponent()>: Entity already has that component!");
             
-            return m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<Args>(args)...);
+            auto& component = m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<Args>(args)...);
+            getComponent<T>().m_Entity = *this;
+
+            return component;
         }
 
         template <typename T>
@@ -120,7 +104,7 @@ namespace dex
     private:
         entt::entity m_Handle = entt::null;
         Scene* m_Scene = nullptr;
-
+    public:
         friend class Scene;
     };
 }

@@ -48,7 +48,7 @@ namespace dex
         glfwSetWindowSizeCallback(m_Window_GLFW, [](GLFWwindow* window, int width, int height)
             {
                 if (width || height)
-                    dex::Engine::renderer.setViewportSize(glm::uvec2(width, height));
+                    dex::Engine::Renderer.setViewportSize(glm::uvec2(width, height));
             });
 
         glfwSetWindowPosCallback(m_Window_GLFW, [](GLFWwindow* window, int xpos, int ypos)
@@ -69,19 +69,19 @@ namespace dex
                 case GLFW_PRESS:
                 {
                     Event::KeyEvent event = { Event::Type::KEY_PRESS, Event::Key(key) };
-                    Engine::window.input.pushKeyEvent(event);
+                    Engine::Window.Input.pushKeyEvent(event);
                     break;
                 }
                 case GLFW_RELEASE:
                 {
                     Event::KeyEvent event = { Event::Type::KEY_RELEASE, Event::Key(key) };
-                    Engine::window.input.pushKeyEvent(event);
+                    Engine::Window.Input.pushKeyEvent(event);
                     break;
                 }
                 case GLFW_REPEAT:
                 {
                     Event::KeyEvent event = { Event::Type::KEY_PRESS, Event::Key(key) };
-                    Engine::window.input.pushKeyEvent(event);
+                    Engine::Window.Input.pushKeyEvent(event);
                     break;
                 }
                 }
@@ -91,7 +91,7 @@ namespace dex
             {
                 static float32 lastX = xPos, lastY = yPos;
 
-                Engine::window.input.pushMouseEvent(Event::MouseEvent(Event::Type::MOUSE, Event::MouseType::MOVE, glm::dvec2(xPos, yPos), glm::dvec2(-(lastX - xPos), lastY - yPos), Event::MouseButton::UNKNOWN, 0));
+                Engine::Window.Input.pushMouseEvent(Event::MouseEvent(Event::Type::MOUSE, Event::MouseType::MOVE, glm::dvec2(xPos, yPos), glm::dvec2(-(lastX - xPos), lastY - yPos), Event::MouseButton::UNKNOWN, 0));
 
                 lastX = xPos; lastY = yPos;
             });
@@ -133,7 +133,7 @@ namespace dex
                     break;
                 }
 
-                Engine::window.input.pushMouseEvent(Event::MouseEvent(Event::Type::MOUSE, mouseType, mousePos, glm::dvec2(0, 0), new_btn, 0));
+                Engine::Window.Input.pushMouseEvent(Event::MouseEvent(Event::Type::MOUSE, mouseType, mousePos, glm::dvec2(0, 0), new_btn, 0));
             });
 
         glfwSetWindowCloseCallback(m_Window_GLFW, [](GLFWwindow* window)
@@ -157,7 +157,7 @@ namespace dex
 
     void Window::update()
     {
-        input.resetInput();
+        Input.resetInput();
 
 
         glfwSwapBuffers(m_Window_GLFW);

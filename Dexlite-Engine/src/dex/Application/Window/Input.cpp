@@ -8,7 +8,7 @@ namespace dex
 {
     bool Input::getKeyState(Event::Key e)
     {
-        return (!m_AreKeyEventsHalted) && (glfwGetKey(dex::Engine::window.m_Window_GLFW, int32(e)) == GLFW_PRESS);
+        return (!m_AreKeyEventsHalted) && (glfwGetKey(dex::Engine::Window.m_Window_GLFW, int32(e)) == GLFW_PRESS);
     }
 
     bool Input::isKeyPressed(Event::Key e)
@@ -36,7 +36,7 @@ namespace dex
         if (!m_AreMouseEventsHalted)
         {
             glm::dvec2 tmp_pos;
-            glfwGetCursorPos(Engine::window.m_Window_GLFW, &tmp_pos.x, &tmp_pos.y);
+            glfwGetCursorPos(Engine::Window.m_Window_GLFW, &tmp_pos.x, &tmp_pos.y);
             return tmp_pos;
         }
 

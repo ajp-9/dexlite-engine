@@ -16,9 +16,9 @@ namespace dex
     void ImGuiLayer::update()
     {
         if (ImGui::GetIO().WantCaptureKeyboard)
-            Engine::window.input.stopKeyEvents();
+            Engine::Window.Input.stopKeyEvents();
 
         if (ImGui::GetIO().WantCaptureMouse)
-            Engine::window.input.stopMouseEvents();
+            Engine::Window.Input.stopMouseEvents();
     }
 }

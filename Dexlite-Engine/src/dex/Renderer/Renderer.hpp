@@ -30,7 +30,7 @@ namespace dex
     private:
 
     public:
-        Shader::Manager shaderManager;
+        Shader::Manager ShaderManager;
     private:
         bool m_ChangeProjectionMatrixNext = true; // For when the window/viewport resizes
 

@@ -23,7 +23,7 @@ namespace dex
 
     Renderer::~Renderer()
     {
-
+        
     }
 
     void Renderer::beginFrame()
@@ -72,7 +72,7 @@ namespace dex
 
         if (scene.m_ActiveCameraID != entt::null)
         {
-            auto shader = shaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D);
+            auto shader = ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D);
 
             if (m_ChangeProjectionMatrixNext)
                 scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).updateProjectionMatrix();

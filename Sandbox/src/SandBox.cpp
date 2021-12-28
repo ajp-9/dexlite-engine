@@ -17,8 +17,8 @@ using dex::Engine;
 
 void SandBox::Init()
 {
-    Engine::layerManager.pushLayer(std::make_shared<WorldLayer>());
-    Engine::layerManager.pushLayer(std::make_shared<DebugLayer>());
+    Engine::LayerManager.pushLayer(std::make_shared<WorldLayer>());
+    Engine::LayerManager.pushLayer(std::make_shared<DebugLayer>());
 }
 
 void SandBox::Shutdown()

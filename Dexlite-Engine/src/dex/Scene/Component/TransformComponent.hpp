@@ -7,22 +7,21 @@
 #include "../Entity/Entity.hpp"
 #include "TagComponent.hpp"
 #include "../../Util/Logging.hpp"
+#include "BaseComponent.hpp"
 
 namespace dex
 {
     namespace Component
     {
-        struct Transform
+        struct Transform : Base
         {
             Transform(
-                Entity entity,
                 glm::vec3 position = glm::vec3(0.0f),
                 glm::quat rotation = glm::quat(glm::vec3(0.0f)),
                 glm::vec3 scale = glm::vec3(1.0f))
 
                 : // Initializer List:
                 
-                m_Entity(entity),
                 m_Position(position),
                 m_Rotation(rotation), 
                 m_Scale(scale),
@@ -120,8 +119,6 @@ namespace dex
                 return m_Entity.getParent().getComponent<Transform>();
             }
         private:
-            Entity m_Entity;
-
             glm::mat4 m_TransformationMatrix = glm::mat4(1.0f);
 
             glm::vec3 m_Forward = { 0.0f, 0.0f, 0.0f };
@@ -137,6 +134,8 @@ namespace dex
             glm::vec3 m_WorldScale;
         public:
             bool m_FlagChanged = false;
+        public:
+            friend class dex::Entity;
         };
     }
 }

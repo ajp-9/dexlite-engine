@@ -5,6 +5,9 @@
 namespace dex
 {
     class Entity;
+    class Scene;
+
+    using CustomSceneUpdate = void(Scene& scene);
 
     class Scene
     {
@@ -18,13 +21,6 @@ namespace dex
         void update();
         void physics();
 
-        // Lambda must have "std::vector<dex::Entity>& entities" as its sole argument.
-        template <typename F>
-        void doCustumUpdate(F custom_update_func)
-        {
-            //custom_update_func(*this);
-        }
-
         void findNSetActiveCamera();
     private:
         entt::registry m_Registry;
@@ -33,7 +29,9 @@ namespace dex
         std::unique_ptr<Entity> m_Root;
 
         std::vector<Entity> m_Entities;
-        
+
+        std::vector<CustomSceneUpdate*> m_CustomSceneUpdates;
+    public:
         friend class Entity;
         friend class Renderer;
     };

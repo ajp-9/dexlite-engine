@@ -15,7 +15,7 @@ namespace dex
 
     void Engine::Shutdown()
     {
-        layerManager.detachAllLayers();
+        LayerManager.detachAllLayers();
         s_Program->Shutdown();
     }
     
@@ -27,28 +27,28 @@ namespace dex
 
         while (s_Running)
         {
-            time.doCycle();
+            Time.doCycle();
 
             // Updating/events -------------
             s_Program->update();
-
-            layerManager.updateLayers();
-            layerManager.sendEvents();
+            
+            LayerManager.updateLayers();
+            LayerManager.sendEvents();
 
             // Rendering -------------------
-            renderer.clear();
-            renderer.beginFrame();
+            Renderer.clear();
+            Renderer.beginFrame();
 
             s_Program->render();
 
-            layerManager.renderLayers();
+            LayerManager.renderLayers();
 
-            renderer.endFrame();
+            Renderer.endFrame();
 
             // Swap buffers when FINISHED rendering & reset event queue 
-            window.update();
+            Window.update();
 
-            time.sleep();
+            Time.sleep();
 
             if (!s_Running)
                 Shutdown();
@@ -66,11 +66,11 @@ namespace dex
 
     bool Engine::s_Running;
     //1280 720
-    Window Engine::window(glm::uvec2(720, 720));
-    Renderer Engine::renderer;
-    Layer::Manager Engine::layerManager;
+    Window Engine::Window(glm::uvec2(720, 720));
+    Renderer Engine::Renderer;
+    Layer::Manager Engine::LayerManager;
 
-    Time Engine::time(60);
+    Time Engine::Time(60);
 
     std::shared_ptr<Program> Engine::s_Program;
 }

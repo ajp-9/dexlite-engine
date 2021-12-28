@@ -31,7 +31,7 @@ namespace dex
 
         bool isFullscreen() { return m_IsFullscreen; }
 
-        Input input;
+        Input Input;
     private:
         GLFWwindow* m_Window_GLFW = nullptr;
 

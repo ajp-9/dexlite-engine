@@ -20,11 +20,11 @@ namespace dex
     public:
         static void Stop();
 
-        static Window window;
-        static Renderer renderer;
-        static Layer::Manager layerManager;
+        static Window Window;
+        static Renderer Renderer;
+        static Layer::Manager LayerManager;
 
-        static Time time;
+        static Time Time;
 
         friend int ::main(int argc, char** argv);
     private:

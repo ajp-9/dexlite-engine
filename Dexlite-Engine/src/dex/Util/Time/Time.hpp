@@ -18,8 +18,6 @@ namespace dex
     public:
         float32 getDeltaTime() { return m_DeltaTime; }
         float32 getFPS() { return float32(1000) / m_LastTime_ms; }
-
-        operator float32() const { return m_DeltaTime; }
     private:
         float32 m_DeltaTime = 0;
         float32 m_LastTime_ms = 0;

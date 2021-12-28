@@ -4,12 +4,9 @@
 
 namespace dex
 {
-    Stopwatch::Stopwatch(const char* name)
+    Stopwatch::Stopwatch(const std::string& name)
         : m_Name(name), m_Stopped(false)
     {
-        if (m_Name == "")
-            m_Name= "Anonymous";
-
         m_startTimepoint = std::chrono::high_resolution_clock::now();
     }
 

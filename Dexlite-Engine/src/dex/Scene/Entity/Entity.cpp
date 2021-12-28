@@ -3,6 +3,7 @@
 #include "../Component/BaseComponent.hpp"
 #include "../Component/Camera/CameraComponent.hpp"
 #include "../Component/TagComponent.hpp"
+#include "../Component/RelationshipComponents.hpp"
 #include "../Component/ModelComponent.hpp"
 #include "../Component/TransformComponent.hpp"
 
@@ -11,11 +12,11 @@ namespace dex
     Entity::Entity(Scene* scene, std::string tag, bool add_to_root)
         : m_Handle(scene->m_Registry.create()), m_Scene(scene)
     {
-        addComponent<Parent>(entt::null);
-        addComponent<ChildrenHandles>();
+        addComponent<Component::Parent>();
+        addComponent<Component::ChildrenHandles>();
 
         addComponent<Component::Tag>(tag);
-        addComponent<Component::Transform>(*this);
+        addComponent<Component::Transform>();
 
         scene->m_Entities.push_back(*this);
 
@@ -46,6 +47,12 @@ namespace dex
         children_handles.clear();
     }
 
+    void Entity::addChild(entt::entity child_handle)
+    {
+        getChildrenHandles().push_back(child_handle);
+        m_Scene->m_Registry.get<Component::Parent>(child_handle).Handle = m_Handle;
+    }
+
     void Entity::removeChild(Entity child, bool destroy_handle)
     {
         const auto& children_handles = getChildrenHandles();
@@ -61,6 +68,11 @@ namespace dex
         }
         else
             DEX_LOG_ERROR("<dex::Entity::removeChild>: Entity (ID: {}), is not in ChildrenHandles component of Entity (ID: {}).", child.m_Handle, m_Handle);
+    }
+
+    std::vector<entt::entity>& Entity::getChildrenHandles() const
+    {
+        return getComponent<Component::ChildrenHandles>().Handles;
     }
 
     void Entity::updateChildrenTransform()
@@ -80,16 +92,27 @@ namespace dex
                     auto& camera = child_entity.getComponent<Component::Camera>();
 
                     if (camera.IsEnabled)
-                    {
-                        if (!camera.m_Entity.isValid())
-                            camera.m_Entity = child_entity;
-
                         camera.updateViewMatrix();
-                    }
                 }
             }
-
+            
             child_entity.updateChildrenTransform();
         }
     }
+
+    void Entity::setParent(Entity parent)
+    {
+        getComponent<Component::Parent>().Handle = parent.m_Handle;
+    }
+
+    void Entity::setParent(entt::entity parent)
+    {
+        getComponent<Component::Parent>().Handle = parent;
+    }
+
+    Entity Entity::getParent()
+    {
+        return Entity(getComponent<Component::Parent>().Handle, m_Scene);
+    }
+
 }

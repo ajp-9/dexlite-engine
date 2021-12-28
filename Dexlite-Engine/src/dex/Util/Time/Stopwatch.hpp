@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <string>
 
 namespace dex
 {
@@ -9,12 +10,12 @@ namespace dex
     class Stopwatch
     {
     public:
-        Stopwatch(const char* name = "Anonymous");
+        Stopwatch(const std::string& name = "Anonymous");
         ~Stopwatch();
 
         void stop();
     private:
-        const char* m_Name;
+        std::string m_Name;
         std::chrono::time_point<std::chrono::high_resolution_clock> m_startTimepoint;
         bool m_Stopped;
     };

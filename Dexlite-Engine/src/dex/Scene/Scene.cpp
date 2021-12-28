@@ -42,8 +42,10 @@ namespace dex
         if (cameraView.size() == 1)
         {
             for (auto& eID : cameraView)
-            {                
-                if (m_Registry.get<Component::Camera>(eID).IsEnabled)
+            {
+                Entity entity = Entity(eID, this);
+
+                if (entity.getComponent<Component::Camera>().IsEnabled)
                     m_ActiveCameraID = eID;
             }
         }

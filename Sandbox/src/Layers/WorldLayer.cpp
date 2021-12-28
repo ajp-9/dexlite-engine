@@ -15,12 +15,9 @@ void WorldLayer::Attach()
     auto& camera = m_Head.addComponent<dex::Component::Camera>(true);
 
     //camera.setOrthographic(5, 0.001, 100);
-    camera.setPerspective(60, .001, 1000);
-
-    camera.updateProjectionMatrix();
-    camera.updateViewMatrix();
+    camera.setPerspective(65, 0.01, 1000);
     
-    dex::Engine::window.setCaptureMouse(true);
+    dex::Engine::Window.setCaptureMouse(true);
 
     std::vector<dex::Vertex3D::Default> vertices;
 
@@ -58,32 +55,32 @@ void WorldLayer::update()
 
     //player_trans.logAsInfo();
 
-    float32 speed = .8 * Engine::time.getDeltaTime();
+    float32 speed = .8 * Engine::Time.getDeltaTime();
 
-    if (Engine::window.input.getKeyState(dex::Event::Key::LEFT_SHIFT))
-        speed = 6 * Engine::time.getDeltaTime();
+    if (Engine::Window.Input.getKeyState(dex::Event::Key::LEFT_SHIFT))
+        speed = 6 * Engine::Time.getDeltaTime();
 
-    if (Engine::window.input.getKeyState(dex::Event::Key::W))
+    if (Engine::Window.Input.getKeyState(dex::Event::Key::W))
         head_trans.moveByLocal(glm::vec3(0, 0, speed));
 
-    if (Engine::window.input.getKeyState(dex::Event::Key::S))
+    if (Engine::Window.Input.getKeyState(dex::Event::Key::S))
         head_trans.moveByLocal(glm::vec3(0, 0, -speed));
 
-    if (Engine::window.input.getKeyState(dex::Event::Key::A))
+    if (Engine::Window.Input.getKeyState(dex::Event::Key::A))
         head_trans.moveByLocal(glm::vec3(-speed, 0, 0));
 
-    if (Engine::window.input.getKeyState(dex::Event::Key::D))
+    if (Engine::Window.Input.getKeyState(dex::Event::Key::D))
         head_trans.moveByLocal(glm::vec3(speed, 0, 0));
 
-    if (Engine::window.input.getKeyState(dex::Event::Key::Q))
+    if (Engine::Window.Input.getKeyState(dex::Event::Key::Q))
         head_trans.moveByLocal(glm::vec3(0, -speed, 0));
 
-    if (Engine::window.input.getKeyState(dex::Event::Key::E))
+    if (Engine::Window.Input.getKeyState(dex::Event::Key::E))
         head_trans.moveByLocal(glm::vec3(0, speed, 0));
 
-    if (Engine::window.isMouseCaptured())
+    if (Engine::Window.isMouseCaptured())
     {
-        const auto& m = Engine::window.input.getMousePosChange() * .002;
+        const auto& m = Engine::Window.Input.getMousePosChange() * .0015;
 
         player_trans.rotateByEuler((glm::vec3(0, m.x, 0)));
 
@@ -97,23 +94,23 @@ void WorldLayer::update()
             head_trans.setRotationEuler(glm::vec3(glm::radians(-max_degrees), 0, 0));
     }
 
-    if (Engine::window.input.isKeyPressed(dex::Event::Key::F11))
+    if (Engine::Window.Input.isKeyPressed(dex::Event::Key::F11))
     {
-        if (!dex::Engine::window.isFullscreen())
-            dex::Engine::window.setFullscreen();
+        if (!dex::Engine::Window.isFullscreen())
+            dex::Engine::Window.setFullscreen();
         else
-            dex::Engine::window.setWindowed();
+            dex::Engine::Window.setWindowed();
     }
 
-    if (Engine::window.input.isKeyPressed(dex::Event::Key::GRAVE_ACCENT))
+    if (Engine::Window.Input.isKeyPressed(dex::Event::Key::GRAVE_ACCENT))
     {
-        if (dex::Engine::window.isMouseCaptured())
-            dex::Engine::window.setCaptureMouse(false);
+        if (dex::Engine::Window.isMouseCaptured())
+            dex::Engine::Window.setCaptureMouse(false);
         else
-            dex::Engine::window.setCaptureMouse(true);
+            dex::Engine::Window.setCaptureMouse(true);
     }
 
-    Engine::window.input.stopEvents();
+    Engine::Window.Input.stopEvents();
 }
 
 void WorldLayer::render()
@@ -161,7 +158,7 @@ void WorldLayer::render()
     //trans.m_Rotation = glm::quat(glm::radians(glm::vec3(rotX, rotY, rotZ)));
     trans.setScale(glm::vec3(scale, scale, scale));
     */
-    Engine::renderer.renderScene(m_Scene);
+    Engine::Renderer.renderScene(m_Scene);
 
     //ImGui::End();
 }

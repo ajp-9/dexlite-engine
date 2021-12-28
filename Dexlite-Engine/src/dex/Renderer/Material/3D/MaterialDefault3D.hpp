@@ -12,7 +12,7 @@ namespace dex
         struct Default3D : Base<Shader::Default3D>
         {
             Default3D()
-                : Base(Engine::renderer.shaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D))
+                : Base(Engine::Renderer.ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D))
             {}
             
             Default3D(
@@ -22,7 +22,7 @@ namespace dex
                 
                 : // Initializer List:
 
-                Base(Engine::renderer.shaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)),
+                Base(Engine::Renderer.ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)),
                 m_TexTilingFactor(texTilingFactor),
                 m_DiffuseMap(std::move(diffuseMap)),
                 m_SpecularMap(std::move(specularMap))

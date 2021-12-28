@@ -42,11 +42,11 @@ namespace dex
             return *this;
         }
 
-        void uploadData(const std::vector<uint32_t>& indices)
+        void uploadData(const std::vector<uint32>& indices)
         {
             bind();
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
-            m_Count = indices.size();
+            m_Count = uint32(indices.size());
         }
 
         void bind()

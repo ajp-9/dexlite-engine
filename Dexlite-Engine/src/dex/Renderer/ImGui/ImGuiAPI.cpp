@@ -35,7 +35,7 @@ namespace dex
         }
 
         // Setup Platform/Renderer backends
-        ImGui_ImplGlfw_InitForOpenGL(Engine::window.m_Window_GLFW, true);
+        ImGui_ImplGlfw_InitForOpenGL(Engine::Window.m_Window_GLFW, true);
         ImGui_ImplOpenGL3_Init("#version 330");
     }
 

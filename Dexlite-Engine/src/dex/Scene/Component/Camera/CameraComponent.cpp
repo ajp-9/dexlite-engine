@@ -58,7 +58,7 @@ namespace dex
 
         void Camera::updateProjectionMatrix()
         {
-            const glm::ivec2& dim = Engine::window.getDimensions();
+            const glm::ivec2& dim = Engine::Window.getDimensions();
             m_AspectRatio = float32(dim.x) / float32(dim.y);
 
             if (m_Type == CameraType::ORTHOGRAPHIC)

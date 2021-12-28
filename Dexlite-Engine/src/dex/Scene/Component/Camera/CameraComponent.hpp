@@ -12,7 +12,7 @@ namespace dex
 {
     namespace Component
     {
-        class Camera
+        class Camera : Base
         {
         public:
             enum class CameraType { ORTHOGRAPHIC = 0, PERSPECTIVE = 1 };
@@ -27,6 +27,13 @@ namespace dex
             void setOrthographic(float32 size, float32 near, float32 far);
             void setPerspective(float32 fov, float32 near, float32 far);
 
+            const glm::mat4& getProjectionViewMatrix() { return m_ProjectionViewMatrix; }
+
+            // Called everytime you move or rotate the camera.
+            void updateViewMatrix();
+            // Called everytime you change the screen dimensions or the camera's fov, size, near, or far.
+            void updateProjectionMatrix();
+        private:
             const glm::mat4& getViewMatrix()
             {
                 if (isViewMatrixOld)
@@ -42,18 +49,9 @@ namespace dex
 
                 return m_ProjectionMatrix;
             }
-
-            const glm::mat4& getProjectionViewMatrix() { return m_ProjectionViewMatrix; }
-
-            // Called everytime you move or rotate the camera.
-            void updateViewMatrix();
-            // Called everytime you change the screen dimensions or the camera's fov, size, near, or far.
-            void updateProjectionMatrix();
         public:
             bool IsEnabled = false;
         private:
-            Entity m_Entity;
-
             CameraType m_Type = CameraType::ORTHOGRAPHIC;
 
             bool isViewMatrixOld = true;
@@ -84,8 +82,7 @@ namespace dex
 
             float32 m_AspectRatio = 1.0f;
         public:
-            //friend class Scene;
-            friend class Entity;
+            friend class dex::Entity;
         };
     }
 }
