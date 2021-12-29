@@ -115,8 +115,9 @@ void WorldLayer::update()
 
 void WorldLayer::render()
 {
-    /*
-    ImGui::Begin("Test Window");
+    m_Scene.render();
+
+    /*ImGui::Begin("Test Window");
 
     static float rotX = 0.0f;
     static float rotY = 0.0f;
@@ -157,8 +158,7 @@ void WorldLayer::render()
     trans.setPosition(glm::vec3(posX, posY, posZ));
     //trans.m_Rotation = glm::quat(glm::radians(glm::vec3(rotX, rotY, rotZ)));
     trans.setScale(glm::vec3(scale, scale, scale));
-    */
-    Engine::Renderer.renderScene(m_Scene);
+    
 
-    //ImGui::End();
+    ImGui::End();*/
 }

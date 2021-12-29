@@ -135,7 +135,7 @@ namespace dex
 
                 Engine::Window.Input.pushMouseEvent(Event::MouseEvent(Event::Type::MOUSE, mouseType, mousePos, glm::dvec2(0, 0), new_btn, 0));
             });
-
+        
         glfwSetWindowCloseCallback(m_Window_GLFW, [](GLFWwindow* window)
             {
                 dex::Engine::Stop();

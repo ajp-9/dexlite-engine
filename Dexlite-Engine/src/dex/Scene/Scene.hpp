@@ -2,12 +2,14 @@
 
 #include <entt.hpp>
 
+#include "../Renderer/Shader/ShaderGlobalUniforms.hpp"
+
 namespace dex
 {
     class Entity;
     class Scene;
 
-    using CustomSceneUpdate = void(Scene& scene);
+    using RenderModelLambda = void(entt::registry& scene_registry);
 
     class Scene
     {
@@ -19,18 +21,22 @@ namespace dex
         void destroyEntity(Entity entity);
 
         void update();
+        void render();
         void physics();
 
-        void findNSetActiveCamera();
+        void addRenderModelLambda(RenderModelLambda* lambda) { m_RenderModelLambdas.push_back(lambda); }
+    private:
+        void findAndSetActiveCamera();
     private:
         entt::registry m_Registry;
-        entt::entity m_ActiveCameraID = entt::null;
 
         std::unique_ptr<Entity> m_Root;
-
         std::vector<Entity> m_Entities;
+        entt::entity m_ActiveCameraID = entt::null;
 
-        std::vector<CustomSceneUpdate*> m_CustomSceneUpdates;
+        Shader::GlobalUniforms m_ShaderGlobalUniforms;
+
+        std::vector<RenderModelLambda*> m_RenderModelLambdas;
     public:
         friend class Entity;
         friend class Renderer;

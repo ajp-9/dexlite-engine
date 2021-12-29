@@ -41,7 +41,7 @@ namespace dex
 
         bool m_IsFullscreen = false;
         bool m_IsMouseCaptured = false;
-
+    public:
         friend class Engine;
         friend class ImGuiAPI;
         friend class Layer::Manager;

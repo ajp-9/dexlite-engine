@@ -23,15 +23,14 @@ namespace dex
         static Window Window;
         static Renderer Renderer;
         static Layer::Manager LayerManager;
-
         static Time Time;
-
-        friend int ::main(int argc, char** argv);
     private:
         static bool s_Running;
 
         // Is a unique ptr because of inheritance.
         static std::shared_ptr<Program> s_Program;
+    public:
+        friend int ::main(int argc, char** argv);
     };
 }
 

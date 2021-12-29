@@ -15,7 +15,7 @@ namespace dex
 
         void Manager::addShader(const std::shared_ptr<Shader::Base>& shader)
         {
-            m_Shaders.emplace_back(shader);
+            m_Shaders.push_back(shader);
         }
 
         std::shared_ptr<Shader::Base>& Manager::getShader(const char* name)
@@ -32,14 +32,12 @@ namespace dex
             return m_Shaders.at(uint8(type));
         }
 
-        /*void Manager::setProjectionViewMatrix(const glm::mat4& mat)
+        void Manager::updateCurrentGlobalShaderUniforms(const GlobalUniforms& globalUniforms)
         {
-            //for (auto& shader : m_Shaders)
-            //    shader->setProjectionViewMatrix(mat);
+            for (auto& shader : m_Shaders)
+            {
+                shader->updateGlobalUniforms();
+            }
         }
-
-        void Manager::setModalMatrix(const glm::mat4& mat)
-        {
-        }*/
     }
 }

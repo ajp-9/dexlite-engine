@@ -8,7 +8,7 @@
 #include "ImGui/ImGuiAPI.hpp"
 
 namespace dex
-{
+{   
     class Renderer
     {
     private:
@@ -26,10 +26,6 @@ namespace dex
         void setClearColor(const glm::vec4& color);
         void clear();
     public:
-        void renderScene(Scene& scene);
-    private:
-
-    public:
         Shader::Manager ShaderManager;
     private:
         bool m_ChangeProjectionMatrixNext = true; // For when the window/viewport resizes
@@ -37,8 +33,9 @@ namespace dex
         ImGuiAPI m_ImGuiAPI;
 
         glm::uvec2 m_ScreenDimensions = glm::uvec2(0);
-
+    public:
         friend class Engine;
         friend class Window;
+        friend class Scene;
     };
 }

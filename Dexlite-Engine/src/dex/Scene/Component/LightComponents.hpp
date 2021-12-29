@@ -15,6 +15,7 @@ namespace dex
 
             //glm::vec3 m_Direction;
             glm::vec3 m_Color;
+            bool Enabled = false;
         };
 
         struct PointLight
@@ -26,6 +27,7 @@ namespace dex
 
             //glm::vec3 m_Position;
             glm::vec3 m_Color;
+            bool Enabled = false;
         };
     }
 }

@@ -50,12 +50,6 @@ namespace dex
         glViewport(0, 0, m_ScreenDimensions.x, m_ScreenDimensions.y);
     }
 
-    /*void Renderer::setViewportPosition(glm::uvec2 position)
-    {
-        m_Viewport = glm::uvec4(position.x, position.y, m_Viewport.z, m_Viewport.w);
-        glViewport(0, 0, m_Viewport.z, m_Viewport.w);
-    }*/
-
     void Renderer::setClearColor(const glm::vec4& color)
     {
         glClearColor(color.r, color.g, color.b, color.a);
@@ -64,33 +58,5 @@ namespace dex
     void Renderer::clear()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    }
-
-    void Renderer::renderScene(Scene& scene)
-    {
-        scene.findNSetActiveCamera();
-
-        if (scene.m_ActiveCameraID != entt::null)
-        {
-            auto shader = ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D);
-
-            if (m_ChangeProjectionMatrixNext)
-                scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).updateProjectionMatrix();
-
-            shader->setProjectionViewMatrix(scene.m_Registry.get<Component::Camera>(scene.m_ActiveCameraID).getProjectionViewMatrix());
-
-            const auto& model_view = scene.m_Registry.view<Component::Model>();
-
-            for (auto& entityID : model_view)
-            {
-                auto& model = scene.m_Registry.get<Component::Model>(entityID);
-                model.prepareRendering(scene.m_Registry.get<Component::Transform>(entityID));
-                model.render();
-            }
-        }
-        else
-        {
-            DEX_LOG_WARN("<dex::Renderer::renderScene()>: No active camera found.");
-        }
     }
 }

@@ -6,7 +6,7 @@ namespace dex
 {
     namespace Shader
     {
-        Default3D::Default3D(const char* src)
+        Default3D::Default3D(const std::string& src)
             : Base(src, "Shader::Default3D", Type::DEFAULT_3D)
         {
             m_TexTilingFactor_Location = glGetUniformLocation(m_ProgramID, "u_TexTilingFactor");
@@ -52,6 +52,10 @@ namespace dex
         void Default3D::setSpecularMapEnabled(bool enabled)
         {
             glUniform1i(m_SpecularMapEnabled_Location, enabled);
+        }
+
+        void Default3D::updateGlobalUniforms()
+        {
         }
     }
 }

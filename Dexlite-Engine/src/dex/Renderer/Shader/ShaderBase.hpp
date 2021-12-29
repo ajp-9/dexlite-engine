@@ -17,7 +17,7 @@ namespace dex
         {
         public:
             Base();
-            Base(const char* src, const char* name = "Base", Type type = Type::BASE);
+            Base(const std::string& src, const std::string& name = "Base", Type type = Type::BASE);
 
             ~Base();
 
@@ -33,6 +33,8 @@ namespace dex
             const std::string& getName() const { return m_Name; }
 
             const uint32 getID() const { return m_ProgramID; }
+
+            virtual void updateGlobalUniforms();
 
             // Put in the template the type of material.
             template <class T>

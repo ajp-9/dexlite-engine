@@ -35,10 +35,9 @@ namespace dex
         void stopKeyEvents();
         // Stops further mouse events if you don't want them to propagate to the next layers.
         void stopMouseEvents();
-
+    private:
         void pushKeyEvent(Event::KeyEvent e);
         void pushMouseEvent(Event::MouseEvent e);
-    private:
         void resetInput();
     private:
         std::vector<Event::KeyEvent> m_KeyEvents;
@@ -46,7 +45,7 @@ namespace dex
 
         bool m_AreKeyEventsHalted = false;
         bool m_AreMouseEventsHalted = false;
-
+    public:
         friend class Window;
     };
 }

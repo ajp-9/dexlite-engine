@@ -12,7 +12,7 @@ namespace dex
             : m_Name("Base"), m_Type(Type::BASE)
         {}
 
-        Base::Base(const char* src, const char* name, Type type)
+        Base::Base(const std::string& src, const std::string& name, Type type)
             : m_Name(name), m_Type(type)
         {
             std::ifstream source;
@@ -107,6 +107,8 @@ namespace dex
         {
             glUniform1f(glGetUniformLocation(m_ProgramID, name.c_str()), value);
         }
+
+        void Base::updateGlobalUniforms() {}
 
         void Base::checkShaderErrors(unsigned int shader, std::string type)
         {

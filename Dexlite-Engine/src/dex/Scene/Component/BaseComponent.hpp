@@ -1,7 +1,5 @@
 #pragma once
 
-// make other comp names after like shader3d
-
 #include "../Entity/Entity.hpp"
 
 namespace dex

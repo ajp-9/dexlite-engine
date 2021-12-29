@@ -19,7 +19,7 @@ namespace dex
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
         //io.ConfigViewportsNoAutoMerge = true;
         //io.ConfigViewportsNoTaskBarIcon = true;
-
+        
         //io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
 
         // Setup Dear ImGui style

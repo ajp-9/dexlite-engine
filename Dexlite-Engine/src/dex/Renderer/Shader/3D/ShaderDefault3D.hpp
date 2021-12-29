@@ -9,7 +9,7 @@ namespace dex
         class Default3D : public Base
         {
         public:
-            Default3D(const char* src = "assets/shaders/3d/default.glsl");
+            Default3D(const std::string& src = "assets/shaders/3d/default.glsl");
 
             void setLocations3D();
 
@@ -20,6 +20,8 @@ namespace dex
 
             void setDiffuseMapEnabled(bool enabled);
             void setSpecularMapEnabled(bool enabled);
+        
+            virtual void updateGlobalUniforms() override;
         private:
             uint32 m_ProjectionViewMatrix_Location = 0;
             uint32 m_ModelMatrix_Location = 0;
