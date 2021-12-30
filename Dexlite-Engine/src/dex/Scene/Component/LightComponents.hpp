@@ -2,32 +2,29 @@
 
 #include <glm/vec3.hpp>
 
+#include "../../Renderer/Light/Lights.hpp"
+#include "TransformComponent.hpp"
+#include "BaseComponent.hpp"
+
 namespace dex
 {
     namespace Component
     {
-        struct DirectionalLight
+        namespace Light
         {
-            DirectionalLight()
+            struct Ambient : dex::Light::Ambient, Base
             {
+                Ambient(const Entity& entity, bool enabled, const glm::vec3& color)
+                    : Component::Base(entity), dex::Light::Ambient(enabled, color)
+                {}
+            };
 
-            }
-
-            //glm::vec3 m_Direction;
-            glm::vec3 m_Color;
-            bool Enabled = false;
-        };
-
-        struct PointLight
-        {
-            PointLight()
+            struct Directional : dex::Light::Directional, Base
             {
-
-            }
-
-            //glm::vec3 m_Position;
-            glm::vec3 m_Color;
-            bool Enabled = false;
-        };
+                Directional(const Entity& entity, bool enabled, const glm::vec3& color)
+                    : Component::Base(entity), dex::Light::Directional(enabled, color, entity.getComponent<Transform>().getRotationRadians())
+                {}
+            };
+        }
     }
 }

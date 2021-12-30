@@ -41,11 +41,11 @@ namespace dex
 
                 if (m_DiffuseMapEnabled)
                 {
-                    m_Shader->setDiffuseMapEnabled(true);
+                    m_Shader->setDiffuseMap_Enabled(true);
                     m_DiffuseMap.bind();
                 }
                 else
-                    m_Shader->setDiffuseMapEnabled(false);
+                    m_Shader->setDiffuseMap_Enabled(false);
 
                 if (m_SpecularMapEnabled)
                     m_Shader->setSpecularMapEnabled(true);

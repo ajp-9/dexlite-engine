@@ -4,9 +4,9 @@
 
 #include <dex/Scene/Component/TransformComponent.hpp>
 #include <imgui/imgui.h>
-#include <dex/Scene/Component/ModelComponent.hpp>
+#include <dex/Scene/Component/Model/ModelComponent.hpp>
 #include <dex/Util/Logging.hpp>
-#include <dex/Renderer/Model/ModelLoader.hpp>
+#include <dex/Scene/Component/LightComponents.hpp>
 
 #include <filesystem>
 
@@ -18,18 +18,20 @@ void WorldLayer::Attach()
     camera.setPerspective(65, 0.01, 1000);
     
     dex::Engine::Window.setCaptureMouse(true);
-
-    std::vector<dex::Vertex3D::Default> vertices;
-
-    std::vector<uint32> indices;
     
-    m_Warlock.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/warlock.glb", true));
-    m_XYZ.addComponent<dex::Component::Model>(dex::ModelLoader::loadGLTF("assets/models/xyz.glb", true));
+    m_Warlock.addComponent<dex::Component::Model>("assets/models/warlock.glb", true);
+    m_Warlock.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 10));
+    //m_Warlock.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(15, 0, 0));
+    
+    m_XYZ.addComponent<dex::Component::Model>("assets/models/xyz.glb", true);
     m_XYZ.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 3.5));
     m_XYZ.getComponent<dex::Component::Transform>().setScale(glm::vec3(.05));
 
-    m_Warlock.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 10));
-    //m_Warlock.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(15, 0, 0));
+    m_LightSphere.addComponent<dex::Component::Model>("assets/models/sphere.glb", true);
+    m_LightSphere.addComponent<dex::Component::Light::Ambient>(true, glm::vec3(.3, .3, .3));
+    m_LightSphere.addComponent<dex::Component::Light::Directional>(true, glm::vec3(1, 1, 1));
+    m_LightSphere.getComponent<dex::Component::Transform>().setPosition(glm::vec3(-3, 4, 6));
+    m_LightSphere.getComponent<dex::Component::Transform>().setScale(glm::vec3(.4));
 
     m_Player.addChild(m_Head);
 
@@ -117,48 +119,20 @@ void WorldLayer::render()
 {
     m_Scene.render();
 
-    /*ImGui::Begin("Test Window");
+    static ImGuiIO& io = ImGui::GetIO(); (void)io;
 
-    static float rotX = 0.0f;
-    static float rotY = 0.0f;
-    static float rotZ = 0.0f;
+    ImGui::Begin("Debug Window");
 
-    static float old_rotX = 0.0f;
-    static float old_rotY = 0.0f;
-    static float old_rotZ = 0.0f;
+    ImGui::Text("Ambient Light:"); 
+    ImGui::SameLine();
+    ImGui::ColorEdit3("", glm::value_ptr(m_LightSphere.getComponent<dex::Component::Light::Ambient>().Color));
 
-    static float posX = 0.0f;
-    static float posY = 0.0f;
-    static float posZ = 2.0f;
+    ImGui::Spacing();
 
-    static float scale = 0.5f;
+    ImGui::Text("Directional Light:");
+    ImGui::SameLine(); // set direction in lambda transform -> direction
+    ImGui::SliderFloat3("", glm::value_ptr(m_LightSphere.getComponent<dex::Component::Light::Directional>().Direction), 0, 3);
 
-    static const float maxRot = 720;
-    static const float maxPos = 5;
-
-    ImGui::SliderFloat("Rotation X", &rotX, 0, maxRot);
-    ImGui::SliderFloat("Rotation Y", &rotY, 0, maxRot);
-    ImGui::SliderFloat("Rotation Z", &rotZ, 0, maxRot);
-
-    ImGui::NewLine();
-
-    ImGui::SliderFloat("Position X", &posX, -maxPos, maxPos);
-    ImGui::SliderFloat("Position Y", &posY, -maxPos, maxPos);
-    ImGui::SliderFloat("Position Z", &posZ, -maxPos, maxPos);
-
-    ImGui::NewLine();
-
-    ImGui::SliderFloat("Scale X", &scale, 0.001, 1);
-
-    //static char buf[50];
-    //ImGui::InputText("Text Input", buf, 50);
-
-    auto& trans = m_Entity.getComponent<dex::Component::Transform>();
-
-    trans.setPosition(glm::vec3(posX, posY, posZ));
-    //trans.m_Rotation = glm::quat(glm::radians(glm::vec3(rotX, rotY, rotZ)));
-    trans.setScale(glm::vec3(scale, scale, scale));
-    
-
-    ImGui::End();*/
+    ImGui::Text("My Delta Time: %.4f", Engine::Time.getDeltaTime());
+    ImGui::End();
 }

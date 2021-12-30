@@ -9,9 +9,7 @@
 #include <dex/Scene/Component/TransformComponent.hpp>
 #include "Layers/DebugLayer.hpp"
 #include <imgui/imgui.h>
-#include <dex/Scene/Component/ModelComponent.hpp>
 #include <dex/Util/Logging.hpp>
-#include <dex/Renderer/Model/ModelLoader.hpp>
 
 using dex::Engine;
 

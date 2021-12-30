@@ -25,7 +25,7 @@ namespace dex
             std::shared_ptr<Base>& getShader(const char* name);
             std::shared_ptr<Base>& getShader(Type type);
 
-            void updateCurrentGlobalShaderUniforms(const GlobalUniforms& globalUniforms);
+            void updateCurrentGlobalShaderUniforms(const GlobalUniforms& global_uniforms);
 
             template <typename T>
             std::shared_ptr<T> getShaderDerived(const char* name) { return std::static_pointer_cast<T>(getShader(name)); }

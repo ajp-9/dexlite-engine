@@ -16,12 +16,14 @@ namespace dex
         struct Transform : Base
         {
             Transform(
+                const Entity& entity,
                 glm::vec3 position = glm::vec3(0.0f),
                 glm::quat rotation = glm::quat(glm::vec3(0.0f)),
                 glm::vec3 scale = glm::vec3(1.0f))
 
                 : // Initializer List:
                 
+                Base(entity),
                 m_Position(position),
                 m_Rotation(rotation), 
                 m_Scale(scale),
@@ -90,7 +92,7 @@ namespace dex
                 m_Up = m_WorldRotation * glm::vec3(0, 1, 0);
                 m_Right = m_WorldRotation * glm::vec3(1, 0, 0);
 
-                DEX_LOG_INFO("Did for: {}", m_Entity.getComponent<Component::Tag>().m_Tag);
+                //DEX_LOG_INFO("Did for: {}", m_Entity.getComponent<Component::Tag>().m_Tag);
 
                 m_FlagChanged = false;
             }
@@ -134,8 +136,6 @@ namespace dex
             glm::vec3 m_WorldScale;
         public:
             bool m_FlagChanged = false;
-        public:
-            friend class dex::Entity;
         };
     }
 }

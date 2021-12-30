@@ -12,22 +12,26 @@ namespace dex
     {
         struct Parent : Base
         {
-            Parent() = default;
-            Parent(entt::entity handle) : Handle(handle) {}
+            Parent(const Entity& entity)
+                : Base(entity) 
+            {}
+            Parent(const Entity& entity, entt::entity handle)
+                : Base(entity), Handle(handle) 
+            {}
 
             entt::entity Handle = entt::null;
-        public:
-            friend class dex::Entity;
         };
 
         struct ChildrenHandles : Base
         {
-            ChildrenHandles() = default;
-            ChildrenHandles(const std::vector<entt::entity>& handles) : Handles(handles) {}
+            ChildrenHandles(const Entity& entity)
+                : Base(entity) 
+            {}
+            ChildrenHandles(const Entity& entity, const std::vector<entt::entity>& handles)
+                : Base(entity), Handles(handles) 
+            {}
 
             std::vector<entt::entity> Handles;
-        public:
-            friend class dex::Entity;
         };
     }
 }

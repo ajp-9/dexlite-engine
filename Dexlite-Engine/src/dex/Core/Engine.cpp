@@ -61,7 +61,7 @@ namespace dex
     }
 
     /*
-    ** Initialize member variables
+    ** Initialize static member variables:
     */
 
     bool Engine::s_Running;

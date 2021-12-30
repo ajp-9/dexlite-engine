@@ -17,11 +17,9 @@ namespace dex
         public:
             enum class CameraType { ORTHOGRAPHIC = 0, PERSPECTIVE = 1 };
 
-            Camera() = default;
-
             // Only 1 camera can be enabled.
-            Camera(bool is_enabled)
-                : IsEnabled(is_enabled)
+            Camera(const Entity& entity, bool is_enabled)
+                : Base(entity), IsEnabled(is_enabled)
             {}
 
             void setOrthographic(float32 size, float32 near, float32 far);
@@ -76,13 +74,7 @@ namespace dex
             float32 m_Near = 0.01f;
             float32 m_Far = 1000.0f;
 
-            /*glm::vec3 m_Front = glm::vec3(0.0f, 0.0f, 1.0f);
-            glm::vec3 m_Right = glm::vec3(1.0f, 0.0f, 0.0f);
-            glm::vec3 m_Up = glm::vec3(0.0f, 1.0f, 0.0f);*/
-
             float32 m_AspectRatio = 1.0f;
-        public:
-            friend class dex::Entity;
         };
     }
 }

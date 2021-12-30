@@ -37,7 +37,7 @@
 #include "Renderer/Mesh/VertexArray/VertexArray.hpp"
 
 #include "Scene/Component/Camera/CameraComponent.hpp"
-#include "Scene/Component/ModelComponent.hpp"
+#include "Scene/Component/Model/ModelComponent.hpp"
 #include "Scene/Component/TagComponent.hpp"
 #include "Scene/Component/TransformComponent.hpp"
 

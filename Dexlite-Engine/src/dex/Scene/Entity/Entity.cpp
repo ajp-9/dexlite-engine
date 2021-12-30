@@ -4,7 +4,7 @@
 #include "../Component/Camera/CameraComponent.hpp"
 #include "../Component/TagComponent.hpp"
 #include "../Component/RelationshipComponents.hpp"
-#include "../Component/ModelComponent.hpp"
+#include "../Component/Model/ModelComponent.hpp"
 #include "../Component/TransformComponent.hpp"
 
 namespace dex
@@ -75,6 +75,7 @@ namespace dex
         return getComponent<Component::ChildrenHandles>().Handles;
     }
 
+    // recursive
     void Entity::updateChildrenTransform()
     {
         const auto& children_handles = getChildrenHandles();

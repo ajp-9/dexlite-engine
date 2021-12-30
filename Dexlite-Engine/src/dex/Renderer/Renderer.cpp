@@ -2,9 +2,6 @@
 
 #include <glad/glad.h>
 
-#include "../Scene/Component/Camera/CameraComponent.hpp"
-#include "../Scene/Component/ModelComponent.hpp"
-#include "../Scene/Component/TransformComponent.hpp"
 #include "../Util/Logging.hpp"
 
 namespace dex

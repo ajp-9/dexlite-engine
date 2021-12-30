@@ -32,12 +32,16 @@ namespace dex
             return m_Shaders.at(uint8(type));
         }
 
-        void Manager::updateCurrentGlobalShaderUniforms(const GlobalUniforms& globalUniforms)
+        void Manager::updateCurrentGlobalShaderUniforms(const GlobalUniforms& global_uniforms)
         {
+            m_CurrentGlobalUniforms = global_uniforms;
+
             for (auto& shader : m_Shaders)
             {
-                shader->updateGlobalUniforms();
+                shader->updateGlobalUniforms(m_CurrentGlobalUniforms);
             }
+
+            m_CurrentGlobalUniforms.setAllClean();
         }
     }
 }

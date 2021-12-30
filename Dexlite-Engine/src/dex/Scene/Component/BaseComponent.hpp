@@ -8,7 +8,9 @@ namespace dex
     {
         struct Base
         {
-            Base() = default;
+            Base(const Entity& entity)
+                : m_Entity(entity)
+            {}
         protected:
             Entity m_Entity;
         public:

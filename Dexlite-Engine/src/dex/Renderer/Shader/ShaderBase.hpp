@@ -34,7 +34,7 @@ namespace dex
 
             const uint32 getID() const { return m_ProgramID; }
 
-            virtual void updateGlobalUniforms();
+            virtual void updateGlobalUniforms(const GlobalUniforms& global_uniforms) {}
 
             // Put in the template the type of material.
             template <class T>

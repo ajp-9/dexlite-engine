@@ -4,8 +4,9 @@
 #include "Entity/Entity.hpp"
 #include "../Renderer/Shader/ShaderManager.hpp"
 #include "Component/Camera/CameraComponent.hpp"
+#include "Component/LightComponents.hpp"
 #include "../Util/Logging.hpp"
-#include "../Scene/Component/ModelComponent.hpp"
+#include "../Scene/Component/Model/ModelComponent.hpp"
 
 namespace dex
 {
@@ -15,7 +16,7 @@ namespace dex
 
         // Default model component rendering lambda.
         addRenderModelLambda(
-            [] (entt::registry& scene_registry)
+            [](entt::registry& scene_registry)
             {
                 const auto& model_view = scene_registry.view<Component::Model>();
 
@@ -24,6 +25,47 @@ namespace dex
                     auto& model = scene_registry.get<Component::Model>(entityID);
                     model.prepareRendering();
                     model.render();
+                }
+            });
+
+        addSetGlobalShaderUniformsLambda(
+            [](Scene& scene, entt::registry& scene_registry, Shader::GlobalUniforms& global_uniforms)
+            {
+                if (Engine::Renderer.m_ChangeProjectionMatrixNext)
+                    scene_registry.get<Component::Camera>(scene.getActiveCameraID()).updateProjectionMatrix();
+
+                global_uniforms.setProjectionViewMatrix(scene_registry.get<Component::Camera>(scene.getActiveCameraID()).getProjectionViewMatrix());
+            });
+
+        addSetGlobalShaderUniformsLambda(
+            [](Scene& scene, entt::registry& scene_registry, Shader::GlobalUniforms& global_uniforms)
+            {
+                const auto& ambient_light_view = scene_registry.view<Component::Light::Ambient>();
+
+                if (ambient_light_view.size() == 1)
+                {
+                    for (auto& ambient_light_entity : ambient_light_view)
+                        global_uniforms.setAmbientLight(scene_registry.get<Component::Light::Ambient>(ambient_light_entity));
+                }
+                else if (ambient_light_view.size() > 1)
+                {
+                    DEX_LOG_WARN("<dex::Scene::render()>: Only 1 ambient light per scene.");
+                }
+            });
+
+        addSetGlobalShaderUniformsLambda(
+            [](Scene& scene, entt::registry& scene_registry, Shader::GlobalUniforms& global_uniforms)
+            {
+                const auto& ambient_light_view = scene_registry.view<Component::Light::Directional>();
+
+                if (ambient_light_view.size() == 1)
+                {
+                    for (auto& ambient_light_entity : ambient_light_view)
+                        global_uniforms.setDirectionalLight(scene_registry.get<Component::Light::Directional>(ambient_light_entity));
+                }
+                else if (ambient_light_view.size() > 1)
+                {
+                    DEX_LOG_WARN("<dex::Scene::render()>: Only 1 directional light per scene.");
                 }
             });
     }
@@ -51,15 +93,13 @@ namespace dex
 
         if (m_ActiveCameraID != entt::null)
         {
-            // manager compares n uploads
-            Engine::Renderer.ShaderManager.updateCurrentGlobalShaderUniforms(m_ShaderGlobalUniforms);
+            for (auto set_global_shader_uniforms_lambda : m_SetGlobalShaderUniformsLambdas)
+                set_global_shader_uniforms_lambda(*this, m_Registry, m_GlobalShaderUniforms);
 
-            auto shader = Engine::Renderer.ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D);
+            // manager compares n uploads in loop
+            Engine::Renderer.ShaderManager.updateCurrentGlobalShaderUniforms(m_GlobalShaderUniforms);
 
-            if (Engine::Renderer.m_ChangeProjectionMatrixNext)
-                m_Registry.get<Component::Camera>(m_ActiveCameraID).updateProjectionMatrix();
-
-            shader->setProjectionViewMatrix(m_Registry.get<Component::Camera>(m_ActiveCameraID).getProjectionViewMatrix());
+            m_GlobalShaderUniforms.setAllClean();
 
             for (auto render_model_lambda : m_RenderModelLambdas)
                 render_model_lambda(m_Registry);
@@ -98,4 +138,11 @@ namespace dex
             DEX_LOG_ERROR("<Scene::findNSetMainCamera()>: No cameras found.");
         }
     }
+
+    /*
+    ** Initialize static member variables:
+    */
+
+    std::vector<SetGlobalShaderUniformsLambda*> Scene::m_SetGlobalShaderUniformsLambdas;
+    std::vector<RenderModelLambda*> Scene::m_RenderModelLambdas;
 }

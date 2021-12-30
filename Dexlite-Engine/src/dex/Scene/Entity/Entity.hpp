@@ -18,7 +18,7 @@ namespace dex
         // Creates a new class from a pre-existing entity handle.
         Entity(entt::entity handle, Scene* scene);
 
-        // Destroys the handle in the registry. This class would remain intact and should be disgarded afterwards.
+        // Destroys the handle and its children's handle in the registry. This class would remain intact and should be disgarded afterwards.
         void destroy();
 
         // Destroys all its children in the registry. Their classes would remain intact and should be disgarded afterwards.
@@ -73,10 +73,7 @@ namespace dex
         {
             if (hasComponent<T>()) DEX_LOG_ERROR("<dex::Entity::addComponent()>: Entity already has that component!");
             
-            auto& component = m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<Args>(args)...);
-            getComponent<T>().m_Entity = *this;
-
-            return component;
+            return addComponentWithEntity<T>(*this, std::forward<Args>(args)...);
         }
 
         template <typename T>
@@ -100,7 +97,13 @@ namespace dex
         const bool isValid() const { return m_Handle != entt::null; }
 
         operator entt::entity() const { return m_Handle; };
-        bool operator==(const Entity& other) { return m_Handle == other.m_Handle && m_Scene == other.m_Scene; }
+        const bool operator==(const Entity& other) const { return m_Handle == other.m_Handle && m_Scene == other.m_Scene; }
+    private:
+        template<typename T, typename... Args>
+        inline T& addComponentWithEntity(Args&&... args)
+        {
+            return m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<Args>(args)...);
+        }
     private:
         entt::entity m_Handle = entt::null;
         Scene* m_Scene = nullptr;
