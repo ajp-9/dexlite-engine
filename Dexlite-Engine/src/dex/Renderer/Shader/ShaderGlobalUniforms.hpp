@@ -72,13 +72,13 @@ namespace dex
             inline const bool isDirectionalLightDirty() const { return m_IsDirectionalLightDirty; }
             inline const Light::Directional& getDirectionalLight() const { return m_DirectionalLight; }
         private:
-            bool m_IsProjectionViewMatrixDirty = false;
+            bool m_IsProjectionViewMatrixDirty = true;
             glm::mat4 m_ProjectionViewMatrix = glm::mat4(1.0f);
 
-            bool m_IsAmbientLightDirty = false;
+            bool m_IsAmbientLightDirty = true;
             Light::Ambient m_AmbientLight;
 
-            bool m_IsDirectionalLightDirty = false;
+            bool m_IsDirectionalLightDirty = true;
             Light::Directional m_DirectionalLight;
         };
     }

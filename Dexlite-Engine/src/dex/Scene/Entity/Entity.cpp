@@ -5,7 +5,7 @@
 #include "../Component/TagComponent.hpp"
 #include "../Component/RelationshipComponents.hpp"
 #include "../Component/Model/ModelComponent.hpp"
-#include "../Component/TransformComponent.hpp"
+#include "../Component/Transform/TransformComponent.hpp"
 
 namespace dex
 {
@@ -47,10 +47,10 @@ namespace dex
         children_handles.clear();
     }
 
-    void Entity::addChild(entt::entity child_handle)
+    void addChild(entt::entity child_handle)
     {
-        getChildrenHandles().push_back(child_handle);
-        m_Scene->m_Registry.get<Component::Parent>(child_handle).Handle = m_Handle;
+        //getChildrenHandles().push_back(child_handle);
+        //m_Scene->m_Registry.get<Component::Parent>(child_handle).Handle = m_Handle;
     }
 
     void Entity::removeChild(Entity child, bool destroy_handle)

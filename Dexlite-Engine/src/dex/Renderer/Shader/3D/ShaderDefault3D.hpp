@@ -40,6 +40,7 @@ namespace dex
             {
                 m_ProjectionViewMatrix_Location = glGetUniformLocation(m_ProgramID, "u_ProjectionViewMatrix");
                 m_ModelMatrix_Location = glGetUniformLocation(m_ProgramID, "u_ModelMatrix");
+                m_InverseModelMatrix_Location = glGetUniformLocation(m_ProgramID, "u_InverseModelMatrix");
             }
 
             virtual void updateGlobalUniforms(const GlobalUniforms& global_uniforms) override
@@ -69,6 +70,9 @@ namespace dex
             inline void setModelMatrix(const glm::mat4& mat) 
             {
                 glUniformMatrix4fv(m_ModelMatrix_Location, 1, GL_FALSE, glm::value_ptr(mat));
+
+                glm::mat3 inverse_mat = glm::transpose(glm::inverse(mat));
+                glUniformMatrix3fv(m_InverseModelMatrix_Location, 1, GL_FALSE, glm::value_ptr(inverse_mat));
             }
 
             // Ambient Light:
@@ -119,6 +123,7 @@ namespace dex
         private:
             uint32 m_ProjectionViewMatrix_Location = 0;
             uint32 m_ModelMatrix_Location = 0;
+            uint32 m_InverseModelMatrix_Location = 0;
 
             uint32 m_AmbientLight_Enabled_Location = 0;
             uint32 m_AmbientLight_Color_Location = 0;

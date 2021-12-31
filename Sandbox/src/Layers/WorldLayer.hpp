@@ -20,4 +20,5 @@ private:
     dex::Entity m_XYZ = { &m_Scene, "XYZ"};
     dex::Entity m_Warlock = { &m_Scene, "Warlock"};
     dex::Entity m_LightSphere = { &m_Scene, "Light Sphere" };
+    dex::Entity m_Triangle = { &m_Scene, "Triangle" };
 };

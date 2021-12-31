@@ -39,7 +39,7 @@
 #include "Scene/Component/Camera/CameraComponent.hpp"
 #include "Scene/Component/Model/ModelComponent.hpp"
 #include "Scene/Component/TagComponent.hpp"
-#include "Scene/Component/TransformComponent.hpp"
+#include "Scene/Component/Transform/TransformComponent.hpp"
 
 #include "Scene/Entity/Entity.hpp"
 #include "Scene/Scene.hpp"

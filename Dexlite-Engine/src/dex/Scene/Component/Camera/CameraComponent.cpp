@@ -5,7 +5,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include "../../../Core/Engine.hpp"
 
-#include "../TransformComponent.hpp"
+#include "../Transform/TransformComponent.hpp"
 
 namespace dex
 {
@@ -35,13 +35,13 @@ namespace dex
                 {
                     const auto& transform = m_Entity.getComponent<Component::Transform>();
 
-                    m_ViewMatrix = glm::translate(glm::mat4(1.0f), transform.getWorldPosition()) * glm::toMat4(glm::quat(transform.getTransformationMatrix()));
+                    m_ViewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(transform.getTransformationMatrix()[3])) * glm::toMat4(glm::quat(transform.getTransformationMatrix()));
                 }
                 else if (m_Type == CameraType::PERSPECTIVE)
                 {
                     const auto& transform = m_Entity.getComponent<Component::Transform>();
 
-                    glm::vec3 position = transform.getWorldPosition();
+                    glm::vec3 position = transform.getTransformationMatrix()[3];
 
                     m_ViewMatrix = glm::lookAt(position, position + transform.getForward(), transform.getUp());
                 }

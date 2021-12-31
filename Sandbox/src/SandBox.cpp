@@ -6,7 +6,6 @@
 
 #include <iostream>
 
-#include <dex/Scene/Component/TransformComponent.hpp>
 #include "Layers/DebugLayer.hpp"
 #include <imgui/imgui.h>
 #include <dex/Util/Logging.hpp>

@@ -86,7 +86,7 @@ namespace dex
 
                         for (size_t i = 0; i < accessor.count; ++i)
                         {
-                            normals.emplace_back(glm::vec3(raw_normals[i * 3 + 0], raw_normals[i * 3 + 1], raw_normals[i * 3 + 2]));
+                            normals.emplace_back(glm::vec3(raw_normals[i * 3 + 0], raw_normals[i * 3 + 1], -raw_normals[i * 3 + 2]));
                         }
                     }
 
@@ -183,15 +183,15 @@ namespace dex
                 }
             }
 
-            glm::mat3 transformationMatrix =
-                glm::translate(glm::mat4(1.0f), meshTransformation_Final.m_Translation) *
+            glm::mat4 transformationMatrix = meshTransformation_Final.trans;
+                /*glm::translate(glm::mat4(1.0f), meshTransformation_Final.m_Translation) *
                 glm::toMat4(meshTransformation_Final.m_Rotation) *
-                glm::scale(glm::mat4(1.0f), meshTransformation_Final.m_Scale);
+                glm::scale(glm::mat4(1.0f), meshTransformation_Final.m_Scale);*/
 
             for (auto& vertex : vertices)
             {
-                vertex.m_Position = transformationMatrix * vertex.m_Position;
-                vertex.m_Normal = meshTransformation_Final.m_Rotation * vertex.m_Normal;
+                vertex.m_Position = transformationMatrix * glm::vec4(vertex.m_Position, 1.0f);
+                vertex.m_Normal = glm::mat3(glm::transpose(glm::inverse(transformationMatrix))) * vertex.m_Normal;
             }
 
             m_Mesh = Mesh::Default3D(vertices, indices);
@@ -200,27 +200,39 @@ namespace dex
 
         bool Model::parseNode(MeshTransformation& meshTransformation_Current, const tinygltf::Node& node, const tinygltf::Model& model)
         {
-            if (node.translation.size() == 3)
-                meshTransformation_Current.m_Translation += glm::vec3(node.translation.at(0), node.translation.at(1), node.translation.at(2));
-
-            if (node.rotation.size() == 4)
+            if (node.translation.size() == 3 || node.rotation.size() == 4 || node.scale.size() == 3)
             {
-                // It works, don't fix it.
+                glm::vec3 Translation = glm::vec3(0);
+                glm::quat Rotation = glm::quat(glm::vec3(0.0f));
+                glm::vec3 Scale = glm::vec3(1);
 
-                const auto& eRot = glm::eulerAngles(
-                    glm::quat(
-                        float(node.rotation.at(3)),
-                        float(node.rotation.at(0)),
-                        float(node.rotation.at(1)),
-                        float(node.rotation.at(2))
-                    )
-                );
+                if (node.translation.size() == 3)
+                    Translation = glm::vec3(node.translation.at(0), node.translation.at(1), -node.translation.at(2));
 
-                meshTransformation_Current.m_Rotation *= glm::quat(glm::vec3(-eRot.x, -eRot.y, eRot.z));
+                if (node.rotation.size() == 4)
+                {
+                    const auto& eRot = glm::eulerAngles(
+                        glm::quat(
+                            float(node.rotation.at(3)),
+                            float(node.rotation.at(0)),
+                            float(node.rotation.at(1)),
+                            float(node.rotation.at(2))
+                        )
+                    );
+
+                    //meshTransformation_Current.m_Rotation *= glm::quat(glm::vec3(-eRot.x, -eRot.y, eRot.z));
+                    Rotation = glm::quat(glm::vec3(-eRot.x, -eRot.y, eRot.z));
+                }
+
+                if (node.scale.size() == 3)
+                    Scale = glm::vec3(node.scale.at(0), node.scale.at(1), node.scale.at(2));
+
+                meshTransformation_Current.trans =
+                    meshTransformation_Current.trans *
+                    glm::translate(glm::mat4(1.0f), Translation) *
+                    glm::toMat4(Rotation) *
+                    glm::scale(glm::mat4(1.0f), Scale);
             }
-
-            if (node.scale.size() == 3)
-                meshTransformation_Current.m_Scale *= glm::vec3(node.scale.at(0), node.scale.at(1), node.scale.at(2));
 
             if (node.mesh != -1)
             {
@@ -230,11 +242,11 @@ namespace dex
             {
                 for (auto& child_node_loc : node.children)
                 {
-                    MeshTransformation& meshFinalTransformation_Temp = meshTransformation_Current;
+                    MeshTransformation meshFinalTransformation_Temp = meshTransformation_Current;
 
                     if (parseNode(meshFinalTransformation_Temp, model.nodes.at(child_node_loc), model))
                     {
-                        meshFinalTransformation_Temp = meshFinalTransformation_Temp;
+                        meshTransformation_Current = meshFinalTransformation_Temp;
 
                         return true;
                     }

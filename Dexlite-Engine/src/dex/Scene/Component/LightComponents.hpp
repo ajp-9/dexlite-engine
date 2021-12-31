@@ -3,7 +3,7 @@
 #include <glm/vec3.hpp>
 
 #include "../../Renderer/Light/Lights.hpp"
-#include "TransformComponent.hpp"
+#include "Transform/TransformComponent.hpp"
 #include "BaseComponent.hpp"
 
 namespace dex
@@ -22,7 +22,7 @@ namespace dex
             struct Directional : dex::Light::Directional, Base
             {
                 Directional(const Entity& entity, bool enabled, const glm::vec3& color)
-                    : Component::Base(entity), dex::Light::Directional(enabled, color, entity.getComponent<Transform>().getRotationRadians())
+                    : Component::Base(entity), dex::Light::Directional(enabled, color, glm::vec3(0, -1, 0))
                 {}
             };
         }

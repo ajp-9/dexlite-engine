@@ -13,10 +13,12 @@ out vec2 pass_TexCoord;
 
 uniform mat4 u_ProjectionViewMatrix;
 uniform mat4 u_ModelMatrix;
+uniform mat3 u_InverseModelMatrix;
 
 void main()
 {
-    pass_Normal = normalize(mat3(transpose(inverse(u_ModelMatrix))) * in_Normal);
+    pass_Normal = normalize(u_InverseModelMatrix * in_Normal);
+    //pass_Normal = vec3(u_ModelMatrix * vec4(in_Normal, 0));
     pass_Color = in_Color;
     pass_TexCoord = in_TexCoord;
 
@@ -40,7 +42,7 @@ struct AmbientLight
 };
 
 struct DirectionalLight
-{
+{   
     bool Enabled;
     vec3 Color;
     vec3 Direction;
@@ -62,7 +64,6 @@ vec3 CalcDirLight(DirectionalLight light, vec3 normal);
 void main()
 {
     vec4 fragColor = pass_Color;
-    vec3 normal = pass_Normal;
 
     if (u_DiffuseMapEnabled)
         fragColor *= texture(u_DiffuseMapSampler, pass_TexCoord * u_TexTilingFactor);
@@ -70,22 +71,23 @@ void main()
     //if (u_SpecularMapEnabled)
     //    fragColor *= texture(u_DiffuseMapSampler, pass_TexCoord * u_TexTilingFactor);
 
+    vec4 light_color = vec4(1.0f);
+
     if (u_AmbientLight.Enabled)
-        fragColor *= vec4(u_AmbientLight.Color, 1.0f);
+        light_color *= vec4(u_AmbientLight.Color, 1.0f);
 
     if (u_DirectionalLight.Enabled)
-        fragColor *= vec4(CalcDirLight(u_DirectionalLight, normal), 1.0f);
+        light_color *= vec4(CalcDirLight(u_DirectionalLight, pass_Normal), 1.0f);
 
-    out_FragColor = fragColor;
+    //out_FragColor = vec4(pass_Normal, 1.0);
+    out_FragColor = light_color * fragColor;
 }
 
 vec3 CalcDirLight(DirectionalLight light, vec3 normal)
 {
     vec3 lightDir = normalize(-light.Direction);
     // diffuse shading
-    float diff = max(dot(normal, lightDir), 0.0);
-    // specular shading
-    vec3 reflectDir = reflect(-lightDir, normal);
+    float diff = max(dot(normal, lightDir), u_AmbientLight.Color.x);
     // combine results
     vec3 diffuse = light.Color * diff/* * vec3(texture(material.diffuse, TexCoords))*/;
     //vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));

@@ -49,7 +49,7 @@ namespace dex
             child.setParent(m_Handle);
         };
 
-        void addChild(entt::entity child_handle);
+        //void addChild(entt::entity child_handle);
 
         void removeChild(Entity child, bool destroy_handle = false);
 

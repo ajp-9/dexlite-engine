@@ -3,13 +3,15 @@
 #include "../../../Renderer/Material/3D/MaterialDefault3D.hpp"
 #include "../../../Util/Transform/Transform.hpp"
 #include "../../../Renderer/Mesh/Mesh.hpp"
-#include "../TransformComponent.hpp"
+#include "../Transform/TransformComponent.hpp"
 #include "../BaseComponent.hpp"
 
 namespace dex
 {
     struct MeshTransformation
     {
+        glm::mat4 trans = glm::mat4(1.0f);
+
         glm::vec3 m_Translation = glm::vec3(0);
         glm::quat m_Rotation = glm::quat(glm::vec3(0.0f));
         glm::vec3 m_Scale = glm::vec3(1);
@@ -75,6 +77,7 @@ namespace dex
         private:
             void loadGLTF(const std::string& location, bool binary);
             
+            // Returns true if a mesh was found.
             bool parseNode(MeshTransformation& meshTransformation_Current, const tinygltf::Node& node, const tinygltf::Model& model);
         public:
             Mesh::Default3D m_Mesh;
