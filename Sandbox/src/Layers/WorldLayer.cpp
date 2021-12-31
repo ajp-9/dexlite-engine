@@ -20,20 +20,25 @@ void WorldLayer::Attach()
     dex::Engine::Window.setCaptureMouse(true);
 
     m_Warlock.addComponent<dex::Component::Model>("assets/models/warlock.glb", true);
-    //m_Warlock.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 10));
+    m_Warlock.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 10));
     //m_Warlock.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(15, 0, 0));
-    
+
+    m_Valdore.addComponent<dex::Component::Model>("assets/models/valdore.glb", true);
+    m_Valdore.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, -5));
+    m_Valdore.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(0, glm::radians(180.0), 0));
+    m_Valdore.getComponent<dex::Component::Transform>().setScale(glm::vec3(.5));
+
+
     m_Triangle.addComponent<dex::Component::Model>("assets/models/plane.glb", true);
 
-
     m_XYZ.addComponent<dex::Component::Model>("assets/models/xyz.glb", true);
-    m_XYZ.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 3.5));
+    m_XYZ.getComponent<dex::Component::Transform>().setPosition(glm::vec3(-7, 0, 3.5));
     m_XYZ.getComponent<dex::Component::Transform>().setScale(glm::vec3(.05));
 
     m_LightSphere.addComponent<dex::Component::Model>("assets/models/sphere.glb", true);
     m_LightSphere.addComponent<dex::Component::Light::Ambient>(true, glm::vec3(.3, .3, .3));
     m_XYZ.addComponent<dex::Component::Light::Directional>(true, glm::vec3(2));
-    //m_LightSphere.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 3));
+    m_LightSphere.getComponent<dex::Component::Transform>().setPosition(glm::vec3(7, 0, 3));
     m_LightSphere.getComponent<dex::Component::Transform>().setScale(glm::vec3(.4));
 
     
@@ -44,7 +49,7 @@ void WorldLayer::Attach()
     //m_Head.addChild(m_LightSphere);
 
     //m_Head.addChild(m_XYZ);
-    m_Warlock.addChild(m_XYZ);
+    //m_Warlock.addChild(m_XYZ);
 }
 
 void WorldLayer::Detach()
