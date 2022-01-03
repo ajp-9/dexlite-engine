@@ -19,11 +19,14 @@ void WorldLayer::Attach()
     
     dex::Engine::Window.setCaptureMouse(true);
 
-    m_Warlock.addComponent<dex::Component::Model>("assets/models/warlock.glb", true);
+    //m_Warlock.addComponent<dex::Component::Model>("assets/models/spec_cube.glb", true);
+
+
+    m_Warlock.addComponent<dex::Component::Model>("assets/models/ruff_matrix.glb", true);
     m_Warlock.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 10));
     //m_Warlock.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(15, 0, 0));
 
-    m_Valdore.addComponent<dex::Component::Model>("assets/models/valdore.glb", true);
+    m_Valdore.addComponent<dex::Component::Model>("assets/models/ddrex.glb", true);
     m_Valdore.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, -5));
     m_Valdore.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(0, glm::radians(180.0), 0));
     m_Valdore.getComponent<dex::Component::Transform>().setScale(glm::vec3(.5));
@@ -35,9 +38,9 @@ void WorldLayer::Attach()
     m_XYZ.getComponent<dex::Component::Transform>().setPosition(glm::vec3(-7, 0, 3.5));
     m_XYZ.getComponent<dex::Component::Transform>().setScale(glm::vec3(.05));
 
-    m_LightSphere.addComponent<dex::Component::Model>("assets/models/sphere.glb", true);
-    m_LightSphere.addComponent<dex::Component::Light::Ambient>(true, glm::vec3(.3, .3, .3));
-    m_XYZ.addComponent<dex::Component::Light::Directional>(true, glm::vec3(2));
+    m_LightSphere.addComponent<dex::Component::Model>("assets/models/smooth_sphere.glb", true);
+    m_LightSphere.addComponent<dex::Component::Light::Ambient>(true, glm::vec3(.15));
+    m_XYZ.addComponent<dex::Component::Light::Directional>(true, glm::vec3(.8));
     m_LightSphere.getComponent<dex::Component::Transform>().setPosition(glm::vec3(7, 0, 3));
     m_LightSphere.getComponent<dex::Component::Transform>().setScale(glm::vec3(.4));
 
@@ -138,9 +141,19 @@ void WorldLayer::render()
 
     ImGui::Begin("Debug Window");
 
-    ImGui::Text("Ambient Light:"); 
-    ImGui::SameLine();
-    ImGui::ColorEdit3("", glm::value_ptr(m_LightSphere.getComponent<dex::Component::Light::Ambient>().Color));
+    {
+        ImGui::Text("Ambient Light:");
+        ImGui::SameLine();
+        ImGui::ColorEdit3("a", glm::value_ptr(m_LightSphere.getComponent<dex::Component::Light::Ambient>().Color));
+    }
+
+    ImGui::NewLine();
+
+    {
+        ImGui::Text("Directional Light2:");
+        ImGui::SameLine();
+        ImGui::ColorEdit3("b", glm::value_ptr(m_XYZ.getComponent<dex::Component::Light::Directional>().Color));
+    }
 
     ImGui::NewLine();
 

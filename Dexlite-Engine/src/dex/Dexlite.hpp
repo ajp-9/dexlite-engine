@@ -28,7 +28,7 @@
 #include "Renderer/Shader/Uniform/UniformBufferObject.hpp"
 #include "Renderer/Shader/Uniform/Uniforms.hpp"
 
-#include "Renderer/Material/Texture/Texture.hpp"
+#include "Renderer/Texture/Texture.hpp"
 
 #include "Renderer/Framebuffer/Framebuffer.hpp"
 #include "Renderer/Mesh/VertexArray/Buffers/IndexBuffer.hpp"

@@ -17,27 +17,37 @@ namespace dex
 
                 setLocations3D();
 
+                // Material:
+
+                m_TexTilingFactor_Location = glGetUniformLocation(m_ProgramID, "u_Material.TexTilingFactor");
+
+                m_BaseColorTextureEnabled_Location = glGetUniformLocation(m_ProgramID, "u_Material.BaseColorTextureEnabled");
+                m_BaseColorTextureSampler_Location = glGetUniformLocation(m_ProgramID, "u_Material.BaseColorTextureSampler");
+
+                m_RoughnessTextureEnabled_Location = glGetUniformLocation(m_ProgramID, "u_Material.RoughnessTextureEnabled");
+                m_RoughnessTextureSampler_Location = glGetUniformLocation(m_ProgramID, "u_Material.RoughnessTextureSampler");
+
+                m_EmissiveTextureEnabled_Location = glGetUniformLocation(m_ProgramID, "u_Material.EmissiveTextureEnabled");
+                m_EmissiveTextureSampler_Location = glGetUniformLocation(m_ProgramID, "u_Material.EmissiveTextureSampler");
+
+                glUniform1i(m_BaseColorTextureEnabled_Location, 0); // for GL_TEXTURE0
+                glUniform1i(m_RoughnessTextureSampler_Location, 1); // for GL_TEXTURE1
+                glUniform1i(m_EmissiveTextureSampler_Location, 2); // for GL_TEXTURE2
+
+                // Light:
+
                 m_AmbientLight_Enabled_Location = glGetUniformLocation(m_ProgramID, "u_AmbientLight.Enabled");
                 m_AmbientLight_Color_Location = glGetUniformLocation(m_ProgramID, "u_AmbientLight.Color");
 
                 m_DirectionalLight_Enabled_Location = glGetUniformLocation(m_ProgramID, "u_DirectionalLight.Enabled");
                 m_DirectionalLight_Color_Location = glGetUniformLocation(m_ProgramID, "u_DirectionalLight.Color");
                 m_DirectionalLight_Direction_Location = glGetUniformLocation(m_ProgramID, "u_DirectionalLight.Direction");
-
-                m_TexTilingFactor_Location = glGetUniformLocation(m_ProgramID, "u_TexTilingFactor");
-
-                m_DiffuseMapSampler_Location = glGetUniformLocation(m_ProgramID, "u_DiffuseMapSampler");
-                m_DiffuseMapEnabled_Location = glGetUniformLocation(m_ProgramID, "u_DiffuseMapEnabled");
-
-                m_SpecularMapSampler_Location = glGetUniformLocation(m_ProgramID, "u_SpecularMapSampler");
-                m_SpecularMapEnabled_Location = glGetUniformLocation(m_ProgramID, "u_SpecularMapEnabled");
-
-                glUniform1i(m_DiffuseMapSampler_Location, 0); // for GL_TEXTURE_0,1,2,3,4
-                glUniform1i(m_SpecularMapSampler_Location, 1);
             }
 
             void setLocations3D()
             {
+                m_CameraPosition_Location = glGetUniformLocation(m_ProgramID, "u_CameraPosition");
+
                 m_ProjectionViewMatrix_Location = glGetUniformLocation(m_ProgramID, "u_ProjectionViewMatrix");
                 m_ModelMatrix_Location = glGetUniformLocation(m_ProgramID, "u_ModelMatrix");
                 m_InverseModelMatrix_Location = glGetUniformLocation(m_ProgramID, "u_InverseModelMatrix");
@@ -45,6 +55,9 @@ namespace dex
 
             virtual void updateGlobalUniforms(const GlobalUniforms& global_uniforms) override
             {
+                if (global_uniforms.isCameraPositionDirty())
+                    setCameraPosition(global_uniforms.getCameraPosition());
+
                 if (global_uniforms.isProjectionViewMatrixDirty())
                     setProjectionViewMatrix(global_uniforms.getProjectionViewMatrix());
 
@@ -62,6 +75,11 @@ namespace dex
                 }
             }
 
+            inline void setCameraPosition(const glm::vec3& cam_pos)
+            {
+                glUniform3f(m_CameraPosition_Location, cam_pos.x, cam_pos.y, cam_pos.z);
+            }
+
             inline void setProjectionViewMatrix(const glm::mat4& mat) 
             {
                 glUniformMatrix4fv(m_ProjectionViewMatrix_Location, 1, GL_FALSE, glm::value_ptr(mat));
@@ -73,6 +91,28 @@ namespace dex
 
                 glm::mat3 inverse_mat = glm::transpose(glm::inverse(mat));
                 glUniformMatrix3fv(m_InverseModelMatrix_Location, 1, GL_FALSE, glm::value_ptr(inverse_mat));
+            }
+
+            // Texture Uniforms:
+
+            inline void setTexTilingFactor(float tiling_factor)
+            {
+                glUniform1f(m_TexTilingFactor_Location, tiling_factor);
+            }
+
+            inline void setBaseColorTexture_Enabled(bool enabled)
+            {
+                glUniform1i(m_BaseColorTextureEnabled_Location, enabled);
+            }
+
+            inline void setRoughnessTextureEnabled(bool enabled)
+            {
+                glUniform1i(m_RoughnessTextureEnabled_Location, enabled);
+            }
+
+            inline void setEmissiveTextureEnabled(bool enabled)
+            {
+                glUniform1i(m_EmissiveTextureEnabled_Location, enabled);
             }
 
             // Ambient Light:
@@ -103,27 +143,21 @@ namespace dex
             {
                 glUniform3f(m_DirectionalLight_Direction_Location, dir.x, dir.y, dir.z);
             }
-
-            // Texture Uniforms:
-
-            inline void setTexTilingFactor(float tiling_factor)
-            { 
-                glUniform1f(m_TexTilingFactor_Location, tiling_factor); 
-            }
-
-            inline void setDiffuseMap_Enabled(bool enabled)
-            {
-                glUniform1i(m_DiffuseMapEnabled_Location, enabled);
-            }
-
-            inline void setSpecularMapEnabled(bool enabled)
-            {
-                glUniform1i(m_SpecularMapEnabled_Location, enabled); 
-            }
         private:
+            uint32 m_CameraPosition_Location = 0;
+
             uint32 m_ProjectionViewMatrix_Location = 0;
             uint32 m_ModelMatrix_Location = 0;
             uint32 m_InverseModelMatrix_Location = 0;
+
+            uint32 m_BaseColorTextureEnabled_Location = 0;
+            uint32 m_BaseColorTextureSampler_Location = 0;
+
+            uint32 m_RoughnessTextureEnabled_Location = 0;
+            uint32 m_RoughnessTextureSampler_Location = 0;
+
+            uint32 m_EmissiveTextureEnabled_Location = 0;
+            uint32 m_EmissiveTextureSampler_Location = 0;
 
             uint32 m_AmbientLight_Enabled_Location = 0;
             uint32 m_AmbientLight_Color_Location = 0;
@@ -133,12 +167,6 @@ namespace dex
             uint32 m_DirectionalLight_Direction_Location = 0;
 
             uint32 m_TexTilingFactor_Location = 0;
-
-            uint32 m_DiffuseMapSampler_Location = 0;
-            uint32 m_DiffuseMapEnabled_Location = 0;
-
-            uint32 m_SpecularMapSampler_Location = 0;
-            uint32 m_SpecularMapEnabled_Location = 0;
         };
     }
 }

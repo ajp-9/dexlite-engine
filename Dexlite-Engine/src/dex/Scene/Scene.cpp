@@ -28,6 +28,7 @@ namespace dex
                 }
             });
 
+        // why
         addSetGlobalShaderUniformsLambda(
             [](Scene& scene, entt::registry& scene_registry, Shader::GlobalUniforms& global_uniforms)
             {
@@ -93,6 +94,8 @@ namespace dex
 
         if (m_ActiveCameraID != entt::null)
         {
+            m_GlobalShaderUniforms.setCameraPosition(m_Registry.get<Component::Transform>(m_ActiveCameraID).getTransformationMatrix()[3]);
+
             for (auto set_global_shader_uniforms_lambda : m_SetGlobalShaderUniformsLambdas)
                 set_global_shader_uniforms_lambda(*this, m_Registry, m_GlobalShaderUniforms);
 

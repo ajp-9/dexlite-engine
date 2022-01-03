@@ -3,7 +3,7 @@
 #include <glm/mat4x4.hpp>
 
 #include "../Light/Lights.hpp"
-
+#include <iostream>
 namespace dex
 {
     namespace Shader
@@ -15,6 +15,8 @@ namespace dex
 
             const GlobalUniforms& operator=(const GlobalUniforms& other)
             {
+                setCameraPosition(other.m_CameraPosition);
+
                 setProjectionViewMatrix(other.m_ProjectionViewMatrix);
 
                 setAmbientLight(other.m_AmbientLight);
@@ -25,10 +27,27 @@ namespace dex
 
             inline void setAllClean()
             {
+                m_IsCameraPositionDirty = false;
+
                 m_IsProjectionViewMatrixDirty = false;
+                
                 m_IsAmbientLightDirty = false;
                 m_IsDirectionalLightDirty = false;
             }
+
+            // Camera Position:
+
+            inline void setCameraPosition(const glm::vec3& cam_pos)
+            {
+                if (m_CameraPosition != cam_pos)
+                {
+                    m_CameraPosition = cam_pos;
+                    m_IsCameraPositionDirty = true;
+                }
+            }
+
+            inline const bool isCameraPositionDirty() const { return m_IsCameraPositionDirty; }
+            inline const glm::vec3& getCameraPosition() const { return m_CameraPosition; }
 
             // Projection-View Matrix:
 
@@ -72,6 +91,9 @@ namespace dex
             inline const bool isDirectionalLightDirty() const { return m_IsDirectionalLightDirty; }
             inline const Light::Directional& getDirectionalLight() const { return m_DirectionalLight; }
         private:
+            bool m_IsCameraPositionDirty = true;
+            glm::vec3 m_CameraPosition = glm::vec3(0.0f);
+
             bool m_IsProjectionViewMatrixDirty = true;
             glm::mat4 m_ProjectionViewMatrix = glm::mat4(1.0f);
 

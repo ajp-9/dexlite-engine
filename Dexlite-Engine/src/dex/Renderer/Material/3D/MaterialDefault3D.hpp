@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Material.hpp"
-#include "../Texture/Texture.hpp"
+#include "../../Texture/Texture.hpp"
 #include "../../Shader/3D/ShaderDefault3D.hpp"
 #include "../../../Core/Engine.hpp"
 
@@ -17,49 +17,69 @@ namespace dex
             
             Default3D(
                 float32 texTilingFactor,
-                Texture&& diffuseMap,
-                Texture&& specularMap)
+                Texture&& baseColorTexture,
+                Texture&& roughnessTexture)
                 
                 : // Initializer List:
 
                 Base(Engine::Renderer.ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)),
                 m_TexTilingFactor(texTilingFactor),
-                m_DiffuseMap(std::move(diffuseMap)),
-                m_SpecularMap(std::move(specularMap))
+                m_BaseColorTexture(std::move(baseColorTexture)),
+                m_RoughnessTexture(std::move(roughnessTexture))
             {
-                if (m_DiffuseMap.isActive())
-                    m_DiffuseMapEnabled = true;
+                if (m_BaseColorTexture.isActive())
+                    m_BaseColorTextureEnabled = true;
 
-                if (m_SpecularMap.isActive())
-                    m_SpecularMapEnabled = true;
+                if (m_RoughnessTexture.isActive())
+                    m_RoughnessTextureEnabled = true;
             }
 
             virtual void setUniforms()
             {
-                if (m_DiffuseMapEnabled || m_SpecularMapEnabled)
+                if (m_BaseColorTextureEnabled || m_RoughnessTextureEnabled || m_EmissiveTextureEnabled)
                     m_Shader->setTexTilingFactor(m_TexTilingFactor);
 
-                if (m_DiffuseMapEnabled)
+                if (m_BaseColorTextureEnabled)
                 {
-                    m_Shader->setDiffuseMap_Enabled(true);
-                    m_DiffuseMap.bind();
+                    m_Shader->setBaseColorTexture_Enabled(true);
+                    m_BaseColorTexture.bind(0);
                 }
                 else
-                    m_Shader->setDiffuseMap_Enabled(false);
+                {
+                    m_Shader->setBaseColorTexture_Enabled(false);
+                }
 
-                if (m_SpecularMapEnabled)
-                    m_Shader->setSpecularMapEnabled(true);
+                if (m_RoughnessTextureEnabled)
+                {
+                    m_Shader->setRoughnessTextureEnabled(true);
+                    m_RoughnessTexture.bind(1);
+                }
                 else
-                    m_Shader->setSpecularMapEnabled(false);
+                {
+                    m_Shader->setRoughnessTextureEnabled(false);
+                }
+
+                if (m_EmissiveTextureEnabled)
+                {
+                    m_Shader->setEmissiveTextureEnabled(true);
+                    m_EmissiveTexture.bind(2);
+                }
+                else
+                {
+                    m_Shader->setEmissiveTextureEnabled(false);
+                }
             }
         public:
             float32 m_TexTilingFactor = 1.0f;
 
-            Texture m_DiffuseMap;
-            Texture m_SpecularMap;
+            bool m_BaseColorTextureEnabled = false;
+            Texture m_BaseColorTexture;
 
-            bool m_DiffuseMapEnabled = false;
-            bool m_SpecularMapEnabled = false;
+            bool m_RoughnessTextureEnabled = false;
+            Texture m_RoughnessTexture;
+
+            bool m_EmissiveTextureEnabled = false;
+            Texture m_EmissiveTexture;
         };
     }
 }

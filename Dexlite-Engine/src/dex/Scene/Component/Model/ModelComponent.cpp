@@ -54,12 +54,15 @@ namespace dex
                     std::vector<glm::vec3> normals;
                     std::vector<glm::vec2> texCoords;
 
-                    glm::vec4 baseColor = glm::vec4(1);
+                    glm::vec4 baseColor = glm::vec4(1.0f);
+                    float roughness = 1.0f;
 
                     if (model.materials.size())
                     {
                         const auto& raw_baseColor = model.materials[primitive.material].pbrMetallicRoughness.baseColorFactor;
                         baseColor = glm::vec4(raw_baseColor.at(0), raw_baseColor.at(1), raw_baseColor.at(2), raw_baseColor.at(3));
+
+                        roughness = model.materials[primitive.material].pbrMetallicRoughness.roughnessFactor;
                     }
 
                     if (primitive.attributes.find("POSITION") != primitive.attributes.end())
@@ -108,16 +111,17 @@ namespace dex
                     {
                         Vertex3D::Default vertex;
 
-                        vertex.m_Position = positions[i];
+                        vertex.Position = positions[i];
 
-                        vertex.m_Position.z *= -1;
+                        vertex.Position.z *= -1;
 
-                        vertex.m_Color = baseColor;
+                        vertex.Color = baseColor;
+                        vertex.Roughness = roughness;
 
                         if (positions.size() == normals.size())
-                            vertex.m_Normal = normals[i];
+                            vertex.Normal = normals[i];
                         if (positions.size() == texCoords.size())
-                            vertex.m_TexCoord = texCoords[i];
+                            vertex.TexCoord = texCoords[i];
 
                         vertices.push_back(vertex);
                     }
@@ -151,23 +155,59 @@ namespace dex
 
             std::shared_ptr<dex::Material::Default3D> material = std::make_shared<dex::Material::Default3D>();
 
+            //material->Roughness = roughness;
+
             for (auto& mat : model.materials)
             {
                 if (mat.pbrMetallicRoughness.baseColorTexture.index != -1)
                 {
-                    if (!material->m_DiffuseMapEnabled)
+                    if (!material->m_BaseColorTextureEnabled)
                     {
                         const tinygltf::Texture& texture = model.textures[mat.pbrMetallicRoughness.baseColorTexture.index];
                         const tinygltf::Image& image = model.images[model.textures[mat.pbrMetallicRoughness.baseColorTexture.index].source];
 
-                        material->m_DiffuseMap = Texture(image.image, model.samplers[texture.sampler], glm::ivec2(image.width, image.height), (image.component == 4) ? GL_RGBA : (image.component == 3) ? GL_RGB : 0, true);
-                        material->m_DiffuseMapEnabled = true;
+                        material->m_BaseColorTexture = Texture(image.image, model.samplers[texture.sampler], glm::ivec2(image.width, image.height), (image.component == 4) ? GL_RGBA : (image.component == 3) ? GL_RGB : 0, true);
+                        material->m_BaseColorTextureEnabled = true;
                     }
                     else
                     {
-                        DEX_LOG_ERROR("<dex::ModelLoader::loadGLTF()>: Only 1 texture for baseColorTexture.");
+                        DEX_LOG_ERROR("<dex::ModelLoader::loadGLTF()>: Only 1 diffuse texture.");
+                    }
+
+                }
+
+                if (mat.pbrMetallicRoughness.metallicRoughnessTexture.index != -1)
+                {
+                    if (!material->m_RoughnessTextureEnabled)
+                    {
+                        const tinygltf::Texture& texture = model.textures[mat.pbrMetallicRoughness.metallicRoughnessTexture.index];
+                        const tinygltf::Image& image = model.images[model.textures[mat.pbrMetallicRoughness.metallicRoughnessTexture.index].source];
+
+                        material->m_RoughnessTexture = Texture(image.image, model.samplers[texture.sampler], glm::ivec2(image.width, image.height), (image.component == 4) ? GL_RGBA : (image.component == 3) ? GL_RGB : 0, true);
+                        material->m_RoughnessTextureEnabled = true;
+                    }
+                    else
+                    {
+                        DEX_LOG_ERROR("<dex::ModelLoader::loadGLTF()>: Only 1 roughness texture.");
                     }
                 }
+
+                if (mat.emissiveTexture.index != -1)
+                {
+                    if (!material->m_EmissiveTextureEnabled)
+                    {
+                        const tinygltf::Texture& texture = model.textures[mat.emissiveTexture.index];
+                        const tinygltf::Image& image = model.images[model.textures[mat.emissiveTexture.index].source];
+
+                        material->m_EmissiveTexture = Texture(image.image, model.samplers[texture.sampler], glm::ivec2(image.width, image.height), (image.component == 4) ? GL_RGBA : (image.component == 3) ? GL_RGB : 0, true);
+                        material->m_EmissiveTextureEnabled = true;
+                    }
+                    else
+                    {
+                        DEX_LOG_ERROR("<dex::ModelLoader::loadGLTF()>: Only 1 emissive texture.");
+                    }
+                }
+
             }
 
             MeshTransformation meshTransformation_Final;
@@ -182,16 +222,11 @@ namespace dex
                         meshTransformation_Final = meshFinalTransformation_Temp;
                 }
             }
-
-            glm::mat4 transformationMatrix = meshTransformation_Final.trans;
-                /*glm::translate(glm::mat4(1.0f), meshTransformation_Final.m_Translation) *
-                glm::toMat4(meshTransformation_Final.m_Rotation) *
-                glm::scale(glm::mat4(1.0f), meshTransformation_Final.m_Scale);*/
-
+            
             for (auto& vertex : vertices)
             {
-                vertex.m_Position = transformationMatrix * glm::vec4(vertex.m_Position, 1.0f);
-                vertex.m_Normal = glm::mat3(glm::transpose(glm::inverse(transformationMatrix))) * vertex.m_Normal;
+                vertex.Position = meshTransformation_Final.trans * glm::vec4(vertex.Position, 1.0f);
+                vertex.Normal = glm::mat3(glm::transpose(glm::inverse(meshTransformation_Final.trans))) * vertex.Normal;
             }
 
             m_Mesh = Mesh::Default3D(vertices, indices);
@@ -202,12 +237,12 @@ namespace dex
         {
             if (node.translation.size() == 3 || node.rotation.size() == 4 || node.scale.size() == 3)
             {
-                glm::vec3 Translation = glm::vec3(0);
-                glm::quat Rotation = glm::quat(glm::vec3(0.0f));
-                glm::vec3 Scale = glm::vec3(1);
+                glm::vec3 translation = glm::vec3(0);
+                glm::quat rotation = glm::quat(glm::vec3(0.0f));
+                glm::vec3 scale = glm::vec3(1);
 
                 if (node.translation.size() == 3)
-                    Translation = glm::vec3(node.translation.at(0), node.translation.at(1), -node.translation.at(2));
+                    translation = glm::vec3(node.translation.at(0), node.translation.at(1), -node.translation.at(2));
 
                 if (node.rotation.size() == 4)
                 {
@@ -220,18 +255,17 @@ namespace dex
                         )
                     );
 
-                    //meshTransformation_Current.m_Rotation *= glm::quat(glm::vec3(-eRot.x, -eRot.y, eRot.z));
-                    Rotation = glm::quat(glm::vec3(-eRot.x, -eRot.y, eRot.z));
+                    rotation = glm::quat(glm::vec3(-eRot.x, -eRot.y, eRot.z));
                 }
 
                 if (node.scale.size() == 3)
-                    Scale = glm::vec3(node.scale.at(0), node.scale.at(1), node.scale.at(2));
+                    scale = glm::vec3(node.scale.at(0), node.scale.at(1), node.scale.at(2));
 
                 meshTransformation_Current.trans =
                     meshTransformation_Current.trans *
-                    glm::translate(glm::mat4(1.0f), Translation) *
-                    glm::toMat4(Rotation) *
-                    glm::scale(glm::mat4(1.0f), Scale);
+                    glm::translate(glm::mat4(1.0f), translation) *
+                    glm::toMat4(rotation) *
+                    glm::scale(glm::mat4(1.0f), scale);
             }
 
             if (node.mesh != -1)
