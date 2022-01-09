@@ -9,6 +9,8 @@ namespace dex
 {
     namespace Material
     {
+        // culling
+
         struct Default3D : Base<Shader::Default3D>
         {
             Default3D()

@@ -137,7 +137,7 @@ vec3 CalcDirLight()
     float brightness = max(dot(pass_Normal, lightDir), 0.0);
 
     vec3 reflectDir = reflect(-lightDir, pass_Normal);
-    shimmer = u_DirectionalLight.Color * pow(max(dot(view_dir, reflectDir), 0.0), 128) * brightness * frag_shininess;
+    shimmer += u_DirectionalLight.Color * pow(max(dot(view_dir, reflectDir), 0.0), 128) * brightness * frag_shininess;
 
     return u_DirectionalLight.Color * brightness;
 }

@@ -21,9 +21,6 @@ namespace dex
             void bind() const;
             void unbind() const;
 
-            //virtual void setProjectionViewMatrix(const glm::mat4& mat) {};
-            //virtual void setModelMatrix(const glm::mat4& mat) {};
-
             void setInt(const std::string& name, int value) const;
             void setFloat(const std::string& name, float32 value) const;
 

@@ -21,5 +21,4 @@ namespace dex
     void Framebuffer::resize()
     {
     }
-    
 }

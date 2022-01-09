@@ -4,7 +4,6 @@
 #include "Application/Event/KeyEvent.hpp"
 #include "Application/Event/MouseEvent.hpp"
 
-#include "Application/Layer/ImGuiLayer.hpp"
 #include "Application/Layer/LayerBase.hpp"
 #include "Application/Layer/LayerManager.hpp"
 
@@ -25,8 +24,6 @@
 
 #include "Renderer/Shader/ShaderManager.hpp"
 #include "Renderer/Shader/ShaderBase.hpp"
-#include "Renderer/Shader/Uniform/UniformBufferObject.hpp"
-#include "Renderer/Shader/Uniform/Uniforms.hpp"
 
 #include "Renderer/Texture/Texture.hpp"
 

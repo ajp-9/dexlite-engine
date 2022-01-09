@@ -27,10 +27,10 @@ namespace dex
                 Base(entity),
                 m_Position(position),
                 m_Rotation(rotation), 
-                m_Scale(scale)/*,
-                m_WorldPosition(position), 
-                m_WorldRotation(rotation),
-                m_WorldScale(scale)*/
+                m_Scale(scale),
+                m_World_Position(position), 
+                m_World_Rotation(rotation),
+                m_World_Scale(scale)
             {
                 m_FlagChanged = true;
             }
@@ -108,7 +108,7 @@ namespace dex
             glm::quat m_World_Rotation;
             glm::vec3 m_World_Scale;
         public:
-            bool m_FlagChanged = false;
+            bool m_FlagChanged = false; // make isDirty
         };
     }
 }

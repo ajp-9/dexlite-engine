@@ -11,6 +11,5 @@ namespace dex
         void unbind();
 
         void resize();
-    };
-    
+    };   
 }

@@ -15,12 +15,6 @@ namespace dex
     Scene::Scene()
     {
         m_Root = std::make_unique<Entity>(this, "Scene", false);
-
-
-        // REEEE MORE THAN 1 INSTANCE => sceneManager
-
-        // Default model component rendering lambda.
-
     }
 
     Scene::~Scene() {}
@@ -58,48 +52,54 @@ namespace dex
 
             // Ambient Light:
 
-            const auto& ambient_light_view = m_Registry.view<Component::Light::Ambient>();
+            {
+                const auto& ambient_light_view = m_Registry.view<Component::Light::Ambient>();
 
-            if (ambient_light_view.size() == 1)
-            {
-                for (auto& ambient_light_entity : ambient_light_view)
-                    m_GlobalShaderUniforms.setAmbientLight(m_Registry.get<Component::Light::Ambient>(ambient_light_entity));
-            }
-            else if (ambient_light_view.size() > 1)
-            {
-                DEX_LOG_WARN("<dex::Scene::render()>: Only 1 ambient light per scene.");
+                if (ambient_light_view.size() == 1)
+                {
+                    for (auto& ambient_light_entity : ambient_light_view)
+                        m_GlobalShaderUniforms.setAmbientLight(m_Registry.get<Component::Light::Ambient>(ambient_light_entity));
+                }
+                else if (ambient_light_view.size() > 1)
+                {
+                    DEX_LOG_WARN("<dex::Scene::render()>: Only 1 ambient light per scene.");
+                }
             }
 
             // Directional Light:
 
-            const auto& directional_light_view = m_Registry.view<Component::Light::Directional>();
+            {
+                const auto& directional_light_view = m_Registry.view<Component::Light::Directional>();
 
-            if (directional_light_view.size() == 1)
-            {
-                for (auto& directional_light_entity : directional_light_view)
-                    m_GlobalShaderUniforms.setDirectionalLight(m_Registry.get<Component::Light::Directional>(directional_light_entity));
-            }
-            else if (directional_light_view.size() > 1)
-            {
-                DEX_LOG_WARN("<dex::Scene::render()>: Only 1 directional light per scene.");
+                if (directional_light_view.size() == 1)
+                {
+                    for (auto& directional_light_entity : directional_light_view)
+                        m_GlobalShaderUniforms.setDirectionalLight(m_Registry.get<Component::Light::Directional>(directional_light_entity));
+                }
+                else if (directional_light_view.size() > 1)
+                {
+                    DEX_LOG_WARN("<dex::Scene::render()>: Only 1 directional light per scene.");
+                }
             }
 
             // Point Lights:
 
-            const auto& point_light_view = m_Registry.view<Component::Light::Point>();
-
-            if (point_light_view.size() <= 5 && point_light_view.size() > 0)
             {
-                std::vector<dex::Light::Point> point_lights;
+                const auto& point_light_view = m_Registry.view<Component::Light::Point>();
 
-                for (auto& point_light_entity : point_light_view)
-                    point_lights.push_back(m_Registry.get<Component::Light::Point>(point_light_entity));
+                if (point_light_view.size() <= 5 && point_light_view.size() > 0)
+                {
+                    std::vector<dex::Light::Point> point_lights;
 
-                m_GlobalShaderUniforms.setPointLights(point_lights);
-            }
-            else if (point_light_view.size() > 5)
-            {
-                DEX_LOG_WARN("<dex::Scene::render()>: Only 5 point lights per scene.");
+                    for (auto& point_light_entity : point_light_view)
+                        point_lights.push_back(m_Registry.get<Component::Light::Point>(point_light_entity));
+
+                    m_GlobalShaderUniforms.setPointLights(point_lights);
+                }
+                else if (point_light_view.size() > 5)
+                {
+                    DEX_LOG_WARN("<dex::Scene::render()>: Only 5 point lights per scene.");
+                }
             }
 
             // manager compares n uploads in loop

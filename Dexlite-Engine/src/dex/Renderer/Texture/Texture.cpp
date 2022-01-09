@@ -55,7 +55,7 @@ namespace dex
         {
             DEX_LOG_ERROR("<Texture::Texture>: File at {} failed to load!\n", src);
         }
-
+        
         stbi_image_free(data);
         unbind();
     }
