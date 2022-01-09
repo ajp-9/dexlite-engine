@@ -75,7 +75,7 @@ namespace dex
 
                         for (size_t i = 0; i < accessor.count; ++i)
                         {
-                            positions.emplace_back(glm::vec3(raw_positions[i * 3 + 0], raw_positions[i * 3 + 1], raw_positions[i * 3 + 2]));
+                            positions.emplace_back(glm::vec3(raw_positions[i * 3 + 0], raw_positions[i * 3 + 1], -raw_positions[i * 3 + 2]));
                         }
                     }
 
@@ -112,8 +112,6 @@ namespace dex
                         Vertex3D::Default vertex;
 
                         vertex.Position = positions[i];
-
-                        vertex.Position.z *= -1;
 
                         vertex.Color = baseColor;
                         vertex.Roughness = roughness;
@@ -210,36 +208,36 @@ namespace dex
 
             }
 
-            MeshTransformation meshTransformation_Final;
+            glm::mat4 meshTransformationMatrix_Final = glm::mat4(1.0f);
 
             for (auto& scene : model.scenes)
             {
                 for (auto& node_loc : scene.nodes)
                 {
-                    MeshTransformation meshFinalTransformation_Temp;
+                    glm::mat4 meshFinalTransformationMatrix_Temp = glm::mat4(1.0f);
 
-                    if (parseNode(meshFinalTransformation_Temp, model.nodes.at(node_loc), model))
-                        meshTransformation_Final = meshFinalTransformation_Temp;
+                    if (parseNode(meshFinalTransformationMatrix_Temp, model.nodes.at(node_loc), model))
+                        meshTransformationMatrix_Final = meshFinalTransformationMatrix_Temp;
                 }
             }
             
             for (auto& vertex : vertices)
             {
-                vertex.Position = meshTransformation_Final.trans * glm::vec4(vertex.Position, 1.0f);
-                vertex.Normal = glm::mat3(glm::transpose(glm::inverse(meshTransformation_Final.trans))) * vertex.Normal;
+                vertex.Position = meshTransformationMatrix_Final * glm::vec4(vertex.Position, 1.0f);
+                vertex.Normal = glm::mat3(glm::transpose(glm::inverse(meshTransformationMatrix_Final))) * vertex.Normal;
             }
 
             m_Mesh = Mesh::Default3D(vertices, indices);
             m_Material = material;
         }
 
-        bool Model::parseNode(MeshTransformation& meshTransformation_Current, const tinygltf::Node& node, const tinygltf::Model& model)
+        bool Model::parseNode(glm::mat4& meshTransformationMatrix_Current, const tinygltf::Node& node, const tinygltf::Model& model)
         {
             if (node.translation.size() == 3 || node.rotation.size() == 4 || node.scale.size() == 3)
             {
                 glm::vec3 translation = glm::vec3(0);
                 glm::quat rotation = glm::quat(glm::vec3(0.0f));
-                glm::vec3 scale = glm::vec3(1);
+                glm::vec3 scale = glm::vec3(1.0f);
 
                 if (node.translation.size() == 3)
                     translation = glm::vec3(node.translation.at(0), node.translation.at(1), -node.translation.at(2));
@@ -261,8 +259,8 @@ namespace dex
                 if (node.scale.size() == 3)
                     scale = glm::vec3(node.scale.at(0), node.scale.at(1), node.scale.at(2));
 
-                meshTransformation_Current.trans =
-                    meshTransformation_Current.trans *
+                meshTransformationMatrix_Current =
+                    meshTransformationMatrix_Current *
                     glm::translate(glm::mat4(1.0f), translation) *
                     glm::toMat4(rotation) *
                     glm::scale(glm::mat4(1.0f), scale);
@@ -276,11 +274,11 @@ namespace dex
             {
                 for (auto& child_node_loc : node.children)
                 {
-                    MeshTransformation meshFinalTransformation_Temp = meshTransformation_Current;
+                    glm::mat4 meshFinalTransformationMatrix_Temp = meshTransformationMatrix_Current;
 
-                    if (parseNode(meshFinalTransformation_Temp, model.nodes.at(child_node_loc), model))
+                    if (parseNode(meshFinalTransformationMatrix_Temp, model.nodes.at(child_node_loc), model))
                     {
-                        meshTransformation_Current = meshFinalTransformation_Temp;
+                        meshTransformationMatrix_Current = meshFinalTransformationMatrix_Temp;
 
                         return true;
                     }

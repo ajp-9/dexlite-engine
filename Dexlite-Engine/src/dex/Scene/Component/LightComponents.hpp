@@ -25,6 +25,13 @@ namespace dex
                     : Component::Base(entity), dex::Light::Directional(enabled, color, glm::vec3(0, -1, 0))
                 {}
             };
+
+            struct Point : dex::Light::Point, Base
+            {
+                Point(const Entity& entity, bool enabled, const glm::vec3& color, float constant, float linear, float quadratic)
+                    : Component::Base(entity), dex::Light::Point(enabled, color, entity.getComponent<Transform>().getWorldPosition(), constant, linear, quadratic)
+                {}
+            };
         }
     }
 }

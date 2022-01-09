@@ -26,28 +26,30 @@ void WorldLayer::Attach()
     m_Warlock.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 10));
     //m_Warlock.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(15, 0, 0));
 
-    m_Valdore.addComponent<dex::Component::Model>("assets/models/ddrex.glb", true);
+    m_Valdore.addComponent<dex::Component::Model>("assets/models/warlock.glb", true);
     m_Valdore.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, -5));
     m_Valdore.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(0, glm::radians(180.0), 0));
     m_Valdore.getComponent<dex::Component::Transform>().setScale(glm::vec3(.5));
 
 
     m_Triangle.addComponent<dex::Component::Model>("assets/models/plane.glb", true);
+    m_Triangle.getComponent<dex::Component::Transform>().setScale(glm::vec3(10, 10, 10));
+    m_Triangle.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, -5, 0));
 
     m_XYZ.addComponent<dex::Component::Model>("assets/models/xyz.glb", true);
     m_XYZ.getComponent<dex::Component::Transform>().setPosition(glm::vec3(-7, 0, 3.5));
     m_XYZ.getComponent<dex::Component::Transform>().setScale(glm::vec3(.05));
+    //m_XYZ.addComponent<dex::Component::Light::Directional>(true, glm::vec3(.8));
 
     m_LightSphere.addComponent<dex::Component::Model>("assets/models/smooth_sphere.glb", true);
     m_LightSphere.addComponent<dex::Component::Light::Ambient>(true, glm::vec3(.15));
-    m_XYZ.addComponent<dex::Component::Light::Directional>(true, glm::vec3(.8));
     m_LightSphere.getComponent<dex::Component::Transform>().setPosition(glm::vec3(7, 0, 3));
     m_LightSphere.getComponent<dex::Component::Transform>().setScale(glm::vec3(.4));
-
-    
+    //m_LightSphere.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
+    //m_Head.addComponent<dex::Component::Light::Directional>(true, glm::vec3(.8));
 
     m_Player.addChild(m_Head);
-
+    m_Head.getComponent<dex::Component::Transform>().setScale(glm::vec3(1002, 133, 13223));
     //m_Head.addChild(m_Triangle);
     //m_Head.addChild(m_LightSphere);
 
@@ -66,12 +68,14 @@ void WorldLayer::update()
     //m_LightSphere.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(glm::radians(.09), 0, 0));
     //m_LightSphere.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(0, -glm::radians(.09), 0));
     //m_LightSphere.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(0, 0, glm::radians(.09)));
-    //m_Head.getComponent<dex::Component::Transform>().scaleByLocal(glm::vec3(1.001, 1.001, 1.001)); //fucks the camera
+    //m_Head.getComponent<dex::Component::Transform>().scaleByLocal(glm::vec3(1, 1, 1)); //fucks the camera
 
     //m_XYZ.getComponent<dex::Component::Transform>().moveBy(glm::vec3(0, 0, .001));
 
     auto& player_trans = m_Player.getComponent<dex::Component::Transform>();
     auto& head_trans = m_Head.getComponent<dex::Component::Transform>();
+
+    //m_LightSphere.getComponent<dex::Component::Light::Point>().Position = player_trans.getWorldPosition();
 
     //player_trans.logAsInfo();
 
@@ -152,16 +156,24 @@ void WorldLayer::render()
     {
         ImGui::Text("Directional Light2:");
         ImGui::SameLine();
-        ImGui::ColorEdit3("b", glm::value_ptr(m_XYZ.getComponent<dex::Component::Light::Directional>().Color));
+        //ImGui::ColorEdit3("b", glm::value_ptr(m_LightSphere.getComponent<dex::Component::Light::Point>().Color));
     }
 
-    ImGui::NewLine();
+
+    {
+        //ImGui::SliderFloat("Constant", &m_LightSphere.getComponent<dex::Component::Light::Point>().Constant, -5, 5);
+        //ImGui::SliderFloat("Linear", &m_LightSphere.getComponent<dex::Component::Light::Point>().Linear, -5, 5);
+        //ImGui::SliderFloat("Quadratic", &m_LightSphere.getComponent<dex::Component::Light::Point>().Quadratic, -5, 5);
+    }
+    
+
+    /*ImGui::NewLine();
 
     ImGui::Text("Directional Light:");
     ImGui::SameLine(); // set direction in lambda transform -> direction
-    ImGui::SliderFloat3("", glm::value_ptr(m_XYZ.getComponent<dex::Component::Light::Directional>().Direction), -1, 1);
+    ImGui::SliderFloat3("", glm::value_ptr(m_LightSphere.getComponent<dex::Component::Light::Point>().Color), -1, 1);
 
-    ImGui::NewLine();
+    ImGui::NewLine();*/
 
     auto& transform = m_LightSphere.getComponent<dex::Component::Transform>();
 

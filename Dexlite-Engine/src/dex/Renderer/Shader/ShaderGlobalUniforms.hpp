@@ -4,6 +4,7 @@
 
 #include "../Light/Lights.hpp"
 #include <iostream>
+
 namespace dex
 {
     namespace Shader
@@ -21,6 +22,7 @@ namespace dex
 
                 setAmbientLight(other.m_AmbientLight);
                 setDirectionalLight(other.m_DirectionalLight);
+                setPointLights(other.m_PointLights);
 
                 return *this;
             }
@@ -33,6 +35,7 @@ namespace dex
                 
                 m_IsAmbientLightDirty = false;
                 m_IsDirectionalLightDirty = false;
+                m_IsPointLightVectorDirty = false;
             }
 
             // Camera Position:
@@ -90,6 +93,20 @@ namespace dex
 
             inline const bool isDirectionalLightDirty() const { return m_IsDirectionalLightDirty; }
             inline const Light::Directional& getDirectionalLight() const { return m_DirectionalLight; }
+
+            // Point Lights:
+
+            inline void setPointLights(const std::vector<Light::Point>& lights)
+            {
+                if (m_PointLights != lights)
+                {
+                    m_PointLights = lights;
+                    m_IsPointLightVectorDirty = true;
+                }
+            }
+
+            inline const bool isPointLightVectorDirty() const { return m_IsPointLightVectorDirty; }
+            inline const std::vector<Light::Point>& getPointLightVector() const { return m_PointLights; }
         private:
             bool m_IsCameraPositionDirty = true;
             glm::vec3 m_CameraPosition = glm::vec3(0.0f);
@@ -102,6 +119,9 @@ namespace dex
 
             bool m_IsDirectionalLightDirty = true;
             Light::Directional m_DirectionalLight;
+
+            bool m_IsPointLightVectorDirty = true;
+            std::vector<Light::Point> m_PointLights;
         };
     }
 }

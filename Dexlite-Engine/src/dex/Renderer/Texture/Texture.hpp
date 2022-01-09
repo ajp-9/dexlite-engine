@@ -16,12 +16,9 @@ namespace dex
     public:
         Texture() = default;
 
-        ~Texture()
-        {
-            if (m_ID) glDeleteTextures(1, &m_ID);
-        }
+        ~Texture() { if (m_ID) glDeleteTextures(1, &m_ID); }
 
-        Texture(const char* src, bool blending = true);
+        Texture(const std::string& src, bool blending = true);
         Texture(std::vector<uint8> image, const tinygltf::Sampler& sampler, glm::ivec2 dimensions, GLenum format, bool blending);
 
         Texture(const Texture& other) = delete;

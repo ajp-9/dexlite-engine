@@ -33,6 +33,8 @@ void main()
 
 #version 330 core
 
+#define MAX_POINT_LIGHTS 5
+
 out vec4 out_Color;
 
 in vec3 pass_Normal;
@@ -68,14 +70,27 @@ struct DirectionalLight
     vec3 Direction;
 };
 
+struct PointLight
+{
+    bool Enabled;
+    vec3 Color;
+    vec3 Position;
+
+    float Constant;
+    float Linear;
+    float Quadratic;
+};
+
 uniform Material u_Material;
 
 uniform vec3 u_CameraPosition;
 
 uniform AmbientLight u_AmbientLight;
 uniform DirectionalLight u_DirectionalLight;
+uniform PointLight u_PointLights[MAX_POINT_LIGHTS];
 
 vec3 CalcDirLight();
+vec3 CalcPointLight(int index);
 
 vec3 shimmer = vec3(0.0);
 float frag_shininess = 1.0 - pass_Roughness;
@@ -103,6 +118,12 @@ void main()
 
     if (u_DirectionalLight.Enabled)
         light_color += CalcDirLight();
+
+    for (int i = 0; i < MAX_POINT_LIGHTS; i++)
+    {
+        if (u_PointLights[i].Enabled)
+            light_color += CalcPointLight(i);
+    }
     
     if (!u_Material.EmissiveTextureEnabled)
         out_Color = (base_color * vec4(light_color, 1.0)) + vec4(shimmer, 0.0);
@@ -113,10 +134,24 @@ void main()
 vec3 CalcDirLight()
 {
     vec3 lightDir = normalize(-u_DirectionalLight.Direction);
-    float brightness = max(dot(pass_Normal, lightDir), 0);
+    float brightness = max(dot(pass_Normal, lightDir), 0.0);
 
     vec3 reflectDir = reflect(-lightDir, pass_Normal);
-    shimmer = u_DirectionalLight.Color * pow(max(dot(view_dir, reflectDir), 0.0), 256) * frag_shininess;
+    shimmer = u_DirectionalLight.Color * pow(max(dot(view_dir, reflectDir), 0.0), 128) * brightness * frag_shininess;
 
     return u_DirectionalLight.Color * brightness;
+}
+
+vec3 CalcPointLight(int index)
+{
+    vec3 lightDir = normalize(u_PointLights[index].Position - pass_FragPosition);
+    float brightness = max(dot(pass_Normal, lightDir), 0.0);
+
+    float distance = length(u_PointLights[index].Position - pass_FragPosition);
+    float attenuation = 1.0 / (u_PointLights[index].Constant + u_PointLights[index].Linear * distance + u_PointLights[index].Quadratic * (distance * distance));    
+
+    vec3 reflectDir = reflect(-lightDir, pass_Normal);
+    shimmer += u_PointLights[index].Color * pow(max(dot(view_dir, reflectDir), 0.0), 128) * brightness * frag_shininess * attenuation;
+
+    return u_PointLights[index].Color * brightness * attenuation;
 }

@@ -8,15 +8,6 @@
 
 namespace dex
 {
-    struct MeshTransformation
-    {
-        glm::mat4 trans = glm::mat4(1.0f);
-
-        glm::vec3 m_Translation = glm::vec3(0);
-        glm::quat m_Rotation = glm::quat(glm::vec3(0.0f));
-        glm::vec3 m_Scale = glm::vec3(1);
-    };
-
     namespace Component
     {
         struct Model : Base
@@ -78,7 +69,7 @@ namespace dex
             void loadGLTF(const std::string& location, bool binary);
             
             // Returns true if a mesh was found.
-            bool parseNode(MeshTransformation& meshTransformation_Current, const tinygltf::Node& node, const tinygltf::Model& model);
+            bool parseNode(glm::mat4& meshTransformationMatrix_Current, const tinygltf::Node& node, const tinygltf::Model& model);
         public:
             Mesh::Default3D m_Mesh;
             std::shared_ptr<Material::Default3D> m_Material;

@@ -88,13 +88,8 @@ namespace dex
             {
                 child_entity.getComponent<Component::Transform>().update();
 
-                if (child_entity.hasComponent<Component::Camera>())
-                {
-                    auto& camera = child_entity.getComponent<Component::Camera>();
-
-                    if (camera.IsEnabled)
-                        camera.updateViewMatrix();
-                }
+                for (auto func : Engine::SceneManager.m_Entity_UpdateComponentWithTransform_Functions)
+                    func(child_entity);
             }
             
             child_entity.updateChildrenTransform();
@@ -115,5 +110,4 @@ namespace dex
     {
         return Entity(getComponent<Component::Parent>().Handle, m_Scene);
     }
-
 }

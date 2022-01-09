@@ -41,11 +41,11 @@ namespace dex
                 {
                     const auto& transform = m_Entity.getComponent<Component::Transform>();
 
-                    glm::vec3 position = transform.getTransformationMatrix()[3];
+                    glm::vec3 position = m_Entity.getComponent<Component::Transform>().getWorldPosition();
 
                     m_ViewMatrix = glm::lookAt(position, position + transform.getForward(), transform.getUp());
                 }
-
+                
                 m_ProjectionViewMatrix = m_ProjectionMatrix * m_ViewMatrix;
 
                 isViewMatrixOld = false;

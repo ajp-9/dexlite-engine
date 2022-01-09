@@ -8,6 +8,7 @@
 #include "../TagComponent.hpp"
 #include "../../../Util/Logging.hpp"
 #include "../BaseComponent.hpp"
+#include "../../../Util/Math/Math.hpp"
 
 namespace dex
 {
@@ -60,8 +61,15 @@ namespace dex
             inline const glm::vec3 getRight() const { return m_Right; }
             inline const glm::vec3 getUp() const { return m_Up; }
 
-            void update();
+            // put in update
+            inline const glm::vec3& getWorldPosition() const { return m_World_Position; }
+            inline const glm::quat& getWorldRotationQuat() const { return m_World_Rotation; }
+            inline const glm::vec3 getWorldRotationRadians() const { return glm::eulerAngles(m_World_Rotation); }
+            inline const glm::vec3 getWorldRotationDegrees() const { return glm::degrees(glm::eulerAngles(m_World_Rotation)); }
+            inline const glm::vec3& getWorldScale() const { return m_World_Scale; }
 
+            void update();
+            
             void logAsInfo() const
             {
                 const auto eRot = glm::degrees(glm::eulerAngles(m_Rotation));
@@ -95,6 +103,10 @@ namespace dex
             glm::vec3 m_Position;
             glm::quat m_Rotation;
             glm::vec3 m_Scale;
+
+            glm::vec3 m_World_Position;
+            glm::quat m_World_Rotation;
+            glm::vec3 m_World_Scale;
         public:
             bool m_FlagChanged = false;
         };

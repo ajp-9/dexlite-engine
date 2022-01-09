@@ -15,7 +15,7 @@ namespace dex
 
             inline const bool operator!=(const Base& other) const
             {
-                return Color != other.Color;
+                return Enabled != other.Enabled || Color != other.Color;
             }
 
             bool Enabled = false;
@@ -39,7 +39,7 @@ namespace dex
 
             inline const bool operator!=(const Directional& other) const
             {
-                return Color != other.Color || Direction != other.Direction;
+                return Enabled != other.Enabled || Color != other.Color || Direction != other.Direction;
             }
 
             glm::vec3 Direction = { 0.0f, 0.0f, 0.0f };
@@ -48,16 +48,42 @@ namespace dex
         struct Point : Base
         {
             Point() = default;
-            Point(bool enabled, const glm::vec3& color, glm::vec3 position)
-                : Base(enabled, color), Position(position)
+            Point(bool enabled, const glm::vec3& color, glm::vec3 position, float constant, float linear, float quadratic)
+                : Base(enabled, color), Position(position), Constant(constant), Linear(linear), Quadratic(quadratic)
             {}
+
+            // For vectors.
+            inline const bool operator==(const Point& other) const
+            {
+                return
+                {
+                    Enabled == other.Enabled &&
+                    Color == other.Color &&
+                    Position == other.Position &&
+                    Constant == other.Constant &&
+                    Linear == other.Linear &&
+                    Quadratic == other.Quadratic
+                };
+            }
 
             inline const bool operator!=(const Point& other) const
             {
-                return Color != other.Color || Position != other.Position;
+                return
+                {
+                    Enabled != other.Enabled ||
+                    Color != other.Color ||
+                    Position != other.Position || 
+                    Constant != other.Constant || 
+                    Linear != other.Linear || 
+                    Quadratic != other.Quadratic 
+                };
             }
 
             glm::vec3 Position = { 0.0f, 0.0f, 0.0f };
+
+            float Constant = 1.0f;
+            float Linear = .35f;
+            float Quadratic = .44f;
         };
     }
 }

@@ -9,7 +9,7 @@
 
 namespace dex
 {
-    Texture::Texture(const char* src, bool blending)
+    Texture::Texture(const std::string& src, bool blending)
     {
         glGenTextures(1, &m_ID);
         bind(); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
@@ -34,7 +34,7 @@ namespace dex
         //stbi_set_flip_vertically_on_load(true);
 
         int width, height, nrChannels;
-        unsigned char* data = stbi_load(src, &width, &height, &nrChannels, 0); // maybe change to 0 from 43
+        unsigned char* data = stbi_load(src.c_str(), &width, &height, &nrChannels, 0); // maybe change to 0 from 43
         if (data)
         {
             if (nrChannels == 4) // checks if png or not

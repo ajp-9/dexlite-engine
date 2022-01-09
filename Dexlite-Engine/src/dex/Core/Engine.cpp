@@ -69,6 +69,7 @@ namespace dex
     Window Engine::Window(glm::uvec2(720, 720));
     Renderer Engine::Renderer;
     Layer::Manager Engine::LayerManager;
+    SceneManager Engine::SceneManager;
 
     Time Engine::Time(60);
 

@@ -4,6 +4,8 @@
 #include "../Application/Window/Window.hpp"
 #include "../Application/Layer/LayerManager.hpp"
 #include "../Renderer/Renderer.hpp"
+#include "../Scene/SceneManager.hpp"
+
 #include "Program/Program.hpp"
 #include "Program/EntryPoint.hpp"
 #include "Config.hpp"
@@ -23,6 +25,8 @@ namespace dex
         static Window Window;
         static Renderer Renderer;
         static Layer::Manager LayerManager;
+        static SceneManager SceneManager;
+
         static Time Time;
     private:
         static bool s_Running;

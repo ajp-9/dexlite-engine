@@ -24,11 +24,6 @@ namespace dex
         // Destroys all its children in the registry. Their classes would remain intact and should be disgarded afterwards.
         void destroyChildren();
 
-        /*bool isEntityValid()
-        {
-            return m_Scene->m_Registry.valid(m_Handle);
-        }*/
-
         Entity addNewChild(std::string tag = "")
         {
             Entity child = { m_Scene, tag, false};
@@ -95,6 +90,7 @@ namespace dex
         }
 
         const bool isValid() const { return m_Handle != entt::null; }
+        // return m_Scene->m_Registry.valid(m_Handle);
 
         operator entt::entity() const { return m_Handle; };
         const bool operator==(const Entity& other) const { return m_Handle == other.m_Handle && m_Scene == other.m_Scene; }
@@ -107,6 +103,7 @@ namespace dex
     private:
         entt::entity m_Handle = entt::null;
         Scene* m_Scene = nullptr;
+
     public:
         friend class Scene;
     };

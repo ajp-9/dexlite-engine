@@ -2,78 +2,31 @@
 
 #include "../ShaderBase.hpp"
 #include <glad/glad.h>
+#include "../../../Util/Logging.hpp"
 
 namespace dex
 {
     namespace Shader
     {
+        struct PointLight_Locations
+        {
+            GLuint Enabled;
+            GLuint Color;
+            GLuint Position;
+
+            GLuint Constant;
+            GLuint Linear;
+            GLuint Quadratic;
+        };
+
         class Default3D : public Base
         {
         public:
-            Default3D(const std::string& src = "assets/shaders/3d/default.glsl")
-                : Base(src, "dex::Shader::Default3D", Type::DEFAULT_3D)
-            {
-                bind();
+            Default3D(const std::string& src = "assets/shaders/3d/default.glsl");
 
-                setLocations3D();
+            void setLocations3D();
 
-                // Material:
-
-                m_TexTilingFactor_Location = glGetUniformLocation(m_ProgramID, "u_Material.TexTilingFactor");
-
-                m_BaseColorTextureEnabled_Location = glGetUniformLocation(m_ProgramID, "u_Material.BaseColorTextureEnabled");
-                m_BaseColorTextureSampler_Location = glGetUniformLocation(m_ProgramID, "u_Material.BaseColorTextureSampler");
-
-                m_RoughnessTextureEnabled_Location = glGetUniformLocation(m_ProgramID, "u_Material.RoughnessTextureEnabled");
-                m_RoughnessTextureSampler_Location = glGetUniformLocation(m_ProgramID, "u_Material.RoughnessTextureSampler");
-
-                m_EmissiveTextureEnabled_Location = glGetUniformLocation(m_ProgramID, "u_Material.EmissiveTextureEnabled");
-                m_EmissiveTextureSampler_Location = glGetUniformLocation(m_ProgramID, "u_Material.EmissiveTextureSampler");
-
-                glUniform1i(m_BaseColorTextureEnabled_Location, 0); // for GL_TEXTURE0
-                glUniform1i(m_RoughnessTextureSampler_Location, 1); // for GL_TEXTURE1
-                glUniform1i(m_EmissiveTextureSampler_Location, 2); // for GL_TEXTURE2
-
-                // Light:
-
-                m_AmbientLight_Enabled_Location = glGetUniformLocation(m_ProgramID, "u_AmbientLight.Enabled");
-                m_AmbientLight_Color_Location = glGetUniformLocation(m_ProgramID, "u_AmbientLight.Color");
-
-                m_DirectionalLight_Enabled_Location = glGetUniformLocation(m_ProgramID, "u_DirectionalLight.Enabled");
-                m_DirectionalLight_Color_Location = glGetUniformLocation(m_ProgramID, "u_DirectionalLight.Color");
-                m_DirectionalLight_Direction_Location = glGetUniformLocation(m_ProgramID, "u_DirectionalLight.Direction");
-            }
-
-            void setLocations3D()
-            {
-                m_CameraPosition_Location = glGetUniformLocation(m_ProgramID, "u_CameraPosition");
-
-                m_ProjectionViewMatrix_Location = glGetUniformLocation(m_ProgramID, "u_ProjectionViewMatrix");
-                m_ModelMatrix_Location = glGetUniformLocation(m_ProgramID, "u_ModelMatrix");
-                m_InverseModelMatrix_Location = glGetUniformLocation(m_ProgramID, "u_InverseModelMatrix");
-            }
-
-            virtual void updateGlobalUniforms(const GlobalUniforms& global_uniforms) override
-            {
-                if (global_uniforms.isCameraPositionDirty())
-                    setCameraPosition(global_uniforms.getCameraPosition());
-
-                if (global_uniforms.isProjectionViewMatrixDirty())
-                    setProjectionViewMatrix(global_uniforms.getProjectionViewMatrix());
-
-                if (global_uniforms.isAmbientLightDirty())
-                {
-                    setAmbientLight_Enabled(global_uniforms.getAmbientLight().Enabled);
-                    setAmbientLight_Color(global_uniforms.getAmbientLight().Color);
-                }
-
-                if (global_uniforms.isDirectionalLightDirty())
-                {
-                    setDirectionalLight_Enabled(global_uniforms.getDirectionalLight().Enabled);
-                    setDirectionalLight_Color(global_uniforms.getDirectionalLight().Color);
-                    setDirectionalLight_Direction(global_uniforms.getDirectionalLight().Direction);
-                }
-            }
+            virtual void updateGlobalUniforms(const GlobalUniforms& global_uniforms) override;
 
             inline void setCameraPosition(const glm::vec3& cam_pos)
             {
@@ -129,6 +82,8 @@ namespace dex
 
             // Directional Light:
 
+            // rollup into a struct later
+
             inline void setDirectionalLight_Enabled(bool enabled)
             {
                 glUniform1i(m_DirectionalLight_Enabled_Location, enabled);
@@ -143,30 +98,56 @@ namespace dex
             {
                 glUniform3f(m_DirectionalLight_Direction_Location, dir.x, dir.y, dir.z);
             }
+
+            // Point Lights:
+
+            inline void setPointLights(const std::vector<Light::Point>& lights)
+            {
+                if (m_PointLights_Locations.size() >= lights.size())
+                {
+                    for (uint32 i = 0; i < lights.size(); i++)
+                    {
+                        glUniform1i(m_PointLights_Locations.at(i).Enabled, lights.at(i).Enabled);
+                        glUniform3f(m_PointLights_Locations.at(i).Color, lights.at(i).Color.x, lights.at(i).Color.y, lights.at(i).Color.z);
+                        glUniform3f(m_PointLights_Locations.at(i).Position, lights.at(i).Position.x, lights.at(i).Position.y, lights.at(i).Position.z);
+
+                        glUniform1f(m_PointLights_Locations.at(i).Constant, lights.at(i).Constant);
+                        glUniform1f(m_PointLights_Locations.at(i).Linear, lights.at(i).Linear);
+                        glUniform1f(m_PointLights_Locations.at(i).Quadratic, lights.at(i).Quadratic);
+                    }
+                }
+                else
+                {
+                    DEX_LOG_ERROR("<dex::Shader::Default3D::setPointLights()>: Size of vector of lights inputted is greater than the vector of light locations.");
+                }
+            }
         private:
-            uint32 m_CameraPosition_Location = 0;
+            GLuint m_CameraPosition_Location;
 
-            uint32 m_ProjectionViewMatrix_Location = 0;
-            uint32 m_ModelMatrix_Location = 0;
-            uint32 m_InverseModelMatrix_Location = 0;
+            GLuint m_ProjectionViewMatrix_Location;
+            GLuint m_ModelMatrix_Location;
+            GLuint m_InverseModelMatrix_Location;
+            
+            GLuint m_BaseColorTextureEnabled_Location;
+            GLuint m_BaseColorTextureSampler_Location;
+            
+            GLuint m_RoughnessTextureEnabled_Location;
+            GLuint m_RoughnessTextureSampler_Location;
+            
+            GLuint m_EmissiveTextureEnabled_Location;
+            GLuint m_EmissiveTextureSampler_Location;
+            
+            GLuint m_AmbientLight_Enabled_Location;
+            GLuint m_AmbientLight_Color_Location;
+            
+            GLuint m_DirectionalLight_Enabled_Location;
+            GLuint m_DirectionalLight_Color_Location;
+            GLuint m_DirectionalLight_Direction_Location;
 
-            uint32 m_BaseColorTextureEnabled_Location = 0;
-            uint32 m_BaseColorTextureSampler_Location = 0;
+            uint32 m_MaxPointLights = 5; // move to light manager later
+            std::vector<PointLight_Locations> m_PointLights_Locations;
 
-            uint32 m_RoughnessTextureEnabled_Location = 0;
-            uint32 m_RoughnessTextureSampler_Location = 0;
-
-            uint32 m_EmissiveTextureEnabled_Location = 0;
-            uint32 m_EmissiveTextureSampler_Location = 0;
-
-            uint32 m_AmbientLight_Enabled_Location = 0;
-            uint32 m_AmbientLight_Color_Location = 0;
-
-            uint32 m_DirectionalLight_Enabled_Location = 0;
-            uint32 m_DirectionalLight_Color_Location = 0;
-            uint32 m_DirectionalLight_Direction_Location = 0;
-
-            uint32 m_TexTilingFactor_Location = 0;
+            uint32 m_TexTilingFactor_Location;
         };
     }
 }
