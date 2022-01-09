@@ -1,5 +1,5 @@
 # Dexlite-Engine
-Created by me.
+A 3D OpenGL game engine written in C++ created by me.
 
 ## How to Build:
 #### Windows:
@@ -30,6 +30,7 @@ There isn't much in it currently but after I get this engine to a stable and dec
 - [x] A simple heirarchy & transform inheritance system to the ECS.
 - [x] Mac & Linux support.
 - [X] Basic lighting system.
+- [ ] Framebuffers.
 - [ ] Engine configuration.
 - [ ] Making an scene editor.
 - [ ] Integrating a physics engine.
@@ -39,7 +40,7 @@ There isn't much in it currently but after I get this engine to a stable and dec
 - [ ] A skinnable GUI system built ontop of ImGUI.
 - [ ] Adding Documentation.
 - [ ] Possibly adding scripting.
-- [ ] Release build ready.
+- [ ] Game ready.
 
 ## Contribution 
 If you find a bug, or just something that needs to be fixed, please do make an issue or a pull request.  
@@ -51,9 +52,9 @@ For now though keep in mind that this engine is going through a LOT of work and 
 - glad (https://github.com/Dav1dde/glad)
 - GLM (https://github.com/g-truc/glm)
 - stb_image (https://github.com/nothings/stb)
-- json (https://github.com/nlohmann/json)
-- tinygltf (https://github.com/syoyo/tinygltf)
 - EnTT (https://github.com/skypjack/entt)
+- tinygltf (https://github.com/syoyo/tinygltf)
+- json (https://github.com/nlohmann/json)
 - spdlog (https://github.com/gabime/spdlog)
 
 ## License:
