@@ -1,5 +1,5 @@
 # Dexlite-Engine
-A 3D OpenGL game engine written in C++ created by me.
+A 3D OpenGL game engine written in C++, and created by me.
 
 ## How to Build:
 #### Windows:
@@ -29,8 +29,8 @@ There isn't much in it currently but after I get this engine to a stable and dec
 - [x] Model loading.
 - [x] A simple heirarchy & transform inheritance system to the ECS.
 - [x] Mac & Linux support.
-- [X] Basic lighting system.
-- [ ] Framebuffers.
+- [x] Basic lighting system.
+- [x] Framebuffers.
 - [ ] Engine configuration.
 - [ ] Making an scene editor.
 - [ ] Integrating a physics engine.
