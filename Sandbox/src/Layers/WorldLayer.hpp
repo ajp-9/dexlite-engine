@@ -2,6 +2,7 @@
 
 #include <dex/Core/Engine.hpp>
 #include <dex/Dexlite.hpp>
+#include <dex/Renderer/Framebuffer/Framebuffer.hpp>
 
 class WorldLayer : public dex::Layer::Base
 {
@@ -22,4 +23,6 @@ private:
     dex::Entity m_Valdore = { &m_Scene, "Valdore" };
     dex::Entity m_LightSphere = { &m_Scene, "Light Sphere" };
     dex::Entity m_Triangle = { &m_Scene, "Triangle" };
+
+    dex::Framebuffer framebuffer = dex::Framebuffer(glm::vec2(150, 150));
 };

@@ -34,8 +34,10 @@ namespace dex
         m_Root->updateChildrenTransform();
     }
 
-    void Scene::render()
+    void Scene::render(const glm::vec2& viewport_size)
     {
+        Engine::Renderer.setViewportSize(viewport_size);
+
         findAndSetActiveCamera();
 
         if (m_ActiveCameraID != entt::null)
@@ -44,8 +46,8 @@ namespace dex
 
             m_GlobalShaderUniforms.setCameraPosition(m_Registry.get<Component::Transform>(m_ActiveCameraID).getTransformationMatrix()[3]);
 
-            if (Engine::Renderer.m_ChangeProjectionMatrixNext)
-                m_Registry.get<Component::Camera>(m_ActiveCameraID).updateProjectionMatrix();
+            //if (Engine::Renderer.m_ChangeProjectionMatrixNext)
+                m_Registry.get<Component::Camera>(m_ActiveCameraID).updateProjectionMatrix(viewport_size);
 
             // if proj or view changed for perf
             m_GlobalShaderUniforms.setProjectionViewMatrix(m_Registry.get<Component::Camera>(m_ActiveCameraID).getProjectionViewMatrix());

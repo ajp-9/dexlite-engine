@@ -19,11 +19,10 @@ namespace dex
         void destroyEntity(Entity entity);
 
         void update();
-        void render();
+        void render(const glm::vec2& viewport_size);
         void physics();
 
         entt::entity getActiveCameraID() { return m_ActiveCameraID; }
-
     private:
         void findAndSetActiveCamera();
     private:

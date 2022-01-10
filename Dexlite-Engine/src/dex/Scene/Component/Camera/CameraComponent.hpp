@@ -30,7 +30,7 @@ namespace dex
             // Called everytime you move or rotate the camera.
             void updateViewMatrix();
             // Called everytime you change the screen dimensions or the camera's fov, size, near, or far.
-            void updateProjectionMatrix();
+            void updateProjectionMatrix(const glm::vec2& viewport_size);
         private:
             const glm::mat4& getViewMatrix()
             {
@@ -42,8 +42,8 @@ namespace dex
 
             const glm::mat4& getProjectionMatrix()
             {
-                if (isProjectionMatrixOld)
-                    updateProjectionMatrix();
+                //if (isProjectionMatrixOld)
+                //    updateProjectionMatrix();
 
                 return m_ProjectionMatrix;
             }

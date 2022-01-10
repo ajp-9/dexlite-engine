@@ -20,8 +20,7 @@ void WorldLayer::Attach()
     dex::Engine::Window.setCaptureMouse(true);
 
     //m_Warlock.addComponent<dex::Component::Model>("assets/models/spec_cube.glb", true);
-
-
+    
     m_Warlock.addComponent<dex::Component::Model>("assets/models/ruff_matrix.glb", true);
     m_Warlock.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 10));
     //m_Warlock.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(15, 0, 0));
@@ -45,7 +44,7 @@ void WorldLayer::Attach()
     m_LightSphere.addComponent<dex::Component::Light::Ambient>(true, glm::vec3(.15));
     m_LightSphere.getComponent<dex::Component::Transform>().setPosition(glm::vec3(7, 0, 3));
     m_LightSphere.getComponent<dex::Component::Transform>().setScale(glm::vec3(.4));
-    //m_LightSphere.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
+    m_LightSphere.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
     //m_Head.addComponent<dex::Component::Light::Directional>(true, glm::vec3(.8));
 
     m_Player.addChild(m_Head);
@@ -139,11 +138,18 @@ void WorldLayer::update()
 
 void WorldLayer::render()
 {
-    m_Scene.render();
+    //dex::Engine::Renderer.enableDepthTest();
+
+    framebuffer.bind();
+    m_Scene.render(framebuffer.getSize());
+    framebuffer.unbind();
+
+    m_Scene.render(Engine::Window.getDimensions());
 
     static ImGuiIO& io = ImGui::GetIO(); (void)io;
 
     ImGui::Begin("Debug Window");
+    ImGui::Image((ImTextureID)framebuffer.getColorAttachmentTexture_ID(), ImVec2(framebuffer.getSize().x, framebuffer.getSize().y), ImVec2(0, 1), ImVec2(1, 0));
 
     {
         ImGui::Text("Ambient Light:");

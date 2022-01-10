@@ -44,9 +44,9 @@ namespace dex
 
         inline bool isActive() { return m_ID; }
 
-        inline void bind(uint32 index = 0)
+        inline void bind(uint32 tex_index = 0)
         {
-            switch (index)
+            switch (tex_index)
             {
             case 0:
                 glActiveTexture(GL_TEXTURE0);

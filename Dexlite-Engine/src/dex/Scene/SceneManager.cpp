@@ -45,11 +45,7 @@ namespace dex
                 {
                     entity.getComponent<Component::Light::Directional>().Direction = entity.getComponent<Component::Transform>().getForward();
                 }
-            });
 
-        addEntity_UpdateComponentWithTransform_Function(
-            [](Entity& entity)
-            {
                 if (entity.hasComponent<Component::Light::Point>())
                 {
                     entity.getComponent<Component::Light::Point>().Position = entity.getComponent<Component::Transform>().getWorldPosition();

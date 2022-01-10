@@ -47,8 +47,8 @@ namespace dex
 
         glfwSetWindowSizeCallback(m_Window_GLFW, [](GLFWwindow* window, int width, int height)
             {
-                if (width || height)
-                    dex::Engine::Renderer.setViewportSize(glm::uvec2(width, height));
+                //if (width || height)
+                //    dex::Engine::Renderer.setViewportSize(glm::uvec2(width, height));
             });
 
         glfwSetWindowPosCallback(m_Window_GLFW, [](GLFWwindow* window, int xpos, int ypos)

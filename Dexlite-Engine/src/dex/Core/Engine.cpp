@@ -51,7 +51,7 @@ namespace dex
             Time.sleep();
 
             if (!s_Running)
-                Shutdown();
+                break;
         }
     }
 

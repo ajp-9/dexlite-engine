@@ -56,9 +56,9 @@ namespace dex
             }
         }
 
-        void Camera::updateProjectionMatrix()
+        void Camera::updateProjectionMatrix(const glm::vec2& viewport_size)
         {
-            const glm::ivec2& dim = Engine::Window.getDimensions();
+            const glm::ivec2& dim = viewport_size;
             m_AspectRatio = float32(dim.x) / float32(dim.y);
 
             if (m_Type == CameraType::ORTHOGRAPHIC)

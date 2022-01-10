@@ -11,7 +11,7 @@ namespace dex
 {   
     class Renderer
     {
-    private:
+    public:
         Renderer();
         ~Renderer();
 
@@ -27,6 +27,9 @@ namespace dex
         void clear();
     public:
         Shader::Manager ShaderManager;
+
+        void enableDepthTest() { glEnable(GL_DEPTH_TEST); }
+        void disableDepthTest() { glDisable(GL_DEPTH_TEST); }
     private:
         bool m_ChangeProjectionMatrixNext = true; // For when the window/viewport resizes
 
