@@ -26,7 +26,6 @@ namespace dex
     void Renderer::beginFrame()
     {
         m_ImGuiAPI.beginFrame();
-
     }
 
     void Renderer::endFrame()

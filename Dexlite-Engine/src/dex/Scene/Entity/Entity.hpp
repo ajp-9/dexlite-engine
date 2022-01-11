@@ -103,7 +103,6 @@ namespace dex
     private:
         entt::entity m_Handle = entt::null;
         Scene* m_Scene = nullptr;
-
     public:
         friend class Scene;
     };

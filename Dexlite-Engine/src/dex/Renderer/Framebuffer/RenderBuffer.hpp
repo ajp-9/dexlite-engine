@@ -40,7 +40,7 @@ namespace dex
             glBindRenderbuffer(GL_RENDERBUFFER, 0);
         }
 
-        GLuint getID() { return m_ID; }
+        const GLuint getID() { return m_ID; }
         const glm::vec2& getSize() { return m_Size; }
     private:
         void create()

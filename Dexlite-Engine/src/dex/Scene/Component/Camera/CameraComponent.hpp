@@ -22,8 +22,8 @@ namespace dex
                 : Base(entity), IsEnabled(is_enabled)
             {}
 
-            void setOrthographic(float32 size, float32 near, float32 far);
-            void setPerspective(float32 fov, float32 near, float32 far);
+            void setOrthographic(float32 size, float32 near_plane, float32 far_plane);
+            void setPerspective(float32 fov, float32 near_plane, float32 far_plane);
 
             const glm::mat4& getProjectionViewMatrix() { return m_ProjectionViewMatrix; }
 

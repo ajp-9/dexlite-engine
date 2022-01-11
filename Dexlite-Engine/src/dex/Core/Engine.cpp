@@ -11,6 +11,13 @@ namespace dex
     void Engine::Init(std::shared_ptr<Program> program)
     {
         s_Program = program;
+
+        s_Program->SetEngineConfig();
+
+        Window.setTitle(s_Program->EngineConfig.WindowTitle);
+        Window.setSize(s_Program->EngineConfig.WindowSize);
+
+        s_Program->Init();
     }
 
     void Engine::Shutdown()
@@ -21,8 +28,6 @@ namespace dex
     
     void Engine::Run()
     {
-        s_Program->Init();
-
         s_Running = true;
 
         while (s_Running)
@@ -60,18 +65,25 @@ namespace dex
         s_Running = false;
     }
 
+    void Engine::updateConfig()
+    {
+        const auto& config = s_Program->EngineConfig;
+
+        // set window dimensions title etc
+    }
+
     /*
     ** Initialize static member variables:
     */
 
+    std::shared_ptr<Program> Engine::s_Program;
+
     bool Engine::s_Running;
     //1280 720
-    Window Engine::Window(glm::uvec2(720, 720));
+    Window Engine::Window;
     Renderer Engine::Renderer;
     Layer::Manager Engine::LayerManager;
     SceneManager Engine::SceneManager;
 
     Time Engine::Time(60);
-
-    std::shared_ptr<Program> Engine::s_Program;
 }

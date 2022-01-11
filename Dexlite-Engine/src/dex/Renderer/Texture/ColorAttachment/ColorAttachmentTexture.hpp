@@ -39,7 +39,7 @@ namespace dex
             glBindTexture(GL_TEXTURE_2D, 0);
         }
 
-        GLuint getID() { return m_ID; }
+        const GLuint getID() { return m_ID; }
         const glm::vec2& getSize() { return m_Size; }
     private:
         void create()

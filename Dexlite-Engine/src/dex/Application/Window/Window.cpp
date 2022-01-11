@@ -11,10 +11,10 @@
 
 namespace dex
 {
-    Window::Window(glm::uvec2 windowDimensions)
+    Window::Window()
     {
         if (!glfwInit())
-            std::cout << "Error: Problem when initializing GLFW!\n";
+            DEX_LOG_CRITICAL("<dex::Window::Window()>: GLFW initialization was not successful.");
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -27,12 +27,16 @@ namespace dex
         //auto* vid = glfwGetVideoMode(glfwGetPrimaryMonitor());
         //m_Window_GLFW = glfwCreateWindow(vid->width, vid->height, "Dexlite Engine", glfwGetPrimaryMonitor(), NULL);
 
-        m_Window_GLFW = glfwCreateWindow(windowDimensions.x, windowDimensions.y, "Dexlite Engine", NULL, NULL);
+        m_Dimensions = { 1280, 800 };
+
+        m_Window_GLFW = glfwCreateWindow(m_Dimensions.x, m_Dimensions.y, "", NULL, NULL);
+        
+        center();
 
         if (!m_Window_GLFW)
         {
             glfwTerminate();
-            std::cout << "Error: Problem when creating the GLFW window!\n";
+            DEX_LOG_CRITICAL("<dex::Window::Window()>: Creating a GLFW window was not successful.");
         }
 
         glfwMakeContextCurrent(m_Window_GLFW);
@@ -135,18 +139,14 @@ namespace dex
 
                 Engine::Window.Input.pushMouseEvent(Event::MouseEvent(Event::Type::MOUSE, mouseType, mousePos, glm::dvec2(0, 0), new_btn, 0));
             });
-        
+
         glfwSetWindowCloseCallback(m_Window_GLFW, [](GLFWwindow* window)
             {
                 dex::Engine::Stop();
             });
 
-        // glad: load all OpenGL function pointers
-        // ---------------------------------------
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-        {
-            std::cout << "Error: Window failed to initialize GLAD" << std::endl;
-        }
+            DEX_LOG_CRITICAL("<dex::Window::Window()>: Window failed to initialize GLAD.");
     }
 
     Window::~Window()
@@ -164,12 +164,23 @@ namespace dex
         glfwPollEvents();
     }
 
+    void Window::setTitle(const std::string& title)
+    {
+        glfwSetWindowTitle(m_Window_GLFW, title.c_str());
+    }
+
+    void Window::setSize(const glm::ivec2& size)
+    {
+        glfwSetWindowSize(m_Window_GLFW, size.x, size.y);
+        m_Dimensions = size;
+    }
+
     void Window::setWindowed()
     {
         if (!m_IsFullscreen)
         {
-            m_WindowedDimensions = getDimensions();
-            m_WindowedPosition = getPosition();
+            m_Dimensions = getDimensions();
+            m_Position = getPosition();
         }
 
         glfwSwapInterval(0);
@@ -178,14 +189,14 @@ namespace dex
 
         const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-        if (m_WindowedDimensions != glm::ivec2(0))
+        if (m_Dimensions != glm::ivec2(0))
         {
-            glfwSetWindowMonitor(m_Window_GLFW, NULL, m_WindowedPosition.x, m_WindowedPosition.y, m_WindowedDimensions.x, m_WindowedDimensions.y, mode->refreshRate);
+            glfwSetWindowMonitor(m_Window_GLFW, NULL, m_Position.x, m_Position.y, m_Dimensions.x, m_Dimensions.y, mode->refreshRate);
         }
         else
         {
             glm::ivec2 current_dims = getDimensions();
-            glfwSetWindowMonitor(m_Window_GLFW, NULL, m_WindowedPosition.x, m_WindowedPosition.y, current_dims.x, current_dims.y, mode->refreshRate);
+            glfwSetWindowMonitor(m_Window_GLFW, NULL, m_Position.x, m_Position.y, current_dims.x, current_dims.y, mode->refreshRate);
         }
 
         glfwSwapInterval(1);
@@ -195,8 +206,8 @@ namespace dex
     {
         if (!m_IsFullscreen)
         {
-            m_WindowedDimensions = getDimensions();
-            m_WindowedPosition = getPosition();
+            m_Dimensions = getDimensions();
+            m_Position = getPosition();
         }
 
         glfwSwapInterval(0);
@@ -209,6 +220,13 @@ namespace dex
         glfwSetWindowMonitor(m_Window_GLFW, glfwGetPrimaryMonitor(), 0, 0, vid->width, vid->height, mode->refreshRate);
 
         glfwSwapInterval(1);
+    }
+
+    void Window::center()
+    {
+        const auto* video_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+        glfwSetWindowPos(m_Window_GLFW, (video_mode->width / 2) - (m_Dimensions.x / 2), (video_mode->height / 2) - (m_Dimensions.y / 2));
     }
 
     glm::ivec2 Window::getDimensions()

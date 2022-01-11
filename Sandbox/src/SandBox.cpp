@@ -11,6 +11,11 @@
 
 using dex::Engine;
 
+void SandBox::SetEngineConfig()
+{
+    EngineConfig.WindowTitle = "Sandbox";
+}
+
 void SandBox::Init()
 {
     Engine::LayerManager.pushLayer(std::make_shared<WorldLayer>());

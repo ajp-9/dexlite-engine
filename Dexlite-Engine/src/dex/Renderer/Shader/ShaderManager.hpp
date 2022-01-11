@@ -18,7 +18,6 @@ namespace dex
         class Manager
         {
         public:
-            // Initialize default shader types.
             Manager();
 
             void addShader(const std::shared_ptr<Base>& shader);

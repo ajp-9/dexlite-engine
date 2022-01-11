@@ -23,7 +23,7 @@ namespace dex
 
         GLuint getColorAttachmentTexture_ID() { return m_ColorAttachmentTexture.getID(); }
 
-        GLuint getID() { return m_ID; }
+        const GLuint getID() { return m_ID; }
         const glm::vec2& getSize() { return m_Size; }
     private:
         void create();

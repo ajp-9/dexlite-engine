@@ -48,10 +48,11 @@ void WorldLayer::Attach()
     //m_Head.addComponent<dex::Component::Light::Directional>(true, glm::vec3(.8));
 
     m_Player.addChild(m_Head);
+    m_Head.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
     m_Head.getComponent<dex::Component::Transform>().setScale(glm::vec3(1002, 133, 13223));
     //m_Head.addChild(m_Triangle);
     //m_Head.addChild(m_LightSphere);
-
+    
     //m_Head.addChild(m_XYZ);
     //m_Warlock.addChild(m_XYZ);
 }
