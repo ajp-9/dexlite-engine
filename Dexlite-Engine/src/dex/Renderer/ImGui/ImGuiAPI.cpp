@@ -17,6 +17,7 @@ namespace dex
         ImGuiIO& io = ImGui::GetIO(); (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+
         //io.ConfigViewportsNoAutoMerge = true;
         //io.ConfigViewportsNoTaskBarIcon = true;
         

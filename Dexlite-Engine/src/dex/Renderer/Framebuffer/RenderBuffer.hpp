@@ -27,6 +27,7 @@ namespace dex
         {
             m_Size = new_size;
 
+            if (m_ID) glDeleteRenderbuffers(1, &m_ID);
             create();
         }
 

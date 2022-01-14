@@ -18,8 +18,16 @@ namespace dex
 
     void Framebuffer::resize(const glm::vec2& new_size)
     {
-        m_ColorAttachmentTexture.resize(new_size);
-        m_RenderBuffer.resize(new_size);
+        if (m_Size != new_size)
+        {
+            m_Size = new_size;
+
+            m_ColorAttachmentTexture.resize(new_size);
+            m_RenderBuffer.resize(new_size);
+
+            if (m_ID) glDeleteFramebuffers(1, &m_ID);
+            create();
+        }
     }
 
     void Framebuffer::bind()

@@ -159,7 +159,6 @@ namespace dex
     {
         Input.resetInput();
 
-
         glfwSwapBuffers(m_Window_GLFW);
         glfwPollEvents();
     }

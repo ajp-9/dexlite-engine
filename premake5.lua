@@ -1,6 +1,6 @@
 workspace "Dexlite-Engine"
 	architecture "x64"
-	startproject "SandBox"
+	startproject "Dexlite-SceneEditor"
 
 	configurations {"Debug", "Release"}
 
@@ -27,4 +27,5 @@ group "Dependencies"
 group ""
 
 include "Dexlite-Engine"
+include "Dexlite-SceneEditor"
 include "Sandbox"

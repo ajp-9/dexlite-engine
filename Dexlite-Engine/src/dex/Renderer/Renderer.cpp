@@ -15,7 +15,7 @@ namespace dex
         //glFrontFace(GL_CW);
         //glEnable(GL_CULL_FACE); // do w materials
         //glCullFace(GL_BACK);
-        glClearColor(.1, .1, .1, 1.0f); // Clear the color buffer
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // Clear the color buffer
     }
 
     Renderer::~Renderer()

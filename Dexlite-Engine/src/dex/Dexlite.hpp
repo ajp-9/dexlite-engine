@@ -35,6 +35,7 @@
 
 #include "Scene/Component/Camera/CameraComponent.hpp"
 #include "Scene/Component/Model/ModelComponent.hpp"
+#include "Scene/Component/LightComponents.hpp"
 #include "Scene/Component/TagComponent.hpp"
 #include "Scene/Component/Transform/TransformComponent.hpp"
 
