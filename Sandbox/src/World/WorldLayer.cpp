@@ -10,37 +10,37 @@
 
 #include <filesystem>
 
-void WorldLayer::Attach()
+WorldLayer::WorldLayer(dex::Window& window, const std::shared_ptr<dex::Shader::Default3D>& shader)
 {
     auto& camera = m_Head.addComponent<dex::Component::Camera>(true);
 
     //camera.setOrthographic(5, 0.001, 100);
     camera.setPerspective(65, 0.01, 1000);
-    
-    dex::Engine::Window.setCaptureMouse(true);
+
+    window.setCaptureMouse(true);
 
     //m_Warlock.addComponent<dex::Component::Model>("assets/models/spec_cube.glb", true);
-    
-    m_Warlock.addComponent<dex::Component::Model>("assets/models/ruff_matrix.glb", true);
+
+    m_Warlock.addComponent<dex::Component::Model>("assets/models/ruff_matrix.glb", true, shader);
     m_Warlock.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 10));
     //m_Warlock.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(15, 0, 0));
 
-    m_Valdore.addComponent<dex::Component::Model>("assets/models/warlock.glb", true);
+    m_Valdore.addComponent<dex::Component::Model>("assets/models/warlock.glb", true, shader);
     m_Valdore.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, -5));
     m_Valdore.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(0, glm::radians(180.0), 0));
     m_Valdore.getComponent<dex::Component::Transform>().setScale(glm::vec3(.5));
 
 
-    m_Triangle.addComponent<dex::Component::Model>("assets/models/plane.glb", true);
+    m_Triangle.addComponent<dex::Component::Model>("assets/models/plane.glb", true, shader);
     m_Triangle.getComponent<dex::Component::Transform>().setScale(glm::vec3(10, 10, 10));
     m_Triangle.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, -5, 0));
 
-    m_XYZ.addComponent<dex::Component::Model>("assets/models/xyz.glb", true);
+    m_XYZ.addComponent<dex::Component::Model>("assets/models/xyz.glb", true, shader);
     m_XYZ.getComponent<dex::Component::Transform>().setPosition(glm::vec3(-7, 0, 3.5));
     m_XYZ.getComponent<dex::Component::Transform>().setScale(glm::vec3(.05));
     //m_XYZ.addComponent<dex::Component::Light::Directional>(true, glm::vec3(.8));
 
-    m_LightSphere.addComponent<dex::Component::Model>("assets/models/smooth_sphere.glb", true);
+    m_LightSphere.addComponent<dex::Component::Model>("assets/models/smooth_sphere.glb", true, shader);
     m_LightSphere.addComponent<dex::Component::Light::Ambient>(true, glm::vec3(.15));
     m_LightSphere.getComponent<dex::Component::Transform>().setPosition(glm::vec3(7, 0, 3));
     m_LightSphere.getComponent<dex::Component::Transform>().setScale(glm::vec3(.4));
@@ -52,16 +52,12 @@ void WorldLayer::Attach()
     m_Head.getComponent<dex::Component::Transform>().setScale(glm::vec3(1002, 133, 13223));
     //m_Head.addChild(m_Triangle);
     //m_Head.addChild(m_LightSphere);
-    
+
     //m_Head.addChild(m_XYZ);
     //m_Warlock.addChild(m_XYZ);
 }
 
-void WorldLayer::Detach()
-{
-}
-
-void WorldLayer::update()
+void WorldLayer::update(dex::Window& window, const float delta_time)
 {
     m_Scene.update();
 
@@ -79,32 +75,32 @@ void WorldLayer::update()
 
     //player_trans.logAsInfo();
 
-    float32 speed = .8 * Engine::Time.getDeltaTime();
+    float32 speed = .8 * delta_time;
 
-    if (Engine::Window.Input.getKeyState(dex::Event::Key::LEFT_SHIFT))
-        speed = 6 * Engine::Time.getDeltaTime();
+    if (window.Input.getKeyState(dex::Event::Key::LEFT_SHIFT))
+        speed = 6 * delta_time;
 
-    if (Engine::Window.Input.getKeyState(dex::Event::Key::W))
+    if (window.Input.getKeyState(dex::Event::Key::W))
         player_trans.moveByLocal(glm::vec3(0, 0, speed));
 
-    if (Engine::Window.Input.getKeyState(dex::Event::Key::S))
+    if (window.Input.getKeyState(dex::Event::Key::S))
         player_trans.moveByLocal(glm::vec3(0, 0, -speed));
 
-    if (Engine::Window.Input.getKeyState(dex::Event::Key::A))
+    if (window.Input.getKeyState(dex::Event::Key::A))
         player_trans.moveByLocal(glm::vec3(-speed, 0, 0));
 
-    if (Engine::Window.Input.getKeyState(dex::Event::Key::D))
+    if (window.Input.getKeyState(dex::Event::Key::D))
         player_trans.moveByLocal(glm::vec3(speed, 0, 0));
 
-    if (Engine::Window.Input.getKeyState(dex::Event::Key::Q))
+    if (window.Input.getKeyState(dex::Event::Key::Q))
         player_trans.moveByLocal(glm::vec3(0, -speed, 0));
 
-    if (Engine::Window.Input.getKeyState(dex::Event::Key::E))
+    if (window.Input.getKeyState(dex::Event::Key::E))
         player_trans.moveByLocal(glm::vec3(0, speed, 0));
 
-    if (Engine::Window.isMouseCaptured())
+    if (window.isMouseCaptured())
     {
-        const auto& m = Engine::Window.Input.getMousePosChange() * .0015;
+        const auto& m = window.Input.getMousePosChange() * .0015;
 
         player_trans.rotateByEuler((glm::vec3(0, m.x, 0)));
 
@@ -118,34 +114,33 @@ void WorldLayer::update()
             head_trans.setRotationEuler(glm::vec3(glm::radians(-max_degrees), 0, 0));
     }
 
-    if (Engine::Window.Input.isKeyPressed(dex::Event::Key::F11))
+    if (window.Input.isKeyPressed(dex::Event::Key::F11))
     {
-        if (!dex::Engine::Window.isFullscreen())
-            dex::Engine::Window.setFullscreen();
+        if (!window.isFullscreen())
+            window.setFullscreen();
         else
-            dex::Engine::Window.setWindowed();
+            window.setWindowed();
     }
 
-    if (Engine::Window.Input.isKeyPressed(dex::Event::Key::GRAVE_ACCENT))
+    if (window.Input.isKeyPressed(dex::Event::Key::GRAVE_ACCENT))
     {
-        if (dex::Engine::Window.isMouseCaptured())
-            dex::Engine::Window.setCaptureMouse(false);
+        if (window.isMouseCaptured())
+            window.setCaptureMouse(false);
         else
-            dex::Engine::Window.setCaptureMouse(true);
+            window.setCaptureMouse(true);
     }
 
-    Engine::Window.Input.stopEvents();
+    window.Input.stopEvents();
 }
 
-void WorldLayer::render()
+void WorldLayer::render(dex::Renderer& renderer, dex::Window& window)
 {
-    //dex::Engine::Renderer.enableDepthTest();
-
     framebuffer.bind();
-    m_Scene.render(framebuffer.getSize());
+    renderer.clear();
+    m_Scene.render(framebuffer.getSize(), renderer);
     framebuffer.unbind();
 
-    m_Scene.render(Engine::Window.getDimensions());
+    m_Scene.render(window.getDimensions(), renderer);
 
     static ImGuiIO& io = ImGui::GetIO(); (void)io;
 
@@ -193,7 +188,7 @@ void WorldLayer::render()
 
     transform.setRotationEuler(glm::radians(nextPosition));
 
-    ImGui::Text("My Delta Time: %.4f", Engine::Time.getDeltaTime());
+    //ImGui::Text("My Delta Time: %.4f", Engine::Time.getDeltaTime());
 
 
     ImGui::End();

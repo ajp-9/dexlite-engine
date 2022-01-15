@@ -1,14 +1,12 @@
 #include "Input.hpp"
 
-#include <GLFW/glfw3.h>
-
 #include "../../Core/Engine.hpp"
 
 namespace dex
 {
     bool Input::getKeyState(Event::Key e)
     {
-        return (!m_AreKeyEventsHalted) && (glfwGetKey(dex::Engine::Window.m_Window_GLFW, int32(e)) == GLFW_PRESS);
+        return (!m_AreKeyEventsHalted) && (glfwGetKey(m_WindowHandle, int32(e)) == GLFW_PRESS);
     }
 
     bool Input::isKeyPressed(Event::Key e)
@@ -36,7 +34,7 @@ namespace dex
         if (!m_AreMouseEventsHalted)
         {
             glm::dvec2 tmp_pos;
-            glfwGetCursorPos(Engine::Window.m_Window_GLFW, &tmp_pos.x, &tmp_pos.y);
+            glfwGetCursorPos(m_WindowHandle, &tmp_pos.x, &tmp_pos.y);
             return tmp_pos;
         }
 
@@ -93,6 +91,12 @@ namespace dex
         return false;
     }
 
+    void Input::pollNewEvents()
+    {
+        resetInput();
+        glfwPollEvents();
+    }
+
     void Input::stopEvents()
     {
         m_AreKeyEventsHalted = true;
@@ -109,6 +113,14 @@ namespace dex
         m_AreMouseEventsHalted = true;
     }
 
+    void Input::resetInput()
+    {
+        m_AreKeyEventsHalted = false;
+        m_KeyEvents.clear();
+        m_AreMouseEventsHalted = false;
+        m_MouseEvents.clear();
+    }
+
     void Input::pushKeyEvent(Event::KeyEvent e)
     {
         m_KeyEvents.emplace_back(e);
@@ -119,11 +131,4 @@ namespace dex
         m_MouseEvents.emplace_back(e);
     }
 
-    void Input::resetInput()
-    {
-        m_AreKeyEventsHalted = false;
-        m_KeyEvents.clear();
-        m_AreMouseEventsHalted = false;
-        m_MouseEvents.clear();
-    }
 }

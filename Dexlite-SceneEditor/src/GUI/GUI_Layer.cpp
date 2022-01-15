@@ -4,8 +4,11 @@
 
 namespace dex
 {
-	void GUI_Layer::Attach()
+	GUI_Layer::GUI_Layer(const std::shared_ptr<Scene>& scene, std::shared_ptr<Entity> entity)
+		: m_CurrentScene(scene), m_ViewportCamera(entity)
 	{
+		m_ViewportPanel.setViewportCamera(entity);
+
 		setColorsAndStyle();
 
 		m_ViewportCamera->addComponent<Component::Camera>(true);
@@ -17,7 +20,7 @@ namespace dex
 
 		//m_Warlock.addComponent<dex::Component::Model>("assets/models/spec_cube.glb", true);
 
-		m_Warlock.addComponent<dex::Component::Model>("assets/models/ruff_matrix.glb", true);
+		m_Warlock.addComponent<dex::Component::Model>("assets/models/ruff_matrix.glb", true, );
 		m_Warlock.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 10));
 		//m_Warlock.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(15, 0, 0));
 
@@ -46,11 +49,6 @@ namespace dex
 		m_Player.addChild(*m_ViewportCamera);
 		//m_Head.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
 		m_Head.getComponent<dex::Component::Transform>().setScale(glm::vec3(1002, 133, 13223));
-
-	}
-
-	void GUI_Layer::Detach()
-	{
 	}
 
 	void GUI_Layer::update()

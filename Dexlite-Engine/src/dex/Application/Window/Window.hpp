@@ -14,12 +14,13 @@ namespace dex
 
     class Window
     {
-        Window();
+    public:
+        Window(const std::string& title, const glm::uvec2& dimensions);
         ~Window();
 
         // Update window when done handling events & rendering
-        void update();
-    public:
+        void swapBuffers();
+
         void setTitle(const std::string& title);
         void setSize(const glm::ivec2& size);
 
@@ -36,10 +37,10 @@ namespace dex
 
         bool isFullscreen() { return m_IsFullscreen; }
 
+        bool Open = false;
         Input Input;
+        GLFWwindow* Handle = nullptr;
     private:
-        GLFWwindow* m_Window_GLFW = nullptr;
-
         // Before fullscreen.
         glm::ivec2 m_Dimensions = glm::ivec2(0);
         glm::ivec2 m_Position = glm::ivec2(0);
@@ -47,7 +48,6 @@ namespace dex
         bool m_IsFullscreen = false;
         bool m_IsMouseCaptured = false;
     public:
-        friend class Engine;
         friend class ImGuiAPI;
         friend class Layer::Manager;
         friend class Input;

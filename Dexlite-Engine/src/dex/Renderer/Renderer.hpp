@@ -12,7 +12,7 @@ namespace dex
     class Renderer
     {
     public:
-        Renderer();
+        Renderer(GLFWwindow* window_handle);
         ~Renderer();
 
         void beginFrame();
@@ -37,7 +37,6 @@ namespace dex
 
         glm::uvec2 m_ScreenDimensions = glm::uvec2(0);
     public:
-        friend class Engine;
         friend class Window;
         friend class Scene;
     };

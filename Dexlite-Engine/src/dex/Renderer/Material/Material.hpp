@@ -18,7 +18,7 @@ namespace dex
             ALBEDO_3D,
             TEXTURE_3D
         };
-
+        
         template <class S> // Shader
         struct Base
         {

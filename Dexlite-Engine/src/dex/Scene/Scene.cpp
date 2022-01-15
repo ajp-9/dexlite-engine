@@ -34,9 +34,9 @@ namespace dex
         m_Root->updateChildrenTransform();
     }
 
-    void Scene::render(const glm::vec2& viewport_size)
+    void Scene::render(const glm::vec2& viewport_size, Renderer& renderer)
     {
-        Engine::Renderer.setViewportSize(viewport_size);
+        renderer.setViewportSize(viewport_size);
 
         findAndSetActiveCamera();
 
@@ -105,11 +105,11 @@ namespace dex
             }
 
             // manager compares n uploads in loop
-            Engine::Renderer.ShaderManager.updateCurrentGlobalShaderUniforms(m_GlobalShaderUniforms);
+            renderer.ShaderManager.updateCurrentGlobalShaderUniforms(m_GlobalShaderUniforms);
 
             m_GlobalShaderUniforms.setAllClean();
 
-            for (auto render_model_lambda : Engine::SceneManager.m_Scene_RenderModel_Functions)
+            for (auto render_model_lambda : SceneManager::m_Scene_RenderModel_Functions)
                 render_model_lambda(m_Registry);
         }
         else

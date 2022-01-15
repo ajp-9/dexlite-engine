@@ -22,7 +22,7 @@ namespace dex
         std::shared_ptr<Scene> m_CurrentScene = std::make_shared<Scene>();
         std::shared_ptr<Entity> m_ViewportCamera = std::make_shared<Entity>(&*m_CurrentScene, "Editor Camera", false);
 
-        std::shared_ptr<GUI_Layer> m_GUI_Layer;
+        GUI_Layer m_GUI_Layer = GUI_Layer(m_CurrentScene, m_ViewportCamera);
     };
 }
 

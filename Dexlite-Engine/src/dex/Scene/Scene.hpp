@@ -8,6 +8,7 @@ namespace dex
 {
     class Entity;
     class Scene;
+    class Renderer;
 
     class Scene
     {
@@ -19,7 +20,7 @@ namespace dex
         void destroyEntity(Entity entity);
 
         void update();
-        void render(const glm::vec2& viewport_size);
+        void render(const glm::vec2& viewport_size, Renderer& renderer);
         void physics();
 
         entt::entity getActiveCameraID() { return m_ActiveCameraID; }

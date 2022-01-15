@@ -7,7 +7,7 @@
 
 namespace dex
 {
-    SceneManager::SceneManager()
+    void SceneManager::setDefaults()
     {
         // Scene Default Lambdas:
 
@@ -52,4 +52,7 @@ namespace dex
                 }
             });
     }
+
+    std::vector<Scene_RenderModel_Function*> SceneManager::m_Scene_RenderModel_Functions;
+    std::vector<Entity_UpdateComponentWithTransform_Function*> SceneManager::m_Entity_UpdateComponentWithTransform_Functions;
 }

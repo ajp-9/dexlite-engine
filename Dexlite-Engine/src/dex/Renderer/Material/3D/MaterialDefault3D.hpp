@@ -13,18 +13,19 @@ namespace dex
 
         struct Default3D : Base<Shader::Default3D>
         {
-            Default3D()
-                : Base(Engine::Renderer.ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D))
+            Default3D(const std::shared_ptr<Shader::Default3D>& shader)
+                : Base(shader)
             {}
             
             Default3D(
+                const std::shared_ptr<Shader::Default3D>& shader,
                 float32 texTilingFactor,
                 Texture&& baseColorTexture,
                 Texture&& roughnessTexture)
                 
                 : // Initializer List:
 
-                Base(Engine::Renderer.ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)),
+                Base(shader),
                 m_TexTilingFactor(texTilingFactor),
                 m_BaseColorTexture(std::move(baseColorTexture)),
                 m_RoughnessTexture(std::move(roughnessTexture))

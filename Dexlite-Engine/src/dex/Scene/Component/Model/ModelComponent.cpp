@@ -4,7 +4,7 @@ namespace dex
 {
     namespace Component
     {
-        void Model::loadGLTF(const std::string& location, bool binary)
+        void Model::loadGLTF(const std::string& location, bool binary, const std::shared_ptr<Shader::Default3D>& default_3d_shader)
         {
             tinygltf::Model model;
             tinygltf::TinyGLTF loader;
@@ -151,9 +151,11 @@ namespace dex
                 }
             }
 
-            std::shared_ptr<dex::Material::Default3D> material = std::make_shared<dex::Material::Default3D>();
+            std::shared_ptr<dex::Material::Default3D> material = std::make_shared<dex::Material::Default3D>(default_3d_shader);
 
             //material->Roughness = roughness;
+
+            //material->m_Shader = default_3d_shader;
 
             for (auto& mat : model.materials)
             {

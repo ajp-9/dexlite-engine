@@ -88,7 +88,7 @@ namespace dex
             {
                 child_entity.getComponent<Component::Transform>().update();
 
-                for (auto func : Engine::SceneManager.m_Entity_UpdateComponentWithTransform_Functions)
+                for (auto func : SceneManager::m_Entity_UpdateComponentWithTransform_Functions)
                     func(child_entity);
             }
             

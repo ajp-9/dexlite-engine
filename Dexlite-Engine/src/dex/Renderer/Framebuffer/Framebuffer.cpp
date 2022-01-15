@@ -34,7 +34,7 @@ namespace dex
     {
         glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
 
-        dex::Engine::Renderer.clear(); // Clear after binding the framebuffer.
+        //dex::Engine::Renderer.clear(); // Clear after binding the framebuffer.
     }
 
     void Framebuffer::unbind()

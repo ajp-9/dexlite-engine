@@ -4,14 +4,13 @@
 #include <dex/Dexlite.hpp>
 #include <dex/Renderer/Framebuffer/Framebuffer.hpp>
 
-class WorldLayer : public dex::Layer::Base
+class WorldLayer
 {
 public:
-    virtual void Attach() override;
-    virtual void Detach() override;
+    WorldLayer(dex::Window& window, const std::shared_ptr<dex::Shader::Default3D>& shader);
 
-    virtual void update() override;
-    virtual void render() override;
+    void update(dex::Window& window, const float delta_time);
+    void render(dex::Renderer& renderer, dex::Window& window);
 private:
     dex::Scene m_Scene;
 

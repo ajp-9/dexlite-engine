@@ -13,13 +13,6 @@ namespace dex
 
     void SceneEditor::Init()
     {
-        m_GUI_Layer = std::make_shared<GUI_Layer>(m_CurrentScene, m_ViewportCamera);
-        dex::Engine::LayerManager.pushLayer(m_GUI_Layer);
-
-
-        //m_GUI_Layer->setScene(m_CurrentScene);
-        //m_GUI_Layer->setViewportCamera(m_ViewportCamera);
-
         //dex::Engine::Window.setFullscreen();
     }
 
@@ -27,10 +20,11 @@ namespace dex
 
     void SceneEditor::update()
     {
-
+        m_GUI_Layer.update();
     }
 
     void SceneEditor::render()
     {
+        m_GUI_Layer.render();
     }
 }

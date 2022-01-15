@@ -5,6 +5,7 @@
 #include "../../../Renderer/Mesh/Mesh.hpp"
 #include "../Transform/TransformComponent.hpp"
 #include "../BaseComponent.hpp"
+#include "../../../Renderer/Shader/3D/ShaderDefault3D.hpp"
 
 namespace dex
 {
@@ -41,10 +42,10 @@ namespace dex
                 m_Enabled = true;
             }
 
-            Model(const Entity& entity, const std::string& location, bool binary)
+            Model(const Entity& entity, const std::string& location, bool binary, const std::shared_ptr<Shader::Default3D>& shader)
                 : Base(entity)
             {
-                loadGLTF(location, binary);
+                loadGLTF(location, binary, shader);
 
                 m_Enabled = true;
             }
@@ -66,7 +67,7 @@ namespace dex
                     m_Mesh.render();
             }
         private:
-            void loadGLTF(const std::string& location, bool binary);
+            void loadGLTF(const std::string& location, bool binary, const std::shared_ptr<Shader::Default3D>& default_3d_shader);
             
             // Returns true if a mesh was found.
             bool parseNode(glm::mat4& meshTransformationMatrix_Current, const tinygltf::Node& node, const tinygltf::Model& model);

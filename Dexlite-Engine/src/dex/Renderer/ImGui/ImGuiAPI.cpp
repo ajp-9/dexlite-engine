@@ -10,7 +10,7 @@
 
 namespace dex
 {
-    ImGuiAPI::ImGuiAPI()
+    ImGuiAPI::ImGuiAPI(GLFWwindow* window_handle)
     {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
@@ -36,7 +36,7 @@ namespace dex
         }
 
         // Setup Platform/Renderer backends
-        ImGui_ImplGlfw_InitForOpenGL(Engine::Window.m_Window_GLFW, true);
+        ImGui_ImplGlfw_InitForOpenGL(window_handle, true);
         ImGui_ImplOpenGL3_Init("#version 330");
     }
 
@@ -67,7 +67,7 @@ namespace dex
         if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
             GLFWwindow* backup_current_context = glfwGetCurrentContext();
-            ImGui::UpdatePlatformWindows();
+            ImGui::UpdatePlatformWindows();                                 // ruh roh
             ImGui::RenderPlatformWindowsDefault();
             glfwMakeContextCurrent(backup_current_context);
         }

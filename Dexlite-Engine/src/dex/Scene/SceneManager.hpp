@@ -11,14 +11,14 @@ namespace dex
     class SceneManager
     {
     public:
-        SceneManager();
+        static void setDefaults();
 
-        void addScene_RenderModel_Function(Scene_RenderModel_Function* func) { m_Scene_RenderModel_Functions.push_back(func); }
-        void addEntity_UpdateComponentWithTransform_Function(Entity_UpdateComponentWithTransform_Function* func) { m_Entity_UpdateComponentWithTransform_Functions.push_back(func); }
+        static void addScene_RenderModel_Function(Scene_RenderModel_Function* func) { m_Scene_RenderModel_Functions.push_back(func); }
+        static void addEntity_UpdateComponentWithTransform_Function(Entity_UpdateComponentWithTransform_Function* func) { m_Entity_UpdateComponentWithTransform_Functions.push_back(func); }
     private:
-        std::vector<Scene_RenderModel_Function*> m_Scene_RenderModel_Functions;
-
-        std::vector<Entity_UpdateComponentWithTransform_Function*> m_Entity_UpdateComponentWithTransform_Functions;
+        static std::vector<Scene_RenderModel_Function*> m_Scene_RenderModel_Functions;
+        
+        static std::vector<Entity_UpdateComponentWithTransform_Function*> m_Entity_UpdateComponentWithTransform_Functions;
     public:
         friend Scene;
         friend Entity;

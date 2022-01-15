@@ -2,41 +2,37 @@
 
 #include "../Util/Time/Time.hpp"
 #include "../Application/Window/Window.hpp"
-#include "../Application/Layer/LayerManager.hpp"
 #include "../Renderer/Renderer.hpp"
 #include "../Scene/SceneManager.hpp"
 
 #include "Program/Program.hpp"
 #include "Program/EntryPoint.hpp"
-#include "EngineConfig.hpp"
 
 namespace dex
 {
     // Core engine.
+    template <class P>
     class Engine
     {
-        static std::shared_ptr<Program> s_Program;
-    private:
-        static void Init(std::shared_ptr<Program> program);
-        static void Shutdown();
-
-        static void Run();
     public:
-        static void Stop();
+        Engine()
+        {
+            SceneManager::setDefaults();
+        }
 
-        static void updateConfig();
+        void Run()
+        {
+            while (Program.Running)
+            {
+                Program.beginFrame();
 
-        static Window Window;
-        static Renderer Renderer;
-        static Layer::Manager LayerManager;
-        static SceneManager SceneManager;
+                Program.update();
+                Program.render();
 
-        static Time Time;
+                Program.endFrame();
+            }
+        }
     private:
-        static bool s_Running;
-    public:
-        friend int ::main(int argc, char** argv);
+        P Program;
     };
 }
-
-using dex::Engine;

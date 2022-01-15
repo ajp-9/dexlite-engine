@@ -11,10 +11,15 @@
 
 namespace dex
 {
-    Window::Window()
+    Window::Window(const std::string& title, const glm::uvec2& dimensions)
+        : m_Dimensions(dimensions)
     {
         if (!glfwInit())
+        {
             DEX_LOG_CRITICAL("<dex::Window::Window()>: GLFW initialization was not successful.");
+
+            return;
+        }
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -25,23 +30,21 @@ namespace dex
 #endif
 
         //auto* vid = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        //m_Window_GLFW = glfwCreateWindow(vid->width, vid->height, "Dexlite Engine", glfwGetPrimaryMonitor(), NULL);
+        //Handle = glfwCreateWindow(vid->width, vid->height, "Dexlite Engine", glfwGetPrimaryMonitor(), NULL);
 
-        m_Dimensions = { 1280, 800 };
+        Handle = glfwCreateWindow(dimensions.x, dimensions.y, title.c_str(), NULL, NULL);
 
-        m_Window_GLFW = glfwCreateWindow(m_Dimensions.x, m_Dimensions.y, "", NULL, NULL);
-        
         center();
 
-        if (!m_Window_GLFW)
+        if (!Handle)
         {
             glfwTerminate();
             DEX_LOG_CRITICAL("<dex::Window::Window()>: Creating a GLFW window was not successful.");
         }
 
-        glfwMakeContextCurrent(m_Window_GLFW);
+        glfwMakeContextCurrent(Handle);
 
-        //glfwSetWindowUserPointer(m_Window_GLFW, this);
+        glfwSetWindowUserPointer(Handle, this);
 
         glfwSwapInterval(1);
 
@@ -49,59 +52,65 @@ namespace dex
         ** Callbacks
         */
 
-        glfwSetWindowSizeCallback(m_Window_GLFW, [](GLFWwindow* window, int width, int height)
+        glfwSetWindowSizeCallback(Handle, [](GLFWwindow* window, int width, int height)
             {
                 //if (width || height)
                 //    dex::Engine::Renderer.setViewportSize(glm::uvec2(width, height));
             });
 
-        glfwSetWindowPosCallback(m_Window_GLFW, [](GLFWwindow* window, int xpos, int ypos)
+        glfwSetWindowPosCallback(Handle, [](GLFWwindow* window, int xpos, int ypos)
             {
                 //dex::Engine::renderer.setViewportPosition(glm::uvec2(xpos, ypos));
             });
 
 
-        /*glfwSetCharCallback(m_Window_GLFW, [](GLFWwindow* window, unsigned int ch)
+        /*glfwSetCharCallback(Handle, [](GLFWwindow* window, unsigned int ch)
             {
                 std::cout << ch << "\n";
             });*/
 
-        glfwSetKeyCallback(m_Window_GLFW, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+        glfwSetKeyCallback(Handle, [](GLFWwindow* window, int key, int scancode, int action, int mods)
             {
+                Window* this_window = (Window*)glfwGetWindowUserPointer(window);
+
                 switch (action)
                 {
                 case GLFW_PRESS:
                 {
                     Event::KeyEvent event = { Event::Type::KEY_PRESS, Event::Key(key) };
-                    Engine::Window.Input.pushKeyEvent(event);
+                    this_window->Input.pushKeyEvent(event);
                     break;
                 }
                 case GLFW_RELEASE:
                 {
                     Event::KeyEvent event = { Event::Type::KEY_RELEASE, Event::Key(key) };
-                    Engine::Window.Input.pushKeyEvent(event);
+                    this_window->Input.pushKeyEvent(event);
                     break;
                 }
                 case GLFW_REPEAT:
                 {
                     Event::KeyEvent event = { Event::Type::KEY_PRESS, Event::Key(key) };
-                    Engine::Window.Input.pushKeyEvent(event);
+                    this_window->Input.pushKeyEvent(event);
                     break;
                 }
                 }
             });
 
-        glfwSetCursorPosCallback(m_Window_GLFW, [](GLFWwindow* window, float64 xPos, float64 yPos)
+        glfwSetCursorPosCallback(Handle, [](GLFWwindow* window, float64 xPos, float64 yPos)
             {
+                Window* this_window = (Window*)glfwGetWindowUserPointer(window);
+
                 static float32 lastX = xPos, lastY = yPos;
 
-                Engine::Window.Input.pushMouseEvent(Event::MouseEvent(Event::Type::MOUSE, Event::MouseType::MOVE, glm::dvec2(xPos, yPos), glm::dvec2(-(lastX - xPos), lastY - yPos), Event::MouseButton::UNKNOWN, 0));
+                this_window->Input.pushMouseEvent(Event::MouseEvent(Event::Type::MOUSE, Event::MouseType::MOVE, glm::dvec2(xPos, yPos), glm::dvec2(-(lastX - xPos), lastY - yPos), Event::MouseButton::UNKNOWN, 0));
 
                 lastX = xPos; lastY = yPos;
             });
 
-        glfwSetMouseButtonCallback(m_Window_GLFW, [](GLFWwindow* window, int button, int action, int mods)
+        glfwSetMouseButtonCallback(Handle, [](GLFWwindow* window, int button, int action, int mods)
             {
+                Window* this_window = (Window*)glfwGetWindowUserPointer(window);
+
                 //std::cout << "Button: " << button << " Action: " << action << " Mods: " << mods << "\n";
                 glm::dvec2 mousePos;
                 glfwGetCursorPos(window, &mousePos.x, &mousePos.y);
@@ -137,40 +146,43 @@ namespace dex
                     break;
                 }
 
-                Engine::Window.Input.pushMouseEvent(Event::MouseEvent(Event::Type::MOUSE, mouseType, mousePos, glm::dvec2(0, 0), new_btn, 0));
+                this_window->Input.pushMouseEvent(Event::MouseEvent(Event::Type::MOUSE, mouseType, mousePos, glm::dvec2(0, 0), new_btn, 0));
             });
 
-        glfwSetWindowCloseCallback(m_Window_GLFW, [](GLFWwindow* window)
+        glfwSetWindowCloseCallback(Handle, [](GLFWwindow* window)
             {
-                dex::Engine::Stop();
+                Window* this_window = (Window*)glfwGetWindowUserPointer(window);
+
+                this_window->Open = false;
             });
 
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
             DEX_LOG_CRITICAL("<dex::Window::Window()>: Window failed to initialize GLAD.");
+
+        Input.setWindowHandle(Handle);
+
+        Open = true;
     }
 
     Window::~Window()
     {
-        glfwDestroyWindow(m_Window_GLFW);
+        glfwDestroyWindow(Handle);
         glfwTerminate();
     }
 
-    void Window::update()
+    void Window::swapBuffers()
     {
-        Input.resetInput();
-
-        glfwSwapBuffers(m_Window_GLFW);
-        glfwPollEvents();
+        glfwSwapBuffers(Handle);
     }
 
     void Window::setTitle(const std::string& title)
     {
-        glfwSetWindowTitle(m_Window_GLFW, title.c_str());
+        glfwSetWindowTitle(Handle, title.c_str());
     }
 
     void Window::setSize(const glm::ivec2& size)
     {
-        glfwSetWindowSize(m_Window_GLFW, size.x, size.y);
+        glfwSetWindowSize(Handle, size.x, size.y);
         m_Dimensions = size;
     }
 
@@ -190,12 +202,12 @@ namespace dex
 
         if (m_Dimensions != glm::ivec2(0))
         {
-            glfwSetWindowMonitor(m_Window_GLFW, NULL, m_Position.x, m_Position.y, m_Dimensions.x, m_Dimensions.y, mode->refreshRate);
+            glfwSetWindowMonitor(Handle, NULL, m_Position.x, m_Position.y, m_Dimensions.x, m_Dimensions.y, mode->refreshRate);
         }
         else
         {
             glm::ivec2 current_dims = getDimensions();
-            glfwSetWindowMonitor(m_Window_GLFW, NULL, m_Position.x, m_Position.y, current_dims.x, current_dims.y, mode->refreshRate);
+            glfwSetWindowMonitor(Handle, NULL, m_Position.x, m_Position.y, current_dims.x, current_dims.y, mode->refreshRate);
         }
 
         glfwSwapInterval(1);
@@ -216,7 +228,7 @@ namespace dex
         auto* vid = glfwGetVideoMode(glfwGetPrimaryMonitor());
         const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-        glfwSetWindowMonitor(m_Window_GLFW, glfwGetPrimaryMonitor(), 0, 0, vid->width, vid->height, mode->refreshRate);
+        glfwSetWindowMonitor(Handle, glfwGetPrimaryMonitor(), 0, 0, vid->width, vid->height, mode->refreshRate);
 
         glfwSwapInterval(1);
     }
@@ -225,20 +237,20 @@ namespace dex
     {
         const auto* video_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-        glfwSetWindowPos(m_Window_GLFW, (video_mode->width / 2) - (m_Dimensions.x / 2), (video_mode->height / 2) - (m_Dimensions.y / 2));
+        glfwSetWindowPos(Handle, (video_mode->width / 2) - (m_Dimensions.x / 2), (video_mode->height / 2) - (m_Dimensions.y / 2));
     }
 
     glm::ivec2 Window::getDimensions()
     {
         glm::ivec2 dimensions;
-        glfwGetWindowSize(m_Window_GLFW, &dimensions.x, &dimensions.y);
+        glfwGetWindowSize(Handle, &dimensions.x, &dimensions.y);
         return dimensions;
     }
 
     glm::ivec2 Window::getPosition()
     {
         glm::ivec2 position;
-        glfwGetWindowPos(m_Window_GLFW, &position.x, &position.y);
+        glfwGetWindowPos(Handle, &position.x, &position.y);
         return position;
     }
 
@@ -249,12 +261,12 @@ namespace dex
 
         if (captured)
         {
-            glfwSetInputMode(m_Window_GLFW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            glfwSetInputMode(Handle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
             io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
         }
         else
         {
-            glfwSetInputMode(m_Window_GLFW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            glfwSetInputMode(Handle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
             io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
         }
     }

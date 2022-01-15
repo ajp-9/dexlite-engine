@@ -8,6 +8,7 @@ namespace dex
 {
     class Time
     {
+    public:
         Time(int fps = 60, bool sleepInstead = false)
             : m_FPS(fps), m_SleepInstead(sleepInstead)
         {}
@@ -15,7 +16,6 @@ namespace dex
         void doCycle();
 
         void sleep();
-    public:
         float32 getDeltaTime() { return m_DeltaTime; }
         float32 getFPS() { return float32(1000) / m_LastTime_ms; }
     private:
@@ -25,7 +25,5 @@ namespace dex
         // Using chrono sleep will be less accurate but
         // it will use less CPU energy.
         bool m_SleepInstead = false;
-
-        friend class Engine;
     };
 }

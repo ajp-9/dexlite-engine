@@ -6,7 +6,8 @@
 
 namespace dex
 {
-    Renderer::Renderer()
+    Renderer::Renderer(GLFWwindow* window_handle)
+        : m_ImGuiAPI(window_handle)
     {
         glEnable(GL_DEPTH_TEST);
 
@@ -15,6 +16,7 @@ namespace dex
         //glFrontFace(GL_CW);
         //glEnable(GL_CULL_FACE); // do w materials
         //glCullFace(GL_BACK);
+        
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // Clear the color buffer
     }
 

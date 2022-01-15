@@ -8,21 +8,14 @@
 
 namespace dex
 {
-    class GUI_Layer : public dex::Layer::Base
+    class GUI_Layer
     {
     public:
-        GUI_Layer(const std::shared_ptr<Scene>& scene, std::shared_ptr<Entity> entity)
-            : m_CurrentScene(scene), m_ViewportCamera(entity)
-        {
-            m_ViewportPanel.setViewportCamera(entity);
-        }
-    private:
-        virtual void Attach();
-        virtual void Detach();
+        GUI_Layer(const std::shared_ptr<Scene>& scene, std::shared_ptr<Entity> entity);
 
-        virtual void update();
-        virtual void render();
-    public:
+        void update();
+        void render();
+        
         void setScene(const std::shared_ptr<Scene>& scene) { m_CurrentScene = scene; }
         void setViewportCamera(std::shared_ptr<Entity> entity) { m_ViewportCamera = entity; m_ViewportPanel.setViewportCamera(entity); }
     private:
@@ -44,6 +37,5 @@ namespace dex
         dex::Entity m_Valdore = { &*m_CurrentScene, "Valdore" };
         dex::Entity m_LightSphere = { &*m_CurrentScene, "Light Sphere" };
         dex::Entity m_Triangle = { &*m_CurrentScene, "Triangle" };
-
     };
 }

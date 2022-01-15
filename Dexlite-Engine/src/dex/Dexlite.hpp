@@ -4,9 +4,6 @@
 #include "Application/Event/KeyEvent.hpp"
 #include "Application/Event/MouseEvent.hpp"
 
-#include "Application/Layer/LayerBase.hpp"
-#include "Application/Layer/LayerManager.hpp"
-
 #include "Application/Window/Window.hpp"
 
 #include "Core/Program/Program.hpp"
