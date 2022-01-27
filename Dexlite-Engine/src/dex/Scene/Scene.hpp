@@ -20,7 +20,7 @@ namespace dex
         void destroyEntity(Entity entity);
 
         void update();
-        void render(const glm::vec2& viewport_size, Renderer& renderer);
+        void render(const glm::vec2& viewport_size, Renderer& renderer, entt::entity camera = entt::null);
         void physics();
 
         entt::entity getActiveCameraID() { return m_ActiveCameraID; }
@@ -29,11 +29,12 @@ namespace dex
     private:
         entt::registry m_Registry;
 
-        std::unique_ptr<Entity> m_Root;
         std::vector<Entity> m_Entities;
         entt::entity m_ActiveCameraID = entt::null;
 
         Shader::GlobalUniforms m_GlobalShaderUniforms;
+    public:
+        std::unique_ptr<Entity> m_Root;
     public:
         friend class Entity;
         friend class Renderer;

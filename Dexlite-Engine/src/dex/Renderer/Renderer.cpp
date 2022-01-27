@@ -6,18 +6,17 @@
 
 namespace dex
 {
-    Renderer::Renderer(GLFWwindow* window_handle)
-        : m_ImGuiAPI(window_handle)
+    Renderer::Renderer(Window& window)
+        : m_ImGuiAPI(window.Handle)
     {
         glEnable(GL_DEPTH_TEST);
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // Clear the color buffer
 
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
         //glFrontFace(GL_CW);
         //glEnable(GL_CULL_FACE); // do w materials
         //glCullFace(GL_BACK);
-        
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // Clear the color buffer
     }
 
     Renderer::~Renderer()
@@ -43,10 +42,13 @@ namespace dex
 
     void Renderer::setViewportSize(glm::uvec2 size)
     {
-        m_ChangeProjectionMatrixNext = true;
-        m_ScreenDimensions = size;
+        if (m_ViewportSize != size)
+        {
+            m_ViewportSize = size;
+            m_ChangeProjectionMatrixNext = true;
 
-        glViewport(0, 0, m_ScreenDimensions.x, m_ScreenDimensions.y);
+            glViewport(0, 0, m_ViewportSize.x, m_ViewportSize.y);
+        }
     }
 
     void Renderer::setClearColor(const glm::vec4& color)

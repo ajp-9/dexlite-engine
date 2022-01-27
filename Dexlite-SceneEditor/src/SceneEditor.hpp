@@ -1,7 +1,7 @@
 #pragma once
 
 #include <dex/Dexlite.hpp>
-#include "GUI/GUI_Layer.hpp"
+#include "GUI/GUI.hpp"
 
 // Todo:
 // - Rehaul layer system
@@ -10,19 +10,23 @@ namespace dex
 {
     class SceneEditor : public dex::Program
     {
+        dex::Window Window = { "Dexlite Scene-Editor", glm::uvec2(1280, 800) };
+        dex::Renderer Renderer = { Window };
+        dex::Time Time;
     public:
-        virtual void SetEngineConfig() override;
+        SceneEditor();
+        //~SceneEditor();
 
-        virtual void Init() override;
-        virtual void Shutdown() override;
+        virtual void beginFrame() override;
 
         virtual void update() override;
         virtual void render() override;
-    private:
-        std::shared_ptr<Scene> m_CurrentScene = std::make_shared<Scene>();
-        std::shared_ptr<Entity> m_ViewportCamera = std::make_shared<Entity>(&*m_CurrentScene, "Editor Camera", false);
 
-        GUI_Layer m_GUI_Layer = GUI_Layer(m_CurrentScene, m_ViewportCamera);
+        virtual void endFrame() override;
+    private:
+        CurrentScene m_CurrentScene = { &Window, &Renderer };
+
+        GUI m_GUI = GUI(&Renderer, &m_CurrentScene);
     };
 }
 

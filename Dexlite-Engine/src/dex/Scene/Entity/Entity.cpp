@@ -4,7 +4,7 @@
 #include "../Component/Camera/CameraComponent.hpp"
 #include "../Component/TagComponent.hpp"
 #include "../Component/RelationshipComponents.hpp"
-#include "../Component/Model/ModelComponent.hpp"
+#include "../Component/ModelComponent.hpp"
 #include "../Component/Transform/TransformComponent.hpp"
 
 namespace dex
@@ -32,7 +32,7 @@ namespace dex
     {
         destroyChildren();
 
-        m_Scene->m_Registry.destroy(m_Handle);
+        m_Scene->destroyEntity(*this);
     }
 
     void Entity::destroyChildren()
@@ -57,11 +57,11 @@ namespace dex
     {
         const auto& children_handles = getChildrenHandles();
 
-        const auto& it = std::find(children_handles.begin(), children_handles.end(), child);
+        const auto& iter = std::find(children_handles.begin(), children_handles.end(), child);
 
-        if (it != children_handles.end())
+        if (iter != children_handles.end())
         {
-            getChildrenHandles().erase(it);
+            getChildrenHandles().erase(iter);
 
             if (destroy_handle)
                 m_Scene->m_Registry.destroy(child);
@@ -73,6 +73,19 @@ namespace dex
     std::vector<entt::entity>& Entity::getChildrenHandles() const
     {
         return getComponent<Component::ChildrenHandles>().Handles;
+    }
+
+    std::vector<Entity> Entity::getChildren() const
+    {
+        std::vector<Entity> return_children;
+        auto children_handles = getComponent<Component::ChildrenHandles>().Handles;
+
+        for (auto& child_handle : children_handles)
+        {
+            return_children.emplace_back(Entity(child_handle, m_Scene));
+        }
+
+        return return_children;
     }
 
     // recursive

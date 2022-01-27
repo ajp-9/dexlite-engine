@@ -10,22 +10,21 @@ namespace dex
         
     }
 
-    void ViewportPanel::render(Scene& scene)
+    void ViewportPanel::render(CurrentScene& current_scene, Renderer& renderer)
     {
         ImGui::Begin("Viewport", (bool*)0, ImGuiWindowFlags_NoCollapse);
 
         ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 
-
-
         m_Framebuffer.resize(glm::vec2(viewportPanelSize.x, viewportPanelSize.y));
 
         m_Framebuffer.bind();
-        scene.render(m_Framebuffer.getSize());
+        renderer.clear();
+        current_scene.Scene.render(m_Framebuffer.getSize(), renderer);
         m_Framebuffer.unbind();
 
-        ImGui::Image((ImTextureID)m_Framebuffer.getColorAttachmentTexture_ID(), ImVec2(m_Framebuffer.getSize().x, m_Framebuffer.getSize().y), ImVec2(0, 1), ImVec2(1, 0));
-
+        ImGui::Image((ImTextureID)m_Framebuffer.getColorAttachmentTexture_ID(), ImVec2(m_Framebuffer.getSize().x, m_Framebuffer.getSize().y), ImVec2(0, 1), ImVec2(1, 0));  
+        
         ImGui::End();
     }
 }

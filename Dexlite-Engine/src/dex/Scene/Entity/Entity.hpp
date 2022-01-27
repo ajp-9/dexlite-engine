@@ -20,7 +20,7 @@ namespace dex
 
         // Destroys the handle and its children's handle in the registry. This class would remain intact and should be disgarded afterwards.
         void destroy();
-
+        
         // Destroys all its children in the registry. Their classes would remain intact and should be disgarded afterwards.
         void destroyChildren();
 
@@ -49,6 +49,7 @@ namespace dex
         void removeChild(Entity child, bool destroy_handle = false);
 
         std::vector<entt::entity>& getChildrenHandles() const;
+        std::vector<Entity> getChildren() const;
 
         void updateChildrenTransform();
 
@@ -89,9 +90,8 @@ namespace dex
             return m_Scene->m_Registry.has<T>(m_Handle);
         }
 
-        const bool isValid() const { return m_Handle != entt::null; }
-        // return m_Scene->m_Registry.valid(m_Handle);
-
+        const bool isValid() const { return m_Scene->m_Registry.valid(m_Handle); };
+        
         operator entt::entity() const { return m_Handle; };
         const bool operator==(const Entity& other) const { return m_Handle == other.m_Handle && m_Scene == other.m_Scene; }
     private:

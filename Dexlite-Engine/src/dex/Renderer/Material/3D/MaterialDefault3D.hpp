@@ -37,6 +37,9 @@ namespace dex
                     m_RoughnessTextureEnabled = true;
             }
 
+            Default3D(const Default3D& other) = delete;
+            const Default3D& operator=(const Default3D& other) = delete;
+
             virtual void setUniforms()
             {
                 if (m_BaseColorTextureEnabled || m_RoughnessTextureEnabled || m_EmissiveTextureEnabled)

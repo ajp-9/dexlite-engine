@@ -33,7 +33,7 @@ namespace dex
         bool isMouseReleased(Event::MouseButton btn);
 
         void pollNewEvents();
-
+        
         // Stops further events if you don't want them to propagate to the next layers.
         void stopEvents();
         // Stops further key events if you don't want them to propagate to the next layers.

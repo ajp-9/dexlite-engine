@@ -4,13 +4,15 @@
 #include <dex/Dexlite.hpp>
 #include <dex/Renderer/Framebuffer/Framebuffer.hpp>
 
-class WorldLayer
+class World
 {
+    dex::Window* Window = nullptr;
+    dex::Renderer* Renderer = nullptr;
 public:
-    WorldLayer(dex::Window& window, const std::shared_ptr<dex::Shader::Default3D>& shader);
+    World(dex::Window* window, dex::Renderer* renderer, const std::shared_ptr<dex::Shader::Default3D>& shader);
 
-    void update(dex::Window& window, const float delta_time);
-    void render(dex::Renderer& renderer, dex::Window& window);
+    void update(const float delta_time);
+    void render();
 private:
     dex::Scene m_Scene;
 
@@ -24,4 +26,6 @@ private:
     dex::Entity m_Triangle = { &m_Scene, "Triangle" };
 
     dex::Framebuffer framebuffer = dex::Framebuffer(glm::vec2(150, 150));
+public:
+    friend class GUI;
 };

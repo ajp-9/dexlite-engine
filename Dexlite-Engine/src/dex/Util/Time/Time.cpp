@@ -21,6 +21,8 @@ void dex::Time::sleep()
     else
     {
         // "- 1" at the end, sleep_for is 1ms off but change for different hardwares
-        std::this_thread::sleep_for(std::chrono::duration<float32, std::milli>(((1000.0f / m_FPS) - m_DeltaTime) - 2));
+        //std::this_thread::sleep_for(std::chrono::duration<float32, std::milli>(((1000.0f / m_FPS) - m_DeltaTime) - 2));
+
+        //nanosleep((1000.0f / m_FPS) - m_DeltaTime);
     }
 }

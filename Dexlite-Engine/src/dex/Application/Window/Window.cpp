@@ -17,7 +17,7 @@ namespace dex
         if (!glfwInit())
         {
             DEX_LOG_CRITICAL("<dex::Window::Window()>: GLFW initialization was not successful.");
-
+             
             return;
         }
 

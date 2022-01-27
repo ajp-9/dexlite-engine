@@ -2,29 +2,44 @@
 
 #include <imgui/imgui.h>
 #include <memory>
-#include "GUI/GUI_Layer.hpp"
+#include "GUI/GUI.hpp"
 
 namespace dex
 {
-    void SceneEditor::SetEngineConfig()
+    SceneEditor::SceneEditor()
     {
-        EngineConfig.WindowTitle = "Dexlite Scene-Editor";
     }
 
-    void SceneEditor::Init()
+    void SceneEditor::beginFrame()
     {
-        //dex::Engine::Window.setFullscreen();
+        Renderer.beginFrame();
+        Renderer.clear();
     }
-
-    void SceneEditor::Shutdown() {}
 
     void SceneEditor::update()
     {
-        m_GUI_Layer.update();
+        Time.doCycle();
+
+        m_GUI.update(Time.getDeltaTime());
+        m_CurrentScene.update(Time.getDeltaTime());
     }
 
     void SceneEditor::render()
     {
-        m_GUI_Layer.render();
+        m_GUI.render();
+    }
+
+    void SceneEditor::endFrame()
+    {
+        Renderer.endFrame();
+
+        Window.swapBuffers();
+
+        Time.sleep();
+
+        Window.Input.pollNewEvents();
+
+        if (!Window.Open)
+            Running = false;
     }
 }

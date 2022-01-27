@@ -37,10 +37,11 @@ namespace dex
 
         bool isFullscreen() { return m_IsFullscreen; }
 
+        GLFWwindow* Handle = nullptr;
+    public:
         bool Open = false;
         Input Input;
-        GLFWwindow* Handle = nullptr;
-    private:
+    public:
         // Before fullscreen.
         glm::ivec2 m_Dimensions = glm::ivec2(0);
         glm::ivec2 m_Position = glm::ivec2(0);

@@ -37,7 +37,7 @@ namespace dex
 			return vec3(LocalMatrix[3]);
 		}
 
-		glm::quat decomposeTransformToRotation(const glm::mat4& matrix)
+		glm::quat decomposeTransformToOrientation(const glm::mat4& matrix)
 		{
 			using namespace glm;
 			using T = float;
@@ -84,18 +84,18 @@ namespace dex
 				}
 			}
 
-			glm::quat ret_rotation;
+			glm::quat ret_orientation;
 
 			int i, j, k = 0;
 			T root, trace = Row[0].x + Row[1].y + Row[2].z;
 			if (trace > static_cast<T>(0))
 			{
 				root = sqrt(trace + static_cast<T>(1.0));
-				ret_rotation.w = static_cast<T>(0.5) * root;
+				ret_orientation.w = static_cast<T>(0.5) * root;
 				root = static_cast<T>(0.5) / root;
-				ret_rotation.x = root * (Row[1].z - Row[2].y);
-				ret_rotation.y = root * (Row[2].x - Row[0].z);
-				ret_rotation.z = root * (Row[0].y - Row[1].x);
+				ret_orientation.x = root * (Row[1].z - Row[2].y);
+				ret_orientation.y = root * (Row[2].x - Row[0].z);
+				ret_orientation.z = root * (Row[0].y - Row[1].x);
 			} // End if > 0
 			else
 			{
@@ -108,14 +108,14 @@ namespace dex
 
 				root = sqrt(Row[i][i] - Row[j][j] - Row[k][k] + static_cast<T>(1.0));
 
-				ret_rotation[i] = static_cast<T>(0.5) * root;
+				ret_orientation[i] = static_cast<T>(0.5) * root;
 				root = static_cast<T>(0.5) / root;
-				ret_rotation[j] = root * (Row[i][j] + Row[j][i]);
-				ret_rotation[k] = root * (Row[i][k] + Row[k][i]);
-				ret_rotation.w = root * (Row[j][k] - Row[k][j]);
+				ret_orientation[j] = root * (Row[i][j] + Row[j][i]);
+				ret_orientation[k] = root * (Row[i][k] + Row[k][i]);
+				ret_orientation.w = root * (Row[j][k] - Row[k][j]);
 			} // End if <= 0
 
-			return ret_rotation;
+			return ret_orientation;
 		}
 
 		glm::vec3 decomposeTransformToScale(const glm::mat4& matrix)
@@ -162,7 +162,7 @@ namespace dex
 			return ret_scale;
 		}
 
-		bool decomposeTransform(const glm::mat4& matrix, glm::vec3* translation, glm::quat* rotation, glm::vec3* scale)
+		bool decomposeTransform(const glm::mat4& matrix, glm::vec3* translation, glm::quat* orientation, glm::vec3* scale)
 		{
 			using namespace glm;
 			using T = float;
@@ -240,18 +240,18 @@ namespace dex
 			//     ret.rotateZ = 0;
 			// }
 
-			if (rotation != nullptr)
+			if (orientation != nullptr)
 			{
 				int i, j, k = 0;
 				T root, trace = Row[0].x + Row[1].y + Row[2].z;
 				if (trace > static_cast<T>(0))
 				{
 					root = sqrt(trace + static_cast<T>(1.0));
-					(*rotation).w = static_cast<T>(0.5) * root;
+					(*orientation).w = static_cast<T>(0.5) * root;
 					root = static_cast<T>(0.5) / root;
-					(*rotation).x = root * (Row[1].z - Row[2].y);
-					(*rotation).y = root * (Row[2].x - Row[0].z);
-					(*rotation).z = root * (Row[0].y - Row[1].x);
+					(*orientation).x = root * (Row[1].z - Row[2].y);
+					(*orientation).y = root * (Row[2].x - Row[0].z);
+					(*orientation).z = root * (Row[0].y - Row[1].x);
 				} // End if > 0
 				else
 				{
@@ -264,11 +264,11 @@ namespace dex
 
 					root = sqrt(Row[i][i] - Row[j][j] - Row[k][k] + static_cast<T>(1.0));
 
-					(*rotation)[i] = static_cast<T>(0.5) * root;
+					(*orientation)[i] = static_cast<T>(0.5) * root;
 					root = static_cast<T>(0.5) / root;
-					(*rotation)[j] = root * (Row[i][j] + Row[j][i]);
-					(*rotation)[k] = root * (Row[i][k] + Row[k][i]);
-					(*rotation).w = root * (Row[j][k] - Row[k][j]);
+					(*orientation)[j] = root * (Row[i][j] + Row[j][i]);
+					(*orientation)[k] = root * (Row[i][k] + Row[k][i]);
+					(*orientation).w = root * (Row[j][k] - Row[k][j]);
 				} // End if <= 0
 			}
 

@@ -6,7 +6,7 @@
 #include "Component/Camera/CameraComponent.hpp"
 #include "Component/LightComponents.hpp"
 #include "../Util/Logging.hpp"
-#include "../Scene/Component/Model/ModelComponent.hpp"
+#include "../Scene/Component/ModelComponent.hpp"
 #include "Component/Camera/CameraComponent.hpp"
 #include "Component/LightComponents.hpp"
 
@@ -26,6 +26,8 @@ namespace dex
 
     void Scene::destroyEntity(Entity entity)
     {
+        entity.getParent().removeChild(entity);
+
         m_Registry.destroy(entity);
     }
 
@@ -34,23 +36,29 @@ namespace dex
         m_Root->updateChildrenTransform();
     }
 
-    void Scene::render(const glm::vec2& viewport_size, Renderer& renderer)
+    void Scene::render(const glm::vec2& viewport_size, Renderer& renderer, entt::entity camera)
     {
         renderer.setViewportSize(viewport_size);
 
-        findAndSetActiveCamera();
+        entt::entity main_camera_id = camera;
 
-        if (m_ActiveCameraID != entt::null)
+        if (camera == entt::null)
+        {
+            findAndSetActiveCamera();
+            main_camera_id = m_ActiveCameraID;
+        }
+
+        if (main_camera_id != entt::null)
         {
             // Camera:
 
-            m_GlobalShaderUniforms.setCameraPosition(m_Registry.get<Component::Transform>(m_ActiveCameraID).getTransformationMatrix()[3]);
+            m_GlobalShaderUniforms.setCameraPosition(m_Registry.get<Component::Transform>(main_camera_id).getTransformationMatrix()[3]);
 
             //if (Engine::Renderer.m_ChangeProjectionMatrixNext)
-                m_Registry.get<Component::Camera>(m_ActiveCameraID).updateProjectionMatrix(viewport_size);
+                m_Registry.get<Component::Camera>(main_camera_id).updateProjectionMatrix(viewport_size);
 
             // if proj or view changed for perf
-            m_GlobalShaderUniforms.setProjectionViewMatrix(m_Registry.get<Component::Camera>(m_ActiveCameraID).getProjectionViewMatrix());
+            m_GlobalShaderUniforms.setProjectionViewMatrix(m_Registry.get<Component::Camera>(main_camera_id).getProjectionViewMatrix());
 
             // Ambient Light:
 

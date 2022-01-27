@@ -12,6 +12,6 @@ namespace dex
 
         virtual void endFrame() = 0;
     public:
-        bool Running;
+        bool Running = true;
     };
 }

@@ -7,31 +7,31 @@ namespace dex
     {
         void Transform::update()
         {
-            if (doesEntityHaveParent())
+            if (m_Entity.hasParent())
             {
-                auto& parent_transform = m_Entity.getParent().getComponent<Component::Transform>();
+                const auto& parent_transform = getParentTransform();
 
                 m_TransformationMatrix =
                     parent_transform.m_TransformationMatrix *
                     glm::translate(glm::mat4(1.0f), m_Position) *
-                    glm::toMat4(m_Rotation) *
+                    glm::toMat4(m_Orientation) *
                     glm::scale(glm::mat4(1.0f), m_Scale);
             }
             else
             {
                 m_TransformationMatrix =
                     glm::translate(glm::mat4(1.0f), m_Position) *
-                    glm::toMat4(m_Rotation) *
+                    glm::toMat4(m_Orientation) *
                     glm::scale(glm::mat4(1.0f), m_Scale);
             }
 
             m_World_Position = Math::decomposeTransformToTranslation(m_TransformationMatrix);
-            m_World_Rotation = Math::decomposeTransformToRotation(m_TransformationMatrix);
+            m_World_Orientation = Math::decomposeTransformToOrientation(m_TransformationMatrix);
             m_World_Scale = Math::decomposeTransformToScale(m_TransformationMatrix);
 
-            m_Forward = m_World_Rotation * glm::vec3(0, 0, 1);
-            m_Up      = m_World_Rotation * glm::vec3(0, 1, 0);
-            m_Right   = m_World_Rotation * glm::vec3(1, 0, 0);
+            m_Forward = m_World_Orientation * glm::vec3(0, 0, 1);
+            m_Up      = m_World_Orientation * glm::vec3(0, 1, 0);
+            m_Right   = m_World_Orientation * glm::vec3(1, 0, 0);
 
             //DEX_LOG_INFO("Did for: {}", m_Entity.getComponent<Component::Tag>().m_Tag);
 

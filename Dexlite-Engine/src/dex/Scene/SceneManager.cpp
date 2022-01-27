@@ -1,7 +1,7 @@
 #include "SceneManager.hpp"
 
 #include "../Util/Logging.hpp"
-#include "Component/Model/ModelComponent.hpp"
+#include "Component/ModelComponent.hpp"
 #include "Component/Camera/CameraComponent.hpp"
 #include "Component/LightComponents.hpp"
 

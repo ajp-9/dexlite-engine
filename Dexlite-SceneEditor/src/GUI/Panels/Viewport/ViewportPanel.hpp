@@ -1,6 +1,7 @@
 #pragma once
 
 #include <dex/Dexlite.hpp>
+#include "../../../CurrentScene/CurrentScene.hpp"
 
 namespace dex
 {
@@ -9,12 +10,8 @@ namespace dex
     public:
         ViewportPanel();
 
-        void render(Scene& scene);
-
-        void setViewportCamera(std::shared_ptr<Entity> entity) { m_ViewportCamera = entity; }
+        void render(CurrentScene& current_scene, Renderer& renderer);
     private:
-        std::shared_ptr<Entity> m_ViewportCamera;
-
         Framebuffer m_Framebuffer;
     };
 }
