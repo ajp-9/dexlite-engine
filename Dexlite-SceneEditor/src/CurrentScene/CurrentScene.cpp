@@ -5,6 +5,9 @@ namespace dex
     CurrentScene::CurrentScene(dex::Window* window, dex::Renderer* renderer)
         : Window(window), Renderer(renderer)
     {
+		m_ViewportCamera.addComponent<Component::Camera>(false);
+		m_ViewportCamera.getComponent<Component::Camera>().setPerspective(65, 0.01, 1000);
+
 		m_Head.addComponent<Component::Camera>(true);
 
 		//m_Head.getComponent<Component::Camera>().setOrthographic(5, 0.001, 100);

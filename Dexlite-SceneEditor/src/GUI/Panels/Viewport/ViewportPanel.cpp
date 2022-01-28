@@ -20,9 +20,9 @@ namespace dex
 
         m_Framebuffer.bind();
         renderer.clear();
-        current_scene.Scene.render(m_Framebuffer.getSize(), renderer);
+        current_scene.Scene.render(m_Framebuffer.getSize(), renderer, current_scene.m_ViewportCamera);
         m_Framebuffer.unbind();
-
+        
         ImGui::Image((ImTextureID)m_Framebuffer.getColorAttachmentTexture_ID(), ImVec2(m_Framebuffer.getSize().x, m_Framebuffer.getSize().y), ImVec2(0, 1), ImVec2(1, 0));  
         
         ImGui::End();

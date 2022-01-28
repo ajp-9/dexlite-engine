@@ -5,7 +5,7 @@
 namespace dex
 {
 	GUI::GUI(dex::Renderer* renderer, CurrentScene* current_scene)
-		: m_CurrentScene(current_scene), Renderer(renderer), m_SceneHierarchyPanel(current_scene)
+		: m_CurrentScene(current_scene), Renderer(renderer), m_SceneHierarchyPanel(current_scene), m_InspectorPanel(current_scene)
 	{
 		setColorsAndStyle();
 	}

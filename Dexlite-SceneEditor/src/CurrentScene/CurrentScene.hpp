@@ -18,7 +18,7 @@ namespace dex
 
         Entity SelectedEntity = { entt::null, &Scene };
 
-        //dex::Entity m_ViewportCamera = { &Scene, "Viewport Camera" };
+        dex::Entity m_ViewportCamera = { &Scene, "Viewport Camera", false };
     private:
         dex::Entity m_Player = { &Scene, "Player" };
         dex::Entity m_Head = { &Scene, "Head" };
