@@ -88,7 +88,7 @@ namespace dex
             {
                 return m_Entity.getParent().getComponent<Transform>();
             }
-        private:
+        public:
             glm::mat4 m_TransformationMatrix = glm::mat4(1.0f);
 
             glm::vec3 m_Forward = { 0.0f, 0.0f, 0.0f };
