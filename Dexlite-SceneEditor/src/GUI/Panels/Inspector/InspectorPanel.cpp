@@ -58,7 +58,7 @@ namespace dex
                 {
                     ImGui::TableSetupColumn(nullptr, ImGuiTableColumnFlags_WidthFixed);
                     ImGui::TableSetupColumn(nullptr, ImGuiTableColumnFlags_WidthStretch);
-
+                    
                     {
                         ImGui::TableNextRow();
 
