@@ -89,13 +89,26 @@ namespace dex
                             ImGui::TableSetColumnIndex(1);
 
                             glm::vec3 rotation = component.getOrientationDegrees();
+                            static float rot_delta_rot_last[3] = { 0, 0, 0 };
                             float rot_f3[3] = { rotation.x, rotation.y, rotation.z };
+                            static Entity last_entity;
 
                             ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x);
-                            ImGui::DragFloat3("##R", &rot_f3[0], .025, -90.0f, 90.0f);
+                            if (ImGui::DragFloat3("##R", &rot_f3[0], .005, -90.0f, 90.0f) && *rot_delta_rot_last != *rot_f3)
+                            {
+                                glm::vec3 delta_rot = rotation - glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2]);
+
+                                component.rotateByEuler(glm::radians(delta_rot));
+                            }
                             ImGui::PopItemWidth();
 
-                            component.setOrientationEuler(glm::radians(glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2])));
+                            rot_delta_rot_last[0] = rot_f3[0];
+                            rot_delta_rot_last[1] = rot_f3[1];
+                            rot_delta_rot_last[2] = rot_f3[2];
+
+                            //*rot_delta_rot_last = *rot_f3;
+
+                            //component.setOrientationEuler(glm::radians(glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2])));
                         }
                     }
 
@@ -130,7 +143,6 @@ namespace dex
                 ImGui::TableSetupColumn(nullptr, ImGuiTableColumnFlags_WidthStretch);
                 ImGui::TableSetupColumn(nullptr, ImGuiTableColumnFlags_WidthFixed);
                 ImGui::TableSetupColumn(nullptr, ImGuiTableColumnFlags_WidthStretch);
-
 
                 ImGui::TableNextRow();
 
