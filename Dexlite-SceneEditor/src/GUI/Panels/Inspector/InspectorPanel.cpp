@@ -89,22 +89,41 @@ namespace dex
                             ImGui::TableSetColumnIndex(1);
 
                             glm::vec3 rotation = component.getOrientationDegrees();
-                            static float rot_delta_rot_last[3] = { 0, 0, 0 };
+                            static glm::vec3 last_rot = { 0, 0, 0 };
                             float rot_f3[3] = { rotation.x, rotation.y, rotation.z };
                             static Entity last_entity;
 
                             ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x);
-                            if (ImGui::DragFloat3("##R", &rot_f3[0], .005, -90.0f, 90.0f) && *rot_delta_rot_last != *rot_f3)
+                            if (ImGui::DragFloat3("##R", &rot_f3[0], .025, -360.0f, 360.0f))
                             {
                                 glm::vec3 delta_rot = rotation - glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2]);
 
-                                component.rotateByEuler(glm::radians(delta_rot));
+                                if (ImGui::IsMouseDragging(ImGuiMouseButton_Left))
+                                {
+                                    // swap, world <=> local
+                                    component.rotateByEuler(glm::radians(delta_rot));
+
+                                    //DEX_LOG_INFO("FIRST");
+
+                                }
+                                //if (last_rot != glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2]))
+                                else
+                                if (ImGui::IsItemDeactivated())
+                                {
+                                    component.setOrientationEuler(glm::radians(glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2])));
+
+                                    // maybe split up into 3 so you only change 1 at a time
+                                   
+                                    //DEX_LOG_INFO("SECOND");
+
+                                }
+                                //DEX_LOG_INFO("{}", ImGui::IsMouseDragging(ImGuiMouseButton_Left));
+                                DEX_LOG_INFO("{}", ImGui::IsItemDeactivated());
+                                last_rot = glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2]);
                             }
                             ImGui::PopItemWidth();
 
-                            rot_delta_rot_last[0] = rot_f3[0];
-                            rot_delta_rot_last[1] = rot_f3[1];
-                            rot_delta_rot_last[2] = rot_f3[2];
+
 
                             //*rot_delta_rot_last = *rot_f3;
 
