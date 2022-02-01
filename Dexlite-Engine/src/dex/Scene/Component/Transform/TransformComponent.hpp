@@ -41,15 +41,16 @@ namespace dex
             inline void setScale(const glm::vec3& scale) { m_Scale = scale; m_FlagChanged = true; }
 
             inline void moveBy(const glm::vec3& amount) { m_Position += amount; m_FlagChanged = true; }
-            inline void rotateByQuat(const glm::quat& amount) { m_Orientation *= amount; m_FlagChanged = true; }
-            inline void rotateByEuler(const glm::vec3& amount) { m_Orientation = m_Orientation * glm::quat(amount); m_FlagChanged = true; }
-            inline void scaleBy(const glm::vec3& amount) { m_Scale *= amount; m_FlagChanged = true; }
+            inline void rotateByQuat(const glm::quat& amount) { m_Orientation = amount * m_Orientation; m_FlagChanged = true; }
+            inline void rotateByEuler(const glm::vec3& amount) { m_Orientation = glm::quat(amount) * m_Orientation; m_FlagChanged = true; }
+            inline void scaleBy(const glm::vec3& amount) { m_Scale = amount * m_Scale; m_FlagChanged = true; }
 
             // Right, Up, and Forward.
             inline void moveByLocal(const glm::vec3& amount) { m_Position += (amount.x * m_Right) + (amount.y * m_Up) + (amount.z * m_Forward); m_FlagChanged = true; }
-            inline void rotateByQuatLocal(const glm::quat& amount) { m_Orientation = amount * m_Orientation; m_FlagChanged = true; }
-            inline void rotateByEulerLocal(const glm::vec3& amount) { m_Orientation = glm::quat(amount) * m_Orientation; m_FlagChanged = true; }
-            inline void scaleByLocal(const glm::vec3& amount) { m_Scale = amount * m_Scale; m_FlagChanged = true; }
+            inline void rotateByQuatLocal(const glm::quat& amount) { m_Orientation *= amount; m_FlagChanged = true; }
+            inline void rotateByEulerLocal(const glm::vec3& amount) { m_Orientation = m_Orientation * glm::quat(amount); m_FlagChanged = true; }
+            inline void scaleByLocal(const glm::vec3& amount) { m_Scale *= amount; m_FlagChanged = true; }
+
 
             inline const glm::vec3& getPosition() const { return m_Position; }
             inline const glm::quat& getOrientationQuat() const { return m_Orientation; }

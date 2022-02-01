@@ -1,6 +1,7 @@
 #include "InspectorPanel.hpp"
 
 #include <imgui/imgui.h>
+#include <dex/Renderer/ImGuiExtra/ImGuiExtra.hpp>
 
 namespace dex
 {
@@ -38,15 +39,14 @@ namespace dex
             //std::memset(buffer, 0, sizeof(buffer));
             std::strncpy(buffer, tag.c_str(), sizeof(buffer));
 
-            //ImGui::SetNextItemWidth(ImGui::GetContentRegionMax().x * .65);
-
             if (ImGui::InputText("##Tag", buffer, sizeof(buffer)))
             {
                 tag = std::string(buffer);
             }
 
-            //ImGui::SameLine();
+            ImGui::SameLine();
 
+            ImGui::TextDisabled("ID: %u", selected_entity.getHandle());
 
             ImGui::Separator();
 
@@ -89,45 +89,18 @@ namespace dex
                             ImGui::TableSetColumnIndex(1);
 
                             glm::vec3 rotation = component.getOrientationDegrees();
-                            static glm::vec3 last_rot = { 0, 0, 0 };
                             float rot_f3[3] = { rotation.x, rotation.y, rotation.z };
-                            static Entity last_entity;
-
+                            
                             ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x);
                             if (ImGui::DragFloat3("##R", &rot_f3[0], .025, -360.0f, 360.0f))
                             {
-                                glm::vec3 delta_rot = rotation - glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2]);
+                                if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && !ImGui::dex::IsTextInputActive())
+                                    component.rotateByEuler(glm::radians(rotation - glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2])));
 
-                                if (ImGui::IsMouseDragging(ImGuiMouseButton_Left))
-                                {
-                                    // swap, world <=> local
-                                    component.rotateByEuler(glm::radians(delta_rot));
-
-                                    //DEX_LOG_INFO("FIRST");
-
-                                }
-                                //if (last_rot != glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2]))
-                                else
                                 if (ImGui::IsItemDeactivated())
-                                {
                                     component.setOrientationEuler(glm::radians(glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2])));
-
-                                    // maybe split up into 3 so you only change 1 at a time
-                                   
-                                    //DEX_LOG_INFO("SECOND");
-
-                                }
-                                //DEX_LOG_INFO("{}", ImGui::IsMouseDragging(ImGuiMouseButton_Left));
-                                DEX_LOG_INFO("{}", ImGui::IsItemDeactivated());
-                                last_rot = glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2]);
                             }
                             ImGui::PopItemWidth();
-
-
-
-                            //*rot_delta_rot_last = *rot_f3;
-
-                            //component.setOrientationEuler(glm::radians(glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2])));
                         }
                     }
 
