@@ -92,10 +92,10 @@ namespace dex
                             float rot_f3[3] = { rotation.x, rotation.y, rotation.z };
                             
                             ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x);
-                            if (ImGui::DragFloat3("##R", &rot_f3[0], .025, -360.0f, 360.0f))
+                            if (ImGui::DragFloat3("##R", &rot_f3[0], .025, -180.0f, 180.0f))
                             {
                                 if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && !ImGui::dex::IsTextInputActive())
-                                    component.rotateByEuler(glm::radians(rotation - glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2])));
+                                    component.rotateByEuler(glm::radians(glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2]) - rotation));
 
                                 if (ImGui::IsItemDeactivated())
                                     component.setOrientationEuler(glm::radians(glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2])));
