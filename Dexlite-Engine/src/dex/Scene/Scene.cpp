@@ -133,23 +133,25 @@ namespace dex
 
     void Scene::findAndSetActiveCamera()
     {
+        uint32 enabled_cameras_size = 0;
         const auto& cameraView = m_Registry.view<Component::Camera>();
 
-        if (cameraView.size() == 1)
+        for (auto& eID : cameraView)
         {
-            for (auto& eID : cameraView)
-            {
-                Entity entity = Entity(eID, this);
+            Entity entity = Entity(eID, this);
 
-                if (entity.getComponent<Component::Camera>().IsEnabled)
-                    m_ActiveCameraID = eID;
+            if (entity.getComponent<Component::Camera>().IsEnabled)
+            {
+                m_ActiveCameraID = eID;
+                enabled_cameras_size += 1;
             }
         }
-        else if (cameraView.size() > 1)
+        
+        if (enabled_cameras_size > 1)
         {
             DEX_LOG_ERROR("<Scene::findNSetMainCamera>(): Too many main cameras.");
         }
-        else if (cameraView.size() < 1)
+        else if (enabled_cameras_size < 1)
         {
             DEX_LOG_ERROR("<Scene::findNSetMainCamera()>: No cameras found.");
         }

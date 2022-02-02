@@ -1,7 +1,9 @@
 #pragma once
 
 #include <glad/glad.h>
+#include <vector>
 
+#include "../../Util/Typedefs.hpp"
 #include "../Texture/ColorAttachment/ColorAttachmentTexture.hpp"
 #include "RenderBuffer.hpp"
 
@@ -10,7 +12,7 @@ namespace dex
     class Framebuffer
     {
     public:
-        Framebuffer(const glm::vec2& size);
+        Framebuffer(const glm::vec2& size, const std::vector<ColorAttachmentFormat>& formats);
         ~Framebuffer();
 
         Framebuffer(const Framebuffer& other) = delete;
@@ -21,7 +23,10 @@ namespace dex
         void bind();
         void unbind();
 
-        GLuint getColorAttachmentTexture_ID() { return m_ColorAttachmentTexture.getID(); }
+        void clearAttachment(uint32 index, int value);
+        GLuint getColorAttachmentTexture_ID(uint32 index = 0) { return m_ColorAttachments.at(index).getID(); }
+
+        int readPixel(const glm::ivec2& location);
 
         const GLuint getID() { return m_ID; }
         const glm::vec2& getSize() { return m_Size; }
@@ -31,7 +36,8 @@ namespace dex
         GLuint m_ID;
         glm::vec2 m_Size;
 
-        ColorAttachmentTexture m_ColorAttachmentTexture;
+        //ColorAttachmentTexture m_ColorAttachmentTexture;
+        std::vector<ColorAttachmentTexture> m_ColorAttachments;
         RenderBuffer m_RenderBuffer;
     };   
 }

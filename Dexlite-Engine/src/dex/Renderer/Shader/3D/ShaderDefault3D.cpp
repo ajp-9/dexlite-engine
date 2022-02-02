@@ -56,6 +56,8 @@ namespace dex
 
         void Default3D::setLocations3D()
         {
+            m_EntityID_Location = glGetUniformLocation(m_ProgramID, "u_EntityID");
+
             m_CameraPosition_Location = glGetUniformLocation(m_ProgramID, "u_CameraPosition");
 
             m_ProjectionViewMatrix_Location = glGetUniformLocation(m_ProgramID, "u_ProjectionViewMatrix");

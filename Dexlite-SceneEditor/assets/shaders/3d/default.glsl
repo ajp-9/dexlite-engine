@@ -36,6 +36,7 @@ void main()
 #define MAX_POINT_LIGHTS 5
 
 out vec4 out_Color;
+out int out_EntityID;
 
 in vec3 pass_Normal;
 in vec4 pass_Color;
@@ -80,6 +81,8 @@ struct PointLight
     float Linear;
     float Quadratic;
 };
+
+uniform int u_EntityID;
 
 uniform Material u_Material;
 
@@ -129,6 +132,8 @@ void main()
         out_Color = (base_color * vec4(light_color, 1.0)) + vec4(shimmer, 0.0);
     else
         out_Color = (base_color * vec4(light_color, 1.0)) + vec4(shimmer, 0.0) + vec4(texture(u_Material.EmissiveTextureSampler, pass_TexCoord * u_Material.TexTilingFactor).rgb, 0.0);
+
+    out_EntityID = u_EntityID;
 }
 
 vec3 CalcDirLight()

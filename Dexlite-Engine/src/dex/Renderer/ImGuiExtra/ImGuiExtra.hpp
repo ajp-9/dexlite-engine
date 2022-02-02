@@ -11,5 +11,10 @@ namespace ImGui
         {
             return ImGui::TempInputIsActive(ImGui::GetCurrentWindow()->DC.LastItemId);
         }
+
+        void SetNextItemEvenSpacing()
+        {
+            ImGui::GetCurrentWindow()->DC.CursorPos.y += ImGui::GetStyle().ItemSpacing.y * 0.5f;
+        }
     }
 }

@@ -5,11 +5,19 @@
 
 namespace dex
 {
+    enum class ColorAttachmentFormat
+    {
+        NONE,
+        RED_INTEGER,
+        RGB,
+        RGBA,
+    };
+
     class ColorAttachmentTexture
     {
     public:
-        ColorAttachmentTexture(const glm::vec2& size)
-            : m_Size(size)
+        ColorAttachmentTexture(const glm::vec2& size, GLenum internal_format, GLenum format)
+            : m_Size(size), m_InternalFormat(internal_format), m_Format(format)
         {
             create();
         }
@@ -21,6 +29,37 @@ namespace dex
 
         ColorAttachmentTexture(const ColorAttachmentTexture& other) = delete;
         const ColorAttachmentTexture& operator=(const ColorAttachmentTexture& other) = delete;
+
+
+        ColorAttachmentTexture(ColorAttachmentTexture&& other) noexcept
+            : m_InternalFormat(other.m_InternalFormat), m_Format(other.m_Format), m_Size(other.m_Size)
+        {
+            m_ID = other.m_ID;
+            other.m_ID = 0;
+        }
+        ColorAttachmentTexture& operator=(ColorAttachmentTexture&& other) noexcept
+        {
+            if (this != &other)
+            {
+                m_ID = other.m_ID;
+                other.m_ID = 0;
+                
+                m_InternalFormat = other.m_InternalFormat;
+                m_Format = other.m_Format;
+                m_Size = other.m_Size;
+            }
+
+            return *this;
+        }
+
+        void clear(int value)
+        {
+            bind();
+            
+            glClearBufferiv(GL_DRAW_BUFFER)
+            glClearColor(value, 0, 0, 0);
+            glClear(GL_COLOR_BUFFER_BIT);
+        }
 
         void resize(const glm::vec2& new_size)
         {
@@ -48,13 +87,17 @@ namespace dex
             glGenTextures(1, &m_ID);
             bind();
 
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Size.x, m_Size.y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+            glTexImage2D(GL_TEXTURE_2D, 0, m_InternalFormat, m_Size.x, m_Size.y, 0, m_Format, GL_UNSIGNED_BYTE, NULL);
 
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         }
     private:
         GLuint m_ID;
+
+        GLenum m_InternalFormat;
+        GLenum m_Format;
+
         glm::vec2 m_Size;
     };
 }

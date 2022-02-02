@@ -5,7 +5,7 @@
 namespace dex
 {
     ViewportPanel::ViewportPanel()
-        : m_Framebuffer(glm::vec2(100, 100))
+        : m_Framebuffer(glm::vec2(100, 100), { ColorAttachmentFormat::RGBA, ColorAttachmentFormat::RED_INTEGER })
     {
         
     }
@@ -19,8 +19,9 @@ namespace dex
         m_Framebuffer.resize(glm::vec2(viewportPanelSize.x, viewportPanelSize.y));
 
         m_Framebuffer.bind();
+        m_Framebuffer.clearAttachment(1, -1);
         renderer.clear();
-        current_scene.Scene.render(m_Framebuffer.getSize(), renderer, current_scene.m_ViewportCamera);
+        current_scene.Scene.render(m_Framebuffer.getSize(), renderer);
         m_Framebuffer.unbind();
         
         ImGui::Image((ImTextureID)m_Framebuffer.getColorAttachmentTexture_ID(), ImVec2(m_Framebuffer.getSize().x, m_Framebuffer.getSize().y), ImVec2(0, 1), ImVec2(1, 0));  

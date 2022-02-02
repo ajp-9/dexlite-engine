@@ -28,6 +28,11 @@ namespace dex
 
             virtual void updateGlobalUniforms(const GlobalUniforms& global_uniforms) override;
 
+            void setEntityID(int entity_id)
+            {
+                glUniform1i(m_EntityID_Location, entity_id);
+            }
+
             inline void setCameraPosition(const glm::vec3& cam_pos)
             {
                 glUniform3f(m_CameraPosition_Location, cam_pos.x, cam_pos.y, cam_pos.z);
@@ -122,6 +127,8 @@ namespace dex
                 }
             }
         private:
+            GLuint m_EntityID_Location;
+
             GLuint m_CameraPosition_Location;
 
             GLuint m_ProjectionViewMatrix_Location;

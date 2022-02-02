@@ -27,7 +27,7 @@ namespace dex
                 return *this;
             }
 
-            inline void setAllClean()
+            void setAllClean()
             {
                 m_IsCameraPositionDirty = false;
 
@@ -40,7 +40,7 @@ namespace dex
 
             // Camera Position:
 
-            inline void setCameraPosition(const glm::vec3& cam_pos)
+            void setCameraPosition(const glm::vec3& cam_pos)
             {
                 if (m_CameraPosition != cam_pos)
                 {
@@ -49,12 +49,12 @@ namespace dex
                 }
             }
 
-            inline const bool isCameraPositionDirty() const { return m_IsCameraPositionDirty; }
-            inline const glm::vec3& getCameraPosition() const { return m_CameraPosition; }
+            const bool isCameraPositionDirty() const { return m_IsCameraPositionDirty; }
+            const glm::vec3& getCameraPosition() const { return m_CameraPosition; }
 
             // Projection-View Matrix:
 
-            inline void setProjectionViewMatrix(const glm::mat4& proj_view_matrix)
+            void setProjectionViewMatrix(const glm::mat4& proj_view_matrix)
             {
                 if (m_ProjectionViewMatrix != proj_view_matrix)
                 {
@@ -63,12 +63,12 @@ namespace dex
                 }
             }
 
-            inline const bool isProjectionViewMatrixDirty() const { return m_IsProjectionViewMatrixDirty; }
-            inline const glm::mat4& getProjectionViewMatrix() const { return m_ProjectionViewMatrix; }
+            const bool isProjectionViewMatrixDirty() const { return m_IsProjectionViewMatrixDirty; }
+            const glm::mat4& getProjectionViewMatrix() const { return m_ProjectionViewMatrix; }
 
             // Ambient Light:
 
-            inline void setAmbientLight(const Light::Ambient& light)
+            void setAmbientLight(const Light::Ambient& light)
             {
                 if (m_AmbientLight != light)
                 {
@@ -77,8 +77,8 @@ namespace dex
                 }
             }
 
-            inline const bool isAmbientLightDirty() const { return m_IsAmbientLightDirty; }
-            inline const Light::Ambient& getAmbientLight() const { return m_AmbientLight; }
+            const bool isAmbientLightDirty() const { return m_IsAmbientLightDirty; }
+            const Light::Ambient& getAmbientLight() const { return m_AmbientLight; }
 
             // Directional Light:
 
@@ -91,12 +91,12 @@ namespace dex
                 }
             }
 
-            inline const bool isDirectionalLightDirty() const { return m_IsDirectionalLightDirty; }
-            inline const Light::Directional& getDirectionalLight() const { return m_DirectionalLight; }
+            const bool isDirectionalLightDirty() const { return m_IsDirectionalLightDirty; }
+            const Light::Directional& getDirectionalLight() const { return m_DirectionalLight; }
 
             // Point Lights:
 
-            inline void setPointLights(const std::vector<Light::Point>& lights)
+            void setPointLights(const std::vector<Light::Point>& lights)
             {
                 if (m_PointLights != lights)
                 {
@@ -105,8 +105,8 @@ namespace dex
                 }
             }
 
-            inline const bool isPointLightVectorDirty() const { return m_IsPointLightVectorDirty; }
-            inline const std::vector<Light::Point>& getPointLightVector() const { return m_PointLights; }
+            const bool isPointLightVectorDirty() const { return m_IsPointLightVectorDirty; }
+            const std::vector<Light::Point>& getPointLightVector() const { return m_PointLights; }
         private:
             bool m_IsCameraPositionDirty = true;
             glm::vec3 m_CameraPosition = glm::vec3(0.0f);

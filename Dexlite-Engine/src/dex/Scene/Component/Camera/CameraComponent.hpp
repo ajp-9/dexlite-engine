@@ -49,9 +49,9 @@ namespace dex
             }
         public:
             bool IsEnabled = false;
-        private:
-            CameraType m_Type = CameraType::ORTHOGRAPHIC;
 
+            CameraType m_Type = CameraType::ORTHOGRAPHIC;
+        private:
             bool isViewMatrixOld = true;
             bool isProjectionMatrixOld = true;
 
@@ -60,7 +60,7 @@ namespace dex
             glm::mat4 m_ProjectionMatrix = glm::mat4(1.0f);
             glm::mat4 m_ViewMatrix = glm::mat4(1.0f);
             glm::mat4 m_ProjectionViewMatrix = glm::mat4(1.0f);
-
+        public:
             // Orthographic ---
 
             float32 m_Ortho_Size = 15.0f;

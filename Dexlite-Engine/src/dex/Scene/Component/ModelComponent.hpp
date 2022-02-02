@@ -27,8 +27,9 @@ namespace dex
                 if (Enabled)
                 {
                     Material->m_Shader->bind();
+                    Material->m_Shader->setEntityID((int32)m_Entity.getHandle());
                     Material->m_Shader->setModelMatrix(m_Entity.getComponent<Component::Transform>().getTransformationMatrix());
-                     
+
                     Material->setUniforms(); // later batch same materials, so less uniform calls
                 }
             }
