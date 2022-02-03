@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <vector>
 
 #include "../../Util/Typedefs.hpp"
@@ -26,7 +26,7 @@ namespace dex
         void clearAttachment(uint32 index, int value);
         GLuint getColorAttachmentTexture_ID(uint32 index = 0) { return m_ColorAttachments.at(index).getID(); }
 
-        int readPixel(const glm::ivec2& location);
+        int readPixel(uint32 index, const glm::ivec2& location);
 
         const GLuint getID() { return m_ID; }
         const glm::vec2& getSize() { return m_Size; }

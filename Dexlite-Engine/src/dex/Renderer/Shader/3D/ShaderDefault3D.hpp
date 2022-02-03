@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../ShaderBase.hpp"
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include "../../../Util/Logging.hpp"
 
 namespace dex

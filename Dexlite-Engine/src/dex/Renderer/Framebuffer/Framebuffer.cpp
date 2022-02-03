@@ -14,10 +14,13 @@ namespace dex
             {
                 case ColorAttachmentFormat::RED_INTEGER:
                     m_ColorAttachments.emplace_back(ColorAttachmentTexture(size, GL_R32I, GL_RED_INTEGER));
+                    break;
                 case ColorAttachmentFormat::RGB:
                     m_ColorAttachments.emplace_back(ColorAttachmentTexture(size, GL_RGB8, GL_RGB));
+                    break;
                 case ColorAttachmentFormat::RGBA:
                     m_ColorAttachments.emplace_back(ColorAttachmentTexture(size, GL_RGBA8, GL_RGBA));
+                    break;
             }
         }
 
@@ -64,9 +67,10 @@ namespace dex
         m_ColorAttachments.at(index).clear(value);
     }
 
-    int Framebuffer::readPixel(const glm::ivec2& location)
+    int Framebuffer::readPixel(uint32 index, const glm::ivec2& location)
     {
-        glReadBuffer(GL_COLOR_ATTACHMENT0 + 1);
+        bind();
+        glReadBuffer(GL_COLOR_ATTACHMENT0 + index);
 
         int pixel_data;
         glReadPixels(location.x, location.y, 1, 1, GL_RED_INTEGER, GL_INT, &pixel_data);
@@ -88,6 +92,10 @@ namespace dex
 
         m_RenderBuffer.bind();
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_RenderBuffer.getID());
+
+        GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+        glDrawBuffers(m_ColorAttachments.size(), buffers);
+
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             DEX_LOG_ERROR("<dex::Framebuffer::create()>: Framebuffer not created successfully.");

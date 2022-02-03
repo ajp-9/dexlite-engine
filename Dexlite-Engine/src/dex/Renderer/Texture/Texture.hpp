@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <glad/glad.h>
+#include <glad/gl.h>
 
 #include <glm/vec2.hpp>
 #include <tiny_gltf.h>

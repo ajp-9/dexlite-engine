@@ -20,8 +20,9 @@ namespace dex
 
         m_Framebuffer.bind();
         m_Framebuffer.clearAttachment(1, -1);
-        renderer.clear();
+        renderer.clear(glm::vec4(.1, .1, .1, 1.0f));
         current_scene.Scene.render(m_Framebuffer.getSize(), renderer);
+        DEX_LOG_INFO("{}", m_Framebuffer.readPixel(1, glm::ivec2(ImGui::GetMousePos().x + ImGui::GetWindowPos().x, ImGui::GetMousePos().y + ImGui::GetWindowPos().y)));
         m_Framebuffer.unbind();
         
         ImGui::Image((ImTextureID)m_Framebuffer.getColorAttachmentTexture_ID(), ImVec2(m_Framebuffer.getSize().x, m_Framebuffer.getSize().y), ImVec2(0, 1), ImVec2(1, 0));  

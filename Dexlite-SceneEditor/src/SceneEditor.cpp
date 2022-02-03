@@ -13,7 +13,7 @@ namespace dex
     void SceneEditor::beginFrame()
     {
         Renderer.beginFrame();
-        Renderer.clear();
+        Renderer.clear(glm::vec4(.1, .1, .1, 1.0f));
     }
 
     void SceneEditor::update()

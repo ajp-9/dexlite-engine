@@ -1,7 +1,8 @@
 #pragma once
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 
 namespace dex
 {
@@ -56,9 +57,13 @@ namespace dex
         {
             bind();
             
-            glClearBufferiv(GL_DRAW_BUFFER)
-            glClearColor(value, 0, 0, 0);
-            glClear(GL_COLOR_BUFFER_BIT);
+            //glClearBufferiv(GL_DRAW_BUFFER)
+            //glClearColor(color.r, color.g, color.b, color.a);
+            int c[] = { -1 ,3,3,1 };
+            //glClearBufferiv(GL_COLOR, m_ID, c);
+            //glClear(GL_COLOR_BUFFER_BIT);
+
+            glClearTexImage(m_ID, 0, m_Format, GL_INT, &value);
         }
 
         void resize(const glm::vec2& new_size)
@@ -87,7 +92,7 @@ namespace dex
             glGenTextures(1, &m_ID);
             bind();
 
-            glTexImage2D(GL_TEXTURE_2D, 0, m_InternalFormat, m_Size.x, m_Size.y, 0, m_Format, GL_UNSIGNED_BYTE, NULL);
+            glTexImage2D(GL_TEXTURE_2D, 0, m_InternalFormat, m_Size.x, m_Size.y, 0, m_Format, GL_UNSIGNED_BYTE, nullptr);
 
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

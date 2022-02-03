@@ -1,6 +1,6 @@
 #include "Window.hpp"
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <iostream>
 #include <imgui/imgui.h>
 
@@ -21,8 +21,8 @@ namespace dex
             return;
         }
 
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef __APPLE__
@@ -156,8 +156,15 @@ namespace dex
                 this_window->Open = false;
             });
 
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-            DEX_LOG_CRITICAL("<dex::Window::Window()>: Window failed to initialize GLAD.");
+        gladLoadGL(glfwGetProcAddress);
+
+        //if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        //    DEX_LOG_CRITICAL("<dex::Window::Window()>: Window failed to initialize GLAD.");
+        
+        //int version =gladLoadGL(glfwGetProcAddress);
+
+        //printf("GL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
+
 
         Input.setWindowHandle(Handle);
 

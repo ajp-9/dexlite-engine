@@ -1,6 +1,6 @@
 #type VERTEX
 
-#version 330 core
+#version 440 core
 
 layout (location = 0) in vec3 in_Position;
 layout (location = 1) in vec3 in_Normal;
@@ -31,12 +31,12 @@ void main()
 
 #type FRAGMENT
 
-#version 330 core
+#version 440 core
 
 #define MAX_POINT_LIGHTS 5
 
-out vec4 out_Color;
-out int out_EntityID;
+layout(location = 0) out vec4 out_Color;
+layout(location = 1) out int out_EntityID;
 
 in vec3 pass_Normal;
 in vec4 pass_Color;
@@ -113,7 +113,7 @@ void main()
 
     if (u_Material.RoughnessTextureEnabled)
         frag_shininess += 1.0 - texture(u_Material.RoughnessTextureSampler, pass_TexCoord * u_Material.TexTilingFactor).g;
-
+    
     vec3 light_color = vec3(0.0);
 
     if (u_AmbientLight.Enabled)

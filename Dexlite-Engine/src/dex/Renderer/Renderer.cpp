@@ -1,6 +1,6 @@
 #include "Renderer.hpp"
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 
 #include "../Util/Logging.hpp"
 
@@ -56,8 +56,9 @@ namespace dex
         glClearColor(color.r, color.g, color.b, color.a);
     }
 
-    void Renderer::clear()
+    void Renderer::clear(const glm::vec4& color)
     {
+        setClearColor(color);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 }
