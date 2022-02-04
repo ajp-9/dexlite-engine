@@ -13,12 +13,18 @@ namespace dex
     void SceneEditor::beginFrame()
     {
         Renderer.beginFrame();
-        Renderer.clear(glm::vec4(.1, .1, .1, 1.0f));
+        //Renderer.clear(glm::vec4(.1, .1, .1, 1.0f));
     }
 
     void SceneEditor::update()
     {
         Time.doCycle();
+
+        if (Window.Input.isKeyPressed(Event::Key::F11))
+            if (!Window.isFullscreen())
+                Window.setFullscreen();
+            else
+                Window.setWindowed();
 
         m_GUI.update(Time.getDeltaTime());
         m_CurrentScene.update(Time.getDeltaTime());

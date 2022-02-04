@@ -26,7 +26,6 @@ namespace dex
 		m_Valdore.getComponent<dex::Component::Transform>().setOrientationEuler(glm::vec3(0, glm::radians(180.0), 0));
 		m_Valdore.getComponent<dex::Component::Transform>().setScale(glm::vec3(.5));
 
-
 		m_Triangle.addComponent<dex::Component::Model>(dex::LoadGLTF("assets/models/plane.glb", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
 		m_Triangle.getComponent<dex::Component::Transform>().setScale(glm::vec3(10, 10, 10));
 		m_Triangle.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, -5, 0));
@@ -45,7 +44,7 @@ namespace dex
 
 		m_Head.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
 
-
+		m_LightSphere.addChild(m_XYZ);
 		m_Player.addChild(m_Head);
 		//m_Head.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
 		//m_Head.getComponent<dex::Component::Transform>().setScale(glm::vec3(1002, 133, 13223));

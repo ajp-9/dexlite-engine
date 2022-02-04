@@ -1,6 +1,6 @@
 #type VERTEX
 
-#version 440 core
+#version 410 core
 
 layout (location = 0) in vec3 in_Position;
 layout (location = 1) in vec3 in_Normal;
@@ -31,7 +31,7 @@ void main()
 
 #type FRAGMENT
 
-#version 440 core
+#version 410 core
 
 #define MAX_POINT_LIGHTS 5
 

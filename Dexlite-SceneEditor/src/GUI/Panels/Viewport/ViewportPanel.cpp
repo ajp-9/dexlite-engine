@@ -20,7 +20,6 @@ namespace dex
         m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
         m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
-
         ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 
         m_Framebuffer.resize(glm::vec2(viewportPanelSize.x, viewportPanelSize.y));
@@ -46,8 +45,6 @@ namespace dex
         {
             if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
                 current_scene.SelectedEntity = Entity((entt::entity)m_Framebuffer.readPixel(1, glm::ivec2(mouseX, mouseY)), &current_scene.Scene);
-
-            //DEX_LOG_INFO("{}", m_Framebuffer.readPixel(1, glm::ivec2(mouseX, mouseY)));
         }
 
         m_Framebuffer.unbind();

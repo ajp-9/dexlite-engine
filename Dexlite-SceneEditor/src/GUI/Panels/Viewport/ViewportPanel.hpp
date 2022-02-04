@@ -14,6 +14,6 @@ namespace dex
     private:
         Framebuffer m_Framebuffer;
 
-        glm::vec2 m_ViewportBounds[2];
+        glm::vec2 m_ViewportBounds[2] = { glm::vec2(0, 0), glm::vec2(0, 0) };
     };
 }
