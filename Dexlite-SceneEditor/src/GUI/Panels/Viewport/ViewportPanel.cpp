@@ -19,8 +19,10 @@ namespace dex
         m_Framebuffer.resize(glm::vec2(viewportPanelSize.x, viewportPanelSize.y));
 
         m_Framebuffer.bind();
-        m_Framebuffer.clearAttachment(1, -1);
-        renderer.clear(glm::vec4(.1, .1, .1, 1.0f));
+        //renderer.clear(glm::vec4(.1, .1, .1, 1.0f));
+        m_Framebuffer.clearAttachment(1, glm::vec4(.5555665, .1, .1, 1.0f), false);
+        m_Framebuffer.clearAttachment(0, glm::vec4(.1, .1, .1, 1.0f));
+
         current_scene.Scene.render(m_Framebuffer.getSize(), renderer);
         DEX_LOG_INFO("{}", m_Framebuffer.readPixel(1, glm::ivec2(ImGui::GetMousePos().x + ImGui::GetWindowPos().x, ImGui::GetMousePos().y + ImGui::GetWindowPos().y)));
         m_Framebuffer.unbind();

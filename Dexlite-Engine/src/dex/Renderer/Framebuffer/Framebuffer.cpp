@@ -62,14 +62,22 @@ namespace dex
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    void Framebuffer::clearAttachment(uint32 index, int value)
+    void Framebuffer::clearAttachment(uint32 index, const glm::vec4& color, bool depth)
     {
-        m_ColorAttachments.at(index).clear(value);
+        glDrawBuffer(GL_COLOR_ATTACHMENT0 + index);
+
+        m_ColorAttachments.at(index).clear(color);
+
+        if (depth)
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        else
+            glClear(GL_COLOR_BUFFER_BIT);
     }
 
     int Framebuffer::readPixel(uint32 index, const glm::ivec2& location)
     {
         bind();
+
         glReadBuffer(GL_COLOR_ATTACHMENT0 + index);
 
         int pixel_data;

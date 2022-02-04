@@ -53,17 +53,17 @@ namespace dex
             return *this;
         }
 
-        void clear(int value)
+        void clear(const glm::vec4& color)
         {
-            bind();
+            unbind();
+
+            //glDrawBuffer(GL_COLOR_ATTACHMENT0 + index);
+
+            glClearColor(color.r, color.g, color.b, color.a);
             
-            //glClearBufferiv(GL_DRAW_BUFFER)
-            //glClearColor(color.r, color.g, color.b, color.a);
-            int c[] = { -1 ,3,3,1 };
-            //glClearBufferiv(GL_COLOR, m_ID, c);
             //glClear(GL_COLOR_BUFFER_BIT);
 
-            glClearTexImage(m_ID, 0, m_Format, GL_INT, &value);
+            bind();
         }
 
         void resize(const glm::vec2& new_size)

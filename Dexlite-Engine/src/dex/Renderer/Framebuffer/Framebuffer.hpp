@@ -23,7 +23,7 @@ namespace dex
         void bind();
         void unbind();
 
-        void clearAttachment(uint32 index, int value);
+        void clearAttachment(uint32 index, const glm::vec4& color, bool depth = true);
         GLuint getColorAttachmentTexture_ID(uint32 index = 0) { return m_ColorAttachments.at(index).getID(); }
 
         int readPixel(uint32 index, const glm::ivec2& location);
