@@ -93,6 +93,7 @@ namespace dex
         glReadBuffer(GL_COLOR_ATTACHMENT0 + index);
 
         int pixel_data;
+
         glReadPixels(location.x, location.y, 1, 1, GL_RED_INTEGER, GL_INT, &pixel_data);
 
         return pixel_data;

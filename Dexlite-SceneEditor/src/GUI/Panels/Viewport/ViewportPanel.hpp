@@ -13,5 +13,7 @@ namespace dex
         void render(CurrentScene& current_scene, Renderer& renderer);
     private:
         Framebuffer m_Framebuffer;
+
+        glm::vec2 m_ViewportBounds[2];
     };
 }
