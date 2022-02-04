@@ -55,7 +55,7 @@ namespace dex
 
         void clear(const glm::vec4& color)
         {
-            unbind();
+            //unbind();
 
             //glDrawBuffer(GL_COLOR_ATTACHMENT0 + index);
 
@@ -63,7 +63,7 @@ namespace dex
             
             //glClear(GL_COLOR_BUFFER_BIT);
 
-            bind();
+            //bind();
         }
 
         void resize(const glm::vec2& new_size)

@@ -53,8 +53,6 @@ namespace dex
     void Framebuffer::bind()
     {
         glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
-
-        //dex::Engine::Renderer.clear(); // Clear after binding the framebuffer.
     }
 
     void Framebuffer::unbind()
@@ -72,6 +70,20 @@ namespace dex
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         else
             glClear(GL_COLOR_BUFFER_BIT);
+    }
+
+    void Framebuffer::clearAttachmentRed(uint32 index, int value)
+    {
+        glDrawBuffer(GL_COLOR_ATTACHMENT0 + index);
+
+        int t[] = { value, 0, 0, 1 };
+        glClearBufferiv(GL_COLOR, index, t);
+    }
+
+    void Framebuffer::drawBuffers()
+    {
+        GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+        glDrawBuffers(m_ColorAttachments.size(), buffers);
     }
 
     int Framebuffer::readPixel(uint32 index, const glm::ivec2& location)
@@ -107,6 +119,8 @@ namespace dex
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             DEX_LOG_ERROR("<dex::Framebuffer::create()>: Framebuffer not created successfully.");
+
+        drawBuffers();
 
         unbind();
         m_RenderBuffer.unbind();
