@@ -56,14 +56,13 @@ namespace dex
             inline const bool operator==(const Point& other) const
             {
                 return
-                {
                     Enabled == other.Enabled &&
                     Color == other.Color &&
                     Position == other.Position &&
                     Constant == other.Constant &&
                     Linear == other.Linear &&
                     Quadratic == other.Quadratic
-                };
+                ;
             }
 
             inline const bool operator!=(const Point& other) const

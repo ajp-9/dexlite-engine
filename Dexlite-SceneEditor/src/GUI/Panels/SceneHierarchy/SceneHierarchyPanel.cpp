@@ -28,7 +28,7 @@ namespace dex
      
     void SceneHierarchyPanel::renderEntityNode(Entity& entity)
     {
-        auto& children = entity.getChildren();
+        auto children = entity.getChildren();
         bool deleted = false;
 
         ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
