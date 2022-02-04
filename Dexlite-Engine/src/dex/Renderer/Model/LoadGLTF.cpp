@@ -234,7 +234,7 @@ namespace dex
             vertex.Normal = glm::mat3(glm::transpose(glm::inverse(meshTransformationMatrix_Final))) * vertex.Normal;
         }
 
-        return Model(Mesh::Default3D(vertices, indices), material);
+        return Model(Mesh::Default3D(vertices, indices), material, file_location);
     }
 
     bool parseNode(glm::mat4 & meshTransformationMatrix_Current, const tinygltf::Node & node, const tinygltf::Model & model)

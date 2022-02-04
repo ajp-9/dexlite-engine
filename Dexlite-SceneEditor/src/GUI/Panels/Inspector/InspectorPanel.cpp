@@ -176,6 +176,19 @@ namespace dex
                 ImGui::Text("Enabled: ");
                 ImGui::SameLine();
                 ImGui::Checkbox("##Model::Enabled", &component.Enabled);
+
+                char buffer[0xFF];
+                std::strcpy(buffer, component.FileLocation.c_str());
+
+                if (ImGui::InputText("##Model::FileLocation", buffer, sizeof(buffer)))
+                {
+                    component.FileLocation = buffer;
+                }
+                
+                if (ImGui::Button("Load Model"))
+                {
+                    component = Component::Model(component.m_Entity, LoadGLTF(component.FileLocation, component.Material->m_Shader));
+                }
             });
 
             renderComponent<Component::Light::Ambient>("Ambient Light", selected_entity, [](Component::Light::Ambient& ambient)

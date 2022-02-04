@@ -17,16 +17,16 @@ namespace dex
     class VertexBuffer
     {
     public:
-        VertexBuffer()
+        VertexBuffer() = default;
+
+        void Create()
         {
             glGenBuffers(1, &m_ID);
         }
-        ~VertexBuffer()
-        {
-            //DEX_LOG_ERROR("Deleted VBO: {}", m_ID);
 
-            if (m_ID)
-                glDeleteBuffers(1, &m_ID);
+        void Destroy()
+        {
+            if (m_ID) glDeleteBuffers(1, &m_ID);
         }
 
         VertexBuffer(const VertexBuffer& other) = delete;
@@ -34,10 +34,14 @@ namespace dex
 
         VertexBuffer(VertexBuffer&& other) noexcept
         {
-            m_ID = other.m_ID;
+            if (!m_ID)
+            {
+                m_ID = other.m_ID;
 
-            other.m_ID = 0;
+                other.m_ID = 0;
+            }
         }
+
         VertexBuffer& operator=(VertexBuffer&& other) noexcept
         {
             if (this != &other)

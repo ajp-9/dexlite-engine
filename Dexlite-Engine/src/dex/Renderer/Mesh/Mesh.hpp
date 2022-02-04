@@ -22,7 +22,16 @@ namespace dex
         class Base
         {
         public:
-            Base() { m_Type = Type::BASE; }
+            Base()
+            { 
+                m_Type = Type::BASE;
+                m_VertexArray.Create();
+            }
+
+            ~Base()
+            {
+                m_VertexArray.Destroy();
+            }
 
             virtual void render() = 0;
 
@@ -32,6 +41,7 @@ namespace dex
             Base(Base&& other) noexcept
                 : m_Type(other.m_Type), m_VertexArray(std::move(other.m_VertexArray))
             {}
+
             Base& operator=(Base&& other) noexcept
             {
                 if (this != &other)
@@ -61,7 +71,8 @@ namespace dex
         class Interface : public Base
         {
         public:
-            Interface() {}
+            Interface() = default;
+
             Interface(
                 const std::vector<V>& vertices,
                 const std::vector<uint32_t>& indices)
@@ -83,12 +94,21 @@ namespace dex
             const Interface& operator=(const Interface& other) = delete;
 
             Interface(Interface&& other) noexcept
-                : Base(std::move(other)), m_Vertices(std::move(other.m_Vertices)), m_Indices(std::move(other.m_Indices))
-            {}
+            {
+                m_VertexArray.Destroy();
+
+                m_Type = other.m_Type;
+                m_VertexArray = std::move(other.m_VertexArray);
+                m_Vertices = std::move(other.m_Vertices);
+                m_Indices = std::move(other.m_Indices);
+            }
+
             Interface& operator=(Interface&& other) noexcept
             {
                 if (this != &other)
                 {
+                    m_VertexArray.Destroy();
+
                     m_Type = other.m_Type;
                     m_VertexArray = std::move(other.m_VertexArray);
                     m_Vertices = std::move(other.m_Vertices);
@@ -126,6 +146,7 @@ namespace dex
             Default3D(Default3D&& other) noexcept
                 : Interface<Vertex3D::Default, Material::Default3D>(std::move(other))
             {}
+
             Default3D& operator=(Default3D&& other) noexcept
             {
                 if (this != &other)

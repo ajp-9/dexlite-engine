@@ -11,14 +11,24 @@ namespace dex
     class VertexArray
     {
     public:
-        VertexArray()
+        VertexArray() = default;
+
+        void Create()
         {
             glGenVertexArrays(1, &m_ID);
             bind();
+
+            m_VertexBuffers.Create();
+            m_IndexBuffer.Create();
         }
 
-        ~VertexArray()
+        void Destroy()
         {
+            DEX_LOG_CRITICAL("{}", m_ID);
+
+            m_IndexBuffer.Destroy();
+            m_VertexBuffers.Destroy();
+
             if (m_ID) glDeleteVertexArrays(1, &m_ID);
         }
 
@@ -26,12 +36,14 @@ namespace dex
         const VertexArray& operator=(const VertexArray& other) = delete;
 
         VertexArray(VertexArray&& other) noexcept
-            : m_ID(other.m_ID), m_VertexBuffers(std::move(other.m_VertexBuffers)), m_IndexBuffer(std::move(other.m_IndexBuffer))
         {
             m_ID = other.m_ID;
+            m_VertexBuffers = std::move(other.m_VertexBuffers);
+            m_IndexBuffer = std::move(other.m_IndexBuffer);
 
             other.m_ID = 0;
         }
+
         VertexArray& operator=(VertexArray&& other) noexcept
         {
             if (this != &other)

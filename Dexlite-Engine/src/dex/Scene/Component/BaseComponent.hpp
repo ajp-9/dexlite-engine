@@ -11,7 +11,7 @@ namespace dex
             Base(const Entity& entity)
                 : m_Entity(entity)
             {}
-        protected:
+        public:
             Entity m_Entity;
         public:
             friend class dex::Entity;

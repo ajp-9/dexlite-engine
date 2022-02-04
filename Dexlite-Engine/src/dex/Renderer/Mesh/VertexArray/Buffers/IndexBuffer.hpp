@@ -11,12 +11,14 @@ namespace dex
     class IndexBuffer
     {
     public:
-        IndexBuffer()
+        IndexBuffer() = default;
+
+        void Create()
         {
             glGenBuffers(1, &m_ID);
         }
 
-        ~IndexBuffer()
+        void Destroy()
         {
             if (m_ID) glDeleteBuffers(1, &m_ID);
         }
@@ -25,10 +27,15 @@ namespace dex
         const IndexBuffer& operator=(const IndexBuffer& other) = delete;
 
         IndexBuffer(IndexBuffer&& other) noexcept
-            : m_ID(other.m_ID), m_Count(other.m_Count)
         {
+            this->~IndexBuffer();
+
+            m_ID = other.m_ID;
+            m_Count = other.m_Count;
+
             other.m_ID = 0;
         }
+
         IndexBuffer& operator=(IndexBuffer&& other) noexcept
         {
             if (this != &other)
