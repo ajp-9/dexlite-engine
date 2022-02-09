@@ -1,5 +1,7 @@
 #include "CurrentScene.hpp"
 
+#include <dex/Scene/Serializer/SceneSerializer.hpp>
+
 namespace dex
 {
     CurrentScene::CurrentScene(dex::Window* window, dex::Renderer* renderer)
@@ -21,7 +23,7 @@ namespace dex
 		m_Warlock.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, 10));
 		//m_Warlock.getComponent<dex::Component::Transform>().setRotationEuler(glm::vec3(15, 0, 0));
 
-		m_Valdore.addComponent<dex::Component::Model>(dex::LoadGLTF("assets/models/warlock.glb", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
+		//m_Valdore.addComponent<dex::Component::Model>(dex::LoadGLTF("assets/models/warlock.glb", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
 		m_Valdore.getComponent<dex::Component::Transform>().setPosition(glm::vec3(0, 0, -5));
 		m_Valdore.getComponent<dex::Component::Transform>().setOrientationEuler(glm::vec3(0, glm::radians(180.0), 0));
 		m_Valdore.getComponent<dex::Component::Transform>().setScale(glm::vec3(.5));
@@ -48,6 +50,8 @@ namespace dex
 		m_Player.addChild(m_Head);
 		//m_Head.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
 		//m_Head.getComponent<dex::Component::Transform>().setScale(glm::vec3(1002, 133, 13223));
+
+		SerializeScene("wat.txt", Scene);
     }
 
     void CurrentScene::update(const float delta_time)

@@ -7,7 +7,7 @@ namespace dex
     {
         void Transform::update()
         {
-            if (m_Entity.hasParent())
+            if (OwnEntity.hasParent())
             {
                 const auto& parent_transform = getParentTransform();
 

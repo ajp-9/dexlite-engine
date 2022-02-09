@@ -29,19 +29,19 @@ namespace dex
 
         void Camera::updateViewMatrix()
         {
-            if (m_Entity.isValid())
+            if (OwnEntity.isValid())
             {
                 if (m_Type == CameraType::ORTHOGRAPHIC)
                 {
-                    const auto& transform = m_Entity.getComponent<Component::Transform>();
+                    const auto& transform = OwnEntity.getComponent<Component::Transform>();
 
                     m_ViewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(transform.getTransformationMatrix()[3])) * glm::toMat4(glm::quat(transform.getTransformationMatrix()));
                 }
                 else if (m_Type == CameraType::PERSPECTIVE)
                 {
-                    const auto& transform = m_Entity.getComponent<Component::Transform>();
+                    const auto& transform = OwnEntity.getComponent<Component::Transform>();
 
-                    glm::vec3 position = m_Entity.getComponent<Component::Transform>().getWorldPosition();
+                    glm::vec3 position = OwnEntity.getComponent<Component::Transform>().getWorldPosition();
 
                     m_ViewMatrix = glm::lookAt(position, position + transform.getForward(), transform.getUp());
                 }

@@ -34,22 +34,22 @@ namespace dex
 
         inline void addChild(Entity child)
         {
-            getChildrenHandles().push_back(child.m_Handle);
+            getChildren().push_back(child);
 
             if (child.getParent().m_Handle != entt::null)
             {
                 child.getParent().removeChild(child);
             }
 
-            child.setParent(m_Handle);
+            child.setParent(Entity(m_Handle, m_Scene));
         };
 
         //void addChild(entt::entity child_handle);
 
         void removeChild(Entity child, bool destroy_handle = false);
 
-        std::vector<entt::entity>& getChildrenHandles() const;
-        std::vector<Entity> getChildren() const;
+        //std::vector<entt::entity>& getChildrenHandles() const;
+        std::vector<Entity>& getChildren() const;
 
         void updateChildrenTransform();
 
@@ -59,8 +59,6 @@ namespace dex
         }
 
         void setParent(Entity parent);
-
-        void setParent(entt::entity parent);
 
         Entity getParent();
 
@@ -85,7 +83,7 @@ namespace dex
         }
 
         template <typename T>
-        inline bool hasComponent()
+        inline bool hasComponent() const
         { 
             return m_Scene->m_Registry.has<T>(m_Handle);
         }

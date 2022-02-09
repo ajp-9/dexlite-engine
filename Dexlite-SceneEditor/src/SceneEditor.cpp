@@ -1,5 +1,6 @@
 #include "SceneEditor.hpp"
 
+#include <json.hpp>
 #include <imgui/imgui.h>
 #include <memory>
 #include "GUI/GUI.hpp"
@@ -8,6 +9,12 @@ namespace dex
 {
     SceneEditor::SceneEditor()
     {
+        nlohmann::json j;
+        j["wat"] = 4;
+        auto& e = j["a"];
+        e["b"] = 1;
+        e["c"] = { 3, 2, 5.432, 1 };
+        std::cout << j["a"]["c"] << '\n';
     }
 
     void SceneEditor::beginFrame()

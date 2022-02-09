@@ -4,8 +4,14 @@
 
 namespace dex
 {
-	GUI::GUI(dex::Renderer* renderer, CurrentScene* current_scene)
-		: m_CurrentScene(current_scene), Renderer(renderer), m_SceneHierarchyPanel(current_scene), m_InspectorPanel(current_scene)
+	GUI::GUI(dex::Window* window, dex::Renderer* renderer, CurrentScene* current_scene)
+		:
+		Window(window),
+		Renderer(renderer),
+		m_CurrentScene(current_scene),
+		m_SceneHierarchyPanel(current_scene),
+		m_InspectorPanel(window, renderer, current_scene),
+		m_ViewportPanel(window)
 	{
 		setColorsAndStyle();
 	}
@@ -68,9 +74,9 @@ namespace dex
 			ImGui::EndMenuBar();
 		}
 
+		m_InspectorPanel.render();
 		m_SceneHierarchyPanel.render();
 		m_ViewportPanel.render(*m_CurrentScene, *Renderer);
-		m_InspectorPanel.render();
 
 		ImGui::End();
 	}

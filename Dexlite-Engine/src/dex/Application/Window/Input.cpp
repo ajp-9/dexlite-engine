@@ -31,12 +31,9 @@ namespace dex
 
     glm::dvec2 Input::getMousePosition()
     {
-        if (!m_AreMouseEventsHalted)
-        {
-            glm::dvec2 tmp_pos;
-            glfwGetCursorPos(m_WindowHandle, &tmp_pos.x, &tmp_pos.y);
-            return tmp_pos;
-        }
+        glm::dvec2 tmp_pos;
+        glfwGetCursorPos(m_WindowHandle, &tmp_pos.x, &tmp_pos.y);
+        return tmp_pos;
 
         return glm::dvec2(0, 0);
     }

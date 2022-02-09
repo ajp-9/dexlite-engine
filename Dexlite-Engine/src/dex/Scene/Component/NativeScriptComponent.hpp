@@ -8,9 +8,9 @@ namespace dex
     {
         struct NativeScript : Base
         {
-            using OnEnableFunction = void(Entity& entity);
-            using OnDisableFunction = void(Entity& entity);
-            using OnUpdateFunction = void(Entity& entity);
+            using OnEnableFunction = void(Entity& own_entity);
+            using OnDisableFunction = void(Entity& own_entity);
+            using OnUpdateFunction = void(Entity& own_entity);
 
             OnEnableFunction* OnEnableFunction = nullptr;
             OnDisableFunction* OnDisableFunction = nullptr;

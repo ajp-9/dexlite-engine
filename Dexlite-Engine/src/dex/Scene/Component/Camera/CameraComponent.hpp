@@ -18,8 +18,8 @@ namespace dex
             enum class CameraType { ORTHOGRAPHIC = 0, PERSPECTIVE = 1 };
 
             // Only 1 camera can be enabled.
-            Camera(const Entity& entity, bool is_enabled)
-                : Base(entity), IsEnabled(is_enabled)
+            Camera(const Entity& own_entity, bool is_enabled)
+                : Base(own_entity), IsEnabled(is_enabled)
             {}
 
             void setOrthographic(float32 size, float32 near_plane, float32 far_plane);

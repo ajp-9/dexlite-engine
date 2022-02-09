@@ -13,7 +13,7 @@ namespace dex
         : m_Handle(scene->m_Registry.create()), m_Scene(scene)
     {
         addComponent<Component::Parent>();
-        addComponent<Component::ChildrenHandles>();
+        addComponent<Component::Children>();
 
         addComponent<Component::Tag>(tag);
         addComponent<Component::Transform>();
@@ -37,14 +37,14 @@ namespace dex
 
     void Entity::destroyChildren()
     {
-        auto& children_handles = getChildrenHandles();
+        auto& children = getChildren();
 
-        for (entt::entity child_handle : children_handles)
+        for (auto& child: children)
         {
-            m_Scene->m_Registry.destroy(child_handle);
+            m_Scene->m_Registry.destroy(child);
         }
 
-        children_handles.clear();
+        children.clear();
     }
 
     void addChild(entt::entity child_handle)
@@ -55,13 +55,13 @@ namespace dex
 
     void Entity::removeChild(Entity child, bool destroy_handle)
     {
-        const auto& children_handles = getChildrenHandles();
+        const auto& children_handles = getChildren();
 
         const auto& iter = std::find(children_handles.begin(), children_handles.end(), child);
 
         if (iter != children_handles.end())
         {
-            getChildrenHandles().erase(iter);
+            getChildren().erase(iter);
 
             if (destroy_handle)
                 m_Scene->m_Registry.destroy(child);
@@ -70,57 +70,42 @@ namespace dex
             DEX_LOG_ERROR("<dex::Entity::removeChild>: Entity (ID: {}), is not in ChildrenHandles component of Entity (ID: {}).", child.m_Handle, m_Handle);
     }
 
-    std::vector<entt::entity>& Entity::getChildrenHandles() const
+    /*std::vector<entt::entity>& Entity::getChildrenHandles() const
     {
         return getComponent<Component::ChildrenHandles>().Handles;
-    }
+    }*/
 
-    std::vector<Entity> Entity::getChildren() const
+    std::vector<Entity>& Entity::getChildren() const
     {
-        std::vector<Entity> return_children;
-        auto children_handles = getComponent<Component::ChildrenHandles>().Handles;
-
-        for (auto& child_handle : children_handles)
-        {
-            return_children.emplace_back(Entity(child_handle, m_Scene));
-        }
-
-        return return_children;
+        return getComponent<Component::Children>().Entities;
     }
 
     // recursive
     void Entity::updateChildrenTransform()
     {
-        const auto& children_handles = getChildrenHandles();
+        const auto& children = getChildren();
 
-        for (entt::entity child_handle : children_handles)
+        for (auto child: children)
         {
-            Entity child_entity = Entity(child_handle, m_Scene);
-
-            if (child_entity.getComponent<Component::Transform>().m_FlagChanged)
+            if (child.getComponent<Component::Transform>().m_FlagChanged)
             {
-                child_entity.getComponent<Component::Transform>().update();
+                child.getComponent<Component::Transform>().update();
 
                 for (auto func : SceneManager::m_Entity_UpdateComponentWithTransform_Functions)
-                    func(child_entity);
+                    func(child);
             }
             
-            child_entity.updateChildrenTransform();
+            child.updateChildrenTransform();
         }
     }
 
     void Entity::setParent(Entity parent)
     {
-        getComponent<Component::Parent>().Handle = parent.m_Handle;
-    }
-
-    void Entity::setParent(entt::entity parent)
-    {
-        getComponent<Component::Parent>().Handle = parent;
+        getComponent<Component::Parent>().Entity = parent;
     }
 
     Entity Entity::getParent()
     {
-        return Entity(getComponent<Component::Parent>().Handle, m_Scene);
+        return Entity(getComponent<Component::Parent>().Entity, m_Scene);
     }
 }

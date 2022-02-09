@@ -8,11 +8,11 @@ namespace dex
     {
         struct Base
         {
-            Base(const Entity& entity)
-                : m_Entity(entity)
+            Base(const Entity& own_entity)
+                : OwnEntity(own_entity)
             {}
         public:
-            Entity m_Entity;
+            Entity OwnEntity;
         public:
             friend class dex::Entity;
         };

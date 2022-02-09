@@ -24,8 +24,6 @@ namespace dex
 
         void Destroy()
         {
-            DEX_LOG_CRITICAL("{}", m_ID);
-
             m_IndexBuffer.Destroy();
             m_VertexBuffers.Destroy();
 

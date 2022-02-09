@@ -10,8 +10,8 @@ namespace dex
     {
         struct Tag : Base
         {
-            Tag(const Entity& entity, const std::string& tag)
-                : Base(entity), m_Tag(tag)
+            Tag(const Entity& own_entity, const std::string& tag)
+                : Base(own_entity), m_Tag(tag)
             {}
         public:
             std::string m_Tag = "";

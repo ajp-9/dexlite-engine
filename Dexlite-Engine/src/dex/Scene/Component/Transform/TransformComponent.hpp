@@ -17,14 +17,14 @@ namespace dex
         struct Transform : Base
         {
             Transform(
-                const Entity& entity,
+                const Entity& own_entity,
                 glm::vec3 position = glm::vec3(0.0f),
                 glm::quat rotation = glm::quat(glm::vec3(0.0f)),
                 glm::vec3 scale = glm::vec3(1.0f))
 
                 : // Initializer List:
                 
-                Base(entity),
+                Base(own_entity),
                 m_Position(position),
                 m_Orientation(rotation), 
                 m_Scale(scale),
@@ -87,7 +87,7 @@ namespace dex
         
             inline const Transform& getParentTransform()
             {
-                return m_Entity.getParent().getComponent<Transform>();
+                return OwnEntity.getParent().getComponent<Transform>();
             }
         public:
             glm::mat4 m_TransformationMatrix = glm::mat4(1.0f);

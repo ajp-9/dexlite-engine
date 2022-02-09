@@ -12,26 +12,26 @@ namespace dex
     {
         struct Parent : Base
         {
-            Parent(const Entity& entity)
-                : Base(entity) 
+            Parent(const Entity& own_entity)
+                : Base(own_entity)
             {}
-            Parent(const Entity& entity, entt::entity handle)
-                : Base(entity), Handle(handle) 
+            Parent(const Entity& own_entity, dex::Entity entity)
+                : Base(own_entity), Entity(entity)
             {}
-
-            entt::entity Handle = entt::null;
+        public:
+            dex::Entity Entity;
         };
 
-        struct ChildrenHandles : Base
+        struct Children : Base
         {
-            ChildrenHandles(const Entity& entity)
-                : Base(entity) 
+            Children(const Entity& own_entity)
+                : Base(own_entity)
             {}
-            ChildrenHandles(const Entity& entity, const std::vector<entt::entity>& handles)
-                : Base(entity), Handles(handles) 
+            Children(const Entity& own_entity, const std::vector<Entity>& entities)
+                : Base(own_entity), Entities(entities)
             {}
-
-            std::vector<entt::entity> Handles;
+        public:
+            std::vector<Entity> Entities;
         };
     }
 }

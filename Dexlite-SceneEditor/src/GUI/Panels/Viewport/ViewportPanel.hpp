@@ -8,9 +8,11 @@ namespace dex
     class ViewportPanel
     {
     public:
-        ViewportPanel();
+        ViewportPanel(dex::Window* window);
 
         void render(CurrentScene& current_scene, Renderer& renderer);
+    private:
+        dex::Window* m_Window;
     private:
         Framebuffer m_Framebuffer;
 

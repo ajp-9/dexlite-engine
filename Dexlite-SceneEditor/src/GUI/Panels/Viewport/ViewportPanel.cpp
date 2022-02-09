@@ -4,8 +4,8 @@
 
 namespace dex
 {
-    ViewportPanel::ViewportPanel()
-        : m_Framebuffer(glm::vec2(100, 100), { ColorAttachmentFormat::RGBA, ColorAttachmentFormat::RED_INTEGER })
+    ViewportPanel::ViewportPanel(dex::Window* window)
+        : m_Window(window), m_Framebuffer(glm::vec2(100, 100), { ColorAttachmentFormat::RGBA, ColorAttachmentFormat::RED_INTEGER })
     {
         
     }
@@ -43,7 +43,7 @@ namespace dex
 
         if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
         {
-            if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+            if (m_Window->Input.isMouseReleased(Event::MouseButton::LEFT) && ImGui::IsWindowFocused())
                 current_scene.SelectedEntity = Entity((entt::entity)m_Framebuffer.readPixel(1, glm::ivec2(mouseX, mouseY)), &current_scene.Scene);
         }
 

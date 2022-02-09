@@ -12,10 +12,10 @@ namespace dex
 {
     class GUI
     {
-        //Window* Window = nullptr;
+        Window* Window = nullptr;
         Renderer* Renderer = nullptr;
     public:
-        GUI(dex::Renderer* renderer, CurrentScene* current_scene);
+        GUI(dex::Window* window, dex::Renderer* renderer, CurrentScene* current_scene);
 
         void update(const float delta_time);
         void render();

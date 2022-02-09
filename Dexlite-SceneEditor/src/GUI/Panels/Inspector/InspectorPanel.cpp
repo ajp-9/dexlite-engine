@@ -5,16 +5,16 @@
 
 namespace dex
 {
-    InspectorPanel::InspectorPanel(CurrentScene* current_scene)
-        : m_CurrentScene(current_scene)
+    InspectorPanel::InspectorPanel(dex::Window* window, dex::Renderer* renderer, CurrentScene* current_scene)
+        : m_Window(window), m_Renderer(renderer), m_CurrentScene(current_scene)
     {
     }
 
     template <typename T>
-    using UIFunction = void(T& t);
+    using UIFunction = void(T& t, Renderer* renderer);
 
     template <typename T>
-    static void renderComponent(const char* name, Entity& entity, UIFunction<T>* func)
+    static void renderComponent(const char* name, Entity& entity, Renderer* renderer, UIFunction<T>* func)
     {
         if (entity.hasComponent<T>())
         {
@@ -22,7 +22,7 @@ namespace dex
 
             if (opened)
             {
-                func(entity.getComponent<T>());
+                func(entity.getComponent<T>(), renderer);
             }
         }
     }
@@ -53,7 +53,7 @@ namespace dex
 
             ImGui::Separator();
 
-            renderComponent<Component::Transform>("Transform", selected_entity, [](Component::Transform& component)
+            renderComponent<Component::Transform>("Transform", selected_entity, m_Renderer, [](Component::Transform& component, Renderer* renderer)
             {
                 ImGuiStyle& style = ImGui::GetStyle();
 
@@ -130,7 +130,7 @@ namespace dex
                 }
             });
 
-            renderComponent<Component::Camera>("Camera", selected_entity, [](Component::Camera& component)
+            renderComponent<Component::Camera>("Camera", selected_entity, m_Renderer, [](Component::Camera& component, Renderer* renderer)
             {
                 ImGui::Text("Enabled: ");
                 ImGui::SameLine();
@@ -170,8 +170,8 @@ namespace dex
                 ImGui::DragFloat("Far", &component.m_Far, .25, 0.0f);
 
             });
-
-            renderComponent<Component::Model>("Model", selected_entity, [](Component::Model& component)
+            
+            renderComponent<Component::Model>("Model", selected_entity, m_Renderer, [](Component::Model& component, Renderer* renderer)
             {
                 ImGui::Text("Enabled: ");
                 ImGui::SameLine();
@@ -187,11 +187,11 @@ namespace dex
                 
                 if (ImGui::Button("Load Model"))
                 {
-                    component = Component::Model(component.m_Entity, LoadGLTF(component.FileLocation, component.Material->m_Shader));
+                    component = Component::Model(component.OwnEntity, LoadGLTF(component.FileLocation, renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
                 }
             });
 
-            renderComponent<Component::Light::Ambient>("Ambient Light", selected_entity, [](Component::Light::Ambient& ambient)
+            renderComponent<Component::Light::Ambient>("Ambient Light", selected_entity, m_Renderer, [](Component::Light::Ambient& ambient, Renderer* renderer)
             {
                 ImGui::Text("Enabled: ");
                 ImGui::SameLine();
@@ -204,7 +204,7 @@ namespace dex
                 ImGui::ColorEdit3("##Ambient::Color", &ambient.Color.x);
             });
 
-            renderComponent<Component::Light::Directional>("Directional Light", selected_entity, [](Component::Light::Directional& directional)
+            renderComponent<Component::Light::Directional>("Directional Light", selected_entity, m_Renderer, [](Component::Light::Directional& directional, Renderer* renderer)
             {
                 ImGui::Text("Enabled: ");
                 ImGui::SameLine();
@@ -217,7 +217,7 @@ namespace dex
                 ImGui::ColorEdit3("##Directional::Color", &directional.Color.x);
             });
 
-            renderComponent<Component::Light::Point>("Point Light", selected_entity, [](Component::Light::Point& point)
+            renderComponent<Component::Light::Point>("Point Light", selected_entity, m_Renderer, [](Component::Light::Point& point, Renderer* renderer)
             {
                 ImGui::Text("Enabled: ");
                 ImGui::SameLine();
@@ -242,8 +242,31 @@ namespace dex
 
                 ImGui::TableSetColumnIndex(0);
                 ImGui::TableSetColumnIndex(1);
+
                 if (ImGui::Button("Add Component"))
-                    ImGui::OpenPopup("AddComponent");
+                {
+                    ImGui::OpenPopup("Add Component##Popup");
+                }
+
+                if (ImGui::BeginPopup("Add Component##Popup"))
+                {
+                    if (ImGui::MenuItem("Camera"))
+                    {
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    if (ImGui::MenuItem("Model"))
+                    {
+                        if (!selected_entity.hasComponent<Component::Model>())
+                            selected_entity.addComponent<Component::Model>();
+
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    ImGui::EndPopup();
+                    
+                    m_Window->Input.stopMouseEvents();
+                }
 
                 ImGui::TableSetColumnIndex(2);
 
