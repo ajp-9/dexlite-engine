@@ -74,10 +74,12 @@ namespace dex
 
     void Framebuffer::clearAttachmentRed(uint32 index, int value)
     {
+        // Makes only this draw buffer bound.
         glDrawBuffer(GL_COLOR_ATTACHMENT0 + index);
 
         int t[] = { value, 0, 0, 1 };
-        glClearBufferiv(GL_COLOR, index, t);
+        // 0 is the index for the only draw buffer bound.
+        glClearBufferiv(GL_COLOR, 0, t);
     }
 
     void Framebuffer::drawBuffers()
