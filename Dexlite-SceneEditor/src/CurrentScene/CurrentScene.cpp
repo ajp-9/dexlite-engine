@@ -1,6 +1,7 @@
 #include "CurrentScene.hpp"
 
 #include <dex/Scene/Serializer/SceneSerializer.hpp>
+#include <dex/Scene/Serializer/SceneDeserializer.hpp>
 
 namespace dex
 {
@@ -52,6 +53,7 @@ namespace dex
 		//m_Head.getComponent<dex::Component::Transform>().setScale(glm::vec3(1002, 133, 13223));
 
 		SerializeScene("wat.txt", Scene);
+		DeserializeScene("wat.txt");
     }
 
     void CurrentScene::update(const float delta_time)

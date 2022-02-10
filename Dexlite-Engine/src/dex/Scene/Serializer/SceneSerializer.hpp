@@ -7,6 +7,4 @@
 namespace dex
 {
     void SerializeScene(const std::string& file_location, const Scene& scene);
-
-    Scene DeserializeScene(const std::string& file_location);
 }

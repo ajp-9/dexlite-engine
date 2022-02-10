@@ -23,6 +23,8 @@ namespace dex
         void render(const glm::vec2& viewport_size, Renderer& renderer, entt::entity camera = entt::null);
         void physics();
 
+        Entity getEntity(const std::string& tag);
+
         entt::entity getActiveCameraID() { return m_ActiveCameraID; }
     private:
         void findAndSetActiveCamera();

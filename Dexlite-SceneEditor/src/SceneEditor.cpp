@@ -15,6 +15,9 @@ namespace dex
         e["b"] = 1;
         e["c"] = { 3, 2, 5.432, 1 };
         std::cout << j["a"]["c"] << '\n';
+
+        m_CurrentScene.Scene.getEntity("Player").addNewChild("wot");
+        std::cout << glGetString(GL_VERSION) << '\n';
     }
 
     void SceneEditor::beginFrame()

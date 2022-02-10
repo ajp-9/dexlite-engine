@@ -131,6 +131,19 @@ namespace dex
 
     }
 
+    Entity Scene::getEntity(const std::string& tag)
+    {
+        for (const auto& entity : m_Entities)
+        {
+            if (entity.getComponent<Component::Tag>().m_Tag == tag)
+                return entity;
+        }
+
+        DEX_LOG_WARN("dex::Scene::getEntity(): Entity wasn't found with tag: {}", tag);
+
+        return Entity();
+    }
+
     void Scene::findAndSetActiveCamera()
     {
         uint32 enabled_cameras_size = 0;
