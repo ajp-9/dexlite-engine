@@ -16,6 +16,12 @@ namespace dex
         Scene();
         ~Scene();
 
+        Scene(const Scene& other) = delete;
+        const Scene& operator=(const Scene& other) = delete;
+
+        Scene(Scene&& other) noexcept;
+        Scene& operator=(Scene&& other) noexcept;
+
         Entity createEntity();
         void destroyEntity(Entity entity);
 

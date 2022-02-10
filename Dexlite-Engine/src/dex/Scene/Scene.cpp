@@ -17,7 +17,33 @@ namespace dex
         m_Root = std::make_unique<Entity>(this, "Scene", false);
     }
 
-    Scene::~Scene() {}
+    Scene::~Scene()
+    {
+        this;
+    }
+
+    Scene::Scene(Scene&& other) noexcept
+        : // Initializer List:
+        m_Registry(std::move(other.m_Registry)),
+        m_Entities(std::move(other.m_Entities)),
+        m_ActiveCameraID(other.m_ActiveCameraID),
+        m_GlobalShaderUniforms(other.m_GlobalShaderUniforms),
+        m_Root(std::move(other.m_Root))
+    {}
+
+    Scene& Scene::operator=(Scene&& other) noexcept
+    {
+        if (this != &other)
+        {
+            m_Registry = std::move(other.m_Registry);
+            m_Entities = std::move(other.m_Entities);
+            m_ActiveCameraID = other.m_ActiveCameraID;
+            m_GlobalShaderUniforms = other.m_GlobalShaderUniforms;
+            m_Root = std::move(other.m_Root);
+        }
+
+        return *this;
+    }
 
     Entity Scene::createEntity()
     {
@@ -55,7 +81,7 @@ namespace dex
             m_GlobalShaderUniforms.setCameraPosition(m_Registry.get<Component::Transform>(main_camera_id).getTransformationMatrix()[3]);
 
             //if (Engine::Renderer.m_ChangeProjectionMatrixNext)
-                m_Registry.get<Component::Camera>(main_camera_id).updateProjectionMatrix(viewport_size);
+            m_Registry.get<Component::Camera>(main_camera_id).updateProjectionMatrix(viewport_size);
 
             // if proj or view changed for perf
             m_GlobalShaderUniforms.setProjectionViewMatrix(m_Registry.get<Component::Camera>(main_camera_id).getProjectionViewMatrix());

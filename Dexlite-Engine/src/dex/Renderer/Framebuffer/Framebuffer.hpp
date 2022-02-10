@@ -23,9 +23,13 @@ namespace dex
         void bind();
         void unbind();
 
+        // Framebuffer needs to be bound.
         void clearAttachment(uint32 index, const glm::vec4& color, bool depth = true);
+        // Framebuffer needs to be bound.
         void clearAttachmentRed(uint32 index, int value);
 
+        // Call after clearing attachments.
+        // Framebuffer needs to be bound.
         void drawBuffers();
 
         GLuint getColorAttachmentTexture_ID(uint32 index = 0) { return m_ColorAttachments.at(index).getID(); }

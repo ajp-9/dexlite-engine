@@ -21,7 +21,7 @@ namespace dex
         m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
         ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-    
+
         m_Framebuffer.resize(glm::vec2(viewportPanelSize.x, viewportPanelSize.y));
 
         m_Framebuffer.bind();
@@ -31,7 +31,7 @@ namespace dex
 
         m_Framebuffer.drawBuffers();
 
-        current_scene.Scene.render(m_Framebuffer.getSize(), renderer);
+        current_scene.Scene.render(m_Framebuffer.getSize(), renderer, current_scene.m_ViewportCamera);
 
         auto [mx, my] = ImGui::GetMousePos();
         mx -= m_ViewportBounds[0].x;
