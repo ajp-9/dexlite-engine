@@ -1,6 +1,7 @@
 #include "SceneDeserializer.hpp"
 
 #include <fstream>
+#include <sstream>
 #include <json.hpp>
 
 #include "../Entity/Entity.hpp"
