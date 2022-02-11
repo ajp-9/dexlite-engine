@@ -25,7 +25,6 @@ namespace dex
             auto& transform = entity.getComponent<Component::Transform>();
 
             auto& pos_json = json["Components"]["Transform"]["Position"];
-            std::cout << pos_json << '\n';
             transform.setPosition(glm::vec3(pos_json[0], pos_json[1], pos_json[2]));
 
             auto& orient_json = json["Components"]["Transform"]["Orientation"];
