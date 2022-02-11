@@ -8,7 +8,7 @@ namespace dex
 {
     bool parseNode(glm::mat4& meshTransformationMatrix_Current, const tinygltf::Node& node, const tinygltf::Model& model);
 
-    Model LoadGLTF(const std::string& file_location, const std::shared_ptr<Shader::Default3D> shader_default_3d)
+    Model LoadGLTF(const std::string& file_location, const std::shared_ptr<Shader::Default3D> shader_default_3d, bool enabled)
     {
         tinygltf::Model model;
         tinygltf::TinyGLTF loader;
@@ -234,7 +234,7 @@ namespace dex
             vertex.Normal = glm::mat3(glm::transpose(glm::inverse(meshTransformationMatrix_Final))) * vertex.Normal;
         }
 
-        return Model(Mesh::Default3D(vertices, indices), material, file_location);
+        return Model(Mesh::Default3D(vertices, indices), material, file_location, enabled);
     }
 
     bool parseNode(glm::mat4 & meshTransformationMatrix_Current, const tinygltf::Node & node, const tinygltf::Model & model)

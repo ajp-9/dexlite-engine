@@ -19,7 +19,7 @@ namespace dex
 
     Scene::~Scene()
     {
-        this;
+
     }
 
     Scene::Scene(Scene&& other) noexcept

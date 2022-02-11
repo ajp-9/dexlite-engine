@@ -5,6 +5,8 @@
 
 #include "../Entity/Entity.hpp"
 
+#include "../../Renderer/Model/LoadGLTF.hpp"
+
 #include "../Component/TagComponent.hpp"
 #include "../Component/Transform/TransformComponent.hpp"
 #include "../Component/Camera/CameraComponent.hpp"
@@ -13,7 +15,7 @@
 
 namespace dex
 {
-    Entity DeserializeEntity(const nlohmann::json& json, Scene* scene, Entity& parent)
+    Entity DeserializeEntity(const nlohmann::json& json, Scene* scene, Entity& parent, const std::shared_ptr<Shader::Default3D>& shader_default_3d)
     {
         Entity entity = parent.addNewChild();
         
@@ -60,21 +62,50 @@ namespace dex
         {
             nlohmann::json model_json = json["Components"]["Model"];
             auto& model = entity.addComponent<Component::Model>();
+            model = LoadGLTF(model_json["FileLocation"], shader_default_3d);
 
-            model.Enabled = false; // model_json["Enabled"];
-            model.FileLocation = model_json["FileLocation"];
+            model.Enabled = model_json["Enabled"];
+            //model.FileLocation = model_json["FileLocation"];
         }
 
+        if (json["Components"].find("AmbientLight") != json["Components"].end())
+        {
+            nlohmann::json ambient_json = json["Components"]["AmbientLight"];
+            auto& ambient = entity.addComponent<Component::Light::Ambient>();
 
+            ambient.Enabled = ambient_json["Enabled"];
 
+            auto& pos_json = ambient_json["Color"];
+            ambient.Color = glm::vec3(pos_json[0], pos_json[1], pos_json[2]);
+        }
+
+        if (json["Components"].find("DirectionalLight") != json["Components"].end())
+        {
+            nlohmann::json directional_json = json["Components"]["DirectionalLight"];
+            auto& directional = entity.addComponent<Component::Light::Directional>();
+
+            directional.Enabled = directional_json["Enabled"];
+        }
+
+        if (json["Components"].find("PointLight") != json["Components"].end())
+        {
+            nlohmann::json point_json = json["Components"]["PointLight"];
+            auto& point = entity.addComponent<Component::Light::Point>();
+
+            point.Enabled = point_json["Enabled"];
+
+            auto& pos_json = point_json["Color"];
+            point.Color = glm::vec3(pos_json[0], pos_json[1], pos_json[2]);
+        }
+        
         if (json.find("Children") != json.end())
             for (const auto& child : json["Children"])
-                entity.addChild(DeserializeEntity(child, scene, entity));
+                entity.addChild(DeserializeEntity(child, scene, entity, shader_default_3d));
 
         return entity;
     }
 
-    Scene DeserializeScene(const std::string& file_location)
+    Scene DeserializeScene(const std::string& file_location, const std::shared_ptr<Shader::Default3D>& shader_default_3d)
     {
         Scene scene;
         
@@ -83,7 +114,7 @@ namespace dex
 
         for (auto& entity_json : json["Entities"])
         {
-            DeserializeEntity(entity_json, &scene, *scene.m_Root);
+            DeserializeEntity(entity_json, &scene, *scene.m_Root, shader_default_3d);
         }
 
         return scene;

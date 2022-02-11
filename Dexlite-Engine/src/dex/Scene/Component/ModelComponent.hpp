@@ -14,9 +14,7 @@ namespace dex
 
             Model(dex::Model&& model)
                 : dex::Model(std::move(model))
-            {
-                Enabled = true;
-            }
+            {}
 
             inline void prepareRendering(const entt::entity& handle, const Component::Transform& transform)
             {
@@ -35,8 +33,6 @@ namespace dex
                 if (Enabled)
                     Mesh.render();
             }
-        public:
-            bool Enabled = false;
         };
     }
 }

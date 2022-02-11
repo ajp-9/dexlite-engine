@@ -33,23 +33,23 @@ namespace dex
         struct Directional : Base
         {
             Directional() = default;
-            Directional(bool enabled, const glm::vec3& color, glm::vec3 direction)
-                : Base(enabled, color), Direction(direction)
+            Directional(bool enabled, const glm::vec3& color)
+                : Base(enabled, color)
             {}
 
             inline const bool operator!=(const Directional& other) const
             {
                 return Enabled != other.Enabled || Color != other.Color || Direction != other.Direction;
             }
-
+        public:
             glm::vec3 Direction = { 0.0f, 0.0f, 0.0f };
         };
 
         struct Point : Base
         {
             Point() = default;
-            Point(bool enabled, const glm::vec3& color, glm::vec3 position, float constant, float linear, float quadratic)
-                : Base(enabled, color), Position(position), Constant(constant), Linear(linear), Quadratic(quadratic)
+            Point(bool enabled, const glm::vec3& color, float constant, float linear, float quadratic)
+                : Base(enabled, color), Constant(constant), Linear(linear), Quadratic(quadratic)
             {}
 
             // For vectors.
@@ -75,7 +75,7 @@ namespace dex
                     Linear != other.Linear || 
                     Quadratic != other.Quadratic;
             }
-
+        public:
             glm::vec3 Position = { 0.0f, 0.0f, 0.0f };
 
             float Constant = 1.0f;

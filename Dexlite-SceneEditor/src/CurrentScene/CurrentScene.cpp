@@ -45,7 +45,7 @@ namespace dex
 		/////m_LightSphere.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
 		//m_Head.addComponent<dex::Component::Light::Directional>(true, glm::vec3(.8));
 
-		////m_Head.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
+		m_Head.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
 
 		m_LightSphere.addChild(m_XYZ);
 		m_Player.addChild(m_Head);
@@ -54,7 +54,7 @@ namespace dex
 
 		SerializeScene("wat.txt", Scene);
 
- 		Scene = DeserializeScene("wat.txt");
+ 		Scene = DeserializeScene("wat.txt", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 
 		DEX_LOG_INFO("{}", Scene.m_Root->isValid());
     }

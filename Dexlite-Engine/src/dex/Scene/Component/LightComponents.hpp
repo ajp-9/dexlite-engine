@@ -14,6 +14,7 @@ namespace dex
         {
             struct Ambient : dex::Light::Ambient
             {
+                Ambient() = default;
                 Ambient(bool enabled, const glm::vec3& color)
                     : dex::Light::Ambient(enabled, color)
                 {}
@@ -21,15 +22,17 @@ namespace dex
 
             struct Directional : dex::Light::Directional
             {
-                Directional(bool enabled, const glm::vec3& color, const glm::vec3& direction)
-                    : dex::Light::Directional(enabled, color, direction)
+                Directional() = default;
+                Directional(bool enabled, const glm::vec3& color)
+                    : dex::Light::Directional(enabled, color)
                 {}
             };
 
             struct Point : dex::Light::Point
             {
-                Point(bool enabled, const glm::vec3& color, const glm::vec3& world_position, float constant, float linear, float quadratic)
-                    : dex::Light::Point(enabled, color, world_position, constant, linear, quadratic)
+                Point() = default;
+                Point(bool enabled, const glm::vec3& color, float constant, float linear, float quadratic)
+                    : dex::Light::Point(enabled, color, constant, linear, quadratic)
                 {}
             };
         }
