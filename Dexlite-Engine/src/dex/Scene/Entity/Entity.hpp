@@ -60,14 +60,14 @@ namespace dex
 
         void setParent(Entity parent);
 
-        Entity getParent();
+        Entity& getParent();
 
         template<typename T, typename... Args>
         inline T& addComponent(Args&&... args)
         {
             if (hasComponent<T>()) DEX_LOG_ERROR("<dex::Entity::addComponent()>: Entity already has that component!");
             
-            return addComponentWithEntity<T>(*this, std::forward<Args>(args)...);
+            return m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<Args>(args)...);
         }
 
         template <typename T>
@@ -94,12 +94,6 @@ namespace dex
         
         operator entt::entity() const { return m_Handle; };
         const bool operator==(const Entity& other) const { return m_Handle == other.m_Handle && m_Scene == other.m_Scene; }
-    private:
-        template<typename T, typename... Args>
-        inline T& addComponentWithEntity(Args&&... args)
-        {
-            return m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<Args>(args)...);
-        }
     private:
         entt::entity m_Handle = entt::null;
         Scene* m_Scene = nullptr;

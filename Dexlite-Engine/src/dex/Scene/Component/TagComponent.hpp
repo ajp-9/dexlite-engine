@@ -8,10 +8,10 @@ namespace dex
 {
     namespace Component
     {
-        struct Tag : Base
+        struct Tag
         {
-            Tag(const Entity& own_entity, const std::string& tag)
-                : Base(own_entity), m_Tag(tag)
+            Tag(const std::string& tag)
+                : m_Tag(tag)
             {}
         public:
             std::string m_Tag = "";

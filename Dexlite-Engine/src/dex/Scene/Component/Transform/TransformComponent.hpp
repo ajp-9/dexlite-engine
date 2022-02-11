@@ -14,17 +14,15 @@ namespace dex
 {
     namespace Component
     {
-        struct Transform : Base
+        struct Transform
         {
             Transform(
-                const Entity& own_entity,
                 glm::vec3 position = glm::vec3(0.0f),
                 glm::quat rotation = glm::quat(glm::vec3(0.0f)),
                 glm::vec3 scale = glm::vec3(1.0f))
 
                 : // Initializer List:
                 
-                Base(own_entity),
                 m_Position(position),
                 m_Orientation(rotation), 
                 m_Scale(scale),
@@ -51,7 +49,6 @@ namespace dex
             inline void rotateByEulerLocal(const glm::vec3& amount) { m_Orientation = m_Orientation * glm::quat(amount); m_FlagChanged = true; }
             inline void scaleByLocal(const glm::vec3& amount) { m_Scale *= amount; m_FlagChanged = true; }
 
-
             inline const glm::vec3& getPosition() const { return m_Position; }
             inline const glm::quat& getOrientationQuat() const { return m_Orientation; }
             inline const glm::vec3 getOrientationRadians() const { return glm::eulerAngles(m_Orientation); }
@@ -69,7 +66,7 @@ namespace dex
             inline const glm::vec3 getWorldOrientationDegrees() const { return glm::degrees(glm::eulerAngles(m_World_Orientation)); }
             inline const glm::vec3& getWorldScale() const { return m_World_Scale; }
 
-            void update();
+            void update(const glm::mat4& parent_transform);
             
             void logAsInfo() const
             {
@@ -85,10 +82,10 @@ namespace dex
 
             inline operator const glm::mat4&() const { return m_TransformationMatrix; }
         
-            inline const Transform& getParentTransform()
+            /*inline const Transform& getParentTransform()
             {
                 return OwnEntity.getParent().getComponent<Transform>();
-            }
+            }*/
         public:
             glm::mat4 m_TransformationMatrix = glm::mat4(1.0f);
 

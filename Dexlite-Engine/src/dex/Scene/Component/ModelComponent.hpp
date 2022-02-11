@@ -8,31 +8,23 @@ namespace dex
 {
     namespace Component
     {
-        struct Model : dex::Model, Base
+        struct Model : dex::Model
         {
-            Model(const Entity& own_entity)
-                : Base(own_entity)
-            {}
+            Model() = default;
 
-            Model(
-                const Entity& own_entity,
-                dex::Model&& model)
-
-                : // Initializer List:
-
-                Base(own_entity),
-                dex::Model(std::move(model))
+            Model(dex::Model&& model)
+                : dex::Model(std::move(model))
             {
                 Enabled = true;
             }
 
-            inline void prepareRendering()
+            inline void prepareRendering(const entt::entity& handle, const Component::Transform& transform)
             {
                 if (Enabled)
                 {
                     Material->m_Shader->bind();
-                    Material->m_Shader->setEntityID((int32)OwnEntity.getHandle());
-                    Material->m_Shader->setModelMatrix(OwnEntity.getComponent<Component::Transform>().getTransformationMatrix());
+                    Material->m_Shader->setEntityID((int32)handle);
+                    Material->m_Shader->setModelMatrix(transform.getTransformationMatrix());
 
                     Material->setUniforms(); // later batch same materials, so less uniform calls
                 }

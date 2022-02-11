@@ -187,7 +187,7 @@ namespace dex
                 
                 if (ImGui::Button("Load Model"))
                 {
-                    component = Component::Model(component.OwnEntity, LoadGLTF(component.FileLocation, renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
+                    component = Component::Model(LoadGLTF(component.FileLocation, renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
                 }
             });
 

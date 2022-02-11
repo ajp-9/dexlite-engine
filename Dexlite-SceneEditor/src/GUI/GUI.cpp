@@ -141,13 +141,6 @@ namespace dex
 		colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
 
 
-
-
-
-
-
-
-
 		ImGuiStyle& style = ImGui::GetStyle();
 		//style.
 		style.WindowMinSize.x = 50.0f;

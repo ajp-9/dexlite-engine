@@ -42,10 +42,10 @@ namespace dex
 		m_LightSphere.addComponent<dex::Component::Light::Ambient>(true, glm::vec3(.15));
 		m_LightSphere.getComponent<dex::Component::Transform>().setPosition(glm::vec3(7, 0, 3));
 		m_LightSphere.getComponent<dex::Component::Transform>().setScale(glm::vec3(.4));
-		m_LightSphere.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
+		/////m_LightSphere.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
 		//m_Head.addComponent<dex::Component::Light::Directional>(true, glm::vec3(.8));
 
-		m_Head.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
+		////m_Head.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
 
 		m_LightSphere.addChild(m_XYZ);
 		m_Player.addChild(m_Head);
@@ -54,13 +54,15 @@ namespace dex
 
 		SerializeScene("wat.txt", Scene);
 
-		//Scene = DeserializeScene("wat.txt");
+ 		Scene = DeserializeScene("wat.txt");
+
+		DEX_LOG_INFO("{}", Scene.m_Root->isValid());
     }
 
     void CurrentScene::update(const float delta_time)
     {
 		Scene.update();
-		/*
+		
 		//m_LightSphere.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(glm::radians(.09), 0, 0));
 		//m_LightSphere.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(0, -glm::radians(.09), 0));
 		//m_LightSphere.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(0, 0, glm::radians(.09)));
@@ -96,7 +98,7 @@ namespace dex
 			player_trans.moveByLocal(glm::vec3(0, -speed, 0));
 
 		if (Window->Input.getKeyState(dex::Event::Key::E))
-			player_trans.moveByLocal(glm::vec3(0, speed, 0));*/
+			player_trans.moveByLocal(glm::vec3(0, speed, 0));
     }
 
     void CurrentScene::render(const glm::vec2& viewport_size)

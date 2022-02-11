@@ -27,33 +27,22 @@ namespace dex
             m_Far = far_plane;
         }
 
-        void Camera::updateViewMatrix()
+        void Camera::updateViewMatrix(const Component::Transform& transform)
         {
-            if (OwnEntity.isValid())
+            if (m_Type == CameraType::ORTHOGRAPHIC)
             {
-                if (m_Type == CameraType::ORTHOGRAPHIC)
-                {
-                    const auto& transform = OwnEntity.getComponent<Component::Transform>();
+                m_ViewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(transform.getTransformationMatrix()[3])) * glm::toMat4(glm::quat(transform.getTransformationMatrix()));
+            }
+            else if (m_Type == CameraType::PERSPECTIVE)
+            {
+                glm::vec3 position = transform.getWorldPosition();
 
-                    m_ViewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(transform.getTransformationMatrix()[3])) * glm::toMat4(glm::quat(transform.getTransformationMatrix()));
-                }
-                else if (m_Type == CameraType::PERSPECTIVE)
-                {
-                    const auto& transform = OwnEntity.getComponent<Component::Transform>();
-
-                    glm::vec3 position = OwnEntity.getComponent<Component::Transform>().getWorldPosition();
-
-                    m_ViewMatrix = glm::lookAt(position, position + transform.getForward(), transform.getUp());
-                }
+                m_ViewMatrix = glm::lookAt(position, position + transform.getForward(), transform.getUp());
+            }
                 
-                m_ProjectionViewMatrix = m_ProjectionMatrix * m_ViewMatrix;
+            m_ProjectionViewMatrix = m_ProjectionMatrix * m_ViewMatrix;
 
-                isViewMatrixOld = false;
-            }
-            else
-            {
-                DEX_LOG_ERROR("<dex::Camera::updateViewMatrix()>: Camera's entity isn't valid.");
-            }
+            isViewMatrixOld = false;
         }
 
         void Camera::updateProjectionMatrix(const glm::vec2& viewport_size)

@@ -4,7 +4,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
-#include "../../Entity/Entity.hpp"
+#include "../Transform/TransformComponent.hpp"
 #include "../../../Util/Typedefs.hpp"
 #include "../BaseComponent.hpp"
 
@@ -12,14 +12,15 @@ namespace dex
 {
     namespace Component
     {
-        class Camera : Base
+        class Camera
         {
         public:
             enum class CameraType { ORTHOGRAPHIC = 0, PERSPECTIVE = 1 };
-
+        public:
+            Camera() = default;
             // Only 1 camera can be enabled.
-            Camera(const Entity& own_entity, bool is_enabled)
-                : Base(own_entity), IsEnabled(is_enabled)
+            Camera(bool is_enabled)
+                : IsEnabled(is_enabled)
             {}
 
             void setOrthographic(float32 size, float32 near_plane, float32 far_plane);
@@ -28,14 +29,14 @@ namespace dex
             const glm::mat4& getProjectionViewMatrix() { return m_ProjectionViewMatrix; }
 
             // Called everytime you move or rotate the camera.
-            void updateViewMatrix();
+            void updateViewMatrix(const Component::Transform& transform);
             // Called everytime you change the screen dimensions or the camera's fov, size, near, or far.
             void updateProjectionMatrix(const glm::vec2& viewport_size);
         private:
             const glm::mat4& getViewMatrix()
             {
-                if (isViewMatrixOld)
-                    updateViewMatrix();
+                //if (isViewMatrixOld)
+                //    updateViewMatrix();
 
                 return m_ViewMatrix;
             }

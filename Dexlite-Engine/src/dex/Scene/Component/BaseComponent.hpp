@@ -6,7 +6,7 @@ namespace dex
 {
     namespace Component
     {
-        struct Base
+        /*struct Base
         {
             Base(const Entity& own_entity)
                 : OwnEntity(own_entity)
@@ -15,6 +15,6 @@ namespace dex
             Entity OwnEntity;
         public:
             friend class dex::Entity;
-        };
+        };*/
     }
 }

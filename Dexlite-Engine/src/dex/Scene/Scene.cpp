@@ -29,7 +29,20 @@ namespace dex
         m_ActiveCameraID(other.m_ActiveCameraID),
         m_GlobalShaderUniforms(other.m_GlobalShaderUniforms),
         m_Root(std::move(other.m_Root))
-    {}
+    {
+        m_Root->m_Scene = this;
+
+        for (auto& entity : m_Entities)
+        {
+            entity.m_Scene = this;
+
+            entity.getParent().m_Scene = this;
+
+            auto& children = entity.getChildren();
+            for (auto& child : children)
+                child.m_Scene = this;
+        }
+    }
 
     Scene& Scene::operator=(Scene&& other) noexcept
     {
@@ -40,6 +53,18 @@ namespace dex
             m_ActiveCameraID = other.m_ActiveCameraID;
             m_GlobalShaderUniforms = other.m_GlobalShaderUniforms;
             m_Root = std::move(other.m_Root);
+
+            m_Root->m_Scene = this;
+
+            for (auto& entity : m_Entities)
+            {
+                entity.m_Scene = this;
+
+                entity.getParent().m_Scene = this;
+
+                for (auto& child : entity.getChildren())
+                    child.m_Scene = this;
+            }
         }
 
         return *this;
@@ -78,7 +103,7 @@ namespace dex
         {
             // Camera:
 
-            m_GlobalShaderUniforms.setCameraPosition(m_Registry.get<Component::Transform>(main_camera_id).getTransformationMatrix()[3]);
+            m_GlobalShaderUniforms.setCameraPosition(m_Registry.get<Component::Transform>(main_camera_id).getWorldPosition());
 
             //if (Engine::Renderer.m_ChangeProjectionMatrixNext)
             m_Registry.get<Component::Camera>(main_camera_id).updateProjectionMatrix(viewport_size);

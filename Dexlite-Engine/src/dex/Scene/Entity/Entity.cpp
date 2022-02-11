@@ -89,7 +89,7 @@ namespace dex
         {
             if (child.getComponent<Component::Transform>().m_FlagChanged)
             {
-                child.getComponent<Component::Transform>().update();
+                child.getComponent<Component::Transform>().update(getComponent<Component::Transform>());
 
                 for (auto func : SceneManager::m_Entity_UpdateComponentWithTransform_Functions)
                     func(child);
@@ -104,8 +104,8 @@ namespace dex
         getComponent<Component::Parent>().Entity = parent;
     }
 
-    Entity Entity::getParent()
+    Entity& Entity::getParent()
     {
-        return Entity(getComponent<Component::Parent>().Entity, m_Scene);
+        return getComponent<Component::Parent>().Entity;
     }
 }

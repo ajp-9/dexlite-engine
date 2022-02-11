@@ -31,7 +31,7 @@ namespace dex
 
         m_Framebuffer.drawBuffers();
 
-        current_scene.Scene.render(m_Framebuffer.getSize(), renderer, current_scene.m_ViewportCamera);
+        current_scene.Scene.render(m_Framebuffer.getSize(), renderer);
 
         auto [mx, my] = ImGui::GetMousePos();
         mx -= m_ViewportBounds[0].x;

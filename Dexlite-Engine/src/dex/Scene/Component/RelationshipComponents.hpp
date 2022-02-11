@@ -10,25 +10,21 @@ namespace dex
 {
     namespace Component
     {
-        struct Parent : Base
+        struct Parent
         {
-            Parent(const Entity& own_entity)
-                : Base(own_entity)
-            {}
-            Parent(const Entity& own_entity, dex::Entity entity)
-                : Base(own_entity), Entity(entity)
+            Parent() = default;
+            Parent(dex::Entity entity)
+                : Entity(entity)
             {}
         public:
             dex::Entity Entity;
         };
 
-        struct Children : Base
+        struct Children
         {
-            Children(const Entity& own_entity)
-                : Base(own_entity)
-            {}
-            Children(const Entity& own_entity, const std::vector<Entity>& entities)
-                : Base(own_entity), Entities(entities)
+            Children() = default;
+            Children(const std::vector<Entity>& entities)
+                : Entities(entities)
             {}
         public:
             std::vector<Entity> Entities;

@@ -19,7 +19,7 @@ namespace dex
                 for (auto& entityID : model_view)
                 {
                     auto& model = scene_registry.get<Component::Model>(entityID);
-                    model.prepareRendering();
+                    model.prepareRendering(entityID, scene_registry.get<Component::Transform>(entityID));
                     model.render();
                 }
             });
@@ -34,7 +34,7 @@ namespace dex
                     auto& camera = entity.getComponent<Component::Camera>();
 
                     if (camera.IsEnabled)
-                        camera.updateViewMatrix();
+                        camera.updateViewMatrix(entity.getComponent<Component::Transform>());
                 }
             });
 

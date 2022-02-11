@@ -12,24 +12,24 @@ namespace dex
     {
         namespace Light
         {
-            struct Ambient : dex::Light::Ambient, Base
+            struct Ambient : dex::Light::Ambient
             {
-                Ambient(const Entity& own_entity, bool enabled, const glm::vec3& color)
-                    : Component::Base(own_entity), dex::Light::Ambient(enabled, color)
+                Ambient(bool enabled, const glm::vec3& color)
+                    : dex::Light::Ambient(enabled, color)
                 {}
             };
 
-            struct Directional : dex::Light::Directional, Base
+            struct Directional : dex::Light::Directional
             {
-                Directional(const Entity& own_entity, bool enabled, const glm::vec3& color)
-                    : Component::Base(own_entity), dex::Light::Directional(enabled, color, glm::vec3(0, -1, 0))
+                Directional(bool enabled, const glm::vec3& color, const glm::vec3& direction)
+                    : dex::Light::Directional(enabled, color, direction)
                 {}
             };
 
-            struct Point : dex::Light::Point, Base
+            struct Point : dex::Light::Point
             {
-                Point(const Entity& own_entity, bool enabled, const glm::vec3& color, float constant, float linear, float quadratic)
-                    : Component::Base(own_entity), dex::Light::Point(enabled, color, own_entity.getComponent<Transform>().getWorldPosition(), constant, linear, quadratic)
+                Point(bool enabled, const glm::vec3& color, const glm::vec3& world_position, float constant, float linear, float quadratic)
+                    : dex::Light::Point(enabled, color, world_position, constant, linear, quadratic)
                 {}
             };
         }
