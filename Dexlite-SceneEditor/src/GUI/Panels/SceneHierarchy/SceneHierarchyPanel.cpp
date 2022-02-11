@@ -18,10 +18,19 @@ namespace dex
     {
         ImGui::Begin("Scene Hierarchy", (bool*)0, ImGuiWindowFlags_NoCollapse);
         
-        auto root_children = m_CurrentScene->Scene.m_Root->getChildren();
+        auto root_children = m_CurrentScene->Scene.Root->getChildren();
 
         for (auto& child : root_children)
             renderEntityNode(child);
+
+        // Right-click on blank space
+        if (ImGui::BeginPopupContextWindow(0, 1, false))
+        {
+            if (ImGui::MenuItem("Create Empty Entity"))
+                m_CurrentScene->Scene.Root->addNewChild();
+
+            ImGui::EndPopup();
+        }
         
         ImGui::End();
     }

@@ -14,7 +14,7 @@ namespace dex
 {
     Scene::Scene()
     {
-        m_Root = std::make_unique<Entity>(this, "Scene", false);
+        Root = std::make_unique<Entity>(this, "Scene", false);
     }
 
     Scene::~Scene()
@@ -28,9 +28,9 @@ namespace dex
         m_Entities(std::move(other.m_Entities)),
         m_ActiveCameraID(other.m_ActiveCameraID),
         m_GlobalShaderUniforms(other.m_GlobalShaderUniforms),
-        m_Root(std::move(other.m_Root))
+        Root(std::move(other.Root))
     {
-        m_Root->m_Scene = this;
+        Root->m_Scene = this;
 
         for (auto& entity : m_Entities)
         {
@@ -52,9 +52,9 @@ namespace dex
             m_Entities = std::move(other.m_Entities);
             m_ActiveCameraID = other.m_ActiveCameraID;
             m_GlobalShaderUniforms = other.m_GlobalShaderUniforms;
-            m_Root = std::move(other.m_Root);
+            Root = std::move(other.Root);
 
-            m_Root->m_Scene = this;
+            Root->m_Scene = this;
 
             for (auto& entity : m_Entities)
             {
@@ -84,7 +84,7 @@ namespace dex
 
     void Scene::update()
     {
-        m_Root->updateChildrenTransform();
+        Root->updateChildrenTransform();
     }
 
     void Scene::render(const glm::vec2& viewport_size, Renderer& renderer, entt::entity camera)

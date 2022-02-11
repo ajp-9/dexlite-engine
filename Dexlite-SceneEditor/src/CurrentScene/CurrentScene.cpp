@@ -15,7 +15,7 @@ namespace dex
 
 		//m_Head.getComponent<Component::Camera>().setOrthographic(5, 0.001, 100);
 		m_Head.getComponent<Component::Camera>().setPerspective(65, 0.01, 1000);
-
+		
 		//dex::Window->setCaptureMouse(true);
 
 		//m_Warlock.addComponent<dex::Component::Model>("assets/models/spec_cube.glb", true);
@@ -45,7 +45,8 @@ namespace dex
 		/////m_LightSphere.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
 		//m_Head.addComponent<dex::Component::Light::Directional>(true, glm::vec3(.8));
 
-		m_Head.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
+		//m_Head.addComponent<dex::Component::Light::Point>(true, glm::vec3(1, 0, 0), 1.0, .5, .45);
+		m_Head.addComponent<dex::Component::Light::Directional>(true, glm::vec3(1, 1, 0));
 
 		m_LightSphere.addChild(m_XYZ);
 		m_Player.addChild(m_Head);
@@ -56,7 +57,7 @@ namespace dex
 
  		Scene = DeserializeScene("wat.txt", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 
-		DEX_LOG_INFO("{}", Scene.m_Root->isValid());
+		//DEX_LOG_INFO("{}", Scene.Root->isValid());
     }
 
     void CurrentScene::update(const float delta_time)

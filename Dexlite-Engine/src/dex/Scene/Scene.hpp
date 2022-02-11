@@ -42,7 +42,7 @@ namespace dex
 
         Shader::GlobalUniforms m_GlobalShaderUniforms;
     public:
-        std::unique_ptr<Entity> m_Root;
+        std::unique_ptr<Entity> Root;
     public:
         friend class Entity;
         friend class Renderer;

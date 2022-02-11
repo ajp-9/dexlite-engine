@@ -3,7 +3,6 @@ A 3D OpenGL game engine written in C++, and created by me.
 
 ## How to Build:
 #### Windows:
-
 Using Visual Studio 2019 & Premake, it should be very easy to run the batch file (.bat) in the scripts folder to run the premake5 builder.  
 After that you should be able to open the solution and compile without issue.  
 
@@ -31,13 +30,12 @@ There isn't much in it currently but after I get this engine to a stable and dec
 - [x] Mac & Linux support.
 - [x] Basic lighting system.
 - [x] Framebuffers.
-- [ ] Engine configuration.
 - [ ] Making an scene editor.
 - [ ] Integrating a physics engine.
 - [ ] More advanced lighting, ex: shadows.
 - [ ] Basic animation.
 - [ ] Audio system.
-- [ ] A skinnable GUI system built ontop of ImGUI.
+- [ ] A simple skinnable GUI system built ontop of ImGUI.
 - [ ] Adding Documentation.
 - [ ] Possibly adding scripting.
 - [ ] Game ready.

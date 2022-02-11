@@ -21,7 +21,7 @@ namespace dex
         scene->m_Entities.push_back(*this);
 
         if (add_to_root)
-            scene->m_Root->addChild(*this);
+            scene->Root->addChild(*this);
     }
 
     Entity::Entity(entt::entity handle, Scene* scene)

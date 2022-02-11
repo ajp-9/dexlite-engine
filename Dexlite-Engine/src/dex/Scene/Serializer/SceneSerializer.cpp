@@ -28,7 +28,7 @@ namespace dex
     {
         nlohmann::json json;
 
-        for (const auto& entity : scene.m_Root->getChildren())
+        for (const auto& entity : scene.Root->getChildren())
         {
             json["Entities"].emplace_back(SerializeEntity(entity));
         }

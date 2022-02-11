@@ -85,6 +85,9 @@ namespace dex
             auto& directional = entity.addComponent<Component::Light::Directional>();
 
             directional.Enabled = directional_json["Enabled"];
+
+            auto& pos_json = directional_json["Color"];
+            directional.Color = glm::vec3(pos_json[0], pos_json[1], pos_json[2]);
         }
 
         if (json["Components"].find("PointLight") != json["Components"].end())
@@ -110,11 +113,13 @@ namespace dex
         Scene scene;
         
         nlohmann::json json;
-        json << std::ifstream(file_location);
+        std::stringstream str_stream;
+        str_stream << std::ifstream(file_location).rdbuf();
+        json = json.parse(str_stream.str());
 
         for (auto& entity_json : json["Entities"])
         {
-            DeserializeEntity(entity_json, &scene, *scene.m_Root, shader_default_3d);
+            DeserializeEntity(entity_json, &scene, *scene.Root, shader_default_3d);
         }
 
         return scene;
