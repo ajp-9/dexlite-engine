@@ -15,7 +15,7 @@ namespace dex
         Window* Window = nullptr;
         Renderer* Renderer = nullptr;
     public:
-        GUI(dex::Window* window, dex::Renderer* renderer, CurrentScene* current_scene);
+        GUI(dex::Window* window, dex::Renderer* renderer, CurrentScene* current_scene, bool* running);
 
         void update(const float delta_time);
         void render();
@@ -23,6 +23,7 @@ namespace dex
         void setColorsAndStyle();
     private:
         CurrentScene* m_CurrentScene = nullptr;
+        bool* m_Running = nullptr;
         
         SceneHierarchyPanel m_SceneHierarchyPanel;
         ViewportPanel m_ViewportPanel;

@@ -2,15 +2,14 @@
 
 #include <imgui/imgui.h>
 
-#include "FileDialog.hpp"
-
 namespace dex
 {
-	GUI::GUI(dex::Window* window, dex::Renderer* renderer, CurrentScene* current_scene)
+	GUI::GUI(dex::Window* window, dex::Renderer* renderer, CurrentScene* current_scene, bool* running)
 		:
 		Window(window),
 		Renderer(renderer),
 		m_CurrentScene(current_scene),
+		m_Running(running),
 		m_SceneHierarchyPanel(current_scene),
 		m_InspectorPanel(window, renderer, current_scene),
 		m_ViewportPanel(window, renderer, current_scene)
@@ -67,16 +66,35 @@ namespace dex
 		{
 			if (ImGui::BeginMenu("File"))
 			{
-				if (ImGui::MenuItem("New Scene"))
+				if (ImGui::MenuItem("New", "Ctrl+N"))
 					true;
+
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Open", "Ctrl+O"))
+					true;
+
+				if (ImGui::MenuItem("Open Recent", "Ctrl+O+R"))
+					true;
+
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Save", "Ctrl+S"))
+					true;
+
+				if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
+					true;
+
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Quit", "Ctrl+Q"))
+					*m_Running = false;
 
 				ImGui::EndMenu();
 			}
 
 			ImGui::EndMenuBar();
 		}
-
-		//FileDialog();
 
 		m_InspectorPanel.render();
 		m_SceneHierarchyPanel.render();

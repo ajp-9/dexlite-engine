@@ -4,6 +4,8 @@
 #include <imgui/imgui.h>
 #include <dex/Renderer/ImGuiExtra/ImGuiExtra.hpp>
 
+#include "../../Dialog/FileDialog.hpp"
+
 namespace dex
 {
     InspectorPanel::InspectorPanel(dex::Window* window, dex::Renderer* renderer, CurrentScene* current_scene)
@@ -195,102 +197,10 @@ namespace dex
                     open = true;
                 }
 
-                static std::string selected;
-
-                ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-                ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-                
-                if (ImGui::BeginPopupModal("Choose File", &open))
+                std::filesystem::path path;
+                if (dex::FileDialog("Choose File", &path, &open))
                 {
-                    static auto& path_offset = std::filesystem::path();
-                    bool doubleclicked = false;
-                    
-                    ImGui::Text("Current Path: %s", path_offset.u8string().c_str());
-
-                    ImGui::Separator();
-
-                    ImGui::Text("Search:"); ImGui::SameLine();
-
-                    static std::string search_buffer_str;
-                    char buffer[0xFF];
-                    std::strncpy(buffer, search_buffer_str.c_str(), sizeof(buffer));
-
-                    ImGui::InputText("##Filter Text", buffer, sizeof(buffer));
-
-                    search_buffer_str = buffer;
-                    ImGui::GetStateStorage();
-
-                    if (ImGui::BeginTable("table", 1, ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_ScrollY, ImVec2(0.0f, ImGui::GetWindowSize().y - 125)))
-                    {
-                        ImGui::TableNextRow();
-                        ImGui::TableNextColumn();
-                        if (ImGui::Selectable("...", false))
-                        {
-                            if (!path_offset.empty())
-                                path_offset = path_offset.parent_path();
-                            selected = "";
-                        }
-
-                        for (const auto& file : std::filesystem::directory_iterator(std::filesystem::current_path() / path_offset))
-                        {
-                            auto u8_filename_str = file.path().filename().u8string();
-
-                            ImGui::TableNextRow();
-                            ImGui::TableNextColumn();
-                            if (u8_filename_str.find(search_buffer_str) != std::string::npos)
-                            {
-                                if (ImGui::Selectable(u8_filename_str.c_str(), (selected == u8_filename_str) ? true : false, ImGuiSelectableFlags_AllowDoubleClick))
-                                {
-                                    selected = u8_filename_str;
-
-                                    if (file.is_directory())
-                                    {
-                                        path_offset /= u8_filename_str;
-                                        selected = "";
-                                    }
-
-                                    if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
-                                    {
-                                        doubleclicked = true;
-                                    }
-                                }
-                            }
-                        }
-
-                        ImGui::EndTable();
-                    }
-
-                    ImGui::Text("File:"); ImGui::SameLine();
-
-                    static char b[0xFF];
-                    std::strncpy(b, selected.c_str(), sizeof(b));
-
-                    ImGui::InputText("##File Selected", b, sizeof(b));
-
-                    ImGui::SameLine();
-                    if ((ImGui::Button("Open") || doubleclicked) && !selected.empty())
-                    {
-                        component = Component::Model(LoadGLTF((path_offset/selected).u8string(), renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
-                        selected = "";
-                        ImGui::CloseCurrentPopup();
-                    }
-
-                    if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_Escape)))
-                    {
-                        selected = "";
-                        ImGui::CloseCurrentPopup();
-                    }
-
-                    ImGui::EndPopup();
-                }
-                else
-                {
-                    selected = "";
-                }
-                
-                //if (ImGui::Button("Load Model"))
-                {
-                    //component = Component::Model(LoadGLTF(component.FileLocation, renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
+                    component = Component::Model(LoadGLTF(path.u8string(), renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
                 }
             });
 

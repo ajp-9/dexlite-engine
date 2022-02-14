@@ -27,7 +27,7 @@ namespace dex
     private:
         CurrentScene m_CurrentScene = { &Window, &Renderer };
 
-        GUI m_GUI = GUI(&Window, &Renderer, &m_CurrentScene);
+        GUI m_GUI = GUI(&Window, &Renderer, &m_CurrentScene, &Running);
     };
 }
 
