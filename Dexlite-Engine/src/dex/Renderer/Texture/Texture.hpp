@@ -26,6 +26,8 @@ namespace dex
 
         Texture(Texture&& other) noexcept
         {
+            this->~Texture();
+
             m_ID = other.m_ID;
 
             other.m_ID = 0;
@@ -34,6 +36,8 @@ namespace dex
         {
             if (this != &other)
             {
+                this->~Texture();
+                
                 m_ID = other.m_ID;
 
                 other.m_ID = 0;

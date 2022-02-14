@@ -53,7 +53,7 @@ namespace dex
             m_ActiveCameraID = other.m_ActiveCameraID;
             m_GlobalShaderUniforms = other.m_GlobalShaderUniforms;
             Root = std::move(other.Root);
-
+            
             Root->m_Scene = this;
 
             for (auto& entity : m_Entities)

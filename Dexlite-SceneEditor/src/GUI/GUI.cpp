@@ -2,6 +2,8 @@
 
 #include <imgui/imgui.h>
 
+#include "FileDialog.hpp"
+
 namespace dex
 {
 	GUI::GUI(dex::Window* window, dex::Renderer* renderer, CurrentScene* current_scene)
@@ -11,13 +13,14 @@ namespace dex
 		m_CurrentScene(current_scene),
 		m_SceneHierarchyPanel(current_scene),
 		m_InspectorPanel(window, renderer, current_scene),
-		m_ViewportPanel(window)
+		m_ViewportPanel(window, renderer, current_scene)
 	{
 		setColorsAndStyle();
 	}
 
 	void GUI::update(const float delta_time)
 	{
+
 	}
 
 	void GUI::render()
@@ -67,16 +70,17 @@ namespace dex
 				if (ImGui::MenuItem("New Scene"))
 					true;
 
-
 				ImGui::EndMenu();
 			}
 
 			ImGui::EndMenuBar();
 		}
 
+		//FileDialog();
+
 		m_InspectorPanel.render();
 		m_SceneHierarchyPanel.render();
-		m_ViewportPanel.render(*m_CurrentScene, *Renderer);
+		m_ViewportPanel.render();
 
 		ImGui::End();
 	}

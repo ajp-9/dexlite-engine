@@ -55,7 +55,7 @@ namespace dex
 
 		SerializeScene("wat.txt", Scene);
 
- 		Scene = DeserializeScene("wat.txt", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
+ 		//Scene = DeserializeScene("wat.txt", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 
 		//DEX_LOG_INFO("{}", Scene.Root->isValid());
     }
@@ -71,8 +71,10 @@ namespace dex
 
 		//m_XYZ.getComponent<dex::Component::Transform>().moveBy(glm::vec3(0, 0, .001));
 
-		auto& player_trans = m_Player.getComponent<dex::Component::Transform>();
-		auto& head_trans = m_Head.getComponent<dex::Component::Transform>();
+		auto& player_trans = Scene.getEntity("Player").getComponent<Component::Transform>();
+
+		//auto& player_trans = m_Player.getComponent<dex::Component::Transform>();
+		//auto& head_trans = m_Head.getComponent<dex::Component::Transform>();
 
 		//m_LightSphere.getComponent<dex::Component::Light::Point>().Position = player_trans.getWorldPosition();
 

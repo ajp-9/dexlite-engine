@@ -18,6 +18,10 @@ namespace dex
 
         //m_CurrentScene.Scene.getEntity("Player").addNewChild("wot");
         std::cout << glGetString(GL_VERSION) << '\n';
+
+        //static auto wat = glfwCreateStandardCursor(GLFW_CROSSHAIR_CURSOR);
+        ////glfwSetInputMode(Window.Handle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        //glfwSetCursor(Window.Handle, wat);
     }
 
     void SceneEditor::beginFrame()

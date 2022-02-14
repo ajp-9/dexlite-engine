@@ -34,18 +34,19 @@ namespace dex
 
         VertexBuffer(VertexBuffer&& other) noexcept
         {
-            if (!m_ID)
-            {
-                m_ID = other.m_ID;
+            Destroy();
 
-                other.m_ID = 0;
-            }
+            m_ID = other.m_ID;
+
+            other.m_ID = 0;
         }
 
         VertexBuffer& operator=(VertexBuffer&& other) noexcept
         {
             if (this != &other)
             {
+                Destroy();
+
                 m_ID = other.m_ID;
 
                 other.m_ID = 0;

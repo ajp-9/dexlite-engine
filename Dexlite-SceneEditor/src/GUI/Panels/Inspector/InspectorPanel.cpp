@@ -1,5 +1,6 @@
 #include "InspectorPanel.hpp"
 
+#include <filesystem>
 #include <imgui/imgui.h>
 #include <dex/Renderer/ImGuiExtra/ImGuiExtra.hpp>
 
@@ -30,7 +31,7 @@ namespace dex
     void InspectorPanel::render()
     {
         ImGui::Begin("Inspector", (bool*)0, ImGuiWindowFlags_NoCollapse);
-        
+
         Entity selected_entity = m_CurrentScene->SelectedEntity;
 
         if (selected_entity.isValid())
@@ -184,10 +185,112 @@ namespace dex
                 {
                     component.FileLocation = buffer;
                 }
-                
-                if (ImGui::Button("Load Model"))
+
+                ImGui::SameLine();
+
+                static bool open = false;
+                if (ImGui::Button("Choose File"))
                 {
-                    component = Component::Model(LoadGLTF(component.FileLocation, renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
+                    ImGui::OpenPopup("Choose File");
+                    open = true;
+                }
+
+                static std::string selected;
+
+                ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+                ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+                
+                if (ImGui::BeginPopupModal("Choose File", &open))
+                {
+                    static auto& path_offset = std::filesystem::path();
+                    bool doubleclicked = false;
+                    
+                    ImGui::Text("Current Path: %s", path_offset.u8string().c_str());
+
+                    ImGui::Separator();
+
+                    ImGui::Text("Search:"); ImGui::SameLine();
+
+                    static std::string search_buffer_str;
+                    char buffer[0xFF];
+                    std::strncpy(buffer, search_buffer_str.c_str(), sizeof(buffer));
+
+                    ImGui::InputText("##Filter Text", buffer, sizeof(buffer));
+
+                    search_buffer_str = buffer;
+                    ImGui::GetStateStorage();
+
+                    if (ImGui::BeginTable("table", 1, ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_ScrollY, ImVec2(0.0f, ImGui::GetWindowSize().y - 125)))
+                    {
+                        ImGui::TableNextRow();
+                        ImGui::TableNextColumn();
+                        if (ImGui::Selectable("...", false))
+                        {
+                            if (!path_offset.empty())
+                                path_offset = path_offset.parent_path();
+                            selected = "";
+                        }
+
+                        for (const auto& file : std::filesystem::directory_iterator(std::filesystem::current_path() / path_offset))
+                        {
+                            auto u8_filename_str = file.path().filename().u8string();
+
+                            ImGui::TableNextRow();
+                            ImGui::TableNextColumn();
+                            if (u8_filename_str.find(search_buffer_str) != std::string::npos)
+                            {
+                                if (ImGui::Selectable(u8_filename_str.c_str(), (selected == u8_filename_str) ? true : false, ImGuiSelectableFlags_AllowDoubleClick))
+                                {
+                                    selected = u8_filename_str;
+
+                                    if (file.is_directory())
+                                    {
+                                        path_offset /= u8_filename_str;
+                                        selected = "";
+                                    }
+
+                                    if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+                                    {
+                                        doubleclicked = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        ImGui::EndTable();
+                    }
+
+                    ImGui::Text("File:"); ImGui::SameLine();
+
+                    static char b[0xFF];
+                    std::strncpy(b, selected.c_str(), sizeof(b));
+
+                    ImGui::InputText("##File Selected", b, sizeof(b));
+
+                    ImGui::SameLine();
+                    if ((ImGui::Button("Open") || doubleclicked) && !selected.empty())
+                    {
+                        component = Component::Model(LoadGLTF((path_offset/selected).u8string(), renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
+                        selected = "";
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_Escape)))
+                    {
+                        selected = "";
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    ImGui::EndPopup();
+                }
+                else
+                {
+                    selected = "";
+                }
+                
+                //if (ImGui::Button("Load Model"))
+                {
+                    //component = Component::Model(LoadGLTF(component.FileLocation, renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
                 }
             });
 
@@ -250,17 +353,49 @@ namespace dex
 
                 if (ImGui::BeginPopup("Add Component##Popup"))
                 {
-                    if (ImGui::MenuItem("Camera"))
+                    if (ImGui::MenuItem("Camera", NULL, false, !selected_entity.hasComponent<Component::Camera>()))
                     {
+                        if (!selected_entity.hasComponent<Component::Camera>())
+                            selected_entity.addComponent<Component::Camera>();
+
                         ImGui::CloseCurrentPopup();
                     }
 
-                    if (ImGui::MenuItem("Model"))
+                    if (ImGui::MenuItem("Model", NULL, false, !selected_entity.hasComponent<Component::Model>()))
                     {
                         if (!selected_entity.hasComponent<Component::Model>())
                             selected_entity.addComponent<Component::Model>();
 
                         ImGui::CloseCurrentPopup();
+                    }
+
+                    if (ImGui::BeginMenu("Light"))
+                    {
+                        if (ImGui::MenuItem("Ambient Light", NULL, false, !selected_entity.hasComponent<Component::Light::Ambient>()))
+                        {
+                            if (!selected_entity.hasComponent<Component::Light::Ambient>())
+                                selected_entity.addComponent<Component::Light::Ambient>();
+
+                            ImGui::CloseCurrentPopup();
+                        }
+
+                        if (ImGui::MenuItem("Directional Light", NULL, false, !selected_entity.hasComponent<Component::Light::Directional>()))
+                        {
+                            if (!selected_entity.hasComponent<Component::Light::Directional>())
+                                selected_entity.addComponent<Component::Light::Directional>();
+
+                            ImGui::CloseCurrentPopup();
+                        }
+
+                        if (ImGui::MenuItem("Point Light", NULL, false, !selected_entity.hasComponent<Component::Light::Point>()))
+                        {
+                            if (!selected_entity.hasComponent<Component::Light::Point>())
+                                selected_entity.addComponent<Component::Light::Point>();
+
+                            ImGui::CloseCurrentPopup();
+                        }
+
+                        ImGui::EndMenu();
                     }
 
                     ImGui::EndPopup();

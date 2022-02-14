@@ -35,6 +35,8 @@ namespace dex
 
         VertexArray(VertexArray&& other) noexcept
         {
+            Destroy();
+
             m_ID = other.m_ID;
             m_VertexBuffers = std::move(other.m_VertexBuffers);
             m_IndexBuffer = std::move(other.m_IndexBuffer);
@@ -46,6 +48,8 @@ namespace dex
         {
             if (this != &other)
             {
+                Destroy();
+                
                 m_ID = other.m_ID;
                 m_VertexBuffers = std::move(other.m_VertexBuffers);
                 m_IndexBuffer = std::move(other.m_IndexBuffer);

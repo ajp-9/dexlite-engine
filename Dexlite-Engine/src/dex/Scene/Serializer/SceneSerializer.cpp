@@ -88,8 +88,6 @@ namespace dex
                         json["Projection"] = "Orthographic";
                     else if (camera.m_Type == Component::Camera::CameraType::PERSPECTIVE)
                         json["Projection"] = "Perspective";
-                    else
-                        json["Projection"] = "Unknown";
 
                     json["OrthoSize"] = camera.m_Ortho_Size;
 

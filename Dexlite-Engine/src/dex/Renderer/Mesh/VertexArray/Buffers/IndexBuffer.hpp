@@ -28,7 +28,7 @@ namespace dex
 
         IndexBuffer(IndexBuffer&& other) noexcept
         {
-            this->~IndexBuffer();
+            Destroy();
 
             m_ID = other.m_ID;
             m_Count = other.m_Count;
@@ -40,6 +40,8 @@ namespace dex
         {
             if (this != &other)
             {
+                Destroy();
+
                 m_ID = other.m_ID;
                 m_Count = other.m_Count;
 
