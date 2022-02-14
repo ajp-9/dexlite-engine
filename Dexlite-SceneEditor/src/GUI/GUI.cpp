@@ -2,8 +2,6 @@
 
 #include <imgui/imgui.h>
 
-#include "FileDialog.hpp"
-
 namespace dex
 {
 	GUI::GUI(dex::Window* window, dex::Renderer* renderer, CurrentScene* current_scene)

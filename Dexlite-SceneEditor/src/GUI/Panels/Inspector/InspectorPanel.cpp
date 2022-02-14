@@ -202,7 +202,7 @@ namespace dex
                 
                 if (ImGui::BeginPopupModal("Choose File", &open))
                 {
-                    static auto& path_offset = std::filesystem::path();
+                    static auto path_offset = std::filesystem::path();
                     bool doubleclicked = false;
                     
                     ImGui::Text("Current Path: %s", path_offset.u8string().c_str());
@@ -229,16 +229,17 @@ namespace dex
                             if (!path_offset.empty())
                                 path_offset = path_offset.parent_path();
                             selected = "";
+                            search_buffer_str = "";
                         }
 
                         for (const auto& file : std::filesystem::directory_iterator(std::filesystem::current_path() / path_offset))
                         {
                             auto u8_filename_str = file.path().filename().u8string();
 
-                            ImGui::TableNextRow();
-                            ImGui::TableNextColumn();
                             if (u8_filename_str.find(search_buffer_str) != std::string::npos)
                             {
+                            ImGui::TableNextRow();
+                            ImGui::TableNextColumn();
                                 if (ImGui::Selectable(u8_filename_str.c_str(), (selected == u8_filename_str) ? true : false, ImGuiSelectableFlags_AllowDoubleClick))
                                 {
                                     selected = u8_filename_str;
@@ -247,6 +248,7 @@ namespace dex
                                     {
                                         path_offset /= u8_filename_str;
                                         selected = "";
+                                        search_buffer_str = "";
                                     }
 
                                     if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
@@ -278,6 +280,7 @@ namespace dex
                     if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_Escape)))
                     {
                         selected = "";
+                        search_buffer_str = "";
                         ImGui::CloseCurrentPopup();
                     }
 
