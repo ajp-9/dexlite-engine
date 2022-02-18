@@ -2,30 +2,35 @@
 
 #include <imgui/imgui.h>
 
+#include "../../Util/Logging.hpp"
+
 namespace dex
 {
-    bool BasicFileDialog(const char* label, std::filesystem::path* selected_file, bool* open, char* open_or_save);
-
-    bool SaveFileDialog(const char* label, std::filesystem::path* save_file, bool* open)
-    {
-        return false;
-    }
-
-    bool OpenFileDialog(const char* label, std::filesystem::path* selected_file, bool* open)
-    {
-        return BasicFileDialog(label, selected_file, open, "Open File:");
-    }
-
-    bool BasicFileDialog(const char* label, std::filesystem::path* selected_file, bool* open, char* open_or_save)
+    bool BasicFileDialog(
+        const char* btn_label,
+        std::filesystem::path* selected_file,
+        bool* open,
+        const std::vector<std::filesystem::path>& filtered_extensions)
     {
         static std::string selected;
+        static std::filesystem::path current_filtered_extension;
+
         bool was_selected = false;
 
         ImVec2 center = ImGui::GetMainViewport()->GetCenter();
         ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 
-        if (ImGui::BeginPopupModal(label, open))
+        if (ImGui::BeginPopupModal("Choose File", open))
         {
+            // When the modal is created.
+            if (ImGui::IsWindowAppearing())
+            {
+                if (!filtered_extensions.empty())
+                    current_filtered_extension = filtered_extensions.at(0);
+                else
+                    DEX_LOG_ERROR("<dex::BasicFileDialog()>: Filtered extensions can't be empty");
+            }
+
             static auto& path_offset = std::filesystem::path();
             bool doubleclicked = false;
 
@@ -42,7 +47,6 @@ namespace dex
             ImGui::InputText("##Filter Text", buffer, sizeof(buffer));
 
             search_buffer_str = buffer;
-            ImGui::GetStateStorage();
 
             if (ImGui::BeginTable("table", 1, ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_ScrollY, ImVec2(0.0f, ImGui::GetWindowSize().y - 110)))
             {
@@ -59,23 +63,27 @@ namespace dex
                 {
                     auto u8_filename_str = file.path().filename().u8string();
 
-                    ImGui::TableNextRow();
-                    ImGui::TableNextColumn();
-                    if (u8_filename_str.find(search_buffer_str) != std::string::npos)
+                    if (file.is_directory() || current_filtered_extension == "None" || std::filesystem::path(file).extension().u8string() == current_filtered_extension)
                     {
-                        if (ImGui::Selectable(u8_filename_str.c_str(), (selected == u8_filename_str) ? true : false, ImGuiSelectableFlags_AllowDoubleClick))
+                        if (u8_filename_str.find(search_buffer_str) != std::string::npos)
                         {
-                            selected = u8_filename_str;
+                            ImGui::TableNextRow();
+                            ImGui::TableNextColumn();
 
-                            if (file.is_directory())
+                            if (ImGui::Selectable(u8_filename_str.c_str(), (selected == u8_filename_str) ? true : false, ImGuiSelectableFlags_AllowDoubleClick))
                             {
-                                path_offset /= u8_filename_str;
-                                selected = "";
-                            }
+                                selected = u8_filename_str;
 
-                            if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
-                            {
-                                doubleclicked = true;
+                                if (file.is_directory())
+                                {
+                                    path_offset /= u8_filename_str;
+                                    selected = "";
+                                }
+
+                                if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+                                {
+                                    doubleclicked = true;
+                                }
                             }
                         }
                     }
@@ -96,7 +104,7 @@ namespace dex
 
                 ImGui::TableSetColumnIndex(0);
 
-                ImGui::Text("File:"); 
+                ImGui::Text("File:");
                 ImGui::SameLine();
 
                 static char b[0xFF];
@@ -108,7 +116,7 @@ namespace dex
 
                 //ImGui::TableSetColumnIndex(2);
                 ImGui::SameLine();
-                if ((ImGui::Button("Open") || doubleclicked) && !selected.empty())
+                if ((ImGui::Button(btn_label) || doubleclicked) && !selected.empty())
                 {
                     *selected_file = path_offset / selected;
                     was_selected = true;
@@ -121,9 +129,14 @@ namespace dex
                 ImGui::Text("Filter:");
                 ImGui::SameLine();
                 //ImGui::TableSetColumnIndex(3);
-                if (ImGui::BeginCombo("##wat", "tttt"))
+                if (ImGui::BeginCombo("##ExtensionFilterCombo", current_filtered_extension.u8string().c_str()))
                 {
-                    ImGui::Selectable("ioiiii");
+                    for (const auto& filter : filtered_extensions)
+                    {
+                        if (ImGui::Selectable(filter.u8string().c_str(), current_filtered_extension == filter.u8string().c_str()))
+                            current_filtered_extension = filter;
+                    }
+
                     ImGui::EndCombo();
                 }
 

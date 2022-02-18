@@ -198,7 +198,7 @@ namespace dex
                 }
 
                 std::filesystem::path path;
-                if (dex::OpenFileDialog("Choose File", &path, &open))
+                if (OpenFileDialog(&path, &open, { ".glb", "None" }))
                 {
                     component = Component::Model(LoadGLTF(path.u8string(), renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
                 }

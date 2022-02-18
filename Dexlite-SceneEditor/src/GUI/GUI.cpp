@@ -1,7 +1,6 @@
 #include "GUI.hpp"
 
 #include <imgui/imgui.h>
-
 #include "Dialog/FileDialog.hpp"
 
 namespace dex
