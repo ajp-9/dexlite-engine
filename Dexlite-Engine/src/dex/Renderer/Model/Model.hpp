@@ -1,5 +1,7 @@
 #pragma once
 
+#include <filesystem>
+
 #include "../Mesh/Mesh.hpp"
 #include "../Material/3D/MaterialDefault3D.hpp"
 
@@ -9,7 +11,7 @@ namespace dex
     {
         Model() = default;
 
-        Model(Mesh::Default3D&& mesh, std::shared_ptr<Material::Default3D> material, const std::string& file_location, bool enabled)
+        Model(Mesh::Default3D&& mesh, std::shared_ptr<Material::Default3D> material, const std::filesystem::path& file_location, bool enabled)
             : Enabled(enabled), Mesh(std::move(mesh)), Material(material), FileLocation(file_location)
         {}
 
@@ -39,6 +41,6 @@ namespace dex
         Mesh::Default3D Mesh;
         std::shared_ptr<Material::Default3D> Material = nullptr;
 
-        std::string FileLocation;
+        std::filesystem::path FileLocation;
     };
 }

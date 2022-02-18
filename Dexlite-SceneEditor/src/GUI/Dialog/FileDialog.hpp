@@ -4,5 +4,6 @@
 
 namespace dex
 {
-    bool FileDialog(const char* label, std::filesystem::path* selected_file, bool* open = nullptr);
+    bool SaveFileDialog(const char* label, std::filesystem::path* save_file, bool* open = nullptr);
+    bool OpenFileDialog(const char* label, std::filesystem::path* selected_file, bool* open = nullptr);
 }

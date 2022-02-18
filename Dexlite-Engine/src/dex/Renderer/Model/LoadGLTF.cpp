@@ -8,7 +8,7 @@ namespace dex
 {
     bool parseNode(glm::mat4& meshTransformationMatrix_Current, const tinygltf::Node& node, const tinygltf::Model& model);
 
-    Model LoadGLTF(const std::string& file_location, const std::shared_ptr<Shader::Default3D> shader_default_3d, bool enabled)
+    Model LoadGLTF(const std::filesystem::path& file_location, const std::shared_ptr<Shader::Default3D> shader_default_3d, bool enabled)
     {
         tinygltf::Model model;
         tinygltf::TinyGLTF loader;
@@ -16,11 +16,11 @@ namespace dex
         std::string error;
 
         bool ret = false;
-        if (file_location.substr(file_location.find_last_of(".") + 1) == "glb")
-            ret = loader.LoadBinaryFromFile(&model, &error, &warn, file_location);
+        if (file_location.extension().u8string() == ".glb")
+            ret = loader.LoadBinaryFromFile(&model, &error, &warn, file_location.u8string());
         else
             DEX_LOG_ERROR("<dex::loadGLTF()>: Only binary GLTF files (.glb) can be used.");
-
+        
         //ret = loader.LoadASCIIFromFile(&model, &error, &warn, file_location);
 
         if (!warn.empty())

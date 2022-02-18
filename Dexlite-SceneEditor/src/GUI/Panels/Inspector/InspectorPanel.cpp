@@ -109,7 +109,7 @@ namespace dex
                             }
                             ImGui::PopItemWidth();
                         }
-                    }
+                    }   
 
                     {
                         ImGui::TableNextRow();
@@ -181,7 +181,7 @@ namespace dex
                 ImGui::Checkbox("##Model::Enabled", &component.Enabled);
 
                 char buffer[0xFF];
-                std::strcpy(buffer, component.FileLocation.c_str());
+                std::strcpy(buffer, component.FileLocation.u8string().c_str());
 
                 if (ImGui::InputText("##Model::FileLocation", buffer, sizeof(buffer)))
                 {
@@ -198,7 +198,7 @@ namespace dex
                 }
 
                 std::filesystem::path path;
-                if (dex::FileDialog("Choose File", &path, &open))
+                if (dex::OpenFileDialog("Choose File", &path, &open))
                 {
                     component = Component::Model(LoadGLTF(path.u8string(), renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
                 }

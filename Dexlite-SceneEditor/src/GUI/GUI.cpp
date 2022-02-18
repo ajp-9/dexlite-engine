@@ -2,6 +2,8 @@
 
 #include <imgui/imgui.h>
 
+#include "Dialog/FileDialog.hpp"
+
 namespace dex
 {
 	GUI::GUI(dex::Window* window, dex::Renderer* renderer, CurrentScene* current_scene, bool* running)
@@ -75,12 +77,16 @@ namespace dex
 					true;
 
 				if (ImGui::MenuItem("Open Recent", "Ctrl+O+R"))
-					true;
+				{
+					//FileDialog("")
+				}
 
 				ImGui::Separator();
 
 				if (ImGui::MenuItem("Save", "Ctrl+S"))
-					true;
+				{
+
+				}
 
 				if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
 					true;

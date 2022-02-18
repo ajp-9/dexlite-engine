@@ -63,7 +63,7 @@ namespace dex
         {
             nlohmann::json model_json = json["Components"]["Model"];
             auto& model = entity.addComponent<Component::Model>();
-            model = LoadGLTF(model_json["FileLocation"], shader_default_3d);
+            model = LoadGLTF(std::string(model_json["FileLocation"]), shader_default_3d);
 
             model.Enabled = model_json["Enabled"];
             //model.FileLocation = model_json["FileLocation"];
@@ -109,7 +109,7 @@ namespace dex
         return entity;
     }
 
-    Scene DeserializeScene(const std::string& file_location, const std::shared_ptr<Shader::Default3D>& shader_default_3d)
+    Scene DeserializeScene(const std::filesystem::path& file_location, const std::shared_ptr<Shader::Default3D>& shader_default_3d)
     {
         Scene scene;
         

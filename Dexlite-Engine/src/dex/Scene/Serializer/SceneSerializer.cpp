@@ -24,16 +24,29 @@ namespace dex
         return func(entity.getComponent<T>());
     }
 
-    void SerializeScene(const std::string& file_location, const Scene& scene)
+    void SerializeScene(const std::filesystem::path& file_location, const Scene& scene)
     {
         nlohmann::json json;
 
         for (const auto& entity : scene.Root->getChildren())
         {
-            json["Entities"].emplace_back(SerializeEntity(entity));
+            json["Entities"].emplace_back(SerializeEntity(entity)); 
         }
 
-        std::ofstream(file_location) << json;
+        try
+        {
+            if (std::filesystem::path(file_location).has_filename())
+            {
+                if (!std::filesystem::exists(file_location.parent_path()))
+                    std::filesystem::create_directory(file_location.parent_path());
+
+                std::ofstream(file_location) << json;
+            }
+        }
+        catch (const std::exception& exception)
+        {
+            DEX_LOG_ERROR("dex::SerializeScene(): {}", exception.what());
+        }
     }
 
     nlohmann::json SerializeEntity(const Entity& entity)
@@ -111,7 +124,7 @@ namespace dex
                     nlohmann::json json;
 
                     json["Enabled"] = model.Enabled;
-                    json["FileLocation"] = model.FileLocation;
+                    json["FileLocation"] = model.FileLocation.u8string();
 
                     return json;
                 }

@@ -1,10 +1,10 @@
 #pragma once
 
-#include <string>
+#include <filesystem>
 
 #include "../Scene.hpp"
 
 namespace dex
 {
-    void SerializeScene(const std::string& file_location, const Scene& scene);
+    void SerializeScene(const std::filesystem::path& file_location, const Scene& scene);
 }
