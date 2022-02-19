@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <imgui/imgui.h>
 #include <dex/Renderer/ImGuiExtra/ImGuiExtra.hpp>
+#include <dex/Dexlite.hpp>
 
 #include "../../Dialog/FileDialog.hpp"
 
@@ -17,16 +18,33 @@ namespace dex
     using UIFunction = void(T& t, Renderer* renderer);
 
     template <typename T>
-    static void renderComponent(const char* name, Entity& entity, Renderer* renderer, UIFunction<T>* func)
+    static void renderComponent(const char* name, Entity& entity, Renderer* renderer, UIFunction<T>* func, bool deletable = true)
     {
         if (entity.hasComponent<T>())
         {
             bool opened = (ImGui::CollapsingHeader(name, ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth));
+            bool removed = false;
+
+            if (deletable)
+            {
+                if (ImGui::BeginPopupContextItem())
+                {
+                    if (ImGui::MenuItem("Remove"))
+                    {
+                        removed = true;
+                    }
+
+                    ImGui::EndPopup();
+                }
+            }
 
             if (opened)
             {
                 func(entity.getComponent<T>(), renderer);
             }
+
+            if (removed)
+                entity.removeComponent<T>();
         }
     }
 
@@ -131,7 +149,7 @@ namespace dex
 
                     ImGui::EndTable();
                 }
-            });
+            }, false);
 
             renderComponent<Component::Camera>("Camera", selected_entity, m_Renderer, [](Component::Camera& component, Renderer* renderer)
             {
@@ -198,7 +216,7 @@ namespace dex
                 }
 
                 std::filesystem::path path;
-                if (OpenFileDialog(&path, &open, { ".glb", "None" }))
+                if (OpenFileDialog("Choose File", &path, &open, nullptr, { ".glb", "None" }))
                 {
                     component = Component::Model(LoadGLTF(path.u8string(), renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D)));
                 }

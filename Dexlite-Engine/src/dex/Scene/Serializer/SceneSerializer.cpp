@@ -38,7 +38,8 @@ namespace dex
             if (std::filesystem::path(file_location).has_filename())
             {
                 if (!std::filesystem::exists(file_location.parent_path()))
-                    std::filesystem::create_directory(file_location.parent_path());
+                    if (!file_location.parent_path().empty())
+                        std::filesystem::create_directory(file_location.parent_path());
 
                 std::ofstream(file_location) << json;
             }

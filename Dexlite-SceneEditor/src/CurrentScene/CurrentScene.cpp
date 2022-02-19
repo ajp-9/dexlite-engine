@@ -8,7 +8,7 @@ namespace dex
     CurrentScene::CurrentScene(dex::Window* window, dex::Renderer* renderer)
         : Window(window), Renderer(renderer)
     {
-		Scene = DeserializeScene("assets/scenes/testing0.json", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
+		//Scene = DeserializeScene("assets/scenes/testing0.json", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 
 		resetViewportCamera();
     }
@@ -42,7 +42,7 @@ namespace dex
     void CurrentScene::update(const float delta_time)
     {
 		Scene.update();
-		
+		/*
 		//m_LightSphere.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(glm::radians(.09), 0, 0));
 		//m_LightSphere.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(0, -glm::radians(.09), 0));
 		//m_LightSphere.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(0, 0, glm::radians(.09)));
@@ -80,7 +80,7 @@ namespace dex
 			player_trans.moveByLocal(glm::vec3(0, -speed, 0));
 
 		if (Window->Input.getKeyState(dex::Event::Key::E))
-			player_trans.moveByLocal(glm::vec3(0, speed, 0));
+			player_trans.moveByLocal(glm::vec3(0, speed, 0));*/
     }
 
     void CurrentScene::render(const glm::vec2& viewport_size)

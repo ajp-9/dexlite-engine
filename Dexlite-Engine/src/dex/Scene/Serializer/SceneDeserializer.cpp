@@ -112,11 +112,18 @@ namespace dex
     Scene DeserializeScene(const std::filesystem::path& file_location, const std::shared_ptr<Shader::Default3D>& shader_default_3d)
     {
         Scene scene;
-        
         nlohmann::json json;
-        std::stringstream str_stream;
-        str_stream << std::ifstream(file_location).rdbuf();
-        json = json.parse(str_stream.str());
+
+        try
+        {
+            std::stringstream str_stream;
+            str_stream << std::ifstream(file_location).rdbuf();
+            json = json.parse(str_stream.str());
+        }
+        catch (const std::exception& exception)
+        {
+            DEX_LOG_ERROR("dex::SerializeScene(): {}", exception.what());
+        }
 
         for (auto& entity_json : json["Entities"])
         {

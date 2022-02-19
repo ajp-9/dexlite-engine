@@ -28,14 +28,5 @@ namespace dex
         Entity SelectedEntity = { entt::null, &Scene };
 
         dex::Entity m_ViewportCamera = { &Scene, "Viewport Camera", false };
-    private:
-        dex::Entity m_Player = { &Scene, "Player" };
-        dex::Entity m_Head = { &Scene, "Head" };
-
-        dex::Entity m_XYZ = { &Scene, "XYZ" };
-        dex::Entity m_Warlock = { &Scene, "Warlock" };
-        dex::Entity m_Valdore = { &Scene, "Valdore" };
-        dex::Entity m_LightSphere = { &Scene, "Light Sphere" };
-        dex::Entity m_Triangle = { &Scene, "Triangle" };
     };
 }

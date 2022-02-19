@@ -1,6 +1,7 @@
 #include "GUI.hpp"
 
 #include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
 #include "Dialog/FileDialog.hpp"
 
 namespace dex
@@ -63,19 +64,40 @@ namespace dex
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}
 
+
+
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
 			{
 				if (ImGui::MenuItem("New", "Ctrl+N"))
-					true;
+					m_CurrentScene->New();
 
 				ImGui::Separator();
 
-				if (ImGui::MenuItem("Open", "Ctrl+O"))
-					true;
+				// Open:
+				{
+					std::filesystem::path path;
+					static bool open = false;
+					ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
+					if (ImGui::MenuItem("Open", "Ctrl+O"))
+					{
+						ImGui::OpenPopup("Open");
+						open = true;
+					}
+					ImGui::PopItemFlag();
 
-				if (ImGui::MenuItem("Open Recent", "Ctrl+O+R"))
+					bool closed = false;
+					if (OpenFileDialog("Open", &path, &open, &closed, { ".json", "None" }))
+					{
+						m_CurrentScene->Open(path);
+					}
+
+					if (closed)
+						ImGui::CloseCurrentPopup();
+				}
+
+				if (ImGui::MenuItem("Open Recent"))
 				{
 					//FileDialog("")
 				}
@@ -84,11 +106,36 @@ namespace dex
 
 				if (ImGui::MenuItem("Save", "Ctrl+S"))
 				{
-
+					if (!m_CurrentScene->Path.empty())
+						m_CurrentScene->Save();
+					//else
+					//	m_CurrentScene
 				}
 
-				if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
-					true;
+
+
+				{
+					std::filesystem::path path;
+					static bool open = false;
+					ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
+					if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
+					{
+						ImGui::OpenPopup("Save As...");
+						open = true;
+					}
+					ImGui::PopItemFlag();
+
+					bool closed = false;
+					if (SaveFileDialog("Save As...", &path, &open, &closed, { ".json", "None" }))
+					{
+						m_CurrentScene->SaveAs(path);
+					}
+
+					if (closed)
+						ImGui::CloseCurrentPopup();
+				}
+
+
 
 				ImGui::Separator();
 
@@ -98,8 +145,13 @@ namespace dex
 				ImGui::EndMenu();
 			}
 
+
+
 			ImGui::EndMenuBar();
+
+
 		}
+
 
 		m_InspectorPanel.render();
 		m_SceneHierarchyPanel.render();

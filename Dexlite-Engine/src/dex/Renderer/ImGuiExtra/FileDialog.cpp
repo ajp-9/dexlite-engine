@@ -7,9 +7,11 @@
 namespace dex
 {
     bool BasicFileDialog(
+        const char* label,
         const char* btn_label,
         std::filesystem::path* selected_file,
         bool* open,
+        bool* closed,
         const std::vector<std::filesystem::path>& filtered_extensions)
     {
         static std::string selected;
@@ -20,7 +22,7 @@ namespace dex
         ImVec2 center = ImGui::GetMainViewport()->GetCenter();
         ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 
-        if (ImGui::BeginPopupModal("Choose File", open))
+        if (ImGui::BeginPopupModal(label, open))
         {
             // When the modal is created.
             if (ImGui::IsWindowAppearing())
@@ -29,6 +31,8 @@ namespace dex
                     current_filtered_extension = filtered_extensions.at(0);
                 else
                     DEX_LOG_ERROR("<dex::BasicFileDialog()>: Filtered extensions can't be empty");
+
+                selected = "";
             }
 
             static auto& path_offset = std::filesystem::path();
@@ -56,6 +60,7 @@ namespace dex
                 {
                     if (!path_offset.empty())
                         path_offset = path_offset.parent_path();
+
                     selected = "";
                 }
 
@@ -114,6 +119,8 @@ namespace dex
 
                 ImGui::InputText("##File Selected", b, sizeof(b));
 
+                selected = b;
+
                 //ImGui::TableSetColumnIndex(2);
                 ImGui::SameLine();
                 if ((ImGui::Button(btn_label) || doubleclicked) && !selected.empty())
@@ -121,6 +128,8 @@ namespace dex
                     *selected_file = path_offset / selected;
                     was_selected = true;
                     selected = "";
+                    if (closed != nullptr)
+                        *closed = true;
                     ImGui::CloseCurrentPopup();
                 }
 
@@ -146,14 +155,12 @@ namespace dex
             if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_Escape)))
             {
                 selected = "";
+                if (closed != nullptr)
+                    *closed = true;
                 ImGui::CloseCurrentPopup();
             }
 
             ImGui::EndPopup();
-        }
-        else
-        {
-            selected = "";
         }
 
         return was_selected;

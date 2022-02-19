@@ -24,7 +24,7 @@ namespace dex
             renderEntityNode(child);
 
         // Right-click on blank space
-        if (ImGui::BeginPopupContextWindow(0, 1, false))
+        if (ImGui::BeginPopupContextWindow("##ww"))
         {
             if (ImGui::MenuItem("Create Empty Entity"))
                 m_CurrentScene->Scene.Root->addNewChild();
