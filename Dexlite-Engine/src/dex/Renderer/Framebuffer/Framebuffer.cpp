@@ -21,6 +21,9 @@ namespace dex
                 case ColorAttachmentFormat::RGBA:
                     m_ColorAttachments.emplace_back(ColorAttachmentTexture(size, GL_RGBA8, GL_RGBA));
                     break;
+                case ColorAttachmentFormat::NONE:
+                    DEX_LOG_WARN("<dex::Framebuffer::Framebuffer()>: Color attachment with no format.");
+                    break;
             }
         }
 

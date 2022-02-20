@@ -35,7 +35,7 @@ namespace dex
                 selected = "";
             }
 
-            static auto& path_offset = std::filesystem::path();
+            static auto path_offset = std::filesystem::path();
             bool doubleclicked = false;
 
             ImGui::Text("Current Path: %s", path_offset.u8string().c_str());
