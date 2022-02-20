@@ -62,7 +62,9 @@ project "Dexlite-SceneEditor"
             "GL",
             "X11",
             "pthread",
-            "Xrandr"    
+            "Xrandr",
+            "Xxf86vm",
+            "dl"
         }
     filter {}
 

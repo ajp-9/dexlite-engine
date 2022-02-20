@@ -23,7 +23,7 @@ namespace dex
         Window* m_Window = nullptr;
         Renderer* m_Renderer = nullptr;
     public:
-        Scene Scene;
+        dex::Scene Scene;
         std::filesystem::path Path;
 
         Entity SelectedEntity = { entt::null, &Scene };

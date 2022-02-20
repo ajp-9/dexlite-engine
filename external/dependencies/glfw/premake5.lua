@@ -86,9 +86,11 @@ project "glfw"
             "GL",
             "X11",
             "pthread",
-            "Xrandr"    
+            "Xrandr",
+            "Xxf86vm",
+            "dl"
         }
-
+        
         defines
         {
             "_GLFW_X11"
