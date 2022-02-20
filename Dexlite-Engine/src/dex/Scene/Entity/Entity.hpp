@@ -90,7 +90,7 @@ namespace dex
 
         const bool isValid() const { return m_Scene->m_Registry.valid(m_Handle); };
 
-        const entt::entity getHandle() const { return m_Handle; }
+        const entt::entity& getHandle() const { return m_Handle; }
         
         operator entt::entity() const { return m_Handle; };
         const bool operator==(const Entity& other) const { return m_Handle == other.m_Handle && m_Scene == other.m_Scene; }

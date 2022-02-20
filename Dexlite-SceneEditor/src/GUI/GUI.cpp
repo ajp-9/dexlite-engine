@@ -64,12 +64,13 @@ namespace dex
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}
 
-
-
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
 			{
+				std::filesystem::path path;
+				static bool open = false;
+
 				if (ImGui::MenuItem("New", "Ctrl+N"))
 					m_CurrentScene->New();
 
@@ -77,8 +78,6 @@ namespace dex
 
 				// Open:
 				{
-					std::filesystem::path path;
-					static bool open = false;
 					ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
 					if (ImGui::MenuItem("Open", "Ctrl+O"))
 					{
@@ -104,19 +103,27 @@ namespace dex
 
 				ImGui::Separator();
 
-				if (ImGui::MenuItem("Save", "Ctrl+S"))
+				// Save:
 				{
-					if (!m_CurrentScene->Path.empty())
-						m_CurrentScene->Save();
-					//else
-					//	m_CurrentScene
+					ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
+					if (ImGui::MenuItem("Save", "Ctrl+S"))
+					{
+						if (!m_CurrentScene->Path.empty())
+						{
+							m_CurrentScene->Save();
+							ImGui::CloseCurrentPopup();
+						}
+						else
+						{
+							ImGui::OpenPopup("Save As...");
+							open = true;
+						}
+					}
+					ImGui::PopItemFlag();
 				}
 
-
-
+				// Save As:
 				{
-					std::filesystem::path path;
-					static bool open = false;
 					ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
 					if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
 					{
@@ -124,7 +131,15 @@ namespace dex
 						open = true;
 					}
 					ImGui::PopItemFlag();
+				}
 
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Quit", "Ctrl+Q"))
+					*m_Running = false;
+
+				// The save dialog itself:
+				{
 					bool closed = false;
 					if (SaveFileDialog("Save As...", &path, &open, &closed, { ".json", "None" }))
 					{
@@ -135,23 +150,11 @@ namespace dex
 						ImGui::CloseCurrentPopup();
 				}
 
-
-
-				ImGui::Separator();
-
-				if (ImGui::MenuItem("Quit", "Ctrl+Q"))
-					*m_Running = false;
-
 				ImGui::EndMenu();
 			}
 
-
-
 			ImGui::EndMenuBar();
-
-
 		}
-
 
 		m_InspectorPanel.render();
 		m_SceneHierarchyPanel.render();
@@ -213,12 +216,11 @@ namespace dex
 		colors[ImGuiCol_TableRowBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
 		colors[ImGuiCol_TableRowBgAlt] = ImVec4(1.00f, 1.00f, 1.00f, 0.06f);
 		colors[ImGuiCol_TextSelectedBg] = ImVec4(0.26f, 0.59f, 0.98f, 0.35f);
-		colors[ImGuiCol_DragDropTarget] = ImVec4(1.00f, 1.00f, 0.00f, 0.90f);
+		colors[ImGuiCol_DragDropTarget] = ImVec4(0.00f, 0.90f, 0.00f, 0.90f);
 		colors[ImGuiCol_NavHighlight] = ImVec4(0.00f, 0.66f, 0.00f, 1.00f);
 		colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
 		colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
 		colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
-
 
 		ImGuiStyle& style = ImGui::GetStyle();
 		//style.

@@ -17,21 +17,37 @@ namespace dex
     void SceneHierarchyPanel::render()
     {
         ImGui::Begin("Scene Hierarchy", (bool*)0, ImGuiWindowFlags_NoCollapse);
-        
+
         auto root_children = m_CurrentScene->Scene.Root->getChildren();
 
         for (auto& child : root_children)
             renderEntityNode(child);
 
-        // Right-click on blank space
-        if (ImGui::BeginPopupContextWindow("##ww"))
-        {
-            if (ImGui::MenuItem("Create Empty Entity"))
-                m_CurrentScene->Scene.Root->addNewChild();
+        ImGui::Spacing();
 
-            ImGui::EndPopup();
+        {
+            ImGui::BeginChild("Popup and Target Context");
+
+            // Right-click on blank space
+            if (ImGui::BeginPopupContextWindow("##CreateEntityPopup"))
+            {
+                if (ImGui::MenuItem("Create Empty Entity"))
+                    m_CurrentScene->Scene.Root->addNewChild();
+
+                ImGui::EndPopup();
+            }
+
+            ImGui::EndChild();
         }
-        
+
+        if (ImGui::BeginDragDropTarget())
+        {
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Entity"))
+                m_CurrentScene->Scene.Root->addChild(*static_cast<Entity*>(payload->Data));
+
+            ImGui::EndDragDropTarget();
+        }
+
         ImGui::End();
     }
      
@@ -53,6 +69,21 @@ namespace dex
         if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
         {
             m_CurrentScene->SelectedEntity = entity;
+        }
+
+        if (ImGui::BeginDragDropSource())
+        {
+            ImGui::SetDragDropPayload("Entity", &entity, sizeof(Entity));
+
+            ImGui::EndDragDropSource();
+        }
+
+        if (ImGui::BeginDragDropTarget())
+        {
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Entity"))
+                entity.addChild(*static_cast<Entity*>(payload->Data));
+
+            ImGui::EndDragDropTarget();
         }
 
         if (ImGui::BeginPopupContextItem())
@@ -84,3 +115,5 @@ namespace dex
             entity.destroy();
     }
 }
+
+//DEX_LOG_INFO("{}", (uint32)static_cast<Entity*>(payload->Data)->getHandle());
