@@ -7,8 +7,6 @@ namespace dex
 {
     class CurrentScene
     {
-        Window* Window = nullptr;
-        Renderer* Renderer = nullptr;
     public:
         CurrentScene(dex::Window* window, dex::Renderer* renderer);
 
@@ -21,6 +19,9 @@ namespace dex
         void render(const glm::vec2& viewport_size);
     private:
         void resetViewportCamera();
+    private:
+        Window* m_Window = nullptr;
+        Renderer* m_Renderer = nullptr;
     public:
         Scene Scene;
         std::filesystem::path Path;

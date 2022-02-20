@@ -18,6 +18,15 @@ namespace dex
     {
         ImGui::Begin("Scene Hierarchy", (bool*)0, ImGuiWindowFlags_NoCollapse);
 
+        // For dragging to the top tab.
+        if (ImGui::BeginDragDropTarget())
+        {
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Entity"))
+                m_CurrentScene->Scene.Root->addChild(*static_cast<Entity*>(payload->Data));
+
+            ImGui::EndDragDropTarget();
+        }
+
         auto root_children = m_CurrentScene->Scene.Root->getChildren();
 
         for (auto& child : root_children)
@@ -40,6 +49,7 @@ namespace dex
             ImGui::EndChild();
         }
 
+        // For dragging to the bottom context.
         if (ImGui::BeginDragDropTarget())
         {
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Entity"))

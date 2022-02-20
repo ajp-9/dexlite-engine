@@ -12,8 +12,6 @@ namespace dex
 {
     class GUI
     {
-        Window* Window = nullptr;
-        Renderer* Renderer = nullptr;
     public:
         GUI(dex::Window* window, dex::Renderer* renderer, CurrentScene* current_scene, bool* running);
 
@@ -21,6 +19,9 @@ namespace dex
         void render();
     private:
         void setColorsAndStyle();
+    private:
+        Window* m_Window = nullptr;
+        Renderer* m_Renderer = nullptr;
     private:
         CurrentScene* m_CurrentScene = nullptr;
         bool* m_Running = nullptr;

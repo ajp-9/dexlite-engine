@@ -21,13 +21,13 @@ namespace dex
 
         virtual void endFrame() override;
     private:
-        dex::Window Window = { "Dexlite Scene-Editor", glm::uvec2(1280, 800) };
-        dex::Renderer Renderer = { Window };
+        dex::Window m_Window = { "Dexlite Scene-Editor", glm::uvec2(1280, 800) };
+        dex::Renderer m_Renderer = { m_Window };
         dex::Time Time;
     private:
-        CurrentScene m_CurrentScene = { &Window, &Renderer };
+        CurrentScene m_CurrentScene = { &m_Window, &m_Renderer };
 
-        GUI m_GUI = GUI(&Window, &Renderer, &m_CurrentScene, &Running);
+        GUI m_GUI = GUI(&m_Window, &m_Renderer, &m_CurrentScene, &Running);
     };
 }
 

@@ -8,8 +8,8 @@ namespace dex
 {
 	GUI::GUI(dex::Window* window, dex::Renderer* renderer, CurrentScene* current_scene, bool* running)
 		:
-		Window(window),
-		Renderer(renderer),
+		m_Window(window),
+		m_Renderer(renderer),
 		m_CurrentScene(current_scene),
 		m_Running(running),
 		m_SceneHierarchyPanel(current_scene),

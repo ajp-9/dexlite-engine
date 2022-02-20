@@ -6,7 +6,7 @@
 namespace dex
 {
     CurrentScene::CurrentScene(dex::Window* window, dex::Renderer* renderer)
-        : Window(window), Renderer(renderer)
+        : m_Window(window), m_Renderer(renderer)
     {
 		//Scene = DeserializeScene("assets/scenes/testing0.json", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 
@@ -34,7 +34,7 @@ namespace dex
 
 	void CurrentScene::Open(const std::filesystem::path& path)
 	{
-		Scene = DeserializeScene(path.u8string(), Renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
+		Scene = DeserializeScene(path.u8string(), m_Renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 		Path = path;
 		resetViewportCamera();
 	}
@@ -85,7 +85,7 @@ namespace dex
 
     void CurrentScene::render(const glm::vec2& viewport_size)
     {
-		Scene.render(viewport_size, *Renderer);
+		Scene.render(viewport_size, *m_Renderer);
     }
 
 	void CurrentScene::resetViewportCamera()

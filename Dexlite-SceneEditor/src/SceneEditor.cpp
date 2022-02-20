@@ -4,29 +4,29 @@
 #include <imgui/imgui.h>
 #include <memory>
 #include "GUI/GUI.hpp"
+#include <fstream>
 
 namespace dex
 {
     SceneEditor::SceneEditor()
     {
-        nlohmann::json j;
-        j["wat"] = 4;
-        auto& e = j["a"];
-        e["b"] = 1;
-        e["c"] = { 3, 2, 5.432, 1 };
-        std::cout << j["a"]["c"] << '\n';
+        {
+            std::ofstream out_bin = std::ofstream("out.bin", std::ios::binary);
 
-        //m_CurrentScene.Scene.getEntity("Player").addNewChild("wot");
-        std::cout << glGetString(GL_VERSION) << '\n';
+            const uint32 w[] = { 0xffff };
+            out_bin.write((char*)w, 2);
+        }
 
-        //static auto wat = glfwCreateStandardCursor(GLFW_CROSSHAIR_CURSOR);
-        ////glfwSetInputMode(Window.Handle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-        //glfwSetCursor(Window.Handle, wat);
+        {
+            std::ifstream in_bin = std::ifstream("out.bin", std::ios::binary);
+
+            std::vector<uint8> buffer(std::istreambuf_iterator<char>(in_bin), {});
+        }
     }
 
     void SceneEditor::beginFrame()
     {
-        Renderer.beginFrame();
+        m_Renderer.beginFrame();
         //Renderer.clear(glm::vec4(.1, .1, .1, 1.0f));
     }
 
@@ -34,11 +34,11 @@ namespace dex
     {
         Time.doCycle();
 
-        if (Window.Input.isKeyPressed(Event::Key::F11))
-            if (!Window.isFullscreen())
-                Window.setFullscreen();
+        if (m_Window.Input.isKeyPressed(Event::Key::F11))
+            if (!m_Window.isFullscreen())
+                m_Window.setFullscreen();
             else
-                Window.setWindowed();
+                m_Window.setWindowed();
 
         m_GUI.update(Time.getDeltaTime());
         m_CurrentScene.update(Time.getDeltaTime());
@@ -51,15 +51,15 @@ namespace dex
 
     void SceneEditor::endFrame()
     {
-        Renderer.endFrame();
+        m_Renderer.endFrame();
 
-        Window.swapBuffers();
+        m_Window.swapBuffers();
 
         Time.sleep();
 
-        Window.Input.pollNewEvents();
+        m_Window.Input.pollNewEvents();
 
-        if (!Window.Open)
+        if (!m_Window.Open)
             Running = false;
     }
 }

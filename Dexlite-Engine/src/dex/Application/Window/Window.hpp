@@ -40,7 +40,7 @@ namespace dex
         GLFWwindow* Handle = nullptr;
     public:
         bool Open = false;
-        Input Input;
+        dex::Input Input;
     public:
         // Before fullscreen.
         glm::ivec2 m_Dimensions = glm::ivec2(0);
