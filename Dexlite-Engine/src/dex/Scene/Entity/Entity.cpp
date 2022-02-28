@@ -47,10 +47,19 @@ namespace dex
         children.clear();
     }
 
-    void addChild(entt::entity child_handle)
+    void Entity::addChild(Entity child)
     {
-        //getChildrenHandles().push_back(child_handle);
-        //m_Scene->m_Registry.get<Component::Parent>(child_handle).Handle = m_Handle;
+        if (getParent().m_Handle != child.m_Handle)
+        {
+            getChildren().push_back(child);
+
+            if (child.getParent().m_Handle != entt::null)
+            {
+                child.getParent().removeChild(child);
+            }
+
+            child.setParent(Entity(m_Handle, m_Scene));
+        }
     }
 
     void Entity::removeChild(Entity child, bool destroy_handle)

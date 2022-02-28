@@ -32,19 +32,7 @@ namespace dex
             return child;
         }
 
-        inline void addChild(Entity child)
-        {
-            getChildren().push_back(child);
-
-            if (child.getParent().m_Handle != entt::null)
-            {
-                child.getParent().removeChild(child);
-            }
-
-            child.setParent(Entity(m_Handle, m_Scene));
-        };
-
-        //void addChild(entt::entity child_handle);
+        void addChild(Entity child);
 
         void removeChild(Entity child, bool destroy_handle = false);
 

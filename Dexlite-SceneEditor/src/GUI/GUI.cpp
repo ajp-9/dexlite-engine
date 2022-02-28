@@ -156,6 +156,8 @@ namespace dex
 			ImGui::EndMenuBar();
 		}
 
+		m_ViewportPanel.update();
+
 		m_InspectorPanel.render();
 		m_SceneHierarchyPanel.render();
 		m_ViewportPanel.render();

@@ -49,7 +49,7 @@ namespace dex
             glGenRenderbuffers(1, &m_ID);
             bind();
 
-            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_Size.x, m_Size.y); // Use a single renderbuffer object for both a depth AND stencil buffer.
+            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, static_cast<GLsizei>(m_Size.x), static_cast<GLsizei>(m_Size.y)); // Use a single renderbuffer object for both a depth AND stencil buffer.
         }
     private:
         GLuint m_ID;

@@ -17,7 +17,7 @@ namespace dex
     class ColorAttachmentTexture
     {
     public:
-        ColorAttachmentTexture(const glm::vec2& size, GLenum internal_format, GLenum format)
+        ColorAttachmentTexture(const glm::ivec2& size, GLenum internal_format, GLenum format)
             : m_Size(size), m_InternalFormat(internal_format), m_Format(format)
         {
             create();
@@ -85,7 +85,7 @@ namespace dex
         }
 
         const GLuint getID() { return m_ID; }
-        const glm::vec2& getSize() { return m_Size; }
+        const glm::ivec2& getSize() { return m_Size; }
     private:
         void create()
         {
@@ -103,6 +103,6 @@ namespace dex
         GLenum m_InternalFormat;
         GLenum m_Format;
 
-        glm::vec2 m_Size;
+        glm::ivec2 m_Size;
     };
 }

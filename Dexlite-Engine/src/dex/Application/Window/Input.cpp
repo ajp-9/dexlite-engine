@@ -68,13 +68,28 @@ namespace dex
         return Event::MouseEvent(Event::Type::UNKNOWN, Event::MouseType::UNKNOWN, glm::dvec2(0), glm::dvec2(0), Event::MouseButton::UNKNOWN, 0);
     }
 
+    bool Input::getMouseState(Event::MouseButton btn)
+    {
+        switch (btn)
+        {
+        case Event::MouseButton::LEFT:
+            return (!m_AreMouseEventsHalted) && (glfwGetMouseButton(m_WindowHandle, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS);
+        case Event::MouseButton::MIDDLE:
+            return (!m_AreMouseEventsHalted) && (glfwGetMouseButton(m_WindowHandle, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS);
+        case Event::MouseButton::RIGHT:
+            return (!m_AreMouseEventsHalted) && (glfwGetMouseButton(m_WindowHandle, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS);
+        default:
+            return false;
+        }
+    }
+
     bool Input::isMousePressed(Event::MouseButton btn)
     {
         if (!m_AreMouseEventsHalted)
             for (auto& evnt : m_MouseEvents)
                 if (evnt.m_Type == Event::Type::MOUSE && evnt.m_MouseType == Event::MouseType::BUTTON_PRESS && evnt.m_MouseButton == btn)
                     return true;
-
+        
         return false;
     }
 

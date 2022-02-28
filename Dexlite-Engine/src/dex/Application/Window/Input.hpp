@@ -29,6 +29,7 @@ namespace dex
         // Returns actual mouse event, for stuff like position of mouse
         Event::MouseEvent getMouseReleased(Event::MouseButton btn);
 
+        bool getMouseState(Event::MouseButton btn);
         bool isMousePressed(Event::MouseButton btn);
         bool isMouseReleased(Event::MouseButton btn);
 

@@ -10,14 +10,14 @@ namespace dex
     {
 		//Scene = DeserializeScene("assets/scenes/testing0.json", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 
-		resetViewportCamera();
+		setupEntities();
     }
 
 	void CurrentScene::New()
 	{
 		Scene = dex::Scene();
 
-		resetViewportCamera();
+		setupEntities();
 	}
 
 	void CurrentScene::Save()
@@ -36,63 +36,70 @@ namespace dex
 	{
 		Scene = DeserializeScene(path.u8string(), m_Renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 		Path = path;
-		resetViewportCamera();
+		setupEntities();
 	}
 
     void CurrentScene::update(const float delta_time)
     {
 		Scene.update();
-		/*
-		//m_LightSphere.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(glm::radians(.09), 0, 0));
-		//m_LightSphere.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(0, -glm::radians(.09), 0));
-		//m_LightSphere.getComponent<dex::Component::Transform>().rotateByEulerLocal(glm::vec3(0, 0, glm::radians(.09)));
-		//m_Head.getComponent<dex::Component::Transform>().scaleByLocal(glm::vec3(1, 1, 1)); //fucks the camera
+		m_EditorRoot.updateChildrenTransform();
+		
+		if (m_Window->isMouseCaptured())
+		{
+			auto& cam_body_trans = m_ViewportCameraBody.getComponent<Component::Transform>();
+			auto& cam_head_trans = m_ViewportCameraHead.getComponent<Component::Transform>();
 
-		//m_XYZ.getComponent<dex::Component::Transform>().moveBy(glm::vec3(0, 0, .001));
+			float32 speed = .8f * delta_time;
 
-		auto& player_trans = Scene.getEntity("Player").getComponent<Component::Transform>();
+			if (m_Window->Input.getKeyState(dex::Event::Key::LEFT_SHIFT))
+				speed = 6 * delta_time;
 
-		//auto& player_trans = m_Player.getComponent<dex::Component::Transform>();
-		//auto& head_trans = m_Head.getComponent<dex::Component::Transform>();
+			if (m_Window->Input.getKeyState(dex::Event::Key::W))
+				cam_body_trans.moveByLocal(glm::vec3(0, 0, speed));
 
-		//m_LightSphere.getComponent<dex::Component::Light::Point>().Position = player_trans.getWorldPosition();
+			if (m_Window->Input.getKeyState(dex::Event::Key::S))
+				cam_body_trans.moveByLocal(glm::vec3(0, 0, -speed));
 
-		//player_trans.logAsInfo();
+			if (m_Window->Input.getKeyState(dex::Event::Key::A))
+				cam_body_trans.moveByLocal(glm::vec3(-speed, 0, 0));
 
-		float32 speed = .8 * delta_time;
+			if (m_Window->Input.getKeyState(dex::Event::Key::D))
+				cam_body_trans.moveByLocal(glm::vec3(speed, 0, 0));
 
-		if (Window->Input.getKeyState(dex::Event::Key::LEFT_SHIFT))
-			speed = 6 * delta_time;
+			if (m_Window->Input.getKeyState(dex::Event::Key::Q))
+				cam_body_trans.moveByLocal(glm::vec3(0, -speed, 0));
 
-		if (Window->Input.getKeyState(dex::Event::Key::W))
-			player_trans.moveByLocal(glm::vec3(0, 0, speed));
+			if (m_Window->Input.getKeyState(dex::Event::Key::E))
+				cam_body_trans.moveByLocal(glm::vec3(0, speed, 0));
 
-		if (Window->Input.getKeyState(dex::Event::Key::S))
-			player_trans.moveByLocal(glm::vec3(0, 0, -speed));
+			const auto& mouse_delta = m_Window->Input.getMousePosChange() * (0.095 * static_cast<double>(delta_time));
 
-		if (Window->Input.getKeyState(dex::Event::Key::A))
-			player_trans.moveByLocal(glm::vec3(-speed, 0, 0));
+			cam_body_trans.rotateByEuler((glm::vec3(0, mouse_delta.x, 0)));
 
-		if (Window->Input.getKeyState(dex::Event::Key::D))
-			player_trans.moveByLocal(glm::vec3(speed, 0, 0));
+			float max_degrees = 90;
 
-		if (Window->Input.getKeyState(dex::Event::Key::Q))
-			player_trans.moveByLocal(glm::vec3(0, -speed, 0));
-
-		if (Window->Input.getKeyState(dex::Event::Key::E))
-			player_trans.moveByLocal(glm::vec3(0, speed, 0));*/
+			if (cam_head_trans.getOrientationDegrees().x <= max_degrees && cam_head_trans.getOrientationDegrees().x >= -max_degrees)
+				cam_head_trans.rotateByEulerLocal((glm::vec3(-mouse_delta.y, 0, 0)));
+			if (cam_head_trans.getOrientationDegrees().x >= max_degrees)
+				cam_head_trans.setOrientationEuler(glm::vec3(glm::radians(max_degrees), 0, 0));
+			if (cam_head_trans.getOrientationDegrees().x <= -max_degrees)
+				cam_head_trans.setOrientationEuler(glm::vec3(glm::radians(-max_degrees), 0, 0));
+		}
     }
 
     void CurrentScene::render(const glm::vec2& viewport_size)
     {
-		Scene.render(viewport_size, *m_Renderer);
+		Scene.render(viewport_size, *m_Renderer, m_ViewportCameraHead);
     }
 
-	void CurrentScene::resetViewportCamera()
+	void CurrentScene::setupEntities()
 	{
-		m_ViewportCamera = Entity(&Scene, "dex::CurrentScene::m_ViewportCamera", false);
+		m_EditorRoot = Entity(&Scene, "dex::CurrentScene::m_EditorRoot", false);
 
-		auto& comp_camera = m_ViewportCamera.addComponent<Component::Camera>(false);
+		m_ViewportCameraBody = m_EditorRoot.addNewChild("dex::CurrentScene::m_ViewportCameraBody");
+		m_ViewportCameraHead = m_ViewportCameraBody.addNewChild("dex::CurrentScene::m_ViewportCameraHead");
+
+		auto& comp_camera = m_ViewportCameraHead.addComponent<Component::Camera>(false);
 
 		comp_camera.setPerspective(65, 0.01, 1000);
 	}

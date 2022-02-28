@@ -102,7 +102,6 @@ namespace dex
         if (main_camera_id != entt::null)
         {
             // Camera:
-
             m_GlobalShaderUniforms.setCameraPosition(m_Registry.get<Component::Transform>(main_camera_id).getWorldPosition());
 
             //if (Engine::Renderer.m_ChangeProjectionMatrixNext)
@@ -112,7 +111,6 @@ namespace dex
             m_GlobalShaderUniforms.setProjectionViewMatrix(m_Registry.get<Component::Camera>(main_camera_id).getProjectionViewMatrix());
 
             // Ambient Light:
-
             {
                 const auto& ambient_light_view = m_Registry.view<Component::Light::Ambient>();
 
@@ -128,7 +126,6 @@ namespace dex
             }
 
             // Directional Light:
-
             {
                 const auto& directional_light_view = m_Registry.view<Component::Light::Directional>();
 
@@ -144,7 +141,6 @@ namespace dex
             }
 
             // Point Lights:
-
             {
                 const auto& point_light_view = m_Registry.view<Component::Light::Point>();
 

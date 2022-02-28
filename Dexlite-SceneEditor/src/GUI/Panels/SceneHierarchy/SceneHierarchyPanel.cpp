@@ -41,7 +41,7 @@ namespace dex
             if (ImGui::BeginPopupContextWindow("##CreateEntityPopup"))
             {
                 if (ImGui::MenuItem("Create Empty Entity"))
-                    m_CurrentScene->Scene.Root->addNewChild();
+                    m_CurrentScene->Scene.Root->addNewChild("New Entity");
 
                 ImGui::EndPopup();
             }
@@ -84,6 +84,8 @@ namespace dex
         if (ImGui::BeginDragDropSource())
         {
             ImGui::SetDragDropPayload("Entity", &entity, sizeof(Entity));
+
+            ImGui::Text(entity.getComponent<Component::Tag>().m_Tag.c_str());
 
             ImGui::EndDragDropSource();
         }

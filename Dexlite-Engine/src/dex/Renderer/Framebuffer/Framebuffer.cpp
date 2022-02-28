@@ -80,15 +80,15 @@ namespace dex
         // Makes only this draw buffer bound.
         glDrawBuffer(GL_COLOR_ATTACHMENT0 + index);
 
-        int t[] = { value, 0, 0, 1 };
+        //int t[] = { value, 0, 0, 1 };
         // 0 is the index for the only draw buffer bound.
-        glClearBufferiv(GL_COLOR, 0, t);
+        glClearBufferiv(GL_COLOR, 0, &value);
     }
 
     void Framebuffer::drawBuffers()
     {
-        GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
-        glDrawBuffers(m_ColorAttachments.size(), buffers);
+        GLenum buffers[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+        glDrawBuffers(static_cast<GLsizei>(m_ColorAttachments.size()), buffers);
     }
 
     int Framebuffer::readPixel(uint32 index, const glm::ivec2& location)
@@ -113,7 +113,7 @@ namespace dex
         {
             m_ColorAttachments.at(i).bind();
 
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_ColorAttachments.at(i).getID(), 0);
+            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(i), GL_TEXTURE_2D, m_ColorAttachments.at(i).getID(), 0);
         }
 
         m_RenderBuffer.bind();

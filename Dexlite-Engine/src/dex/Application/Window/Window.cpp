@@ -24,25 +24,27 @@ namespace dex
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        //glfwWindowHint(GLFW_DECORATED, 0);
+        //glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 
 #ifdef __APPLE__
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-
+        
         //auto* vid = glfwGetVideoMode(glfwGetPrimaryMonitor());
         //Handle = glfwCreateWindow(vid->width, vid->height, "Dexlite Engine", glfwGetPrimaryMonitor(), NULL);
+        // For seamless fullscreen (like chrome):
+        //Handle = glfwCreateWindow(vid->width + 1, vid->height + 1, "Dexlite Engine", nullptr, NULL);
 
-        Handle = glfwCreateWindow(dimensions.x, dimensions.y, title.c_str(), NULL, NULL);
-
-        center();
-
+        Handle = glfwCreateWindow(dimensions.x, dimensions.y, title.c_str(), nullptr, nullptr);
+        
         if (!Handle)
         {
             glfwTerminate();
             DEX_LOG_CRITICAL("<dex::Window::Window()>: Creating a GLFW window was not successful.");
         }
 
+        center();
+        
         glfwMakeContextCurrent(Handle);
 
         glfwSetWindowUserPointer(Handle, this);
@@ -119,13 +121,13 @@ namespace dex
                 Event::MouseButton new_btn;
                 switch (button)
                 {
-                case GLFW_MOUSE_BUTTON_1:
+                case GLFW_MOUSE_BUTTON_LEFT:
                     new_btn = Event::MouseButton::LEFT;
                     break;
-                case GLFW_MOUSE_BUTTON_2:
+                case GLFW_MOUSE_BUTTON_RIGHT:
                     new_btn = Event::MouseButton::RIGHT;
                     break;
-                case GLFW_MOUSE_BUTTON_3:
+                case GLFW_MOUSE_BUTTON_MIDDLE:
                     new_btn = Event::MouseButton::MIDDLE;
                     break;
                 default:
@@ -157,15 +159,15 @@ namespace dex
                 this_window->Open = false;
             });
 
-        gladLoadGL(glfwGetProcAddress);
-
+        if (!gladLoadGL(glfwGetProcAddress))
+            DEX_LOG_CRITICAL("<dex::Window::Window()>: Window failed to initialize GLAD.");
+        
         //if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         //    DEX_LOG_CRITICAL("<dex::Window::Window()>: Window failed to initialize GLAD.");
         
         //int version =gladLoadGL(glfwGetProcAddress);
 
         //printf("GL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
-
 
         Input.setWindowHandle(Handle);
 

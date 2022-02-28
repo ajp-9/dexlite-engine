@@ -10,7 +10,7 @@ namespace dex
         : m_ImGuiAPI(window.Handle)
     {
         glEnable(GL_DEPTH_TEST);
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // Clear the color buffer
+        //glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // Clear the color buffer
         
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 

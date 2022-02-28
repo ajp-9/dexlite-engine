@@ -33,7 +33,7 @@ namespace dex
                 {
                     auto& camera = entity.getComponent<Component::Camera>();
 
-                    if (camera.IsEnabled)
+                    //if (camera.IsEnabled)
                         camera.updateViewMatrix(entity.getComponent<Component::Transform>());
                 }
             });

@@ -18,7 +18,7 @@ namespace dex
         void update(const float delta_time);
         void render(const glm::vec2& viewport_size);
     private:
-        void resetViewportCamera();
+        void setupEntities();
     private:
         Window* m_Window = nullptr;
         Renderer* m_Renderer = nullptr;
@@ -28,6 +28,8 @@ namespace dex
 
         Entity SelectedEntity = { entt::null, &Scene };
 
-        dex::Entity m_ViewportCamera = { &Scene, "Viewport Camera", false };
+        dex::Entity m_EditorRoot;
+        dex::Entity m_ViewportCameraBody;
+        dex::Entity m_ViewportCameraHead;
     };
 }
