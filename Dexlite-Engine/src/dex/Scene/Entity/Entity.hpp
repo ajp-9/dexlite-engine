@@ -41,7 +41,7 @@ namespace dex
 
         void updateChildrenTransform();
 
-        inline bool hasParent()
+        bool hasParent()
         {
             return getParent().m_Handle != entt::null;
         }
@@ -51,7 +51,7 @@ namespace dex
         Entity& getParent();
 
         template<typename T, typename... Args>
-        inline T& addComponent(Args&&... args)
+        T& addComponent(Args&&... args)
         {
             if (hasComponent<T>()) DEX_LOG_ERROR("<dex::Entity::addComponent()>: Entity already has that component!");
             
@@ -59,19 +59,19 @@ namespace dex
         }
 
         template <typename T>
-        inline void removeComponent()
+        void removeComponent()
         {
             m_Scene->m_Registry.remove<T>(m_Handle); 
         }
 
         template <typename T>
-        inline T& getComponent() const
+        T& getComponent() const
         { 
             return m_Scene->m_Registry.get<T>(m_Handle);
         }
 
         template <typename T>
-        inline bool hasComponent() const
+        bool hasComponent() const
         { 
             return m_Scene->m_Registry.has<T>(m_Handle);
         }

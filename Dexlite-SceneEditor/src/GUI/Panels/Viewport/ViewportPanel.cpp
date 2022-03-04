@@ -35,7 +35,7 @@ namespace dex
 
         m_Framebuffer.drawBuffers();
 
-        m_CurrentScene->Scene.render(m_Framebuffer.getSize(), *m_Renderer, m_CurrentScene->m_ViewportCameraHead);
+        m_CurrentScene->Scene.render(m_Framebuffer.getSize(), *m_Renderer, m_CurrentScene->ViewportCameraHead);
 
         auto [mx, my] = ImGui::GetMousePos();
         mx -= m_ViewportBounds[0].x;
@@ -47,24 +47,35 @@ namespace dex
 
         if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
         {
-            //ImGui::SetWindowFocus();
-            
             if (m_Window->Input.isMouseReleased(Event::MouseButton::LEFT) && ImGui::IsWindowFocused())
                 m_CurrentScene->SelectedEntity = Entity((entt::entity)m_Framebuffer.readPixel(1, glm::ivec2(mouseX, mouseY)), &m_CurrentScene->Scene);
 
             if (m_Window->Input.getMouseState(Event::MouseButton::MIDDLE))
+            {
+                m_CurrentScene->CurrentViewportState = CurrentScene::ViewportCameraState::FOCAL_POINT;
                 m_Window->setCaptureMouse(true);
+                ImGui::SetWindowFocus();
+            }
 
             if (m_Window->Input.getMouseState(Event::MouseButton::RIGHT))
+            {
+                m_CurrentScene->CurrentViewportState = CurrentScene::ViewportCameraState::FPS;
                 m_Window->setCaptureMouse(true);
+                ImGui::SetWindowFocus();
+            }
         }
 
         if (m_Window->Input.isMouseReleased(Event::MouseButton::MIDDLE))
+        {
+            m_CurrentScene->CurrentViewportState = CurrentScene::ViewportCameraState::NONE;
             m_Window->setCaptureMouse(false);
-
+        }
 
         if (m_Window->Input.isMouseReleased(Event::MouseButton::RIGHT))
+        {
+            m_CurrentScene->CurrentViewportState = CurrentScene::ViewportCameraState::NONE;
             m_Window->setCaptureMouse(false);
+        }
 
         m_Framebuffer.unbind();
         

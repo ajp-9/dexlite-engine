@@ -37,7 +37,8 @@ namespace dex
             {
                 glm::vec3 position = transform.getWorldPosition();
 
-                m_ViewMatrix = glm::lookAt(position, position + transform.getForward(), transform.getUp());
+                //m_ViewMatrix = glm::lookAt(position, position + transform.getForward(), transform.getUp());
+                m_ViewMatrix = glm::inverse(transform.getTransformationMatrix());
             }
                 
             m_ProjectionViewMatrix = m_ProjectionMatrix * m_ViewMatrix;

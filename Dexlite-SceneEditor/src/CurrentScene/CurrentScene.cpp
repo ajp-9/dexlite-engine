@@ -44,11 +44,11 @@ namespace dex
 		Scene.update();
 		m_EditorRoot.updateChildrenTransform();
 		
-		if (m_Window->isMouseCaptured())
-		{
-			auto& cam_body_trans = m_ViewportCameraBody.getComponent<Component::Transform>();
-			auto& cam_head_trans = m_ViewportCameraHead.getComponent<Component::Transform>();
+		auto& cam_body_trans = ViewportCameraBody.getComponent<Component::Transform>();
+		auto& cam_head_trans = ViewportCameraHead.getComponent<Component::Transform>();
 
+		if (CurrentViewportState == ViewportCameraState::FPS)
+		{
 			float32 speed = .8f * delta_time;
 
 			if (m_Window->Input.getKeyState(dex::Event::Key::LEFT_SHIFT))
@@ -85,21 +85,26 @@ namespace dex
 			if (cam_head_trans.getOrientationDegrees().x <= -max_degrees)
 				cam_head_trans.setOrientationEuler(glm::vec3(glm::radians(-max_degrees), 0, 0));
 		}
+		else if (CurrentViewportState == ViewportCameraState::FOCAL_POINT)
+		{
+			//cam_head_trans.setOrientationQuat(Math::decomposeTransformToOrientation(glm::lookAt(cam_head_trans.getWorldPosition(), glm::vec3(0, 0, 0), cam_head_trans.getUp())));
+		}
     }
 
     void CurrentScene::render(const glm::vec2& viewport_size)
     {
-		Scene.render(viewport_size, *m_Renderer, m_ViewportCameraHead);
+		Scene.render(viewport_size, *m_Renderer, ViewportCameraHead);
     }
 
 	void CurrentScene::setupEntities()
 	{
-		m_EditorRoot = Entity(&Scene, "dex::CurrentScene::m_EditorRoot", false);
+		SelectedEntity = Entity(entt::null, &Scene);
+		m_EditorRoot = Entity(&Scene, "dex::CurrentScene::m_EditorRoot", 1);
 
-		m_ViewportCameraBody = m_EditorRoot.addNewChild("dex::CurrentScene::m_ViewportCameraBody");
-		m_ViewportCameraHead = m_ViewportCameraBody.addNewChild("dex::CurrentScene::m_ViewportCameraHead");
+		ViewportCameraBody = m_EditorRoot.addNewChild("dex::CurrentScene::m_ViewportCameraBody");
+		ViewportCameraHead = ViewportCameraBody.addNewChild("dex::CurrentScene::m_ViewportCameraHead");
 
-		auto& comp_camera = m_ViewportCameraHead.addComponent<Component::Camera>(false);
+		auto& comp_camera = ViewportCameraHead.addComponent<Component::Camera>(false);
 
 		comp_camera.setPerspective(65, 0.01, 1000);
 	}

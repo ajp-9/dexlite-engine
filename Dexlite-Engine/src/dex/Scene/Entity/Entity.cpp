@@ -49,17 +49,29 @@ namespace dex
 
     void Entity::addChild(Entity child)
     {
-        if (getParent().m_Handle != child.m_Handle)
+        Entity current_parent_test = getParent();
+        while (current_parent_test.m_Handle != entt::null)
         {
-            getChildren().push_back(child);
-
-            if (child.getParent().m_Handle != entt::null)
+            if (current_parent_test == child)
             {
-                child.getParent().removeChild(child);
+                DEX_LOG_ERROR("<dex::Entity::addChild()>: Can't make an entity ({}) a child of one of its descendants ({}).",
+                    child.getComponent<Component::Tag>().m_Tag,
+                    getComponent<Component::Tag>().m_Tag);
+
+                return;
             }
 
-            child.setParent(Entity(m_Handle, m_Scene));
+            current_parent_test = current_parent_test.getParent();
         }
+
+        getChildren().push_back(child);
+
+        if (child.getParent().m_Handle != entt::null)
+        {
+            child.getParent().removeChild(child);
+        }
+
+        child.setParent(Entity(m_Handle, m_Scene));
     }
 
     void Entity::removeChild(Entity child, bool destroy_handle)

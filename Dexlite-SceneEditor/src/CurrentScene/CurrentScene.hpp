@@ -8,6 +8,8 @@ namespace dex
     class CurrentScene
     {
     public:
+        enum class ViewportCameraState { NONE, FOCAL_POINT, FPS };
+    public:
         CurrentScene(dex::Window* window, dex::Renderer* renderer);
 
         void New();
@@ -22,14 +24,17 @@ namespace dex
     private:
         Window* m_Window = nullptr;
         Renderer* m_Renderer = nullptr;
+
+        dex::Entity m_EditorRoot;
     public:
         dex::Scene Scene;
         std::filesystem::path Path;
 
         Entity SelectedEntity = { entt::null, &Scene };
 
-        dex::Entity m_EditorRoot;
-        dex::Entity m_ViewportCameraBody;
-        dex::Entity m_ViewportCameraHead;
+        ViewportCameraState CurrentViewportState = ViewportCameraState::NONE;
+    public:
+        dex::Entity ViewportCameraBody;
+        dex::Entity ViewportCameraHead;
     };
 }
