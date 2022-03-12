@@ -52,8 +52,7 @@ namespace dex
 
             if (m_Window->Input.getMouseState(Event::MouseButton::MIDDLE))
             {
-                m_CurrentScene->CurrentViewportState = CurrentScene::ViewportCameraState::FOCAL_POINT;
-                m_Window->setCaptureMouse(true);
+                m_CurrentScene->CurrentViewportState = CurrentScene::ViewportCameraState::PAN;
                 ImGui::SetWindowFocus();
             }
 
@@ -68,7 +67,6 @@ namespace dex
         if (m_Window->Input.isMouseReleased(Event::MouseButton::MIDDLE))
         {
             m_CurrentScene->CurrentViewportState = CurrentScene::ViewportCameraState::NONE;
-            m_Window->setCaptureMouse(false);
         }
 
         if (m_Window->Input.isMouseReleased(Event::MouseButton::RIGHT))

@@ -8,7 +8,7 @@ namespace dex
     class CurrentScene
     {
     public:
-        enum class ViewportCameraState { NONE, FOCAL_POINT, FPS };
+        enum class ViewportCameraState { NONE, PAN, FPS };
     public:
         CurrentScene(dex::Window* window, dex::Renderer* renderer);
 
