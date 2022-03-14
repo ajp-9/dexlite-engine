@@ -133,23 +133,21 @@ namespace dex
                 glm::vec3 orientation;
                 glm::vec3 scale;
 
+                trans_matrix = glm::inverse(trans_comp.m_ParentTransformationMatrix) * trans_matrix;
+                
                 //Math::decomposeTransform(trans_matrix, &transform, &orientation, &scale);
-                ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(trans_delta), glm::value_ptr(transform), glm::value_ptr(orientation), glm::value_ptr(scale));
+                ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(trans_matrix), glm::value_ptr(transform), glm::value_ptr(orientation), glm::value_ptr(scale));
                 //ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(w), glm::value_ptr(transform), glm::value_ptr(orientation), glm::value_ptr(scale));
 
                 //DEX_LOG_INFO(transform.x);
 
-                DEX_LOG_INFO("X: {}, Y: {}, Z: {}", transform.x, transform.y, transform.z);
+                //DEX_LOG_INFO("X: {}, Y: {}, Z: {}", transform.x, transform.y, transform.z);
 
-                trans_comp.moveBy(transform);
-                //trans_comp.setPosition(transform);
-                //trans_comp.moveByLocal(transform - trans_comp.getWorldPosition());
-
-                //trans_comp.rotateByQuat(glm::radians(orientation));
-                //trans_comp.setScale(scale);
+                trans_comp.setPosition(transform);
+                trans_comp.setOrientationEuler(glm::radians(orientation));
+                trans_comp.setScale(scale);
             }
         }
-
 
         ImGui::End();
     }
