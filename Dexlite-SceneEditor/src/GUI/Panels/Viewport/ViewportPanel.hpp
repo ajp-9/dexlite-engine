@@ -1,6 +1,8 @@
 #pragma once
 
 #include <dex/Dexlite.hpp>
+#include <imgui/imgui.h>
+#include <ImGuizmo.h>
 #include "../../../CurrentScene/CurrentScene.hpp"
 
 namespace dex
@@ -20,5 +22,7 @@ namespace dex
         Framebuffer m_Framebuffer;
 
         glm::vec2 m_ViewportBounds[2] = { glm::vec2(0, 0), glm::vec2(0, 0) };
+
+        ImGuizmo::OPERATION m_ActiveGuizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
     };
 }

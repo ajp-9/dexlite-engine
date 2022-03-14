@@ -24,6 +24,7 @@ project "Dexlite-SceneEditor"
         "%{IncludeDir.glfw}",
         "%{IncludeDir.glad}",
         "%{IncludeDir.imgui}",
+        "%{IncludeDir.imguizmo}",
         "%{IncludeDir.stb_image}",
         "%{IncludeDir.tinygltf}",
         "%{IncludeDir.spdlog}"
@@ -35,6 +36,7 @@ project "Dexlite-SceneEditor"
         "glad",
         "glfw",
         "imgui",
+        "imguizmo",
         "tinygltf"
     }
 

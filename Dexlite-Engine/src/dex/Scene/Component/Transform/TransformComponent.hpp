@@ -84,6 +84,8 @@ namespace dex
         public:
             glm::mat4 m_TransformationMatrix = glm::mat4(1.0f);
 
+            glm::mat4 m_ParentTransformationMatrix = glm::mat4(1.0f);
+
             glm::vec3 m_Forward = { 0.0f, 0.0f, 0.0f };
             glm::vec3 m_Right = { 0.0f, 0.0f, 0.0f };
             glm::vec3 m_Up = { 0.0f, 0.0f, 0.0f };

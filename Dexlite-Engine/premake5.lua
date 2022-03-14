@@ -21,6 +21,7 @@ project "Dexlite-Engine"
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.glad}",
 		"%{IncludeDir.imgui}",
+		"%{IncludeDir.imguizmo}",
         "%{IncludeDir.stb_image}",
 		"%{IncludeDir.tinygltf}",
 		"%{IncludeDir.spdlog}"
@@ -31,6 +32,7 @@ project "Dexlite-Engine"
 		"glad",
 		"glfw",
 		"imgui",
+		"imguizmo",
 		"tinygltf"
 	}
 

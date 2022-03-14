@@ -26,7 +26,9 @@ namespace dex
             void setOrthographic(float32 size, float32 near_plane, float32 far_plane);
             void setPerspective(float32 fov, float32 near_plane, float32 far_plane);
 
-            const glm::mat4& getProjectionViewMatrix() { return m_ProjectionViewMatrix; }
+            const glm::mat4& getProjectionViewMatrix() const { return m_ProjectionViewMatrix; }
+            const glm::mat4& getProjectionMatrix() const { return m_ProjectionMatrix; }
+            const glm::mat4& getViewMatrix() const { return m_ViewMatrix; }
 
             // Called everytime you move or rotate the camera.
             void updateViewMatrix(const Component::Transform& transform);
