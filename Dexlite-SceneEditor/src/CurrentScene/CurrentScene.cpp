@@ -7,15 +7,11 @@
 
 namespace dex
 {
-    CurrentScene::CurrentScene(dex::Window* window, dex::Renderer* renderer)
-        : m_Window(window), m_Renderer(renderer)
+    CurrentScene::CurrentScene(dex::Window* window, dex::Renderer* renderer, dex::Physics* physics)
+        : m_Window(window), m_Renderer(renderer), m_Physics(physics)
     {
 		Scene = DeserializeScene("assets/scenes/testing0.json", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 
-		btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
-
-
-		delete collisionConfiguration;
 
 		setupEntities();
     }
@@ -50,6 +46,15 @@ namespace dex
     {
 		Scene.update();
 		m_EditorRoot.updateChildrenTransform();
+
+
+		m_Physics->sbody->getWorldTransform().getOrigin().getX();
+		auto& lsph = Scene.getEntity("Light Sphere");
+		btTransform a;
+		m_Physics->sbody->getMotionState()->getWorldTransform(a);
+		lsph.getComponent<Component::Transform>().setPosition(glm::vec3(a.getOrigin().getX(), a.getOrigin().getY(), a.getOrigin().getZ()));
+		
+		m_Physics->sbody->applyForce(btVector3(1, 0, 0), btVector3(0, 0, 0));
 		
 		const auto& mouse_delta = m_Window->Input.getMousePosChange() * (0.095 * static_cast<double>(delta_time));
 

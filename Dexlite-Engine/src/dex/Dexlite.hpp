@@ -10,6 +10,8 @@
 #include "Core/Program/EntryPoint.hpp"
 #include "Core/Engine.hpp"
 
+#include "Physics/Physics.hpp"
+
 #include "Renderer/ImGui/ImGuiAPI.hpp"
 
 #include "Renderer/Material/Material.hpp"

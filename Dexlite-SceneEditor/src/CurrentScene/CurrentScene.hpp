@@ -10,7 +10,7 @@ namespace dex
     public:
         enum class ViewportCameraState { NONE, PAN, FPS };
     public:
-        CurrentScene(dex::Window* window, dex::Renderer* renderer);
+        CurrentScene(dex::Window* window, dex::Renderer* renderer, dex::Physics* physics);
 
         void New();
         void Save();
@@ -24,6 +24,7 @@ namespace dex
     private:
         Window* m_Window = nullptr;
         Renderer* m_Renderer = nullptr;
+        Physics* m_Physics = nullptr;
 
         dex::Entity m_EditorRoot;
     public:

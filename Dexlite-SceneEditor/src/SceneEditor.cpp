@@ -11,6 +11,8 @@ namespace dex
 {
     SceneEditor::SceneEditor()
     {
+        Physics phys;
+
         {
             std::ofstream out_bin = std::ofstream("out.bin", std::ios::binary);
 
@@ -63,6 +65,7 @@ namespace dex
 
         m_GUI.update(Time.getDeltaTime());
         m_CurrentScene.update(Time.getDeltaTime());
+        m_Physics.update();
     }
 
     void SceneEditor::render()

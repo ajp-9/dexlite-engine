@@ -2,6 +2,7 @@
 
 #include <dex/Dexlite.hpp>
 #include "GUI/GUI.hpp"
+#include <dex/Physics/Physics.hpp>
 
 // Todo:
 // - Rehaul layer system
@@ -23,9 +24,10 @@ namespace dex
     private:
         dex::Window m_Window = { "Dexlite Scene-Editor", glm::uvec2(1280, 800) };
         dex::Renderer m_Renderer = { m_Window };
+        dex::Physics m_Physics;
         dex::Time Time;
     private:
-        CurrentScene m_CurrentScene = { &m_Window, &m_Renderer };
+        CurrentScene m_CurrentScene = { &m_Window, &m_Renderer, &m_Physics };
 
         GUI m_GUI = GUI(&m_Window, &m_Renderer, &m_CurrentScene, &Running);
     };
