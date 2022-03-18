@@ -43,8 +43,8 @@ namespace dex
         my -= m_ViewportBounds[0].y;
         glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
         my = viewportSize.y - my;
-        int mouseX = (int)mx;
-        int mouseY = (int)my;
+        int mouseX = static_cast<int>(mx);
+        int mouseY = static_cast<int>(my);
 
         if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
         {
@@ -82,7 +82,12 @@ namespace dex
         
         // Guizmo:
 
-        if (!m_Window->isMouseCaptured())
+        ImGuizmo::SetOrthographic(false);
+        ImGuizmo::SetDrawlist();
+
+        ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowSize().x, ImGui::GetWindowSize().y);
+
+        if (ImGui::IsWindowFocused() && !m_Window->isMouseCaptured())
         {
             if (m_Window->Input.isKeyPressed(Event::Key::W))
                 m_ActiveGuizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
@@ -90,43 +95,38 @@ namespace dex
                 m_ActiveGuizmoOperation = ImGuizmo::OPERATION::ROTATE;
             if (m_Window->Input.isKeyPressed(Event::Key::R))
                 m_ActiveGuizmoOperation = ImGuizmo::OPERATION::SCALE;
-
         }
 
+        const auto& camera = m_CurrentScene->ViewportCameraHead.getComponent<Component::Camera>();
 
+        glm::mat4 cam_proj = camera.getProjectionMatrix();
+        glm::mat4 cam_view = camera.getViewMatrix();
+
+        //ImGuizmo::DrawGrid(glm::value_ptr(cam_view), glm::value_ptr(cam_proj), glm::value_ptr(glm::mat4(1.0f)), 50.0f);
 
         if (m_CurrentScene->SelectedEntity.isValid())
         {
-            ImGuizmo::SetOrthographic(false);
-            ImGuizmo::SetDrawlist();
-
-            ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
-
-            const auto& camera = m_CurrentScene->ViewportCameraHead.getComponent<Component::Camera>();
-
-            glm::mat4 cam_proj = camera.getProjectionMatrix();
-            glm::mat4 cam_view = camera.getViewMatrix();
-
-            auto& trans_comp =  m_CurrentScene->SelectedEntity.getComponent<Component::Transform>();
+            auto& trans_comp = m_CurrentScene->SelectedEntity.getComponent<Component::Transform>();
             auto trans_matrix = trans_comp.getTransformationMatrix();
-            
-            //ImGuizmo::DrawGrid(glm::value_ptr(cam_view),
-            //    glm::value_ptr(cam_proj), glm::value_ptr(glm::mat4(1.0f)), 10.f);
 
-            auto trans_delta = glm::mat4(1.0f);
-                /*glm::translate(glm::mat4(1.0f), trans_comp.getPosition()) *
-                glm::toMat4(trans_comp.getOrientationQuat()) *
-                glm::scale(glm::mat4(1.0f), trans_comp.getScale());*/
+            // Snapping
+            bool enable_snap = m_Window->Input.getKeyState(Event::Key::LEFT_SHIFT);
 
-            //ImGuizmo::dex::ManipulateSeperated(
+            float snapValue = 1.0f;
+            if (m_ActiveGuizmoOperation == ImGuizmo::OPERATION::ROTATE)
+                snapValue = 45.0f;
+
+            float snapValues[3] = { snapValue, snapValue, snapValue };
+
             ImGuizmo::Manipulate(
                 glm::value_ptr(cam_view),
                 glm::value_ptr(cam_proj),
                 m_ActiveGuizmoOperation,
                 ImGuizmo::MODE::LOCAL,
                 glm::value_ptr(trans_matrix),
-                glm::value_ptr(trans_delta));
-
+                (float*)0,
+                enable_snap ? snapValues : (const float*)0);
+            
             if (ImGuizmo::IsUsing())
             {
                 glm::vec3 transform;
@@ -135,13 +135,7 @@ namespace dex
 
                 trans_matrix = glm::inverse(trans_comp.m_ParentTransformationMatrix) * trans_matrix;
                 
-                //Math::decomposeTransform(trans_matrix, &transform, &orientation, &scale);
                 ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(trans_matrix), glm::value_ptr(transform), glm::value_ptr(orientation), glm::value_ptr(scale));
-                //ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(w), glm::value_ptr(transform), glm::value_ptr(orientation), glm::value_ptr(scale));
-
-                //DEX_LOG_INFO(transform.x);
-
-                //DEX_LOG_INFO("X: {}, Y: {}, Z: {}", transform.x, transform.y, transform.z);
 
                 trans_comp.setPosition(transform);
                 trans_comp.setOrientationEuler(glm::radians(orientation));

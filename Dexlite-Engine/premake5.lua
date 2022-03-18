@@ -24,7 +24,12 @@ project "Dexlite-Engine"
 		"%{IncludeDir.imguizmo}",
         "%{IncludeDir.stb_image}",
 		"%{IncludeDir.tinygltf}",
-		"%{IncludeDir.spdlog}"
+		"%{IncludeDir.spdlog}",
+
+        "%{IncludeDir.bullet3}",
+		"%{IncludeDir.bullet3_LinearMath}",
+        "%{IncludeDir.bullet3_BulletCollision}",
+        "%{IncludeDir.bullet3_BulletDynamics}"
 	}
 
 	links
@@ -33,7 +38,11 @@ project "Dexlite-Engine"
 		"glfw",
 		"imgui",
 		"imguizmo",
-		"tinygltf"
+		"tinygltf",
+
+		"LinearMath",
+		"BulletCollision",
+		"BulletDynamics"
 	}
 
 	defines

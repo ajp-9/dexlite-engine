@@ -3,12 +3,19 @@
 #include <dex/Scene/Serializer/SceneSerializer.hpp>
 #include <dex/Scene/Serializer/SceneDeserializer.hpp>
 
+#include <bullet3/btBulletDynamicsCommon.h>
+
 namespace dex
 {
     CurrentScene::CurrentScene(dex::Window* window, dex::Renderer* renderer)
         : m_Window(window), m_Renderer(renderer)
     {
 		Scene = DeserializeScene("assets/scenes/testing0.json", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
+
+		btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
+
+
+		delete collisionConfiguration;
 
 		setupEntities();
     }
@@ -57,10 +64,10 @@ namespace dex
 			}
 			case ViewportCameraState::FPS:
 			{
-				float32 speed = .8f * delta_time;
+				float32 speed = 1.5f * delta_time;
 
 				if (m_Window->Input.getKeyState(dex::Event::Key::LEFT_SHIFT))
-					speed = 6 * delta_time;
+					speed = 7.5f * delta_time;
 
 				if (m_Window->Input.getKeyState(dex::Event::Key::W))
 					cam_body_trans.moveByLocal(glm::vec3(0, 0, speed));
@@ -95,8 +102,13 @@ namespace dex
 			}
 			case ViewportCameraState::PAN:
 			{
-				cam_body_trans.moveBy(cam_head_trans.getRight() * static_cast<float>(mouse_delta.x) * 3.0f);
-				cam_body_trans.moveBy(cam_head_trans.getUp() * static_cast<float>(mouse_delta.y) * 3.0f);
+				float32 speed = 350.0f * delta_time;
+
+				if (m_Window->Input.getKeyState(dex::Event::Key::LEFT_SHIFT))
+					speed = 950.0f * delta_time;
+
+				cam_body_trans.moveBy(-(cam_head_trans.getRight() * static_cast<float>(mouse_delta.x) * speed));
+				cam_body_trans.moveBy(-(cam_head_trans.getUp() * static_cast<float>(mouse_delta.y) * speed));
 				
 				break;
 			}
@@ -118,6 +130,6 @@ namespace dex
 
 		auto& comp_camera = ViewportCameraHead.addComponent<Component::Camera>(false);
 
-		comp_camera.setPerspective(65, 0.01, 1000);
+		comp_camera.setPerspective(65.0f, 0.01f, 500.0f);
 	}
 }
