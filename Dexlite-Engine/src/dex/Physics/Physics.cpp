@@ -1,5 +1,7 @@
 #include "Physics.hpp"
 
+#include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
+
 namespace dex
 {
     Physics::Physics()
@@ -15,6 +17,12 @@ namespace dex
 
         {
             btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(50.), btScalar(50.)));
+            //btTriangleMeshShape::
+            //btBvhTriangleMeshShape()
+            
+
+            //btConvexHullShape();
+            
 
             btTransform groundTransform;
             groundTransform.setIdentity();

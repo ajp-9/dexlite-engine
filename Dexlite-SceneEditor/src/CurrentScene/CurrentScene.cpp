@@ -47,15 +47,20 @@ namespace dex
 		Scene.update();
 		m_EditorRoot.updateChildrenTransform();
 
+		auto lsph = Scene.getEntity("Light Sphere");
+
 
 		m_Physics->sbody->getWorldTransform().getOrigin().getX();
-		auto& lsph = Scene.getEntity("Light Sphere");
 		btTransform a;
 		m_Physics->sbody->getMotionState()->getWorldTransform(a);
+		//m_Physics->sbody->setActivationState(false);
+
 		lsph.getComponent<Component::Transform>().setPosition(glm::vec3(a.getOrigin().getX(), a.getOrigin().getY(), a.getOrigin().getZ()));
 		
 		m_Physics->sbody->applyForce(btVector3(1, 0, 0), btVector3(0, 0, 0));
 		
+		
+
 		const auto& mouse_delta = m_Window->Input.getMousePosChange() * (0.095 * static_cast<double>(delta_time));
 
 		auto& cam_body_trans = ViewportCameraBody.getComponent<Component::Transform>();

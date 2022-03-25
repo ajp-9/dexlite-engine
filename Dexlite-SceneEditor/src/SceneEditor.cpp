@@ -56,6 +56,7 @@ namespace dex
     void SceneEditor::update()
     {
         Time.doCycle();
+        m_Physics.update();
 
         if (m_Window.Input.isKeyPressed(Event::Key::F11))
             if (!m_Window.isFullscreen())
@@ -65,7 +66,6 @@ namespace dex
 
         m_GUI.update(Time.getDeltaTime());
         m_CurrentScene.update(Time.getDeltaTime());
-        m_Physics.update();
     }
 
     void SceneEditor::render()
