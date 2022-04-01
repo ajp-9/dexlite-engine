@@ -1,14 +1,16 @@
 #include "Scene.hpp"
 
 #include "../Core/Engine.hpp"
-#include "Entity/Entity.hpp"
-#include "../Renderer/Shader/ShaderManager.hpp"
-#include "Component/Camera/CameraComponent.hpp"
-#include "Component/LightComponents.hpp"
+#include "../Physics/Physics.hpp"
 #include "../Util/Logging.hpp"
-#include "../Scene/Component/ModelComponent.hpp"
+#include "../Renderer/Shader/ShaderManager.hpp"
+#include "Entity/Entity.hpp"
 #include "Component/Camera/CameraComponent.hpp"
 #include "Component/LightComponents.hpp"
+#include "Component/RigidBody/RigidBodyComponent.hpp"
+#include "Component/Camera/CameraComponent.hpp"
+#include "Component/LightComponents.hpp"
+#include "Component/ModelComponent.hpp"
 
 namespace dex
 {
@@ -173,9 +175,29 @@ namespace dex
         }
     }
 
-    void Scene::physics()
+    void Scene::physics(Physics* physics)
     {
+        const auto& rigidbody_view = m_Registry.view<Component::RigidBody>();
 
+        for (auto& rigidbody_id : rigidbody_view)
+        {
+            Component::RigidBody& rigidbody = m_Registry.get<Component::RigidBody>(rigidbody_id);
+            Component::Transform& transform = m_Registry.get<Component::Transform>(rigidbody_id);
+
+            switch (rigidbody.Type)
+            {
+            case Component::RigidBody::Type::STATIC:
+            case Component::RigidBody::Type::KINEMATIC:
+                rigidbody.setTransform(transform.getPosition(), transform.getOrientationQuat());
+                break;
+            case Component::RigidBody::Type::DYNAMIC:
+                transform.setPosition(rigidbody.getPosition());
+                transform.setOrientationQuat(rigidbody.getOrientation());
+                break;
+            }
+
+            //rigidbody.Body->applyTorqueImpulse(btVector3(190, 40, 60));
+        }
     }
 
     Entity Scene::getEntity(const std::string& tag)

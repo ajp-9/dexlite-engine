@@ -4,6 +4,7 @@
 #include <dex/Scene/Serializer/SceneDeserializer.hpp>
 
 #include <bullet3/btBulletDynamicsCommon.h>
+#include <dex/Scene/Component/RigidBody/RigidBodyComponent.hpp>
 
 namespace dex
 {
@@ -14,6 +15,8 @@ namespace dex
 
 
 		setupEntities();
+		auto lsph = Scene.getEntity("Warlock");
+		lsph.addComponent<Component::RigidBody>(m_Physics, std::make_shared<SphereCollisionShape>(1.0f), lsph.getComponent<Component::Transform>().getPosition(), lsph.getComponent<Component::Transform>().getOrientationQuat(), 1.0f);
     }
 
 	void CurrentScene::New()
@@ -45,9 +48,10 @@ namespace dex
     void CurrentScene::update(const float delta_time)
     {
 		Scene.update();
+		Scene.physics(m_Physics);
 		m_EditorRoot.updateChildrenTransform();
 
-		auto lsph = Scene.getEntity("Light Sphere");
+		/*auto lsph = Scene.getEntity("Light Sphere");
 
 		//DEX_LOG_INFO(m_Physics->sbody->coll());
 		m_Physics->sbody->getWorldTransform().getOrigin().getX();
@@ -58,7 +62,7 @@ namespace dex
 		lsph.getComponent<Component::Transform>().setPosition(glm::vec3(a.getOrigin().getX(), a.getOrigin().getY(), a.getOrigin().getZ()));
 		
 		m_Physics->sbody->applyForce(btVector3(1, 0, 0), btVector3(0, 0, 0));
-		
+		*/
 		
 
 		const auto& mouse_delta = m_Window->Input.getMousePosChange() * (0.095 * static_cast<double>(delta_time));

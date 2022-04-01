@@ -11,7 +11,7 @@ namespace dex
 {
     SceneEditor::SceneEditor()
     {
-        Physics phys;
+        //Physics phys;
 
         {
             std::ofstream out_bin = std::ofstream("out.bin", std::ios::binary);

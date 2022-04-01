@@ -9,6 +9,7 @@ namespace dex
     class Entity;
     class Scene;
     class Renderer;
+    class Physics;
 
     class Scene
     {
@@ -27,7 +28,7 @@ namespace dex
 
         void update();
         void render(const glm::vec2& viewport_size, Renderer& renderer, entt::entity camera = entt::null);
-        void physics();
+        void physics(Physics* physics);
 
         Entity getEntity(const std::string& tag);
 

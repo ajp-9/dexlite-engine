@@ -1,5 +1,6 @@
 #include "Physics.hpp"
 
+#include <glm/glm.hpp>
 #include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
 #include "../Util/Logging.hpp"
 
@@ -7,11 +8,11 @@ namespace dex
 {
     Physics::Physics()
     {
-        m_CollisionConfig     = std::make_unique<btDefaultCollisionConfiguration>();
-        m_CollisionDispatcher = std::make_unique<btCollisionDispatcher>(m_CollisionConfig.get());
-        m_BroadphaseInterface = std::make_unique<btDbvtBroadphase>();
-        m_CollisionSolver     = std::make_unique<btSequentialImpulseConstraintSolver>();
-        m_DynamicsWorld       = std::make_unique<btDiscreteDynamicsWorld>(m_CollisionDispatcher.get(), m_BroadphaseInterface.get(), m_CollisionSolver.get(), m_CollisionConfig.get());
+        m_CollisionConfig     = new btDefaultCollisionConfiguration();
+        m_CollisionDispatcher = new btCollisionDispatcher(m_CollisionConfig);
+        m_BroadphaseInterface = new btDbvtBroadphase();
+        m_CollisionSolver     = new btSequentialImpulseConstraintSolver();
+        m_DynamicsWorld       = new btDiscreteDynamicsWorld(m_CollisionDispatcher, m_BroadphaseInterface, m_CollisionSolver, m_CollisionConfig);
 
         m_DynamicsWorld->setGravity(btVector3(0, -5, 0));
 
@@ -28,6 +29,7 @@ namespace dex
             btTransform groundTransform;
             groundTransform.setIdentity();
             groundTransform.setOrigin(btVector3(0, -56, 0));
+            groundTransform.setRotation(btQuaternion(glm::radians(15.), glm::radians(30.), 0));
 
             btScalar mass(0.);
 
@@ -72,7 +74,7 @@ namespace dex
             btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
             
             sbody = new btRigidBody(rbInfo);
-            sbody->setRestitution(.5);
+            sbody->setRestitution(1.5);
             m_DynamicsWorld->addRigidBody(sbody);
         }
 
@@ -80,9 +82,30 @@ namespace dex
         //m_DynamicsWorld->([](btDynamicsWorld* world, btScalar timeStep) {DEX_LOG_INFO("wat"); });
     }
 
+    Physics::~Physics()
+    {
+        for (int i = m_DynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--)
+        {
+            btCollisionObject* obj = m_DynamicsWorld->getCollisionObjectArray()[i];
+            btRigidBody* body = btRigidBody::upcast(obj);
+            if (body && body->getMotionState())
+            {
+                delete body->getMotionState();
+            }
+            m_DynamicsWorld->removeCollisionObject(obj);
+            delete obj;
+        }
+
+        delete m_DynamicsWorld;
+        delete m_CollisionSolver;
+        delete m_BroadphaseInterface;
+        delete m_CollisionDispatcher;
+        delete m_CollisionConfig;
+    }
+
     void Physics::update()
     {
         m_DynamicsWorld->stepSimulation(1.0f / 60.0f, 10);
-        DEX_LOG_INFO(sbody->checkCollideWith(floor));
+        //DEX_LOG_INFO(sbody->checkCollideWith(floor));
     }
 }

@@ -9,16 +9,17 @@ namespace dex
     {
     public:
         Physics();
+        ~Physics();
 
         void update();
 
         btRigidBody* sbody;
         btRigidBody* floor;
 
-        std::unique_ptr<btDefaultCollisionConfiguration> m_CollisionConfig;
-        std::unique_ptr<btCollisionDispatcher> m_CollisionDispatcher;
-        std::unique_ptr<btBroadphaseInterface> m_BroadphaseInterface;
-        std::unique_ptr<btSequentialImpulseConstraintSolver> m_CollisionSolver;
-        std::unique_ptr<btDiscreteDynamicsWorld> m_DynamicsWorld;
+        btDefaultCollisionConfiguration*     m_CollisionConfig;
+        btCollisionDispatcher*               m_CollisionDispatcher;
+        btBroadphaseInterface*               m_BroadphaseInterface;
+        btSequentialImpulseConstraintSolver* m_CollisionSolver;
+        btDiscreteDynamicsWorld*             m_DynamicsWorld;
     };
 }
