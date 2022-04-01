@@ -13,6 +13,7 @@ namespace dex
         void update();
 
         btRigidBody* sbody;
+        btRigidBody* floor;
 
         std::unique_ptr<btDefaultCollisionConfiguration> m_CollisionConfig;
         std::unique_ptr<btCollisionDispatcher> m_CollisionDispatcher;

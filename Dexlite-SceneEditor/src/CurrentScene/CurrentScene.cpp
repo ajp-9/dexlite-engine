@@ -49,7 +49,7 @@ namespace dex
 
 		auto lsph = Scene.getEntity("Light Sphere");
 
-
+		//DEX_LOG_INFO(m_Physics->sbody->coll());
 		m_Physics->sbody->getWorldTransform().getOrigin().getX();
 		btTransform a;
 		m_Physics->sbody->getMotionState()->getWorldTransform(a);

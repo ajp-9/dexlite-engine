@@ -1,6 +1,7 @@
 #include "Physics.hpp"
 
 #include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
+#include "../Util/Logging.hpp"
 
 namespace dex
 {
@@ -40,10 +41,10 @@ namespace dex
             //using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
             btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
             btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
-            btRigidBody* body = new btRigidBody(rbInfo);
-            body->setRestitution(1.0f);
+            floor = new btRigidBody(rbInfo);
+            floor->setRestitution(1.0f);
             //add the body to the dynamics world
-            m_DynamicsWorld->addRigidBody(body);
+            m_DynamicsWorld->addRigidBody(floor);
         }
 
         {
@@ -55,7 +56,7 @@ namespace dex
             btTransform startTransform;
             startTransform.setIdentity();
 
-            btScalar mass(5.f);
+            btScalar mass(10.f);
 
             //rigidbody is dynamic if and only if mass is non zero, otherwise static
             bool isDynamic = (mass != 0.f);
@@ -69,14 +70,19 @@ namespace dex
             //using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
             btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
             btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+            
             sbody = new btRigidBody(rbInfo);
             sbody->setRestitution(.5);
             m_DynamicsWorld->addRigidBody(sbody);
         }
+
+
+        //m_DynamicsWorld->([](btDynamicsWorld* world, btScalar timeStep) {DEX_LOG_INFO("wat"); });
     }
 
     void Physics::update()
     {
         m_DynamicsWorld->stepSimulation(1.0f / 60.0f, 10);
+        DEX_LOG_INFO(sbody->checkCollideWith(floor));
     }
 }
