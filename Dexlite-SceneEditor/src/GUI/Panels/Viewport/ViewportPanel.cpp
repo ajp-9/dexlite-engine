@@ -129,16 +129,18 @@ namespace dex
             
             if (ImGuizmo::IsUsing())
             {
-                glm::vec3 transform;
-                glm::vec3 orientation;
-                glm::vec3 scale;
+                glm::vec3 transform = {};
+                glm::quat orientation = {};
+                glm::vec3 scale = {};
 
                 trans_matrix = glm::inverse(trans_comp.m_ParentTransformationMatrix) * trans_matrix;
                 
-                ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(trans_matrix), glm::value_ptr(transform), glm::value_ptr(orientation), glm::value_ptr(scale));
+                //ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(trans_matrix), glm::value_ptr(transform), glm::value_ptr(orientation), glm::value_ptr(scale));
+
+                Math::decomposeTransform(trans_matrix, &transform, &orientation, &scale);
 
                 trans_comp.setPosition(transform);
-                trans_comp.setOrientationEuler(glm::radians(orientation));
+                trans_comp.setOrientationQuat(orientation);
                 trans_comp.setScale(scale);
             }
         }

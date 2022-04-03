@@ -2,6 +2,8 @@
 
 #include <memory>
 #include <bullet3/btBulletDynamicsCommon.h>
+#include "RigidBody/RigidBody.hpp"
+#include "../Util/Transform/BasicTransform.hpp"
 
 namespace dex
 {
@@ -12,6 +14,8 @@ namespace dex
         ~Physics();
 
         void update();
+
+        RigidBody createRigidbody(RigidBodyType type, const std::shared_ptr<CollisionShape>& collision_shape, float mass, const BasicTransform& transform);
 
         btRigidBody* sbody;
         btRigidBody* floor;

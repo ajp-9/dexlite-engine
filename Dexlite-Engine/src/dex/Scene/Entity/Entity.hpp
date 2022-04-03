@@ -53,6 +53,7 @@ namespace dex
         template<typename T, typename... Args>
         T& addComponent(Args&&... args)
         {
+            //typedef comp
             if (hasComponent<T>()) DEX_LOG_ERROR("<dex::Entity::addComponent()>: Entity already has that component!");
             
             return m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<Args>(args)...);

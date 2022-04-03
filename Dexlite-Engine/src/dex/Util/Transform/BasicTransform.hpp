@@ -6,10 +6,9 @@
 
 namespace dex
 {
-    struct Transform
+    struct BasicTransform
     {
         glm::vec3 Position;
-        glm::quat Rotation;
-        glm::vec3 Scale;
+        glm::quat Orientation;
     };
 }

@@ -7,10 +7,11 @@
 #include "Entity/Entity.hpp"
 #include "Component/Camera/CameraComponent.hpp"
 #include "Component/LightComponents.hpp"
-#include "Component/RigidBody/RigidBodyComponent.hpp"
 #include "Component/Camera/CameraComponent.hpp"
 #include "Component/LightComponents.hpp"
 #include "Component/ModelComponent.hpp"
+#include "Components.hpp"
+
 
 namespace dex
 {
@@ -186,11 +187,11 @@ namespace dex
 
             switch (rigidbody.Type)
             {
-            case Component::RigidBody::Type::STATIC:
-            case Component::RigidBody::Type::KINEMATIC:
+            case RigidBodyType::STATIC:
+            case RigidBodyType::KINEMATIC:
                 rigidbody.setTransform(transform.getPosition(), transform.getOrientationQuat());
                 break;
-            case Component::RigidBody::Type::DYNAMIC:
+            case RigidBodyType::DYNAMIC:
                 transform.setPosition(rigidbody.getPosition());
                 transform.setOrientationQuat(rigidbody.getOrientation());
                 break;

@@ -15,13 +15,7 @@ namespace dex
                 glm::toMat4(m_Orientation) *
                 glm::scale(glm::mat4(1.0f), m_Scale);
 
-            m_World_Position    = Math::decomposeTransformToTranslation(m_TransformationMatrix);
-            m_World_Orientation = Math::decomposeTransformToOrientation(m_TransformationMatrix);
-            m_World_Scale       = Math::decomposeTransformToScale(m_TransformationMatrix);
-
-            m_Forward = m_World_Orientation * glm::vec3(0, 0, 1);
-            m_Up      = m_World_Orientation * glm::vec3(0, 1, 0);
-            m_Right   = m_World_Orientation * glm::vec3(1, 0, 0);
+            Math::decomposeTransform(m_TransformationMatrix, &m_World_Position, &m_World_Orientation, &m_World_Scale);
 
             //DEX_LOG_INFO("Did for: {}", m_Entity.getComponent<Component::Tag>().m_Tag);
 

@@ -11,7 +11,7 @@ namespace dex
         {
             CollisionShape()
             {
-                btConvexHullShape()
+                //btConvexHullShape()
             }
 
             std::unique_ptr<btCollisionShape> Shape;

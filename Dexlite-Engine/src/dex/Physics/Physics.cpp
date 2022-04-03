@@ -105,7 +105,32 @@ namespace dex
 
     void Physics::update()
     {
-        m_DynamicsWorld->stepSimulation(1.0f / 60.0f, 10);
+        m_DynamicsWorld->stepSimulation(1.0f / 60.0f);
         //DEX_LOG_INFO(sbody->checkCollideWith(floor));
+    }
+
+    RigidBody Physics::createRigidbody(RigidBodyType type, const std::shared_ptr<CollisionShape>& collision_shape, float mass, const BasicTransform& transform)
+    {
+        btMotionState* motion_state = new btDefaultMotionState(
+            btTransform(
+                btQuaternion(
+                    transform.Orientation.x,
+                    transform.Orientation.y,
+                    transform.Orientation.z,
+                    transform.Orientation.w),
+                btVector3(
+                    transform.Position.x,
+                    transform.Position.y,
+                    transform.Position.z)
+            ));
+
+        btRigidBody::btRigidBodyConstructionInfo rb_info(mass, motion_state, collision_shape->m_BtShape, btVector3(1, 1, 1));
+        btRigidBody* body = new btRigidBody(rb_info);
+
+        body->setRestitution(1.0);
+
+        m_DynamicsWorld->addRigidBody(body);
+
+        return RigidBody(body, type, collision_shape);
     }
 }

@@ -4,19 +4,20 @@
 #include <dex/Scene/Serializer/SceneDeserializer.hpp>
 
 #include <bullet3/btBulletDynamicsCommon.h>
-#include <dex/Scene/Component/RigidBody/RigidBodyComponent.hpp>
+#include <dex/Scene/Components.hpp>
 
 namespace dex
 {
+	typedef Component::Model ModelComponent;
+
     CurrentScene::CurrentScene(dex::Window* window, dex::Renderer* renderer, dex::Physics* physics)
         : m_Window(window), m_Renderer(renderer), m_Physics(physics)
     {
 		Scene = DeserializeScene("assets/scenes/testing0.json", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 
-
 		setupEntities();
 		auto lsph = Scene.getEntity("Warlock");
-		lsph.addComponent<Component::RigidBody>(m_Physics, std::make_shared<SphereCollisionShape>(1.0f), lsph.getComponent<Component::Transform>().getPosition(), lsph.getComponent<Component::Transform>().getOrientationQuat(), 1.0f);
+		lsph.addComponent<Component::RigidBody>(m_Physics->createRigidbody(RigidBodyType::DYNAMIC, std::make_shared<SphereCollisionShape>(1.0), 1.0f, lsph.getComponent<Component::Transform>().getBasicTransform()));
     }
 
 	void CurrentScene::New()
