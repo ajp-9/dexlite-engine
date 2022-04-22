@@ -1,6 +1,7 @@
 #include "ShaderManager.hpp"
 
 #include "ShaderBase.hpp"
+#include "3D/ShaderLine3D.h"
 #include "3D/ShaderDefault3D.hpp"
 
 namespace dex
@@ -10,6 +11,7 @@ namespace dex
         Manager::Manager()
         {
             addShader(std::make_shared<Base>());
+            addShader(std::make_shared<Line3D>());
             addShader(std::make_shared<Default3D>());
         }
 
@@ -38,6 +40,7 @@ namespace dex
 
             for (auto& shader : m_Shaders)
             {
+                shader->bind();
                 shader->updateGlobalUniforms(m_CurrentGlobalUniforms);
             }
 

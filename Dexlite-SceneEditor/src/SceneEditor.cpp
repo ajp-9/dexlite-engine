@@ -10,6 +10,7 @@
 namespace dex
 {
     SceneEditor::SceneEditor()
+        : m_Physics(&m_Renderer)
     {
         //Physics phys;
 

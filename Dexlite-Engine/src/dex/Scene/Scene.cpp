@@ -167,8 +167,14 @@ namespace dex
 
             m_GlobalShaderUniforms.setAllClean();
 
+            renderer.ShaderManager.getShader(Shader::Type::DEFAULT_3D)->bind();
             for (auto render_model_lambda : SceneManager::m_Scene_RenderModel_Functions)
                 render_model_lambda(m_Registry);
+
+            renderer.ShaderManager.getShader(Shader::Type::LINE_3D)->bind();
+            renderer.LineMesh.create();
+            renderer.LineMesh.draw();
+
         }
         else
         {

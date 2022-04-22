@@ -7,6 +7,7 @@
 #include "Shader/ShaderManager.hpp"
 #include "Material/MaterialManager.hpp"
 #include "ImGui/ImGuiAPI.hpp"
+#include "Mesh/LineMesh.hpp"
 
 namespace dex
 {   
@@ -31,6 +32,7 @@ namespace dex
     public:
         Shader::Manager ShaderManager;
         ImGuiAPI m_ImGuiAPI;
+        LineMesh3D LineMesh;
     private:
         bool m_ChangeProjectionMatrixNext = true; // For when the window/viewport resizes
         glm::uvec2 m_ViewportSize = glm::uvec2(0);

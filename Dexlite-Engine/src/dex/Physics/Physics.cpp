@@ -6,7 +6,7 @@
 
 namespace dex
 {
-    Physics::Physics()
+    Physics::Physics(Renderer* renderer)
     {
         m_CollisionConfig     = new btDefaultCollisionConfiguration();
         m_CollisionDispatcher = new btCollisionDispatcher(m_CollisionConfig);
@@ -18,71 +18,11 @@ namespace dex
 
 
         DEX_LOG_INFO((uint64)m_DynamicsWorld->getDebugDrawer());
-        m_DebugDraw = new DebugDraw();
-        //m_DynamicsWorld->setDebugDrawer();
+        m_DebugDraw = new DebugDraw(renderer);
+        m_DebugDraw->setDebugMode(DebugDraw::DBG_DrawWireframe | DebugDraw::DBG_DrawAabb | DebugDraw::DBG_DrawNormals);
+        m_DynamicsWorld->setDebugDrawer(m_DebugDraw);
 
-
-        {
-            btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(50.), btScalar(50.)));
-            //btTriangleMeshShape::
-            //btBvhTriangleMeshShape()
-            
-
-            //btConvexHullShape();
-            
-
-            btTransform groundTransform;
-            groundTransform.setIdentity();
-            groundTransform.setOrigin(btVector3(0, -56, 0));
-            //groundTransform.setRotation(btQuaternion(glm::radians(15.), glm::radians(30.), 0));
-
-            btScalar mass(0.);
-
-            //rigidbody is dynamic if and only if mass is non zero, otherwise static
-            bool isDynamic = (mass != 0.f);
-
-            btVector3 localInertia(3000, 0, 0);
-            if (isDynamic)
-                groundShape->calculateLocalInertia(mass, localInertia);
-
-            //using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
-            btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
-            btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
-            floor = new btRigidBody(rbInfo);
-            floor->setRestitution(.8f);
-            //add the body to the dynamics world
-            //m_DynamicsWorld->addRigidBody(floor);
-        }
-
-        {
-            //create a dynamic rigidbody
-
-            btCollisionShape* colShape = new btSphereShape(btScalar(1.4));
-
-            /// Create Dynamic Objects
-            btTransform startTransform;
-            startTransform.setIdentity();
-
-            btScalar mass(10.f);
-
-            //rigidbody is dynamic if and only if mass is non zero, otherwise static
-            bool isDynamic = (mass != 0.f);
-
-            btVector3 localInertia(0, 0, 0);
-            if (isDynamic)
-                colShape->calculateLocalInertia(mass, localInertia);
-
-            startTransform.setOrigin(btVector3(2, 10, 0));
-
-            //using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-            btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
-            btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
-            
-            sbody = new btRigidBody(rbInfo);
-            sbody->setRestitution(1.5);
-            m_DynamicsWorld->addRigidBody(sbody);
-        }
-
+        DEX_LOG_INFO((uint64)m_DynamicsWorld->getDebugDrawer());
 
         //m_DynamicsWorld->([](btDynamicsWorld* world, btScalar timeStep) {DEX_LOG_INFO("wat"); });
     }
@@ -112,6 +52,8 @@ namespace dex
     {
         m_DynamicsWorld->stepSimulation(1.0f / 60.0f);
         //DEX_LOG_INFO(sbody->checkCollideWith(floor));
+        m_DynamicsWorld->debugDrawWorld();
+
     }
 
     RigidBody Physics::createRigidbody(RigidBodyType type, const std::shared_ptr<CollisionShape>& collision_shape, float mass, const BasicTransform& transform)

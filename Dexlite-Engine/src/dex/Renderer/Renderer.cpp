@@ -33,11 +33,13 @@ namespace dex
     {
         m_ChangeProjectionMatrixNext = false;
 
+
         m_ImGuiAPI.endFrame();
     }
 
     void Renderer::update()
     {
+
     }
 
     void Renderer::setViewportSize(glm::uvec2 size)

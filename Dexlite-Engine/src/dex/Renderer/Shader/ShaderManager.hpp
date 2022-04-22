@@ -39,6 +39,7 @@ namespace dex
         enum class Type : uint8
         {
             BASE,
+            LINE_3D,
             DEFAULT_3D,
             TEXTURE_3D
         };
