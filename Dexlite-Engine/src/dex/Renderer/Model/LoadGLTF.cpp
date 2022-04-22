@@ -3,6 +3,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 #include <glm/vec3.hpp>
+#include <fstream>
 
 namespace dex
 {
@@ -130,27 +131,33 @@ namespace dex
                     vertices.push_back(vertex);
                 }
 
-                const tinygltf::Buffer& buffer = model.buffers[model.bufferViews[primitive.indices].buffer];
-                const tinygltf::Accessor& accessor = model.accessors[primitive.indices];
-
-                if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_SHORT)
                 {
-                    const uint16* bufferIndices = reinterpret_cast<const uint16*>(&buffer.data.at(0) + model.bufferViews[primitive.indices].byteOffset);
+                    const tinygltf::Accessor& accessor = model.accessors[primitive.indices];
+                    const tinygltf::BufferView& bufferView = model.bufferViews[accessor.bufferView];
+                    const tinygltf::Buffer& buffer = model.buffers[bufferView.buffer];
 
-                    for (size_t i = 0; i < accessor.count; i++)
-                        indices.emplace_back(bufferIndices[i] + largest_index + 1);
-                }
+                    if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_SHORT)
+                    {
+                        const uint16* bufferIndices = reinterpret_cast<const uint16*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
+                        for (size_t i = 0; i < accessor.count; i++)
+                        {
+                            indices.emplace_back(bufferIndices[i] + largest_index + 1);
+                        }
+                    }
 
-                else if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_INT)
-                {
-                    const uint32* bufferIndices = reinterpret_cast<const uint32*>(&buffer.data.at(0) + model.bufferViews[primitive.indices].byteOffset);
+                    else if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_INT)
+                    {
+                        const uint32* bufferIndices = reinterpret_cast<const uint32*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
 
-                    for (size_t i = 0; i < accessor.count; i++)
-                        indices.emplace_back(bufferIndices[i] + largest_index + 1);
-                }
-                else
-                {
-                    DEX_LOG_ERROR("<ModelLoader::loadGLTF()>: Indices doesn't have the correct component type.");
+                        for (size_t i = 0; i < accessor.count; i++)
+                        {
+                            indices.emplace_back(bufferIndices[i] + largest_index + 1);
+                        }
+                    }
+                    else
+                    {
+                        DEX_LOG_ERROR("<ModelLoader::loadGLTF()>: Indices doesn't have the correct component type.");
+                    }
                 }
 
                 largest_index = *std::max_element(indices.begin(), indices.end());

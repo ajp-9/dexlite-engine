@@ -16,15 +16,9 @@ namespace dex
 
         m_DynamicsWorld->setGravity(btVector3(0, -5, 0));
 
-
-        DEX_LOG_INFO((uint64)m_DynamicsWorld->getDebugDrawer());
         m_DebugDraw = new DebugDraw(renderer);
-        m_DebugDraw->setDebugMode(DebugDraw::DBG_DrawWireframe | DebugDraw::DBG_DrawAabb | DebugDraw::DBG_DrawNormals);
+        m_DebugDraw->setDebugMode(DebugDraw::DBG_MAX_DEBUG_DRAW_MODE);
         m_DynamicsWorld->setDebugDrawer(m_DebugDraw);
-
-        DEX_LOG_INFO((uint64)m_DynamicsWorld->getDebugDrawer());
-
-        //m_DynamicsWorld->([](btDynamicsWorld* world, btScalar timeStep) {DEX_LOG_INFO("wat"); });
     }
 
     Physics::~Physics()
@@ -52,8 +46,8 @@ namespace dex
     {
         m_DynamicsWorld->stepSimulation(1.0f / 60.0f);
         //DEX_LOG_INFO(sbody->checkCollideWith(floor));
-        m_DynamicsWorld->debugDrawWorld();
-
+        if (DebugEnabled)
+            m_DynamicsWorld->debugDrawWorld();
     }
 
     RigidBody Physics::createRigidbody(RigidBodyType type, const std::shared_ptr<CollisionShape>& collision_shape, float mass, const BasicTransform& transform)

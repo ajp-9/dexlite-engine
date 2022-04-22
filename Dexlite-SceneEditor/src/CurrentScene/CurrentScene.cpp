@@ -17,7 +17,6 @@ namespace dex
 
 		setupEntities();
 
-
 		auto tri = Scene.getEntity("Triangle");
 		tri.addComponent<Component::RigidBody>(m_Physics->createRigidbody(
 			RigidBodyType::STATIC,

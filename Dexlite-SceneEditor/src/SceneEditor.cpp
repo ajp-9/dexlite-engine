@@ -65,6 +65,12 @@ namespace dex
             else
                 m_Window.setWindowed();
 
+        if (m_Window.Input.isKeyPressed(Event::Key::P))
+            if (!m_Physics.DebugEnabled)
+                m_Physics.DebugEnabled = true;
+            else
+                m_Physics.DebugEnabled = false;
+
         m_GUI.update(Time.getDeltaTime());
         m_CurrentScene.update(Time.getDeltaTime());
     }

@@ -53,25 +53,12 @@ namespace dex
     class ConvexHullCollisionShape : public CollisionShape
     {
     public:
-        ConvexHullCollisionShape(const Mesh::Default3D& mesh, const glm::vec3& transform_scale)
-        {
-            std::vector<glm::vec3> verticies;
+        ConvexHullCollisionShape(const Mesh::Default3D& mesh, const glm::vec3& transform_scale);
+    };
 
-            verticies.reserve(mesh.m_Indices.size());
-            for (auto index : mesh.m_Indices)
-            {
-                verticies.push_back(glm::mat3(glm::scale(glm::mat4(1.0f), transform_scale)) * mesh.m_Vertices.at(index).Position);
-            }
-
-            btConvexHullShape convex_hull = btConvexHullShape((btScalar*)verticies.data(), verticies.size(), sizeof(glm::vec3));
-            
-            btShapeHull* hull = new btShapeHull(&convex_hull);
-            hull->buildHull(0);
-
-            m_BtShape = new btConvexHullShape((const btScalar*)hull->getVertexPointer(), hull->numVertices(), sizeof(btVector3));
-            m_BtShape->setMargin(.001);
-
-            delete hull;
-        }
+    class TriangleMeshCollisionShape : public CollisionShape
+    {
+    public:
+        TriangleMeshCollisionShape(const Mesh::Default3D& mesh, const glm::vec3& transform_scale);
     };
 }

@@ -10,7 +10,7 @@ namespace dex
     class LineMesh3D
     {
     public:
-        void create()
+        void drawNew()
         {
             if (m_VBO_ID)
                 glDeleteBuffers(1, &m_VBO_ID);
@@ -24,7 +24,7 @@ namespace dex
                 bind();
 
                 glGenBuffers(1, &m_VBO_ID);
-                glLineWidth(2);
+                //glLineWidth(2);
                 
                 glBindBuffer(GL_ARRAY_BUFFER, m_VBO_ID);
                 glBufferData(GL_ARRAY_BUFFER, Vertices.size() * sizeof(LineVertex3D), &Vertices[0], GL_STATIC_DRAW);
@@ -37,14 +37,12 @@ namespace dex
 
                 glBindBuffer(GL_ARRAY_BUFFER, 0);
                 glBindVertexArray(0);
-            }
-        }
 
-        void draw()
-        {
-            bind();
-            glDrawArrays(GL_LINES, 0, Vertices.size());
-            Vertices.clear();
+                bind();
+
+                glDrawArrays(GL_LINES, 0, Vertices.size());
+                Vertices.clear();
+            }
         }
 
         void bind()

@@ -172,9 +172,7 @@ namespace dex
                 render_model_lambda(m_Registry);
 
             renderer.ShaderManager.getShader(Shader::Type::LINE_3D)->bind();
-            renderer.LineMesh.create();
-            renderer.LineMesh.draw();
-
+            renderer.LineMesh.drawNew();
         }
         else
         {

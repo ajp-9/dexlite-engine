@@ -11,8 +11,6 @@ namespace dex
 {
     class Physics
     {
-
-
     public:
         Physics(Renderer* renderer);
         ~Physics();
@@ -21,8 +19,7 @@ namespace dex
 
         RigidBody createRigidbody(RigidBodyType type, const std::shared_ptr<CollisionShape>& collision_shape, float mass, const BasicTransform& transform);
 
-        btRigidBody* sbody;
-        btRigidBody* floor;
+        bool DebugEnabled = true;
 
         DebugDraw* m_DebugDraw;
 
