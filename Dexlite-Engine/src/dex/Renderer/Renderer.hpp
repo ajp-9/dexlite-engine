@@ -26,7 +26,6 @@ namespace dex
 
         void setClearColor(const glm::vec4& color);
         void clear(const glm::vec4& color);
-    public:
         void enableDepthTest() { glEnable(GL_DEPTH_TEST); }
         void disableDepthTest() { glDisable(GL_DEPTH_TEST); }
     public:

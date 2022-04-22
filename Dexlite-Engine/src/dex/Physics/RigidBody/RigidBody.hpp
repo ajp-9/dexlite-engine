@@ -48,10 +48,9 @@ namespace dex
         float getMass() { return Body->getMass(); }
         void setMass(float mass) { Body->setMassProps(mass, btVector3(0, 0, 0)); }
     public:
-        btRigidBody*          Body;
+        btRigidBody* Body;
         RigidBodyType Type = RigidBodyType::DYNAMIC;
 
         std::shared_ptr<CollisionShape> CollisionShape;
-
     };
 }

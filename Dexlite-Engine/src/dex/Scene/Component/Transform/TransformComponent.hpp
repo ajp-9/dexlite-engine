@@ -56,9 +56,9 @@ namespace dex
             const glm::vec3  getOrientationDegrees() const { return glm::degrees(glm::eulerAngles(m_Orientation)); }
             const glm::vec3& getScale()              const { return m_Scale; }
 
-            const glm::vec3 getForward() const { return m_TransformationMatrix[2]; }
-            const glm::vec3 getRight()   const { return m_TransformationMatrix[0]; }
-            const glm::vec3 getUp()      const { return m_TransformationMatrix[1]; }
+            const glm::vec3 getRight()   const { return glm::normalize(m_TransformationMatrix[0]); }
+            const glm::vec3 getUp()      const { return glm::normalize(m_TransformationMatrix[1]); }
+            const glm::vec3 getForward() const { return glm::normalize(m_TransformationMatrix[2]); }
 
             // put in update
             const glm::vec3& getWorldPosition()           const { return m_World_Position; }
@@ -86,9 +86,8 @@ namespace dex
             operator const glm::mat4&() const { return m_TransformationMatrix; }
         public:
             glm::mat4 m_TransformationMatrix = glm::mat4(1.0f);
+            glm::mat4 m_ScalelessTransformationMatrix = glm::mat4(1.0f);
 
-            glm::mat4 m_ParentTransformationMatrix = glm::mat4(1.0f);
-            
             glm::vec3 m_Position;
             glm::quat m_Orientation;
             glm::vec3 m_Scale;

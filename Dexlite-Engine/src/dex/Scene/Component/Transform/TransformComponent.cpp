@@ -7,8 +7,6 @@ namespace dex
     {
         void Transform::update(const glm::mat4& parent_transform)
         {
-            m_ParentTransformationMatrix = parent_transform;
-
             m_TransformationMatrix =
                 parent_transform *
                 glm::translate(glm::mat4(1.0f), m_Position) *

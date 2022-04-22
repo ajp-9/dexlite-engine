@@ -17,6 +17,11 @@ namespace dex
         m_DynamicsWorld->setGravity(btVector3(0, -5, 0));
 
 
+        DEX_LOG_INFO((uint64)m_DynamicsWorld->getDebugDrawer());
+        m_DebugDraw = new DebugDraw();
+        //m_DynamicsWorld->setDebugDrawer();
+
+
         {
             btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(50.), btScalar(50.)));
             //btTriangleMeshShape::
@@ -29,7 +34,7 @@ namespace dex
             btTransform groundTransform;
             groundTransform.setIdentity();
             groundTransform.setOrigin(btVector3(0, -56, 0));
-            groundTransform.setRotation(btQuaternion(glm::radians(15.), glm::radians(30.), 0));
+            //groundTransform.setRotation(btQuaternion(glm::radians(15.), glm::radians(30.), 0));
 
             btScalar mass(0.);
 
@@ -44,9 +49,9 @@ namespace dex
             btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
             btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
             floor = new btRigidBody(rbInfo);
-            floor->setRestitution(1.0f);
+            floor->setRestitution(.8f);
             //add the body to the dynamics world
-            m_DynamicsWorld->addRigidBody(floor);
+            //m_DynamicsWorld->addRigidBody(floor);
         }
 
         {
@@ -126,8 +131,7 @@ namespace dex
 
         btRigidBody::btRigidBodyConstructionInfo rb_info(mass, motion_state, collision_shape->m_BtShape, btVector3(1, 1, 1));
         btRigidBody* body = new btRigidBody(rb_info);
-
-        body->setRestitution(1.0);
+        body->setRestitution(.75);
 
         m_DynamicsWorld->addRigidBody(body);
 

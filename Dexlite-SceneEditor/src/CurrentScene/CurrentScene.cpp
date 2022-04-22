@@ -16,9 +16,31 @@ namespace dex
 		Scene = DeserializeScene("assets/scenes/testing0.json", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 
 		setupEntities();
+
+
+		auto tri = Scene.getEntity("Triangle");
+		tri.addComponent<Component::RigidBody>(m_Physics->createRigidbody(
+			RigidBodyType::STATIC,
+			std::make_shared<ConvexHullCollisionShape>(tri.getComponent<Component::Model>().Mesh, tri.getComponent<Component::Transform>().getScale()),
+			0.0f,
+			tri.getComponent<Component::Transform>().getBasicTransform()));
+
+		
+		auto light_spher = Scene.getEntity("Light Sphere");
+		light_spher.addComponent<Component::RigidBody>(m_Physics->createRigidbody(
+			RigidBodyType::DYNAMIC,
+			std::make_shared<ConvexHullCollisionShape>(light_spher.getComponent<Component::Model>().Mesh, light_spher.getComponent<Component::Transform>().getScale()),
+			1.0f,
+			light_spher.getComponent<Component::Transform>().getBasicTransform()));
+
+
 		auto lsph = Scene.getEntity("Warlock");
-		lsph.addComponent<Component::RigidBody>(m_Physics->createRigidbody(RigidBodyType::DYNAMIC, std::make_shared<SphereCollisionShape>(1.0), 1.0f, lsph.getComponent<Component::Transform>().getBasicTransform()));
-    }
+		lsph.addComponent<Component::RigidBody>(m_Physics->createRigidbody(
+			RigidBodyType::DYNAMIC,
+			std::make_shared<ConvexHullCollisionShape>(lsph.getComponent<Component::Model>().Mesh, lsph.getComponent<Component::Transform>().getScale()),
+			1.0f,
+			lsph.getComponent<Component::Transform>().getBasicTransform()));
+	}
 
 	void CurrentScene::New()
 	{
@@ -138,7 +160,7 @@ namespace dex
 	void CurrentScene::setupEntities()
 	{
 		SelectedEntity = Entity(entt::null, &Scene);
-		m_EditorRoot = Entity(&Scene, "dex::CurrentScene::m_EditorRoot", false);
+		m_EditorRoot = Entity(&Scene, "dex::CurrentScene::m_EditorRoot", 1);
 
 		ViewportCameraBody = m_EditorRoot.addNewChild("dex::CurrentScene::m_ViewportCameraBody");
 		ViewportCameraHead = ViewportCameraBody.addNewChild("dex::CurrentScene::m_ViewportCameraHead");

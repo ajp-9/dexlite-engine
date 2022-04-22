@@ -197,6 +197,8 @@ namespace dex
                 break;
             }
 
+            rigidbody.Body->setActivationState(true);
+
             //rigidbody.Body->applyTorqueImpulse(btVector3(190, 40, 60));
         }
     }
