@@ -14,7 +14,7 @@ namespace dex
     class Scene
     {
     public:
-        Scene();
+        Scene(Renderer* renderer, Physics* physics);
         ~Scene();
 
         Scene(const Scene& other) = delete;
@@ -36,6 +36,9 @@ namespace dex
     private:
         void findAndSetActiveCamera();
     private:
+        Renderer* m_Renderer;
+        Physics* m_Physics;
+
         entt::registry m_Registry;
 
         std::vector<Entity> m_Entities;

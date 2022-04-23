@@ -7,7 +7,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 #include "../../Util/Logging.hpp"
-#include "../CollisionMesh/CollisionShape.hpp"
+#include "../CollisionShape/CollisionShape.hpp"
 
 namespace dex
 {
@@ -17,16 +17,37 @@ namespace dex
 
     struct RigidBody
     {
-        RigidBody(btRigidBody* body, RigidBodyType type, const std::shared_ptr<CollisionShape>& collision_shape)
-            : Type(type), Body(body), CollisionShape(collision_shape)
+        RigidBody() = default;
+        RigidBody(std::unique_ptr<btRigidBody>& body, std::unique_ptr<btMotionState>& motion_state, RigidBodyType type, const std::shared_ptr<CollisionShape>& collision_shape)
+            : Type(type), Body(std::move(body)), MotionState(std::move(motion_state)), CollisionShape(collision_shape)
         {}
-            
+
+        RigidBody(RigidBody&& other) noexcept
+        {
+            operator=(std::move(other));
+        }
+
+        RigidBody& operator=(RigidBody&& other) noexcept
+        {
+            Type = other.Type;
+            Body = std::move(other.Body);
+            MotionState = std::move(other.MotionState);
+            CollisionShape = other.CollisionShape;
+
+            return *this;
+        }
+
+        ~RigidBody()
+        {
+
+        }
+
         void setTransform(const glm::vec3& pos, const glm::quat& orient)
         {
             Body->setWorldTransform(btTransform(btQuaternion(orient.x, orient.y, orient.z, orient.w), btVector3(pos.x, pos.y, pos.z)));
         }
 
-        glm::vec3 getPosition()
+        glm::vec3 getPosition() const
         {
             return glm::vec3(
                 Body->getWorldTransform().getOrigin().x(),
@@ -34,7 +55,7 @@ namespace dex
                 Body->getWorldTransform().getOrigin().z());
         }
 
-        glm::quat getOrientation()
+        glm::quat getOrientation() const
         {
             return glm::quat(
                 Body->getWorldTransform().getRotation().w(),
@@ -45,12 +66,13 @@ namespace dex
 
         void setCollisionShape() {}
 
-        float getMass() { return Body->getMass(); }
+        float getMass() const { return Body->getMass(); }
         void setMass(float mass) { Body->setMassProps(mass, btVector3(0, 0, 0)); }
     public:
-        btRigidBody* Body;
         RigidBodyType Type = RigidBodyType::DYNAMIC;
+        std::unique_ptr<btRigidBody> Body = nullptr;
+        std::unique_ptr<btMotionState> MotionState = nullptr;
 
-        std::shared_ptr<CollisionShape> CollisionShape;
+        std::shared_ptr<CollisionShape> CollisionShape = nullptr;
     };
 }

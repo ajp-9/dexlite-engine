@@ -13,10 +13,11 @@
 #include "../Component/Camera/CameraComponent.hpp"
 #include "../Component/ModelComponent.hpp"
 #include "../Component/LightComponents.hpp"
+#include "../Components.hpp"
 
 namespace dex
 {
-    Entity DeserializeEntity(const nlohmann::json& json, Scene* scene, Entity& parent, const std::shared_ptr<Shader::Default3D>& shader_default_3d)
+    Entity DeserializeEntity(const nlohmann::json& json, Scene* scene, Entity& parent, Physics* physics, const std::shared_ptr<Shader::Default3D>& shader_default_3d)
     {
         Entity entity = parent.addNewChild();
         
@@ -102,16 +103,64 @@ namespace dex
             point.Color = glm::vec3(pos_json[0], pos_json[1], pos_json[2]);
         }
         
+        if (json["Components"].find("RigidBody") != json["Components"].end())
+        {
+            nlohmann::json body_json = json["Components"]["RigidBody"];
+
+            RigidBodyType body_type;
+            std::string body_type_str = body_json["Type"];
+
+            if (body_type_str == "Static")
+                body_type = RigidBodyType::STATIC;
+            else if (body_type_str == "Kinematic")
+                body_type = RigidBodyType::KINEMATIC;
+            else if (body_type_str == "Dynamic")
+                body_type = RigidBodyType::DYNAMIC;
+
+            std::shared_ptr<CollisionShape> collision_shape;
+            std::string shape_type = body_json["CollisionShape"];
+
+            if (shape_type == "None")
+                collision_shape = std::make_shared<CollisionShape>();
+            else if (shape_type == "Sphere")
+                collision_shape = std::make_shared<SphereCollisionShape>(body_json["CollisionShape"]["Radius"]);
+            else if (shape_type == "Box")
+            {
+                nlohmann::json json_extents = body_json["CollisionShape"]["HalfExtents"];
+                glm::vec3 half_extents = { json_extents[0], json_extents[1], json_extents[2] };
+                collision_shape = std::make_shared<BoxCollisionShape>(half_extents);
+            }
+            else if (shape_type == "ConvexHull")
+            {
+                if (entity.hasComponent<Component::Model>())
+                    collision_shape = std::make_shared<ConvexHullCollisionShape>(entity.getComponent<Component::Model>().Mesh, entity.getComponent<Component::Transform>().getScale());
+            }
+            else if (shape_type == "TriangleMesh")
+            {
+                if (entity.hasComponent<Component::Model>())
+                    collision_shape = std::make_shared<TriangleMeshCollisionShape>(entity.getComponent<Component::Model>().Mesh, entity.getComponent<Component::Transform>().getScale());
+            }
+
+            float mass = json["Components"]["RigidBody"]["Mass"];
+
+            auto& rigid_body = entity.addComponent<Component::RigidBody>(
+                physics->createRigidbody(
+                    body_type,
+                    collision_shape,
+                    mass,
+                    entity.getComponent<Component::Transform>().getBasicTransform()));
+        }
+
         if (json.find("Children") != json.end())
             for (const auto& child : json["Children"])
-                entity.addChild(DeserializeEntity(child, scene, entity, shader_default_3d));
+                entity.addChild(DeserializeEntity(child, scene, entity, physics, shader_default_3d));
 
         return entity;
     }
 
-    Scene DeserializeScene(const std::filesystem::path& file_location, const std::shared_ptr<Shader::Default3D>& shader_default_3d)
+    Scene DeserializeScene(const std::filesystem::path& file_location, Renderer* renderer, Physics* physics, const std::shared_ptr<Shader::Default3D>& shader_default_3d)
     {
-        Scene scene;
+        Scene scene = { renderer, physics };
         nlohmann::json json;
 
         try
@@ -127,7 +176,7 @@ namespace dex
 
         for (auto& entity_json : json["Entities"])
         {
-            DeserializeEntity(entity_json, &scene, *scene.Root, shader_default_3d);
+            DeserializeEntity(entity_json, &scene, *scene.Root, physics, shader_default_3d);
         }
 
         return scene;

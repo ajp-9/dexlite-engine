@@ -17,11 +17,30 @@ namespace dex
         m_DynamicsWorld->setGravity(btVector3(0, -5, 0));
 
         m_DebugDraw = new DebugDraw(renderer);
-        m_DebugDraw->setDebugMode(DebugDraw::DBG_MAX_DEBUG_DRAW_MODE);
+        m_DebugDraw->setDebugMode(DebugDraw::DBG_DrawWireframe | DebugDraw::DBG_DrawAabb);
         m_DynamicsWorld->setDebugDrawer(m_DebugDraw);
     }
 
     Physics::~Physics()
+    {
+        delete m_DebugDraw;
+
+        delete m_DynamicsWorld;
+        delete m_CollisionSolver;
+        delete m_BroadphaseInterface;
+        delete m_CollisionDispatcher;
+        delete m_CollisionConfig;
+    }
+
+    void Physics::update()
+    {
+        m_DynamicsWorld->stepSimulation(1.0f / 60.0f);
+        
+        if (DebugEnabled)
+            m_DynamicsWorld->debugDrawWorld();
+    }
+
+    void Physics::clearObjects()
     {
         for (int i = m_DynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--)
         {
@@ -34,25 +53,11 @@ namespace dex
             m_DynamicsWorld->removeCollisionObject(obj);
             delete obj;
         }
-
-        delete m_DynamicsWorld;
-        delete m_CollisionSolver;
-        delete m_BroadphaseInterface;
-        delete m_CollisionDispatcher;
-        delete m_CollisionConfig;
-    }
-
-    void Physics::update()
-    {
-        m_DynamicsWorld->stepSimulation(1.0f / 60.0f);
-        //DEX_LOG_INFO(sbody->checkCollideWith(floor));
-        if (DebugEnabled)
-            m_DynamicsWorld->debugDrawWorld();
     }
 
     RigidBody Physics::createRigidbody(RigidBodyType type, const std::shared_ptr<CollisionShape>& collision_shape, float mass, const BasicTransform& transform)
     {
-        btMotionState* motion_state = new btDefaultMotionState(
+        std::unique_ptr<btMotionState> motion_state = std::make_unique<btDefaultMotionState>(
             btTransform(
                 btQuaternion(
                     transform.Orientation.x,
@@ -65,12 +70,12 @@ namespace dex
                     transform.Position.z)
             ));
 
-        btRigidBody::btRigidBodyConstructionInfo rb_info(mass, motion_state, collision_shape->m_BtShape, btVector3(1, 1, 1));
-        btRigidBody* body = new btRigidBody(rb_info);
+        btRigidBody::btRigidBodyConstructionInfo rb_info(mass, motion_state.get(), collision_shape->m_BtShape, btVector3(1, 1, 1));
+        std::unique_ptr<btRigidBody> body = std::make_unique<btRigidBody>(rb_info);
         body->setRestitution(.75);
 
-        m_DynamicsWorld->addRigidBody(body);
+        m_DynamicsWorld->addRigidBody(body.get());
 
-        return RigidBody(body, type, collision_shape);
+        return RigidBody(std::move(body), std::move(motion_state), type, collision_shape);
     }
 }

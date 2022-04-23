@@ -1,10 +1,13 @@
 #include "Entity.hpp"
 
+#include "../../Physics/Physics.hpp"
+
 #include "../Component/BaseComponent.hpp"
 #include "../Component/Camera/CameraComponent.hpp"
 #include "../Component/TagComponent.hpp"
 #include "../Component/RelationshipComponents.hpp"
 #include "../Component/ModelComponent.hpp"
+#include "../Components.hpp"
 #include "../Component/Transform/TransformComponent.hpp"
 
 namespace dex
@@ -31,6 +34,9 @@ namespace dex
     void Entity::destroy()
     {
         destroyChildren();
+
+        if (hasComponent<Component::RigidBody>())
+            m_Scene->m_Physics->m_DynamicsWorld->removeRigidBody(getComponent<Component::RigidBody>().Body.get());
 
         m_Scene->destroyEntity(*this);
     }

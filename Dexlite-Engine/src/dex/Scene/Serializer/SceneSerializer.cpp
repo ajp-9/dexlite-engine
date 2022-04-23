@@ -10,6 +10,7 @@
 #include "../Component/Camera/CameraComponent.hpp"
 #include "../Component/ModelComponent.hpp"
 #include "../Component/LightComponents.hpp"
+#include "../Components.hpp"
 
 namespace dex
 {
@@ -175,6 +176,53 @@ namespace dex
 
                     json["Enabled"] = point.Enabled;
                     json["Color"] = { point.Color.x, point.Color.y, point.Color.z };
+
+                    return json;
+                }
+            );
+        }
+        
+        if (entity.hasComponent<Component::RigidBody>())
+        {
+            json["Components"]["RigidBody"] = SerializeComponent<Component::RigidBody>(entity,
+                [](const Component::RigidBody& rigid_body) -> nlohmann::json
+                {
+                    nlohmann::json json;
+
+                    if (rigid_body.Type == RigidBodyType::STATIC)
+                        json["Type"] = "Static";
+                    else if (rigid_body.Type == RigidBodyType::KINEMATIC)
+                        json["Type"] = "Kinematic";
+                    else if (rigid_body.Type == RigidBodyType::DYNAMIC)
+                        json["Type"] = "Dynamic";
+
+                    json["Mass"] = rigid_body.getMass();
+
+                    json["CollisionShape"] = rigid_body.CollisionShape->Type;
+
+                    switch (rigid_body.CollisionShape->Type)
+                    {
+                        case CollisionShapeType::NONE:
+                            json["CollisionShape"] = "None";
+                            break;
+                        case CollisionShapeType::SPHERE:
+                            json["CollisionShape"] = "Sphere";
+                            json["CollisionShape"]["Radius"] = static_cast<SphereCollisionShape*>(rigid_body.CollisionShape.get())->Radius;
+                            break;
+                        case CollisionShapeType::BOX:
+                        {
+                            json["CollisionShape"] = "Box";
+                            const auto& half_extents = static_cast<BoxCollisionShape*>(rigid_body.CollisionShape.get())->HalfExtents;
+                            json["CollisionShape"]["HalfExtents"] = { half_extents.x, half_extents.y, half_extents.z };
+                            break;
+                        }
+                        case CollisionShapeType::CONVEX_HULL:
+                            json["CollisionShape"] = "ConvexHull";
+                            break;
+                        case CollisionShapeType::TRIANGLE_MESH:
+                            json["CollisionShape"] = "TriangleMesh";
+                            break;
+                    }
 
                     return json;
                 }

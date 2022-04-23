@@ -11,13 +11,18 @@ namespace dex
 	typedef Component::Model ModelComponent;
 
     CurrentScene::CurrentScene(dex::Window* window, dex::Renderer* renderer, dex::Physics* physics)
-        : m_Window(window), m_Renderer(renderer), m_Physics(physics)
+        : m_Window(window), m_Renderer(renderer), m_Physics(physics), Scene(renderer, physics)
     {
-		Scene = DeserializeScene("assets/scenes/testing0.json", renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
+		Scene = DeserializeScene("assets/scenes/testing1.json", m_Renderer, m_Physics, renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 
 		setupEntities();
 
-		auto tri = Scene.getEntity("Triangle");
+		Mesh::Default3D m;
+		Mesh::Default3D b;
+
+		m = Mesh::Default3D(std::move(m));
+
+		/*auto tri = Scene.getEntity("Triangle");
 		tri.addComponent<Component::RigidBody>(m_Physics->createRigidbody(
 			RigidBodyType::STATIC,
 			std::make_shared<ConvexHullCollisionShape>(tri.getComponent<Component::Model>().Mesh, tri.getComponent<Component::Transform>().getScale()),
@@ -38,12 +43,12 @@ namespace dex
 			RigidBodyType::DYNAMIC,
 			std::make_shared<ConvexHullCollisionShape>(lsph.getComponent<Component::Model>().Mesh, lsph.getComponent<Component::Transform>().getScale()),
 			1.0f,
-			lsph.getComponent<Component::Transform>().getBasicTransform()));
+			lsph.getComponent<Component::Transform>().getBasicTransform()));*/
 	}
 
 	void CurrentScene::New()
 	{
-		Scene = dex::Scene();
+		Scene = dex::Scene(m_Renderer, m_Physics);
 
 		setupEntities();
 	}
@@ -62,7 +67,7 @@ namespace dex
 
 	void CurrentScene::Open(const std::filesystem::path& path)
 	{
-		Scene = DeserializeScene(path.u8string(), m_Renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
+		Scene = DeserializeScene(path.u8string(), m_Renderer, m_Physics, m_Renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 		Path = path;
 		setupEntities();
 	}
@@ -159,7 +164,7 @@ namespace dex
 	void CurrentScene::setupEntities()
 	{
 		SelectedEntity = Entity(entt::null, &Scene);
-		m_EditorRoot = Entity(&Scene, "dex::CurrentScene::m_EditorRoot", 1);
+		m_EditorRoot = Entity(&Scene, "dex::CurrentScene::m_EditorRoot", false);
 
 		ViewportCameraBody = m_EditorRoot.addNewChild("dex::CurrentScene::m_ViewportCameraBody");
 		ViewportCameraHead = ViewportCameraBody.addNewChild("dex::CurrentScene::m_ViewportCameraHead");

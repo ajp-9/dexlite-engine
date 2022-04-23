@@ -11,7 +11,7 @@ namespace dex
         enum class ViewportCameraState { NONE, PAN, FPS };
     public:
         CurrentScene(dex::Window* window, dex::Renderer* renderer, dex::Physics* physics);
-
+        
         void New();
         void Save();
         void SaveAs(const std::filesystem::path& path);

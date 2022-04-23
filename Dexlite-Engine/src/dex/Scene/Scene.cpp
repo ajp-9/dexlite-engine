@@ -15,42 +15,28 @@
 
 namespace dex
 {
-    Scene::Scene()
+    Scene::Scene(Renderer* renderer, Physics* physics)
+        : m_Renderer(renderer), m_Physics(physics)
     {
         Root = std::make_unique<Entity>(this, "Scene", false);
     }
 
     Scene::~Scene()
     {
-
     }
 
     Scene::Scene(Scene&& other) noexcept
-        : // Initializer List:
-        m_Registry(std::move(other.m_Registry)),
-        m_Entities(std::move(other.m_Entities)),
-        m_ActiveCameraID(other.m_ActiveCameraID),
-        m_GlobalShaderUniforms(other.m_GlobalShaderUniforms),
-        Root(std::move(other.Root))
     {
-        Root->m_Scene = this;
-
-        for (auto& entity : m_Entities)
-        {
-            entity.m_Scene = this;
-
-            entity.getParent().m_Scene = this;
-
-            auto& children = entity.getChildren();
-            for (auto& child : children)
-                child.m_Scene = this;
-        }
+        operator=(std::move(other));
     }
 
     Scene& Scene::operator=(Scene&& other) noexcept
     {
         if (this != &other)
         {
+            if (Root)
+                Root->destroy();
+
             m_Registry = std::move(other.m_Registry);
             m_Entities = std::move(other.m_Entities);
             m_ActiveCameraID = other.m_ActiveCameraID;
@@ -80,7 +66,8 @@ namespace dex
 
     void Scene::destroyEntity(Entity entity)
     {
-        entity.getParent().removeChild(entity);
+        if (entity.hasParent())
+            entity.getParent().removeChild(entity);
 
         m_Registry.destroy(entity);
     }

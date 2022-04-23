@@ -17,9 +17,11 @@ namespace dex
 
         void update();
 
+        void clearObjects();
+
         RigidBody createRigidbody(RigidBodyType type, const std::shared_ptr<CollisionShape>& collision_shape, float mass, const BasicTransform& transform);
 
-        bool DebugEnabled = true;
+        bool DebugEnabled = false;
 
         DebugDraw* m_DebugDraw;
 
