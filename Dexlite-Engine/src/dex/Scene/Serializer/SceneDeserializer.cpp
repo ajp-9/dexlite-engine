@@ -64,10 +64,13 @@ namespace dex
         {
             nlohmann::json model_json = json["Components"]["Model"];
             auto& model = entity.addComponent<Component::Model>();
+
+            std::ofstream("loctest.txt") << std::string(model_json["FileLocation"]);
+
             model = LoadGLTF(std::string(model_json["FileLocation"]), shader_default_3d);
 
             model.Enabled = model_json["Enabled"];
-            //model.FileLocation = model_json["FileLocation"];
+            model.FileLocation = std::filesystem::path(std::string(model_json["FileLocation"]));
         }
 
         if (json["Components"].find("AmbientLight") != json["Components"].end())
