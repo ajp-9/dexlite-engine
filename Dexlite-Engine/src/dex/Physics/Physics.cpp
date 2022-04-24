@@ -76,6 +76,6 @@ namespace dex
 
         m_DynamicsWorld->addRigidBody(body.get());
 
-        return RigidBody(std::move(body), std::move(motion_state), type, collision_shape);
+        return RigidBody(type, std::move(body), std::move(motion_state), collision_shape);
     }
 }

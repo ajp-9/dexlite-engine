@@ -36,6 +36,7 @@
 
 #include "Renderer/Renderer.hpp"
 
+#include "Scene/Components.hpp"
 #include "Scene/Component/Camera/CameraComponent.hpp"
 #include "Scene/Component/ModelComponent.hpp"
 #include "Scene/Component/LightComponents.hpp"

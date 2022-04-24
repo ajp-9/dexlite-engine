@@ -181,21 +181,28 @@ namespace dex
         for (auto& rigidbody_id : rigidbody_view)
         {
             Component::RigidBody& rigidbody = m_Registry.get<Component::RigidBody>(rigidbody_id);
-            Component::Transform& transform = m_Registry.get<Component::Transform>(rigidbody_id);
 
-            switch (rigidbody.Type)
+            if (rigidbody.Active)
             {
-            case RigidBodyType::STATIC:
-            case RigidBodyType::KINEMATIC:
-                rigidbody.setTransform(transform.getPosition(), transform.getOrientationQuat());
-                break;
-            case RigidBodyType::DYNAMIC:
-                transform.setPosition(rigidbody.getPosition());
-                transform.setOrientationQuat(rigidbody.getOrientation());
-                break;
-            }
+                Component::Transform& transform = m_Registry.get<Component::Transform>(rigidbody_id);
 
-            rigidbody.Body->setActivationState(true);
+                switch (rigidbody.Type)
+                {
+                case RigidBodyType::STATIC:
+                case RigidBodyType::KINEMATIC:
+                    rigidbody.setTransform(transform.getPosition(), transform.getOrientationQuat());
+                    break;
+                case RigidBodyType::DYNAMIC:
+                    transform.setPosition(rigidbody.getPosition());
+                    transform.setOrientationQuat(rigidbody.getOrientation());
+                    break;
+                }
+
+                //rigidbody.Body->setActivationState(true);
+            }
+            // Inefficient
+            rigidbody.Body->setActivationState(rigidbody.Active);
+
 
             //rigidbody.Body->applyTorqueImpulse(btVector3(190, 40, 60));
         }

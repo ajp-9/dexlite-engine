@@ -15,7 +15,7 @@ namespace dex
     }
 
     template <typename T>
-    using UIFunction = void(T& t, Renderer* renderer);
+    using UIFunction = void(T& t, Entity& selected_entity, Renderer* renderer);
 
     template <typename T>
     static void renderComponent(const char* name, Entity& entity, Renderer* renderer, UIFunction<T>* func, bool deletable = true)
@@ -40,7 +40,7 @@ namespace dex
 
             if (opened)
             {
-                func(entity.getComponent<T>(), renderer);
+                func(entity.getComponent<T>(), entity, renderer);
             }
 
             if (removed)
@@ -74,7 +74,7 @@ namespace dex
 
             ImGui::Separator();
 
-            renderComponent<Component::Transform>("Transform", selected_entity, m_Renderer, [](Component::Transform& component, Renderer* renderer)
+            renderComponent<Component::Transform>("Transform", selected_entity, m_Renderer, [](Component::Transform& component, Entity& selected_entity, Renderer* renderer)
             {
                 ImGuiStyle& style = ImGui::GetStyle();
 
@@ -96,7 +96,13 @@ namespace dex
                             ImGui::TableSetColumnIndex(1);
 
                             ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x);
-                            ImGui::DragFloat3("##Transformation", &component.m_Position.x, .025);
+                            if (ImGui::DragFloat3("##Transformation", &component.m_Position.x, .025))
+                            {
+                                auto& rigid_body = selected_entity.getComponent<Component::RigidBody>();
+                                component.update(selected_entity.getParent().getComponent<Component::Transform>()); // To update world position.
+                                rigid_body.setTransform(component.getWorldPosition(), component.getOrientationQuat());
+                                rigid_body.clearAllForces();
+                            }
                             ImGui::PopItemWidth();
                         }
                     }
@@ -124,6 +130,11 @@ namespace dex
 
                                 if (ImGui::IsItemDeactivated())
                                     component.setOrientationEuler(glm::radians(glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2])));
+
+                                auto& rigid_body = selected_entity.getComponent<Component::RigidBody>();
+                                component.update(selected_entity.getParent().getComponent<Component::Transform>()); // To update world position.
+                                rigid_body.setTransform(component.getWorldPosition(), component.getOrientationQuat());
+                                rigid_body.clearAllForces();
                             }
                             ImGui::PopItemWidth();
                         }
@@ -151,7 +162,7 @@ namespace dex
                 }
             }, false);
 
-            renderComponent<Component::Camera>("Camera", selected_entity, m_Renderer, [](Component::Camera& component, Renderer* renderer)
+            renderComponent<Component::Camera>("Camera", selected_entity, m_Renderer, [](Component::Camera& component, Entity& selected_entity, Renderer* renderer)
             {
                 ImGui::Text("Enabled: ");
                 ImGui::SameLine();
@@ -192,7 +203,7 @@ namespace dex
 
             });
             
-            renderComponent<Component::Model>("Model", selected_entity, m_Renderer, [](Component::Model& component, Renderer* renderer)
+            renderComponent<Component::Model>("Model", selected_entity, m_Renderer, [](Component::Model& component, Entity& selected_entity, Renderer* renderer)
             {
                 ImGui::Text("Enabled: ");
                 ImGui::SameLine();
@@ -222,7 +233,14 @@ namespace dex
                 }
             });
 
-            renderComponent<Component::Light::Ambient>("Ambient Light", selected_entity, m_Renderer, [](Component::Light::Ambient& ambient, Renderer* renderer)
+            renderComponent<Component::RigidBody>("Rigid Body", selected_entity, m_Renderer, [](Component::RigidBody& rigid_body, Entity& selected_entity, Renderer* renderer)
+                {
+                    ImGui::Text("Active: ");
+                    ImGui::SameLine();
+                    ImGui::Checkbox("##RigidBody::Active", &rigid_body.Active);
+                });
+
+            renderComponent<Component::Light::Ambient>("Ambient Light", selected_entity, m_Renderer, [](Component::Light::Ambient& ambient, Entity& selected_entity, Renderer* renderer)
             {
                 ImGui::Text("Enabled: ");
                 ImGui::SameLine();
@@ -235,7 +253,7 @@ namespace dex
                 ImGui::ColorEdit3("##Ambient::Color", &ambient.Color.x);
             });
 
-            renderComponent<Component::Light::Directional>("Directional Light", selected_entity, m_Renderer, [](Component::Light::Directional& directional, Renderer* renderer)
+            renderComponent<Component::Light::Directional>("Directional Light", selected_entity, m_Renderer, [](Component::Light::Directional& directional, Entity& selected_entity, Renderer* renderer)
             {
                 ImGui::Text("Enabled: ");
                 ImGui::SameLine();
@@ -248,7 +266,7 @@ namespace dex
                 ImGui::ColorEdit3("##Directional::Color", &directional.Color.x);
             });
 
-            renderComponent<Component::Light::Point>("Point Light", selected_entity, m_Renderer, [](Component::Light::Point& point, Renderer* renderer)
+            renderComponent<Component::Light::Point>("Point Light", selected_entity, m_Renderer, [](Component::Light::Point& point, Entity& selected_entity, Renderer* renderer)
             {
                 ImGui::Text("Enabled: ");
                 ImGui::SameLine();
