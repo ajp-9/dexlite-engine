@@ -1,1 +1,1 @@
-assets\models\matrix_cube.glb
+assets/models/matrix_cube.glb

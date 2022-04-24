@@ -42,4 +42,10 @@ namespace dex
         if (Body)
             m_Physics->m_DynamicsWorld->removeRigidBody(Body.get());
     }
+
+    void RigidBody::clearAllForces()
+    {
+        Body->clearForces();
+        Body->clearGravity();
+    }
 }

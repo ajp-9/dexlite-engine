@@ -149,8 +149,7 @@ namespace dex
                     auto& rigid_body_comp = m_CurrentScene->SelectedEntity.getComponent<Component::RigidBody>();
 
                     rigid_body_comp.setTransform(transform, glm::quat(glm::radians(orientation)));
-                    rigid_body_comp.Body->clearForces();
-                    rigid_body_comp.Body->clearGravity();
+                    rigid_body_comp.clearAllForces();
                 }
             }
         }

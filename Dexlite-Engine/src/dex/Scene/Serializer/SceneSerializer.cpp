@@ -126,7 +126,7 @@ namespace dex
                     nlohmann::json json;
 
                     json["Enabled"] = model.Enabled;
-                    json["FileLocation"] = model.FileLocation.u8string();
+                    json["FileLocation"] = model.FileLocation.generic_u8string(); // When serializing stuff it will needs to be cross-compatible.
 
                     return json;
                 }

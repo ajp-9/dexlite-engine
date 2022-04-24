@@ -57,11 +57,7 @@ namespace dex
                 Body->getWorldTransform().getRotation().z());
         }
 
-        void clearAllForces()
-        {
-            Body->clearForces();
-            Body->clearGravity();
-        }
+        void clearAllForces();
 
         void setCollisionShape() {}
 
