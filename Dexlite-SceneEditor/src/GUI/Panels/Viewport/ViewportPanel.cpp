@@ -144,11 +144,14 @@ namespace dex
                 //trans_comp.setOrientationQuat(orientation);
                 trans_comp.setScale(scale);
 
-                auto& rigid_body_comp = m_CurrentScene->SelectedEntity.getComponent<Component::RigidBody>();
+                if (m_CurrentScene->SelectedEntity.hasComponent<Component::RigidBody>())
+                {
+                    auto& rigid_body_comp = m_CurrentScene->SelectedEntity.getComponent<Component::RigidBody>();
 
-                rigid_body_comp.setTransform(transform, glm::quat(glm::radians(orientation)));
-                rigid_body_comp.Body->clearForces();
-                rigid_body_comp.Body->clearGravity();
+                    rigid_body_comp.setTransform(transform, glm::quat(glm::radians(orientation)));
+                    rigid_body_comp.Body->clearForces();
+                    rigid_body_comp.Body->clearGravity();
+                }
             }
         }
 

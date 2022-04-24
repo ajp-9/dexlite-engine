@@ -98,10 +98,13 @@ namespace dex
                             ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x);
                             if (ImGui::DragFloat3("##Transformation", &component.m_Position.x, .025))
                             {
-                                auto& rigid_body = selected_entity.getComponent<Component::RigidBody>();
-                                component.update(selected_entity.getParent().getComponent<Component::Transform>()); // To update world position.
-                                rigid_body.setTransform(component.getWorldPosition(), component.getOrientationQuat());
-                                rigid_body.clearAllForces();
+                                if (selected_entity.hasComponent<Component::RigidBody>())
+                                {
+                                    auto& rigid_body = selected_entity.getComponent<Component::RigidBody>();
+                                    component.update(selected_entity.getParent().getComponent<Component::Transform>()); // To update world position.
+                                    rigid_body.setTransform(component.getWorldPosition(), component.getOrientationQuat());
+                                    rigid_body.clearAllForces();
+                                }
                             }
                             ImGui::PopItemWidth();
                         }
@@ -131,10 +134,13 @@ namespace dex
                                 if (ImGui::IsItemDeactivated())
                                     component.setOrientationEuler(glm::radians(glm::vec3(rot_f3[0], rot_f3[1], rot_f3[2])));
 
-                                auto& rigid_body = selected_entity.getComponent<Component::RigidBody>();
-                                component.update(selected_entity.getParent().getComponent<Component::Transform>()); // To update world position.
-                                rigid_body.setTransform(component.getWorldPosition(), component.getOrientationQuat());
-                                rigid_body.clearAllForces();
+                                if (selected_entity.hasComponent<Component::RigidBody>())
+                                {
+                                    auto& rigid_body = selected_entity.getComponent<Component::RigidBody>();
+                                    component.update(selected_entity.getParent().getComponent<Component::Transform>()); // To update world position.
+                                    rigid_body.setTransform(component.getWorldPosition(), component.getOrientationQuat());
+                                    rigid_body.clearAllForces();
+                                }
                             }
                             ImGui::PopItemWidth();
                         }

@@ -18,32 +18,22 @@ namespace dex
     struct RigidBody
     {
         RigidBody() = default;
-        RigidBody(RigidBodyType type, std::unique_ptr<btRigidBody>& body, std::unique_ptr<btMotionState>& motion_state, const std::shared_ptr<CollisionShape>& collision_shape)
-            : Type(type), Active(true), Body(std::move(body)), MotionState(std::move(motion_state)), CollisionShape(collision_shape)
-        {
-            Body->setActivationState(Active);
-        }
+        RigidBody(
+            RigidBodyType type,
+            const std::shared_ptr<dex::CollisionShape>& collision_shape,
+            std::unique_ptr<btRigidBody>&& body,
+            std::unique_ptr<btMotionState>&& motion_state,
+            Physics* physics
+        );
 
         RigidBody(RigidBody&& other) noexcept
         {
             operator=(std::move(other));
         }
 
-        RigidBody& operator=(RigidBody&& other) noexcept
-        {
-            Type = other.Type;
-            Active = other.Active;
-            Body = std::move(other.Body);
-            MotionState = std::move(other.MotionState);
-            CollisionShape = other.CollisionShape;
+        RigidBody& operator=(RigidBody&& other) noexcept;
 
-            return *this;
-        }
-
-        ~RigidBody()
-        {
-
-        }
+        ~RigidBody();
 
         void setTransform(const glm::vec3& pos, const glm::quat& orient)
         {
@@ -80,9 +70,12 @@ namespace dex
     public:
         RigidBodyType Type = RigidBodyType::DYNAMIC;
         bool Active = false;
+
+        std::shared_ptr<CollisionShape> CollisionShape = nullptr;
+
         std::unique_ptr<btRigidBody> Body = nullptr;
         std::unique_ptr<btMotionState> MotionState = nullptr;
 
-        std::shared_ptr<CollisionShape> CollisionShape = nullptr;
+        Physics* m_Physics;
     };
 }

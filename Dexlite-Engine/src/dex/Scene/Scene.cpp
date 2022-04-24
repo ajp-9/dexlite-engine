@@ -73,9 +73,6 @@ namespace dex
         if (entity.hasParent())
             entity.getParent().removeChild(entity);
 
-        if (entity.hasComponent<Component::RigidBody>())
-            m_Physics->m_DynamicsWorld->removeRigidBody(entity.getComponent<Component::RigidBody>().Body.get());
-
         m_Registry.destroy(entity);
     }
 
