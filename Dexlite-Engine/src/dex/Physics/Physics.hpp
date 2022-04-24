@@ -4,11 +4,12 @@
 #include <bullet3/btBulletDynamicsCommon.h>
 #include "RigidBody/RigidBody.hpp"
 #include "../Util/Transform/BasicTransform.hpp"
-#include "../Renderer/Renderer.hpp"
 #include "Debug/DebugDraw.hpp"
 
 namespace dex
 {
+    class Renderer;
+
     class Physics
     {
     public:

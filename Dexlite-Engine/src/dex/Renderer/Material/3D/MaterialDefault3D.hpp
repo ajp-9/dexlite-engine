@@ -3,7 +3,6 @@
 #include "../Material.hpp"
 #include "../../Texture/Texture.hpp"
 #include "../../Shader/3D/ShaderDefault3D.hpp"
-#include "../../../Core/Engine.hpp"
 
 namespace dex
 {

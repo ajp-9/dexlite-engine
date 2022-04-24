@@ -1,7 +1,6 @@
 #pragma once
 
 #include <entt.hpp>
-
 #include "../Renderer/Shader/ShaderGlobalUniforms.hpp"
 
 namespace dex

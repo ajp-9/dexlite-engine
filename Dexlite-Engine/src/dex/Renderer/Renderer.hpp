@@ -2,7 +2,6 @@
 
 #include <glm/vec4.hpp>
 
-#include "../Scene/Scene.hpp"
 #include "../Application/Window/Window.hpp"
 #include "Shader/ShaderManager.hpp"
 #include "Material/MaterialManager.hpp"

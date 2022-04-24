@@ -23,6 +23,8 @@ namespace dex
 
     Scene::~Scene()
     {
+        if (Root)
+            Root->destroy();
     }
 
     Scene::Scene(Scene&& other) noexcept
@@ -37,6 +39,8 @@ namespace dex
             if (Root)
                 Root->destroy();
 
+            m_Renderer = other.m_Renderer;
+            m_Physics = other.m_Physics;
             m_Registry = std::move(other.m_Registry);
             m_Entities = std::move(other.m_Entities);
             m_ActiveCameraID = other.m_ActiveCameraID;
@@ -68,6 +72,9 @@ namespace dex
     {
         if (entity.hasParent())
             entity.getParent().removeChild(entity);
+
+        if (entity.hasComponent<Component::RigidBody>())
+            m_Physics->m_DynamicsWorld->removeRigidBody(entity.getComponent<Component::RigidBody>().Body.get());
 
         m_Registry.destroy(entity);
     }

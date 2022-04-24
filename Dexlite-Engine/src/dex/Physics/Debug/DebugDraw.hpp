@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../Renderer/Renderer.hpp"
+
 namespace dex
 {
     class DebugDraw : public btIDebugDraw

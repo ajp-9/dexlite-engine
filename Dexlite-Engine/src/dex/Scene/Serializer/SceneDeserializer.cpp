@@ -17,9 +17,9 @@
 
 namespace dex
 {
-    Entity DeserializeEntity(const nlohmann::json& json, Scene* scene, Entity& parent, Physics* physics, const std::shared_ptr<Shader::Default3D>& shader_default_3d)
+    Entity DeserializeEntity(const nlohmann::json& json, Scene* scene, Physics* physics, const std::shared_ptr<Shader::Default3D>& shader_default_3d)
     {
-        Entity entity = parent.addNewChild();
+        Entity entity = { scene };
         
         if (json["Components"].find("Tag") != json["Components"].end())
             entity.getComponent<Component::Tag>().m_Tag = json["Components"]["Tag"]["String"];
@@ -153,7 +153,7 @@ namespace dex
 
         if (json.find("Children") != json.end())
             for (const auto& child : json["Children"])
-                entity.addChild(DeserializeEntity(child, scene, entity, physics, shader_default_3d));
+                entity.addChild(DeserializeEntity(child, scene, physics, shader_default_3d));
 
         return entity;
     }
@@ -176,7 +176,7 @@ namespace dex
 
         for (auto& entity_json : json["Entities"])
         {
-            DeserializeEntity(entity_json, &scene, *scene.Root, physics, shader_default_3d);
+            DeserializeEntity(entity_json, &scene, physics, shader_default_3d);
         }
 
         return scene;

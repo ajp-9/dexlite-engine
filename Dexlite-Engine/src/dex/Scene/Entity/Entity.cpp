@@ -2,6 +2,8 @@
 
 #include "../../Physics/Physics.hpp"
 
+#include "../SceneManager.hpp"
+
 #include "../Component/BaseComponent.hpp"
 #include "../Component/Camera/CameraComponent.hpp"
 #include "../Component/TagComponent.hpp"
@@ -25,6 +27,8 @@ namespace dex
 
         if (add_to_root)
             scene->Root->addChild(*this);
+
+
     }
 
     Entity::Entity(entt::entity handle, Scene* scene)
@@ -35,19 +39,17 @@ namespace dex
     {
         destroyChildren();
 
-        if (hasComponent<Component::RigidBody>())
-            m_Scene->m_Physics->m_DynamicsWorld->removeRigidBody(getComponent<Component::RigidBody>().Body.get());
-
         m_Scene->destroyEntity(*this);
     }
 
     void Entity::destroyChildren()
     {
-        auto& children = getChildren();
+        // Taking a copy b/c messing with a vec while looping will make bugs.
+        auto children = getChildren();
 
-        for (auto& child: children)
+        for (auto& child : children)
         {
-            m_Scene->m_Registry.destroy(child);
+            child.destroy();
         }
 
         children.clear();
@@ -71,7 +73,7 @@ namespace dex
         }
 
         getChildren().push_back(child);
-
+        
         if (child.getParent().m_Handle != entt::null)
         {
             child.getParent().removeChild(child);
@@ -83,7 +85,6 @@ namespace dex
     void Entity::removeChild(Entity child, bool destroy_handle)
     {
         const auto& children_handles = getChildren();
-
         const auto& iter = std::find(children_handles.begin(), children_handles.end(), child);
 
         if (iter != children_handles.end())
@@ -91,10 +92,12 @@ namespace dex
             getChildren().erase(iter);
 
             if (destroy_handle)
-                m_Scene->m_Registry.destroy(child);
+                child.destroy();
         }
         else
-            DEX_LOG_ERROR("<dex::Entity::removeChild>: Entity (ID: {}), is not in ChildrenHandles component of Entity (ID: {}).", child.m_Handle, m_Handle);
+        {
+            DEX_LOG_WARN("<dex::Entity::removeChild>: Entity (ID: {}), is not in ChildrenHandles component of Entity (ID: {}).", child.m_Handle, m_Handle);
+        }
     }
 
     /*std::vector<entt::entity>& Entity::getChildrenHandles() const
@@ -112,7 +115,7 @@ namespace dex
     {
         const auto& children = getChildren();
 
-        for (auto child: children)
+        for (auto child : children)
         {
             if (child.getComponent<Component::Transform>().m_FlagChanged)
             {
