@@ -38,24 +38,12 @@ namespace dex
         
         if (DebugEnabled)
             m_DynamicsWorld->debugDrawWorld();
+
+
+
     }
 
-    void Physics::clearObjects()
-    {
-        for (int i = m_DynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--)
-        {
-            btCollisionObject* obj = m_DynamicsWorld->getCollisionObjectArray()[i];
-            btRigidBody* body = btRigidBody::upcast(obj);
-            if (body && body->getMotionState())
-            {
-                delete body->getMotionState();
-            }
-            m_DynamicsWorld->removeCollisionObject(obj);
-            delete obj;
-        }
-    }
-
-    RigidBody Physics::createRigidbody(RigidBodyType type, const std::shared_ptr<CollisionShape>& collision_shape, float mass, const BasicTransform& transform)
+    RigidBody Physics::createRigidbody(RigidBodyType type, const std::shared_ptr<CollisionShape>& collision_shape, float mass, const BasicTransform& transform, uint32 id)
     {
         std::unique_ptr<btMotionState> motion_state = std::make_unique<btDefaultMotionState>(
             btTransform(
@@ -70,12 +58,13 @@ namespace dex
                     transform.Position.z)
             ));
 
-        btRigidBody::btRigidBodyConstructionInfo rb_info(mass, motion_state.get(), collision_shape->m_BtShape, btVector3(1, 1, 1));
+        btRigidBody::btRigidBodyConstructionInfo rb_info(mass, motion_state.get(), collision_shape->m_BtShape.get(), btVector3(1, 1, 1));
         std::unique_ptr<btRigidBody> body = std::make_unique<btRigidBody>(rb_info);
         body->setRestitution(.75);
+        body->setUserIndex(id);
 
         m_DynamicsWorld->addRigidBody(body.get());
-
+        
         return RigidBody(type, collision_shape, std::move(body), std::move(motion_state), this);
     }
 }

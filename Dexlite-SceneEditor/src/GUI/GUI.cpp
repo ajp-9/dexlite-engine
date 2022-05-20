@@ -159,10 +159,33 @@ namespace dex
 		}
 
 		m_ViewportPanel.update();
-
 		m_InspectorPanel.render();
 		m_SceneHierarchyPanel.render();
 		m_ViewportPanel.render();
+
+		renderSceneController();
+
+		ImGui::End();
+	}
+
+	void GUI::renderSceneController()
+	{
+		ImGui::Begin("Scene Controller");
+
+		if (m_CurrentScene->State == CurrentScene::State::EDIT)
+		{
+			if (ImGui::Button("Play Scene"))
+			{
+				m_CurrentScene->State = CurrentScene::State::PLAY;
+			}
+		}
+		else if (m_CurrentScene->State == CurrentScene::State::PLAY)
+		{
+			if (ImGui::Button("Stop Playing"))
+			{
+				m_CurrentScene->State = CurrentScene::State::EDIT;
+			}
+		}
 
 		ImGui::End();
 	}
@@ -230,5 +253,13 @@ namespace dex
 		//style.
 		style.WindowMinSize.x = 50.0f;
 		style.WindowBorderSize = 0.0f;
+
+		style.ChildRounding = 0.0f;
+		style.FrameRounding = 0.0f;
+		style.GrabRounding = 0.0f;
+		style.PopupRounding = 0.0f;
+		style.ScrollbarRounding = 0.0f;
+		style.TabRounding = 0.0f;
+		style.WindowRounding = 0.0f;
 	}
 }

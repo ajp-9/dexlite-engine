@@ -22,15 +22,9 @@ namespace dex
     {
     public:
         CollisionShape(CollisionShapeType type = CollisionShapeType::NONE) : Type(type) {}
-
-        ~CollisionShape()
-        {
-            if (m_BtShape)
-                delete m_BtShape;
-        }
     public:
         CollisionShapeType Type = CollisionShapeType::NONE;
-        btCollisionShape* m_BtShape = nullptr;
+        std::unique_ptr<btCollisionShape> m_BtShape = nullptr;
     };
 
     class SphereCollisionShape : public CollisionShape
@@ -39,7 +33,7 @@ namespace dex
         SphereCollisionShape(float radius)
             : CollisionShape(CollisionShapeType::SPHERE), Radius(radius)
         {
-            m_BtShape = new btSphereShape(radius);
+            m_BtShape = std::make_unique<btSphereShape>(radius);
         }
 
         float Radius = 0.0f;
@@ -51,7 +45,7 @@ namespace dex
         BoxCollisionShape(const glm::vec3& half_extents)
             : CollisionShape(CollisionShapeType::SPHERE), HalfExtents(half_extents)
         {
-            m_BtShape = new btBoxShape(btVector3(half_extents.x, half_extents.y, half_extents.z));
+            m_BtShape = std::make_unique<btBoxShape>(btVector3(half_extents.x, half_extents.y, half_extents.z));
         }
 
         glm::vec3 HalfExtents = glm::vec3(0.0f);

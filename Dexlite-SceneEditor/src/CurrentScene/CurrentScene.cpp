@@ -15,14 +15,7 @@ namespace dex
     {
 		Scene = DeserializeScene("assets/scenes/testing1.json", m_Renderer, m_Physics, renderer->ShaderManager.getShaderDerived<Shader::Default3D>(Shader::Type::DEFAULT_3D));
 
-		std::cout << std::filesystem::path("assets\\scenes\\testing1.json").u8string() << '\n';
-
 		setupEntities();
-
-		Mesh::Default3D m;
-		Mesh::Default3D b;
-
-		m = Mesh::Default3D(std::move(m));
 
 		/*auto tri = Scene.getEntity("Triangle");
 		tri.addComponent<Component::RigidBody>(m_Physics->createRigidbody(

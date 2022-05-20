@@ -18,14 +18,14 @@ namespace dex
 
         btConvexHullShape convex_hull = btConvexHullShape((btScalar*)vertices.data(), vertices.size(), sizeof(glm::vec3));
 
-        btShapeHull* hull = new btShapeHull(&convex_hull);
+        std::unique_ptr<btShapeHull> hull = std::make_unique<btShapeHull>(&convex_hull);
+
         hull->buildHull(0, true);
-        m_BtShape = new btConvexHullShape((const btScalar*)hull->getVertexPointer(), hull->numVertices(), sizeof(btVector3));
+
+        m_BtShape = std::make_unique<btConvexHullShape>((const btScalar*)hull->getVertexPointer(), hull->numVertices(), sizeof(btVector3));
         m_BtShape->setMargin(.025);
 
-        static_cast<btConvexHullShape*>(m_BtShape)->optimizeConvexHull();
-
-        delete hull;
+        static_cast<btConvexHullShape*>(m_BtShape.get())->optimizeConvexHull();
     }
 
     TriangleMeshCollisionShape::TriangleMeshCollisionShape(const Mesh::Default3D& mesh, const glm::vec3& transform_scale)
@@ -62,7 +62,7 @@ namespace dex
                     vertices[mesh.m_Indices[i + 2]].z));
         }
 
-        m_BtShape = new btBvhTriangleMeshShape(m, true);
+        m_BtShape = std::make_unique<btBvhTriangleMeshShape>(m, true);
 
         m_BtShape->setMargin(.025);
     }

@@ -26,7 +26,6 @@ namespace dex
         virtual void draw3dText(const btVector3& location, const char* textString) {};
         virtual void setDebugMode(int debugMode) { Mode = debugMode; }
         virtual int getDebugMode() const { return Mode; };
-
     private:
         Renderer* m_Renderer;
 

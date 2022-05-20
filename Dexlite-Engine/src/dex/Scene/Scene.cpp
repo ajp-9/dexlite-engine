@@ -12,7 +12,6 @@
 #include "Component/ModelComponent.hpp"
 #include "Components.hpp"
 
-
 namespace dex
 {
     Scene::Scene(Renderer* renderer, Physics* physics)
@@ -179,6 +178,10 @@ namespace dex
         {
             Component::RigidBody& rigidbody = m_Registry.get<Component::RigidBody>(rigidbody_id);
 
+            //DEX_LOG_INFO(rigidbody.CollidedWith_Handles.size());
+
+            rigidbody.CollidedWith_Handles.clear();
+
             if (rigidbody.Active)
             {
                 Component::Transform& transform = m_Registry.get<Component::Transform>(rigidbody_id);
@@ -194,14 +197,26 @@ namespace dex
                     transform.setOrientationQuat(rigidbody.getOrientation());
                     break;
                 }
-
-                //rigidbody.Body->setActivationState(true);
             }
             // Inefficient
             rigidbody.Body->setActivationState(rigidbody.Active);
+        }
 
+        const int num_manifolds = physics->m_CollisionDispatcher->getNumManifolds();
+        for (int manifold_idx = 0; manifold_idx < num_manifolds; ++manifold_idx) {
+            const btPersistentManifold* const manifold = physics->m_CollisionDispatcher->getManifoldByIndexInternal(manifold_idx);
+            
+            const btRigidBody* const object1 = static_cast<const btRigidBody*>(manifold->getBody0());
+            const btRigidBody* const object2 = static_cast<const btRigidBody*>(manifold->getBody1());
 
-            //rigidbody.Body->applyTorqueImpulse(btVector3(190, 40, 60));
+            //if (manifold->getNumContacts()) //avg these out
+            //    printf("Collisiton between %u, %u. #contacts:%f\n", object1->getUserIndex(), object2->getUserIndex(), manifold->getContactPoint(0).getAppliedImpulse());
+            
+            if (manifold->getNumContacts())
+            {
+                m_Registry.get<Component::RigidBody>(static_cast<const entt::entity>(object1->getUserIndex())).CollidedWith_Handles.push_back(object2->getUserIndex());
+                m_Registry.get<Component::RigidBody>(static_cast<const entt::entity>(object2->getUserIndex())).CollidedWith_Handles.push_back(object1->getUserIndex());
+            }
         }
     }
 

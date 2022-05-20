@@ -8,6 +8,7 @@ namespace dex
     class CurrentScene
     {
     public:
+        enum class State { EDIT, PLAY };
         enum class ViewportCameraState { NONE, PAN, FPS };
     public:
         CurrentScene(dex::Window* window, dex::Renderer* renderer, dex::Physics* physics);
@@ -29,6 +30,7 @@ namespace dex
         dex::Entity m_EditorRoot;
     public:
         dex::Scene Scene;
+        dex::CurrentScene::State State = { State::EDIT };
         std::filesystem::path Path;
 
         Entity SelectedEntity = { entt::null, &Scene };

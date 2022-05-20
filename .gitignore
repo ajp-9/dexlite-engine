@@ -6,6 +6,7 @@ Makefile
 .DS_Store
 
 *.xcf
+*.log
 
 .vscode/
 

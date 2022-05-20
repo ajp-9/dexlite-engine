@@ -18,6 +18,7 @@ namespace dex
         void update(const float delta_time);
         void render();
     private:
+        void renderSceneController();
         void setColorsAndStyle();
     private:
         Window* m_Window = nullptr;

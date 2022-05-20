@@ -110,7 +110,7 @@ namespace dex
         {
             nlohmann::json body_json = json["Components"]["RigidBody"];
 
-            RigidBodyType body_type;
+            RigidBodyType body_type = RigidBodyType::STATIC;
             std::string body_type_str = body_json["Type"];
 
             if (body_type_str == "Static")
@@ -151,7 +151,7 @@ namespace dex
                     body_type,
                     collision_shape,
                     mass,
-                    entity.getComponent<Component::Transform>().getBasicTransform()));
+                    entity.getComponent<Component::Transform>().getBasicTransform(), static_cast<uint32>(entity.getHandle())));
         }
 
         if (json.find("Children") != json.end())

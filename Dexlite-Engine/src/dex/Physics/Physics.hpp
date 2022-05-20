@@ -18,12 +18,10 @@ namespace dex
 
         void update();
 
-        void clearObjects();
-
-        RigidBody createRigidbody(RigidBodyType type, const std::shared_ptr<CollisionShape>& collision_shape, float mass, const BasicTransform& transform);
+        RigidBody createRigidbody(RigidBodyType type, const std::shared_ptr<CollisionShape>& collision_shape, float mass, const BasicTransform& transform, uint32 id);
 
         bool DebugEnabled = false;
-
+    public:
         DebugDraw* m_DebugDraw;
 
         btDefaultCollisionConfiguration*     m_CollisionConfig;

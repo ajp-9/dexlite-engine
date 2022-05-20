@@ -244,6 +244,31 @@ namespace dex
                     ImGui::Text("Active: ");
                     ImGui::SameLine();
                     ImGui::Checkbox("##RigidBody::Active", &rigid_body.Active);
+
+                    /*if (ImGui::Button("Rebuild"))
+                    {
+
+                    }*/
+
+                    float mass = rigid_body.getMass();
+                    if (ImGui::DragFloat("Mass: ", &mass))
+                    {
+                        rigid_body.setMass(mass);
+                    }
+
+                    ImGui::Text("Collision Shape:");
+                    ImGui::SameLine();
+                    //ImGui::TableSetColumnIndex(3);
+                    /*if (ImGui::BeginCombo("##ExtensionFilterCombo", current_filtered_extension.u8string().c_str()))
+                    {
+                        for (const auto& filter : filtered_extensions)
+                        {
+                            if (ImGui::Selectable(filter.u8string().c_str(), current_filtered_extension == filter.u8string().c_str()))
+                                current_filtered_extension = filter;
+                        }
+
+                        ImGui::EndCombo();
+                    }*/
                 });
 
             renderComponent<Component::Light::Ambient>("Ambient Light", selected_entity, m_Renderer, [](Component::Light::Ambient& ambient, Entity& selected_entity, Renderer* renderer)

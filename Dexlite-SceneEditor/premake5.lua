@@ -49,12 +49,12 @@ project "Dexlite-SceneEditor"
 		"BulletDynamics"
     }
 
-    filter {"system:windows", "toolset:gcc"}
+    filter {"system:windows", "toolset:clang"}
         links
         {
             "gdi32",
             "opengl32.lib",
-            "imm32"
+            "imm32", "user32.lib", "gdi32.lib", "shell32.lib"
         }
     filter {}
 

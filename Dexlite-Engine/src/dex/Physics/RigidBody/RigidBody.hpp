@@ -58,19 +58,20 @@ namespace dex
         }
 
         void clearAllForces();
-
-        void setCollisionShape() {}
+        void setCollisionShape(std::shared_ptr<CollisionShape> collision_shape) { CollisionShape = collision_shape; }
 
         float getMass() const { return Body->getMass(); }
-        void setMass(float mass) { Body->setMassProps(mass, btVector3(0, 0, 0)); }
+        void setMass(float mass) { Body->setMassProps(mass, Body->getLocalInertia()); }
     public:
         RigidBodyType Type = RigidBodyType::DYNAMIC;
         bool Active = false;
 
-        std::shared_ptr<CollisionShape> CollisionShape = nullptr;
+        std::shared_ptr<dex::CollisionShape> CollisionShape = nullptr;
 
         std::unique_ptr<btRigidBody> Body = nullptr;
         std::unique_ptr<btMotionState> MotionState = nullptr;
+
+        std::vector<uint32> CollidedWith_Handles;
 
         Physics* m_Physics;
     };
