@@ -58,3 +58,8 @@ For now though keep in mind that this engine is going through a LOT of work and 
 ## License:
 This project uses the MIT license.  
 If you decide to use this engine with any of your projects or games please do link back to here.
+
+### Other Projects:
+https://frazodict.com
+#### Reflected:
+https://www.frazodict.com/en/en/reflected
