@@ -61,6 +61,3 @@ If you decide to use this engine with any of your projects or games please do li
 
 ### Other Projects:
 https://frazodict.com
-#### Reflected:
-https://www.frazodict.com/en/en/reflected
-<a href="https://www.frazodict.com/en/en/reflected" rel="dofollow">https://www.frazodict.com/en/en/reflected</a>
