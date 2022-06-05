@@ -63,4 +63,4 @@ If you decide to use this engine with any of your projects or games please do li
 https://frazodict.com
 #### Reflected:
 https://www.frazodict.com/en/en/reflected
-[1]: <https://en.wikipedia.org/wiki/Hobbit#Lifestyle> "Hobbit lifestyles"
+<a href="https://www.frazodict.com/en/en/reflected" rel="nofollow">https://www.frazodict.com/en/en/reflected</a>
